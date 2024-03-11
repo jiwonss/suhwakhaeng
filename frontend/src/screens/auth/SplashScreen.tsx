@@ -8,9 +8,10 @@ import SearchDefault from '../../../assets/icons/searchDefault.svg';
 import HospitalDefault from '../../../assets/icons/hospitalDefault.svg';
 import ShopDefault from '../../../assets/icons/shopDefault.svg';
 import ProfileDefault from '../../../assets/icons/profileDefault.svg';
-import Header from '../../components/header/Header';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import ProfileImage from '../../components/profileImg/ProfileImg';
+import ProfileCard from '../../components/profileCard/ProfileCard';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -24,7 +25,6 @@ const SplashScreen = () => {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
-      <Header />
       <Text>SplashScreen</Text>
       <Typo.H1 color={Color.GREEN500}>수확행</Typo.H1>
       <Typo.BODY0_B color={Color.GREEN100}>수확행</Typo.BODY0_B>
