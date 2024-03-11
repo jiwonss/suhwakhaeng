@@ -12,6 +12,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import ProfileImage from '../../components/profileImg/ProfileImg';
 import ProfileCard from '../../components/profileCard/ProfileCard';
+import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
+import { useState } from 'react';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -22,6 +24,12 @@ type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 const SplashScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const Data = [
+    { content: '자유', event: () => setActiveIndex(0), active: activeIndex === 0},
+    { content: '꿀팁', event: () => setActiveIndex(1), active: activeIndex === 1},
+    { content: '농작', event: () => setActiveIndex(2), active: activeIndex === 2},
+  ];
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
@@ -60,6 +68,7 @@ const SplashScreen = () => {
       >
         <Typo.H1>이동</Typo.H1>
       </TouchableOpacity>
+      <CustomRadioButton data={Data}/>
     </ScrollView>
   );
 };
