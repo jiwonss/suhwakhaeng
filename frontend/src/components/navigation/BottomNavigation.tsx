@@ -11,6 +11,7 @@ import shopActive from '../../../assets/icons/shopActive.svg';
 import shopDefault from '../../../assets/icons/shopDefault.svg';
 import profileActive from '../../../assets/icons/profileActive.svg';
 import profileDefault from '../../../assets/icons/profileDefault.svg';
+import { widthPercent, heightPercent } from '../../config/dimension/Dimension';
 
 
 // 화면 컴포넌트 타입 정의
@@ -39,7 +40,7 @@ const BottomNavigation = () => {
         headerShown: false, // 헤더 숨김
         tabBarHideOnKeyboard: true, // 키보드 활성 시 탭 숨김
         unmountOnBlur: true, // 다른 탭으로 이동 시 현재 탭 언마운트
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ focused }) => {
           // 포커스 상태에 따라 아이콘 변경
           let IconComponent;
           switch (route.name) {
@@ -62,8 +63,7 @@ const BottomNavigation = () => {
               IconComponent = HomeDefaultIcon; // 기본값 설정
               break;
           }
-          // SVG 컴포넌트를 직접 렌더링하고, 필요한 스타일을 적용합니다.
-          return <View style={{ width: size, height: size }}><IconComponent fill={color} /></View>;
+          return <View style={{ width: widthPercent * 24, height: heightPercent * 24 }}><IconComponent /></View>;
         },
       })}
     >
