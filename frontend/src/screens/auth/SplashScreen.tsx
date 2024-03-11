@@ -66,6 +66,8 @@ const SplashScreen = () => {
         <Typo.H1>이동</Typo.H1>
       </TouchableOpacity>
       <CustomRadioButton data={Data}/>
+      <ImgThumbnail width={70} height={70}></ImgThumbnail>
+      <ImgThumbnail width={80} height={80}></ImgThumbnail>
     </ScrollView>
   );
 };
