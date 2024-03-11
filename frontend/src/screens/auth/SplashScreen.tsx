@@ -10,11 +10,7 @@ import ShopDefault from '../../../assets/icons/shopDefault.svg';
 import ProfileDefault from '../../../assets/icons/profileDefault.svg';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import ProfileImage from '../../components/profileImg/ProfileImg';
-import ProfileCard from '../../components/profileCard/ProfileCard';
-import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
-import { useState } from 'react';
-import ImgThumbnail from '../../components/imgThumbnail/ImgThumbnail';
+import Header from '../../components/header/Header';
 
 type RootStackParamList = {
   OauthScreen: undefined;
