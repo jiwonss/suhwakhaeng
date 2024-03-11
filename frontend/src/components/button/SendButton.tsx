@@ -1,12 +1,20 @@
-import React from 'react';
-
-import { Text, View } from 'react-native';
+import * as React from 'react';
+import Submit from '../../../assets/icons/submit.svg';
+import { View } from 'react-native';
+import { SubmitButtonStyle } from './ButtonStyle';
 
 const SendButton = () => {
-  return (
-    <Text>
+  const clickSubmit = () => {
+    console.log('click submit');
+    // API 호출 코드 작성
+  };
 
-    </Text>
+  return (
+    <View style={{ padding: 10 }}>
+      <SubmitButtonStyle onPress={clickSubmit}>
+        <Submit />
+      </SubmitButtonStyle>
+    </View>
   );
 };
 
