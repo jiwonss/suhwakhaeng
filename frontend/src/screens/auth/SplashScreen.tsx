@@ -57,7 +57,6 @@ const SplashScreen = () => {
           navigation.navigate('OauthScreen');
         }}
       >
-        <BottomNavigation />
         <Typo.H1>이동</Typo.H1>
       </TouchableOpacity>
     </ScrollView>
