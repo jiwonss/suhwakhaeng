@@ -10,7 +10,7 @@ import ShopDefault from '../../../assets/icons/shopDefault.svg';
 import ProfileDefault from '../../../assets/icons/profileDefault.svg';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import { Header } from '../../components/header/Header';
+import Header from '../../components/header/Header';
 
 type RootStackParamList = {
   OauthScreen: undefined;

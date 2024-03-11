@@ -20,7 +20,7 @@ interface HeaderProps {
   thirdIcon?: string; // 오른쪽 두번째 아이콘 이름
 }
 
-export const Header = (props: HeaderProps) => {
+const Header = (props: HeaderProps) => {
   const navigation = useNavigation();
 
   const firstIconSelector = (iconName: string) => {
@@ -89,65 +89,6 @@ export const Header = (props: HeaderProps) => {
     </StyledContainer>
   );
 };
-//   return (
-//     <StyledContainer>
-//       <LeftIconContainer>{props.firstIcon && firstIconSelector(props.firstIcon)}</LeftIconContainer>
-
-//       <TitleContainer>
-//         <Typo.BODY2_M>{props.title}</Typo.BODY2_M>
-//       </TitleContainer>
-//       <RightIconContainer>
-//         {props.secondIcon && secondIconSelecor(props.secondIcon)}
-//         {props.thirdIcon && (
-//           <Message
-//             onPress={() => {
-//               console.log('누르면 채팅목록으로');
-//             }}
-//             width={widthPercent * 24}
-//             height={heightPercent * 24}
-//           />
-//         )}
-//       </RightIconContainer>
-//     </StyledContainer>
-//   );
-// };
-
-export const LeftTitleHeader = () => {
-  return (
-    <StyledContainer>
-      <Typo.BODY1_B color={Color.GREEN600}>수확행</Typo.BODY1_B>
-      <Search
-        onPress={() => {
-          console.log('검색창으로 이동할거예요');
-        }}
-        width={widthPercent * 24}
-        height={heightPercent * 24}
-      />
-    </StyledContainer>
-  );
-};
-
-export const SearchHeader = () => {
-  const onSubmit = () => {
-    console.log('입력완료!');
-  };
-
-  return (
-    <StyledContainer>
-      <Back
-        onPress={() => {
-          console.log('뒤로갈거예욥');
-        }}
-        width={widthPercent * 24}
-        height={heightPercent * 24}
-      />
-      <InputContainer>
-        <SearchGray width={widthPercent * 20} height={heightPercent * 20} />
-        <StyledInput placeholder='검색어를 입력하세요' onSubmitEditing={onSubmit} returnKeyType='done' />
-      </InputContainer>
-    </StyledContainer>
-  );
-};
 
 /********* styled component 영역 ************/
 const StyledContainer = styled.View`
@@ -195,3 +136,5 @@ const StyledInput = styled.TextInput`
   width: 100%;
   height: 100%;
 `;
+
+export default Header;
