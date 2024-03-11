@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native';
+import { ScrollView, Text, Touchable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
@@ -8,10 +8,23 @@ import SearchDefault from '../../../assets/icons/searchDefault.svg';
 import HospitalDefault from '../../../assets/icons/hospitalDefault.svg';
 import ShopDefault from '../../../assets/icons/shopDefault.svg';
 import ProfileDefault from '../../../assets/icons/profileDefault.svg';
+import Header from '../../components/header/Header';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
+
+type RootStackParamList = {
+  OauthScreen: undefined;
+  SplashScreen: undefined;
+};
+
+type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 const SplashScreen = () => {
+  const navigation = useNavigation<RootStackNavigationProp>();
+
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Color.WHITE }}>
+    <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
+      <Header />
       <Text>SplashScreen</Text>
       <Typo.H1 color={Color.GREEN500}>수확행</Typo.H1>
       <Typo.BODY0_B color={Color.GREEN100}>수확행</Typo.BODY0_B>
@@ -39,7 +52,15 @@ const SplashScreen = () => {
           부직포 벗긴 밭에 풀이 너무 많아 뽑기를 포기하고 ‘트리부닐’을 살포했습니다. 멀칭이 있어서 제초가 어려워 두둑배 갈라서 멀칭을 제거했습니다
         </Typo.BODY4_M>
       </View>
-    </SafeAreaView>
+
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('OauthScreen');
+        }}
+      >
+        <Typo.H1>이동</Typo.H1>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 
