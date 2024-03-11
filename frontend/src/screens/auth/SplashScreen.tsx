@@ -72,6 +72,7 @@ const SplashScreen = () => {
       <CustomRadioButton data={Data}/>
       <ImgThumbnail width={70} height={70}></ImgThumbnail>
       <ImgThumbnail width={80} height={80}></ImgThumbnail>
+      <ProfileCard url= {''} name={''} date={''}></ProfileCard>
     </ScrollView>
   );
 };
