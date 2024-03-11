@@ -24,6 +24,12 @@ type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 const SplashScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const Data = [
+    { content: '자유', event: () => setActiveIndex(0), active: activeIndex === 0},
+    { content: '꿀팁', event: () => setActiveIndex(1), active: activeIndex === 1},
+    { content: '농작', event: () => setActiveIndex(2), active: activeIndex === 2},
+  ];
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
@@ -74,6 +80,11 @@ const SplashScreen = () => {
       <MenuButton size='big' title='작물 검색' borderColor={Color.GREEN50} onPressButton={() => {}}>
         <Search3D width={widthPercent * 36} height={heightPercent * 36} />
       </MenuButton>
+
+      <CustomRadioButton data={Data}/>
+      <ImgThumbnail width={70} height={70}></ImgThumbnail>
+      <ImgThumbnail width={80} height={80}></ImgThumbnail>
+
     </ScrollView>
   );
 };
