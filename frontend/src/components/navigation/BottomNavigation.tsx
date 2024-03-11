@@ -1,6 +1,5 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View } from 'react-native';
 import HomeActive from '../../../assets/icons/homeActive.svg';
 import HomeDefaultIcon from '../../../assets/icons/homeDefault.svg';
 import searchActive from '../../../assets/icons/searchActive.svg';
@@ -11,10 +10,10 @@ import shopActive from '../../../assets/icons/shopActive.svg';
 import shopDefault from '../../../assets/icons/shopDefault.svg';
 import profileActive from '../../../assets/icons/profileActive.svg';
 import profileDefault from '../../../assets/icons/profileDefault.svg';
-import { widthPercent, heightPercent } from '../../config/dimension/Dimension';
+import { TabBarView, TabNavigatorStyle } from './BottomNavigationStyle'; // 스타일 파일 경로에 맞게 수정
 
 
-// 화면 컴포넌트 타입 정의
+// 화면 컴포넌트 타입
 type RootTabParamList = {
   home: undefined;
   search: undefined;
@@ -36,10 +35,11 @@ const BottomNavigation = () => {
   return (
     <Tabs.Navigator
       screenOptions={({ route }) => ({
-        tabBarShowLabel: false, // 레이블을 표시하지 않음
+        tabBarShowLabel: false, // 레이블 표시 x
         headerShown: false, // 헤더 숨김
         tabBarHideOnKeyboard: true, // 키보드 활성 시 탭 숨김
         unmountOnBlur: true, // 다른 탭으로 이동 시 현재 탭 언마운트
+        TabNavigatorStyle,
         tabBarIcon: ({ focused }) => {
           // 포커스 상태에 따라 아이콘 변경
           let IconComponent;
@@ -60,10 +60,14 @@ const BottomNavigation = () => {
               IconComponent = focused ? profileActive : profileDefault;
               break;
             default:
-              IconComponent = HomeDefaultIcon; // 기본값 설정
+              IconComponent = HomeDefaultIcon; // 기본값
               break;
           }
-          return <View style={{ width: widthPercent * 24, height: heightPercent * 24 }}><IconComponent /></View>;
+          return (
+            <TabBarView>
+              <IconComponent />
+            </TabBarView>
+          );
         },
       })}
     >
@@ -73,7 +77,8 @@ const BottomNavigation = () => {
       <Tabs.Screen name="shop" component={MarketScreen}></Tabs.Screen>
       <Tabs.Screen name="profile" component={ProfileScreen}></Tabs.Screen>
     </Tabs.Navigator>
-  );
+  )
+    ;
 };
 
 export default BottomNavigation;
