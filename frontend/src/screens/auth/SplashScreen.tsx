@@ -10,7 +10,7 @@ import ShopDefault from '../../../assets/icons/shopDefault.svg';
 import ProfileDefault from '../../../assets/icons/profileDefault.svg';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import { Header } from '../../components/header/Header';
+import BottomNavigation from '../../components/navigation/BottomNavigation';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -24,9 +24,6 @@ const SplashScreen = () => {
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
-      <Header type='leftTitle' />
-      <Header type='search' />
-      <Header type='default' title='감자' firstIcon='back' secondIcon='search' thirdIcon='chat' />
       <Text>SplashScreen</Text>
       <Typo.H1 color={Color.GREEN500}>수확행</Typo.H1>
       <Typo.BODY0_B color={Color.GREEN100}>수확행</Typo.BODY0_B>
