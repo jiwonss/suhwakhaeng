@@ -14,6 +14,7 @@ import ProfileImage from '../../components/profileImg/ProfileImg';
 import ProfileCard from '../../components/profileCard/ProfileCard';
 import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
 import { useState } from 'react';
+import ImgThumbnail from '../../components/imgThumbnail/ImgThumbnail';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -69,6 +70,8 @@ const SplashScreen = () => {
         <Typo.H1>이동</Typo.H1>
       </TouchableOpacity>
       <CustomRadioButton data={Data}/>
+      <ImgThumbnail width={70} height={70}></ImgThumbnail>
+      <ImgThumbnail width={80} height={80}></ImgThumbnail>
     </ScrollView>
   );
 };

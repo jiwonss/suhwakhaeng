@@ -12,7 +12,7 @@ import { css } from 'styled-components';
 //   { content: '농작', event: () => setActiveIndex(2), active: activeIndex === 2},
 // ];
 
-// <ProfileCard data = { Data }/>
+// <CustomRadioButton data = { Data }/>
 
 type DataItem = {
   content : string;
