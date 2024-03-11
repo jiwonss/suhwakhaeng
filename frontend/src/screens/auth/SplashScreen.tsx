@@ -10,6 +10,7 @@ import ShopDefault from '../../../assets/icons/shopDefault.svg';
 import ProfileDefault from '../../../assets/icons/profileDefault.svg';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import BottomNavigation from '../../components/navigation/BottomNavigation';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -56,6 +57,7 @@ const SplashScreen = () => {
           navigation.navigate('OauthScreen');
         }}
       >
+        <BottomNavigation />
         <Typo.H1>이동</Typo.H1>
       </TouchableOpacity>
     </ScrollView>
