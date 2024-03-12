@@ -45,3 +45,13 @@ export const SubmitButtonStyle = styled(TouchableOpacity)`
     background-color: ${Color.GREEN500};
     border-radius: 10px;
 `;
+
+// 증간 사이즈 작성 완료 버튼 스타일
+export const MediumSubmitButtonStyle = styled(TouchableOpacity)`
+    align-items: center;
+    justify-content: center;
+    width: ${widthPercent * 260}px;
+    height: ${heightPercent * 45}px;
+    background-color: ${Color.GREEN500};
+    border-radius: 10px;
+`;
