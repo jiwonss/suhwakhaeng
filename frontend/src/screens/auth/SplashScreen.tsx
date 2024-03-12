@@ -21,6 +21,7 @@ import SingleLineInput from '../../components/inputBox/SingleLineInput';
 import MultiLineInput from '../../components/inputBox/MultiLineInput';
 import TitleContentInput from '../../components/inputBox/TitleContentInput';
 import FloatingActionButton from '../../components/floatingActionButton/FloatingActionButton';
+import { PopupModal, SlideModal } from '../../components/modal/Modal';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -42,7 +43,7 @@ const SplashScreen = () => {
     {
       title: '일지 등록',
       event: () => {
-        console.log('일지 등록할거야');
+        console.log('장부 등록할거야');
       },
       color: Color.GREEN300,
     },
@@ -55,6 +56,8 @@ const SplashScreen = () => {
     },
   ];
 
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [slideVisible, setSlideVisible] = useState<boolean>(false);
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
@@ -109,8 +112,40 @@ const SplashScreen = () => {
         <CustomRadioButton data={Data} />
         <ImgThumbnail width={70} height={70}></ImgThumbnail>
         <ImgThumbnail width={80} height={80}></ImgThumbnail>
+        <TouchableOpacity
+          onPress={() => {
+            setIsVisible(true);
+          }}
+        >
+          <Typo.H1>팝업 모달 열기</Typo.H1>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            setSlideVisible(true);
+          }}
+        >
+          <Typo.H1>슬라이드 모달 열기</Typo.H1>
+        </TouchableOpacity>
       </ScrollView>
       <FloatingActionButton data={buttonData} />
+      <PopupModal isVisible={isVisible} setIsVisible={setIsVisible}>
+        <TouchableOpacity
+          onPress={() => {
+            setIsVisible(false);
+          }}
+        >
+          <Typo.BODY3_M>닫기</Typo.BODY3_M>
+        </TouchableOpacity>
+      </PopupModal>
+      <SlideModal isVisible={slideVisible} setIsVisible={setSlideVisible}>
+        <TouchableOpacity
+          onPress={() => {
+            setSlideVisible(false);
+          }}
+        >
+          <Typo.BODY1_M>닫기</Typo.BODY1_M>
+        </TouchableOpacity>
+      </SlideModal>
     </View>
   );
 };
