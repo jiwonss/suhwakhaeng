@@ -1,5 +1,4 @@
-import { Dimensions, ScrollView, Text, Touchable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
@@ -10,19 +9,17 @@ import ShopDefault from '../../../assets/icons/shopDefault.svg';
 import ProfileDefault from '../../../assets/icons/profileDefault.svg';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import Header from '../../components/header/Header';
 import MenuButton from '../../components/menuButton/MenuButton';
 import Search3D from '../../../assets/icons/search3D.svg';
 import Calendar3D from '../../../assets/icons/calendar3D.svg';
 import { useState } from 'react';
 import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
 import ImgThumbnail from '../../components/imgThumbnail/ImgThumbnail';
-import SingleLineInput from '../../components/inputBox/SingleLineInput';
-import MultiLineInput from '../../components/inputBox/MultiLineInput';
-import TitleContentInput from '../../components/inputBox/TitleContentInput';
 import FloatingActionButton from '../../components/floatingActionButton/FloatingActionButton';
 import { PopupModal, SlideModal } from '../../components/modal/Modal';
 import { Card } from '../../components/card/Card';
+import { MultiLineInputBox, SingleLineInputBox } from '../../components/inputBox/Input';
+import { BasicButton, LikeButton, SendButton } from '../../components/button/Buttons';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -59,7 +56,6 @@ const SplashScreen = () => {
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [slideVisible, setSlideVisible] = useState<boolean>(false);
-  const [data,setData] = useState([]);
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
@@ -133,7 +129,14 @@ const SplashScreen = () => {
           <Typo.BODY4_M>이건 댓글입니다</Typo.BODY4_M>
         </Card>
         <Card width={widthPercent * 140} backgroundColor={Color.GRAY500} height={heightPercent * 50}>
-          <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', rowGap: heightPercent * 4 }}>
+          <View
+            style={{
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              rowGap: heightPercent * 4,
+            }}
+          >
             <Typo.Detail1_M>수입</Typo.Detail1_M>
             <Typo.BODY3_B>0원</Typo.BODY3_B>
           </View>
@@ -154,6 +157,11 @@ const SplashScreen = () => {
             </View>
           </View>
         </Card>
+        <BasicButton onPress={() => console.log('Button pressed')} borderColor={Color.GREEN500} borderRadius={10} children={<Text>기본 버튼</Text>} />
+        <LikeButton onPress={() => console.log('LikeButton pressed')} />
+        <SendButton onPress={() => console.log('SendButton pressed')} />
+        <SingleLineInputBox placeholder={'텍스트를 입력해주세요. 싱글라인'} />
+        <MultiLineInputBox placeholder={'텍스트를 입력해주세요. 멀티라인'} />
       </ScrollView>
       <FloatingActionButton data={buttonData} />
       <PopupModal isVisible={isVisible} setIsVisible={setIsVisible}>
@@ -165,6 +173,7 @@ const SplashScreen = () => {
           <Typo.BODY3_M>닫기</Typo.BODY3_M>
         </TouchableOpacity>
       </PopupModal>
+
       <SlideModal isVisible={slideVisible} setIsVisible={setSlideVisible}>
         <TouchableOpacity
           onPress={() => {
@@ -174,9 +183,7 @@ const SplashScreen = () => {
           <Typo.BODY1_M>닫기</Typo.BODY1_M>
         </TouchableOpacity>
       </SlideModal>
-
     </View>
-    
   );
 };
 
