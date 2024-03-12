@@ -11,7 +11,9 @@ import ProfileDefault from '../../../assets/icons/profileDefault.svg';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import Header from '../../components/header/Header';
-import { useState } from 'react';
+import MenuButton from '../../components/menuButton/MenuButton';
+import Search3D from '../../../assets/icons/search3D.svg';
+import Calendar3D from '../../../assets/icons/calendar3D.svg';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -22,13 +24,6 @@ type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 const SplashScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
-  const [activeIndex, setActiveIndex] = useState(0);
-  const Data = [
-    { content: '자유', event: () => setActiveIndex(0), active: activeIndex === 0},
-    { content: '꿀팁', event: () => setActiveIndex(1), active: activeIndex === 1},
-    { content: '농작', event: () => setActiveIndex(2), active: activeIndex === 2},
-  ];
-
   return (
     <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
       <Text>SplashScreen</Text>
@@ -66,6 +61,19 @@ const SplashScreen = () => {
       >
         <Typo.H1>이동</Typo.H1>
       </TouchableOpacity>
+
+      <MenuButton size='small' title='강수량' onPressButton={() => {}}>
+        <Typo.BODY1_B color={Color.GREEN600}>0</Typo.BODY1_B>
+        <Typo.Detail1_M color={Color.GREEN600}>mm</Typo.Detail1_M>
+      </MenuButton>
+      <MenuButton size='small' title='영농일지' onPressButton={() => {}}>
+        <Calendar3D width={widthPercent * 36} height={heightPercent * 36} />
+      </MenuButton>
+
+      <MenuButton size='big' title='작물 검색' borderColor={Color.GREEN50} onPressButton={() => {}}>
+        <Search3D width={widthPercent * 36} height={heightPercent * 36} />
+      </MenuButton>
+
     </ScrollView>
   );
 };
