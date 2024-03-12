@@ -22,6 +22,7 @@ import MultiLineInput from '../../components/inputBox/MultiLineInput';
 import TitleContentInput from '../../components/inputBox/TitleContentInput';
 import FloatingActionButton from '../../components/floatingActionButton/FloatingActionButton';
 import { PopupModal, SlideModal } from '../../components/modal/Modal';
+import ImgUploader from '../../components/imgUploader/ImgUploader';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -58,6 +59,7 @@ const SplashScreen = () => {
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [slideVisible, setSlideVisible] = useState<boolean>(false);
+  const [data,setData] = useState([]);
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
@@ -125,7 +127,8 @@ const SplashScreen = () => {
           }}
         >
           <Typo.H1>슬라이드 모달 열기</Typo.H1>
-        </TouchableOpacity>
+        </TouchableOpacity>     
+         <ImgUploader data={data} setData={setData}></ImgUploader>
       </ScrollView>
       <FloatingActionButton data={buttonData} />
       <PopupModal isVisible={isVisible} setIsVisible={setIsVisible}>
@@ -146,7 +149,9 @@ const SplashScreen = () => {
           <Typo.BODY1_M>닫기</Typo.BODY1_M>
         </TouchableOpacity>
       </SlideModal>
+
     </View>
+    
   );
 };
 
