@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Submit from '../../../assets/icons/submit.svg';
+import Send from '../../../assets/icons/send.svg';
 import { View } from 'react-native';
-import { SubmitButtonStyle } from './ButtonStyle';
+import { SendButtonStyle } from './ButtonStyle';
 
 const SendButton = () => {
   const clickSubmit = () => {
@@ -11,9 +11,9 @@ const SendButton = () => {
 
   return (
     <View style={{ padding: 10 }}>
-      <SubmitButtonStyle onPress={clickSubmit}>
-        <Submit />
-      </SubmitButtonStyle>
+      <SendButtonStyle onPress={clickSubmit}>
+        <Send />
+      </SendButtonStyle>
     </View>
   );
 };

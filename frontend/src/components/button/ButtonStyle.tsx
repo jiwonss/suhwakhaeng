@@ -9,7 +9,7 @@ export const LikeButtonStyle = styled.View`
     height: ${heightPercent * 46}px;
 `;
 // 매시지 보내기 버튼 스타일
-export const SubmitButtonStyle = styled(TouchableOpacity)`
+export const SendButtonStyle = styled(TouchableOpacity)`
     align-items: center;
     justify-content: center;
     width: ${widthPercent * 36}px;
@@ -34,4 +34,14 @@ export const ProfileSettingButtonStyle = styled(TouchableOpacity)`
     height: ${heightPercent * 30}px;
     border-radius: 10px;
     border: 0.4px solid ${Color.GRAY400};
+`;
+
+// 작성 완료 버튼 스타일
+export const SubmitButtonStyle = styled(TouchableOpacity)`
+    align-items: center;
+    justify-content: center;
+    width: ${widthPercent * 300}px;
+    height: ${heightPercent * 45}px;
+    background-color: ${Color.GREEN500};
+    border-radius: 10px;
 `;
