@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import { widthPercent, heightPercent } from '../../config/dimension/Dimension';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import * as Typo from '../typography/Typography';
 import * as Color from '../../config/color/Color';
 
@@ -15,16 +15,11 @@ interface MenuButtonProps {
 
 const StyledContainer = styled.View<Pick<MenuButtonProps, 'size'>>`
   width: ${(props) => (props.size === 'small' ? widthPercent * 60 : widthPercent * 80)}px;
-  background-color: transparent;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  row-gap: ${widthPercent * 4}px;
 `;
 
 const StyledButton = styled.View<Pick<MenuButtonProps, 'size'>>`
   border-radius: 10px;
-  width: ${(props) => (props.size === 'small' ? widthPercent * 60 : widthPercent * 80)}px;
+  width: 100%;
   height: ${(props) => (props.size === 'small' ? widthPercent * 60 : widthPercent * 80)}px;
   background-color: ${(props) => (props.size === 'small' ? Color.GRAY100 : Color.GREEN50)};
   border: ${(props) => (props.size === 'small' ? `1px solid ${Color.GRAY200}` : `1px solid ${Color.GREEN50}`)};
@@ -36,12 +31,12 @@ const StyledButton = styled.View<Pick<MenuButtonProps, 'size'>>`
 
 const MenuButton = (props: MenuButtonProps) => {
   return (
-    <TouchableOpacity onPress={props.onPressButton}>
-      <StyledContainer size={props.size}>
+    <StyledContainer size={props.size}>
+      <TouchableOpacity onPress={props.onPressButton} style={{ flexDirection: 'column', alignItems: 'center', rowGap: widthPercent * 4 }}>
         <StyledButton size={props.size}>{props.children}</StyledButton>
         {props.size === 'small' ? <Typo.Detail1_M>{props.title}</Typo.Detail1_M> : <Typo.BODY4_M>{props.title}</Typo.BODY4_M>}
-      </StyledContainer>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </StyledContainer>
   );
 };
 
