@@ -59,6 +59,7 @@ const SplashScreen = () => {
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [slideVisible, setSlideVisible] = useState<boolean>(false);
+  const [data,setData] = useState([]);
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
@@ -173,7 +174,9 @@ const SplashScreen = () => {
           <Typo.BODY1_M>닫기</Typo.BODY1_M>
         </TouchableOpacity>
       </SlideModal>
+
     </View>
+    
   );
 };
 
