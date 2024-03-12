@@ -17,6 +17,9 @@ import Calendar3D from '../../../assets/icons/calendar3D.svg';
 import { useState } from 'react';
 import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
 import ImgThumbnail from '../../components/imgThumbnail/ImgThumbnail';
+import SingleLineInput from '../../components/inputBox/SingleLineInput';
+import MultiLineInput from '../../components/inputBox/MultiLineInput';
+import TitleContentInput from '../../components/inputBox/TitleContentInput';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -37,6 +40,9 @@ const SplashScreen = () => {
   return (
     <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
       <Text>SplashScreen</Text>
+      <SingleLineInput />
+      <MultiLineInput />
+      <TitleContentInput />
       <Typo.H1 color={Color.GREEN500}>수확행</Typo.H1>
       <Typo.BODY0_B color={Color.GREEN100}>수확행</Typo.BODY0_B>
       <Typo.BODY1_B color={Color.GRAY400}>수확행</Typo.BODY1_B>
