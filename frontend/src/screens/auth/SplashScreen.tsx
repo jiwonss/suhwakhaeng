@@ -14,6 +14,9 @@ import Header from '../../components/header/Header';
 import MenuButton from '../../components/menuButton/MenuButton';
 import Search3D from '../../../assets/icons/search3D.svg';
 import Calendar3D from '../../../assets/icons/calendar3D.svg';
+import { useState } from 'react';
+import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
+import ImgThumbnail from '../../components/imgThumbnail/ImgThumbnail';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -26,9 +29,9 @@ const SplashScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
   const [activeIndex, setActiveIndex] = useState(0);
   const Data = [
-    { content: '자유', event: () => setActiveIndex(0), active: activeIndex === 0},
-    { content: '꿀팁', event: () => setActiveIndex(1), active: activeIndex === 1},
-    { content: '농작', event: () => setActiveIndex(2), active: activeIndex === 2},
+    { content: '자유', event: () => setActiveIndex(0), active: activeIndex === 0 },
+    { content: '꿀팁', event: () => setActiveIndex(1), active: activeIndex === 1 },
+    { content: '농작', event: () => setActiveIndex(2), active: activeIndex === 2 },
   ];
 
   return (
@@ -81,10 +84,9 @@ const SplashScreen = () => {
         <Search3D width={widthPercent * 36} height={heightPercent * 36} />
       </MenuButton>
 
-      <CustomRadioButton data={Data}/>
+      <CustomRadioButton data={Data} />
       <ImgThumbnail width={70} height={70}></ImgThumbnail>
       <ImgThumbnail width={80} height={80}></ImgThumbnail>
-
     </ScrollView>
   );
 };
