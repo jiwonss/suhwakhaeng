@@ -14,6 +14,7 @@ import Header from '../../components/header/Header';
 import MenuButton from '../../components/menuButton/MenuButton';
 import Search3D from '../../../assets/icons/search3D.svg';
 import Calendar3D from '../../../assets/icons/calendar3D.svg';
+import MarketPost from '../../components/marketPost/MarketPost';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -73,7 +74,6 @@ const SplashScreen = () => {
       <MenuButton size='big' title='작물 검색' borderColor={Color.GREEN50} onPressButton={() => {}}>
         <Search3D width={widthPercent * 36} height={heightPercent * 36} />
       </MenuButton>
-
     </ScrollView>
   );
 };
