@@ -11,6 +11,7 @@ import ProfileDefault from '../../../assets/icons/profileDefault.svg';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import Header from '../../components/header/Header';
+import { useState } from 'react';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -65,10 +66,6 @@ const SplashScreen = () => {
       >
         <Typo.H1>이동</Typo.H1>
       </TouchableOpacity>
-      <CustomRadioButton data={Data}/>
-      <ImgThumbnail width={70} height={70}></ImgThumbnail>
-      <ImgThumbnail width={80} height={80}></ImgThumbnail>
-      <ProfileCard url= {''} name={''} date={''}></ProfileCard>
     </ScrollView>
   );
 };
