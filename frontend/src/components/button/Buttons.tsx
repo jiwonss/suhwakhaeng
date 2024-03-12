@@ -7,6 +7,7 @@ import LikeActive from '../../../assets/icons/likeActive.svg';
 import LikeDefault from '../../../assets/icons/likeDefault.svg';
 import Send from '../../../assets/icons/send.svg';
 
+// 기본 버튼 컴포넌트
 type BasicButtonProps = {
   onPress: () => void;
   width?: DimensionValue;
@@ -45,7 +46,6 @@ const StyledView = styled.View<{ backgroundColor: string; borderColor: string; b
     justify-content: center;
 `;
 
-//////////////////////////////////////////////////
 
 type LikeButtonProps = {
   onPress: () => void;
@@ -54,6 +54,7 @@ type LikeButtonProps = {
   disabled?: boolean;
 };
 
+// 좋아요 버튼 컴포넌트
 export const LikeButton = (props: LikeButtonProps) => {
   const [disabled, setDisabled] = useState(false);
   const toggleDisabled = () => {
@@ -68,6 +69,7 @@ export const LikeButton = (props: LikeButtonProps) => {
   );
 };
 
+// 메시지 보내기 버튼 컴포넌트
 export const SendButton = (props: LikeButtonProps) => {
   return (
     <StyledContainer width={36} height={36}>
