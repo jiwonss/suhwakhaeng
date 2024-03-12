@@ -22,7 +22,7 @@ import MultiLineInput from '../../components/inputBox/MultiLineInput';
 import TitleContentInput from '../../components/inputBox/TitleContentInput';
 import FloatingActionButton from '../../components/floatingActionButton/FloatingActionButton';
 import { PopupModal, SlideModal } from '../../components/modal/Modal';
-import ImgUploader from '../../components/imgUploader/ImgUploader';
+import { Card } from '../../components/card/Card';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -127,8 +127,33 @@ const SplashScreen = () => {
           }}
         >
           <Typo.H1>슬라이드 모달 열기</Typo.H1>
-        </TouchableOpacity>     
-         <ImgUploader data={data} setData={setData}></ImgUploader>
+        </TouchableOpacity>
+
+        <Card backgroundColor={Color.GRAY100} width={widthPercent * 280} height={heightPercent * 50}>
+          <Typo.BODY4_M>이건 댓글입니다</Typo.BODY4_M>
+        </Card>
+        <Card width={widthPercent * 140} backgroundColor={Color.GRAY500} height={heightPercent * 50}>
+          <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center', rowGap: heightPercent * 4 }}>
+            <Typo.Detail1_M>수입</Typo.Detail1_M>
+            <Typo.BODY3_B>0원</Typo.BODY3_B>
+          </View>
+        </Card>
+        <Card borderColor={Color.GRAY400} width={widthPercent * 300} height={heightPercent * 110}>
+          <View style={{ rowGap: heightPercent * 10 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Typo.BODY4_M color={Color.GRAY400}>재배 작물</Typo.BODY4_M>
+              <Typo.BODY4_M>감자(감자품종1)</Typo.BODY4_M>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Typo.BODY4_M color={Color.GRAY400}>재배 작물</Typo.BODY4_M>
+              <Typo.BODY4_M>감자(감자품종1)</Typo.BODY4_M>
+            </View>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Typo.BODY4_M color={Color.GRAY400}>재배 작물</Typo.BODY4_M>
+              <Typo.BODY4_M>감자(감자품종1)</Typo.BODY4_M>
+            </View>
+          </View>
+        </Card>
       </ScrollView>
       <FloatingActionButton data={buttonData} />
       <PopupModal isVisible={isVisible} setIsVisible={setIsVisible}>
