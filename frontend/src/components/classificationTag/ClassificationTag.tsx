@@ -1,50 +1,49 @@
 import styled from 'styled-components/native';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import * as Color from '../../config/color/Color';
+import React from 'react';
 
 interface ClassificationTagProps {
-  onPress: () => void;
-  disabled?: boolean;
   width?: number;
   height?: number;
+  borderRadius?: number;
   backgroundColor?: string;
-  borderRadius: number;
   children: React.ReactNode;
 }
 
 // Classification Basic Tag
 /**
- * 분류 필터링에 사용 될 수 있는 기본 태그 컴포넌트입니다.
+ * 기본 태그 컴포넌트입니다.
  *
  * @component
  * @example
- // * <SingleLineInputBox
- // *   placeholder="여기에 입력하세요"
- // *   onChangeText={(text) => console.log(text)}
- // *   width={200}
- // *   height={40}
- // * />
- // *
- // * @param {Object} props - 컴포넌트에 전달되는 props 객체입니다.
- // * @param {string} props.placeholder - 입력 필드에 표시될 플레이스홀더 텍스트입니다.
- // * @param {(text: string) => void} [props.onChangeText] - 텍스트 입력 값이 변경될 때마다 실행될 콜백 함수입니다.
- // *    입력된 텍스트 값(text: string)을 인자로 받으며 선택적입니다.
- // * @param {number} [props.width=300] - 입력 필드의 너비를 지정합니다. 기본값은 300입니다.
- // * @param {number} [props.height=36] - 입력 필드의 높이를 지정합니다. 기본값은 36입니다.
+ * <BasicTag backgroundColor={Color.GREEN600}>
+ *   <Typo.Detail1_M color={Color.WHITE}>기본</Typo.Detail1_M>
+ * </BasicTag>
+ *
+ * @param {Object} props - 컴포넌트에 전달되는 props 객체입니다.
+ * @param {number} [props.width=30] - 입력 필드의 너비를 지정합니다. 기본값은 30입니다.
+ * @param {number} [props.height=15] - 입력 필드의 높이를 지정합니다. 기본값은 15입니다.
+ * @param {number} [props.borderRadius=10] - 버튼의 테두리 반경입니다. 기본값은 10입니다.
+ * @param {string} [props.backgroundColor=Color.GREEN400] - 버튼의 배경색을 지정합니다. 기본값은 Color.GREEN400입니다.
+ * @param {React.ReactNode} props.children - 버튼 내부에 표시될 컨텐츠입니다.
  *
  * @author 오민상
  */
 export const BasicTag = (props: ClassificationTagProps) => {
-  return <StyledBasicTag {...props} />;
+  return <StyledBasicTag {...props}>{props.children}</StyledBasicTag>;
 };
 const StyledBasicTag = styled.View<{
   height?: number;
   width?: number;
+  borderRadius?: number;
   backgroundColor?: string;
 }>`
   height: ${(props) => props.height || heightPercent * 15}px;
   width: ${(props) => props.width || widthPercent * 30}px;
-  background-color: ${(props) => props.backgroundColor || Color.GREEN200};
-  border-radius: 10px;
+  background-color: ${(props) => props.backgroundColor || Color.GREEN400};
+  border-radius: ${({ borderRadius }) => (borderRadius ? `${borderRadius}px` : '10px')};
   margin: 5px 5px;
+  align-items: center;
+  justify-content: center;
 `;
