@@ -21,6 +21,8 @@ import { Card } from '../../components/card/Card';
 import { MultiLineInputBox, SingleLineInputBox } from '../../components/inputBox/Input';
 import { BasicButton, LikeButton, SendButton } from '../../components/button/Buttons';
 import WeatherInfo from '../../components/weather/WeatherInfo';
+import { Calendar } from 'react-native-calendars';
+import CustomCalendar from '../../components/customCalendar/CustomCalendar';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -142,7 +144,6 @@ const SplashScreen = () => {
             <Typo.BODY3_B>0원</Typo.BODY3_B>
           </View>
         </Card>
-
       </ScrollView>
       <FloatingActionButton data={buttonData} />
       <PopupModal isVisible={isVisible} setIsVisible={setIsVisible}>
