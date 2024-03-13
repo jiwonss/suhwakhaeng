@@ -5,9 +5,10 @@ import React from 'react';
 import { View } from 'react-native';
 
 interface ChattingMessageProps {
-  width?: number;
-  height?: number;
+  minHeight?: number;
+  minWidth?: number;
   children: React.ReactNode;
+  backgroundColor?: string;
   timeStamp: Date | string;
 }
 
@@ -26,24 +27,32 @@ const TimeStamp: React.FC<TimeStampProps> = ({ timeStamp }) => {
 
 export const MyChat = (props: ChattingMessageProps) => {
   return (
-    <View style={{ flexDirection: 'row' }}>
+    <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+      <TimeStamp timeStamp={props.timeStamp} />
+      <StyledChatContainer {...props}>{props.children}</StyledChatContainer>
+    </View>
+  );
+};
+export const PartnerChat = (props: ChattingMessageProps) => {
+  return (
+    <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
       <StyledChatContainer {...props}>{props.children}</StyledChatContainer>
       <TimeStamp timeStamp={props.timeStamp} />
     </View>
   );
 };
-
 const StyledChatContainer = styled.View<{
-  height?: number;
-  width?: number;
+  minHeight?: number;
+  minWidth?: number;
+  backgroundColor?: string;
 }>`
-  min-height: ${(props) => props.height || heightPercent * 15}px;
-  min-width: ${(props) => props.width || widthPercent * 25}px;
-  max-width: ${(props) => props.width || widthPercent * 150}px;
-  background-color: ${Color.GREEN400};
+  min-height: ${(props) => props.minHeight || heightPercent * 15}px;
+  min-width: ${(props) => props.minWidth || widthPercent * 25}px;
+  max-width: ${(props) => props.minWidth || widthPercent * 150}px;
+  background-color: ${(props) => props.backgroundColor || Color.GREEN400};
   border-radius: 10px;
-  padding-left: 10px;
-  margin: 5px 5px;
+  padding: 5px 10px;
+  margin: 5px 7px;
   align-items: flex-start;
   justify-content: center;
   flex-wrap: wrap;
@@ -52,9 +61,6 @@ const StyledChatContainer = styled.View<{
 const TimeStampText = styled.Text`
   font-size: 12px;
   color: ${Color.ONYX};
-  margin-left: 5px;
-  margin-right: 5px;
   justify-content: flex-end;
-  bottom: 5px;
-  left: 5px;
+  margin-bottom: 5px;
 `;

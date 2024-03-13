@@ -25,7 +25,7 @@ import Post from '../../components/post/Post';
 import { Calendar } from 'react-native-calendars';
 import CustomCalendar from '../../components/customCalendar/CustomCalendar';
 import { BasicTag } from '../../components/classificationTag/ClassificationTag';
-import { MyChat } from '../../components/chattingMessage/ChattingMessage';
+import { MyChat, PartnerChat } from '../../components/chattingMessage/ChattingMessage';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -180,12 +180,23 @@ const SplashScreen = () => {
         </BasicTag>
         <MyChat
           timeStamp={new Date()}
-          width={widthPercent * 150}
-          height={heightPercent * 15}
+          minWidth={widthPercent * 150}
           children={
-            <Typo.Detail1_M color={Color.WHITE}>
-              dsaaaaaaaaaaaaaaaasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssㅇㅁㄴㅇㄴㅁㅇㄴㅁㅇㅁ
-            </Typo.Detail1_M>
+            <Typo.BODY4_M color={Color.WHITE}>
+              내가 작성한 채팅 입니다. 내가 작성한 채팅 입니다. 내가 작성한 채팅 입니다. 내가 작성한 채팅 입니다. 내가 작성한 채팅 입니다. 내가 작성한 채팅 입니다. 내가 작성한 채팅
+              입니다.
+            </Typo.BODY4_M>
+          }
+        />
+        <PartnerChat
+          timeStamp={new Date()}
+          minWidth={widthPercent * 150}
+          backgroundColor={Color.GRAY100}
+          children={
+            <Typo.BODY4_M color={Color.ONYX}>
+              상대방이 작성한 채팅입니다. 상대방이 작성한 채팅입니다. 상대방이 작성한 채팅입니다. 상대방이 작성한 채팅입니다. 상대방이 작성한 채팅입니다. 상대방이 작성한
+              채팅입니다. 상대방이 작성한 채팅입니다.
+            </Typo.BODY4_M>
           }
         />
       </ScrollView>
