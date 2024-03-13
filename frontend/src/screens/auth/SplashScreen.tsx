@@ -34,10 +34,6 @@ type RootStackParamList = {
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
-function ChattingMessage(props: { timeStamp: Date; width: number; height: number }) {
-  return null;
-}
-
 const SplashScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
   const [activeIndex, setActiveIndex] = useState(0);
