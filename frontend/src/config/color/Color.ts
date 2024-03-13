@@ -13,6 +13,7 @@ export const GREEN900: string = '#165425';
 
 export const WHITE: string = '#FFFFFF';
 export const BLACK: string = '#000000';
+export const ONYX: string = '#181818';
 
 export const GRAY50: string = '#F9FAFB';
 export const GRAY100: string = '#F2F4F7';
