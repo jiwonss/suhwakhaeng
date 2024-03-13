@@ -22,6 +22,8 @@ import { MultiLineInputBox, SingleLineInputBox } from '../../components/inputBox
 import { BasicButton, LikeButton, SendButton } from '../../components/button/Buttons';
 import WeatherInfo from '../../components/weather/WeatherInfo';
 import Post from '../../components/post/Post';
+import { Calendar } from 'react-native-calendars';
+import CustomCalendar from '../../components/customCalendar/CustomCalendar';
 
 type RootStackParamList = {
   OauthScreen: undefined;
