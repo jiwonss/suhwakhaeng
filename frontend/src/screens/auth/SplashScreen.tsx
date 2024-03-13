@@ -21,6 +21,7 @@ import { Card } from '../../components/card/Card';
 import { MultiLineInputBox, SingleLineInputBox } from '../../components/inputBox/Input';
 import { BasicButton, LikeButton, SendButton } from '../../components/button/Buttons';
 import WeatherInfo from '../../components/weather/WeatherInfo';
+import Post from '../../components/post/Post';
 import { Calendar } from 'react-native-calendars';
 import CustomCalendar from '../../components/customCalendar/CustomCalendar';
 
@@ -56,6 +57,18 @@ const SplashScreen = () => {
       color: Color.GREEN500,
     },
   ];
+
+  const postData = {
+    name: '김농부',
+    date: '2024-03-10 9:46:56',
+    classification: '자유',
+    content: '부직포 벗긴 밭에 풀이 너무 많아 뽑기를 포기하고 ‘트리부닐’을 살포했습니다. 멀칭이 있어서 제초가 어려워 두둑배 갈라서 멀칭을 제거했습니다',
+    likeNumber: 0,
+    commentNumber: 0,
+    imgUrl_one: '../../../assets/imgs/favicon.png',
+    imgUrl_two: '../../../assets/imgs/favicon.png',
+    imgUrl_three: '../../../assets/imgs/favicon.png',
+  };
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [slideVisible, setSlideVisible] = useState<boolean>(false);
@@ -144,6 +157,13 @@ const SplashScreen = () => {
             <Typo.BODY3_B>0원</Typo.BODY3_B>
           </View>
         </Card>
+        <Post
+          postData={postData}
+          onPress={() => {
+            console.log('게시글로 이동 해죠');
+          }}
+          isPreview={true}
+        />
       </ScrollView>
       <FloatingActionButton data={buttonData} />
       <PopupModal isVisible={isVisible} setIsVisible={setIsVisible}>
