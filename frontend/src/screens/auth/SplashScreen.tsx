@@ -20,6 +20,7 @@ import { PopupModal, SlideModal } from '../../components/modal/Modal';
 import { Card } from '../../components/card/Card';
 import { MultiLineInputBox, SingleLineInputBox } from '../../components/inputBox/Input';
 import { BasicButton, LikeButton, SendButton } from '../../components/button/Buttons';
+import WeatherInfo from '../../components/weather/WeatherInfo';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -141,27 +142,7 @@ const SplashScreen = () => {
             <Typo.BODY3_B>0원</Typo.BODY3_B>
           </View>
         </Card>
-        <Card borderColor={Color.GRAY400} width={widthPercent * 300} height={heightPercent * 110}>
-          <View style={{ rowGap: heightPercent * 10 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Typo.BODY4_M color={Color.GRAY400}>재배 작물</Typo.BODY4_M>
-              <Typo.BODY4_M>감자(감자품종1)</Typo.BODY4_M>
-            </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Typo.BODY4_M color={Color.GRAY400}>재배 작물</Typo.BODY4_M>
-              <Typo.BODY4_M>감자(감자품종1)</Typo.BODY4_M>
-            </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Typo.BODY4_M color={Color.GRAY400}>재배 작물</Typo.BODY4_M>
-              <Typo.BODY4_M>감자(감자품종1)</Typo.BODY4_M>
-            </View>
-          </View>
-        </Card>
-        <BasicButton onPress={() => console.log('Button pressed')} borderColor={Color.GREEN500} borderRadius={10} children={<Text>기본 버튼</Text>} />
-        <LikeButton onPress={() => console.log('LikeButton pressed')} />
-        <SendButton onPress={() => console.log('SendButton pressed')} />
-        <SingleLineInputBox placeholder={'텍스트를 입력해주세요. 싱글라인'} />
-        <MultiLineInputBox placeholder={'텍스트를 입력해주세요. 멀티라인'} />
+
       </ScrollView>
       <FloatingActionButton data={buttonData} />
       <PopupModal isVisible={isVisible} setIsVisible={setIsVisible}>

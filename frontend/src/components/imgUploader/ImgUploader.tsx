@@ -71,7 +71,7 @@ const ImgUploader = ({ data, setData }: ImgUploaderProps) => {
         <Typo.BODY0_M color={Color.BLACK}>+</Typo.BODY0_M>
       </StyledView>
       {data.map((url, index) => (
-        <React.Fragment key={index}>
+        <>
           <Spacer horizontal space={widthPercent * 10}></Spacer>
           <Container>
             <ImgThumbnail url={url} width={70} height={70}></ImgThumbnail>
@@ -79,7 +79,7 @@ const ImgUploader = ({ data, setData }: ImgUploaderProps) => {
               <Xbutton width={widthPercent * 15} height={heightPercent * 15} />
             </RemoveButton>
           </Container>
-        </React.Fragment>
+        </>
       ))}
     </ScrollView>
   );
