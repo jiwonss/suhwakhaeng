@@ -26,8 +26,8 @@ const TimeStamp: React.FC<TimeStampProps> = ({ timeStamp }) => {
 
 export const MyChat = (props: ChattingMessageProps) => {
   return (
-    <View style={{ display: 'flex', flexDirection: 'row' }}>
-      <StyledChatContainer {...props}>{props.children}</StyledChatContainer>;
+    <View style={{ flexDirection: 'row' }}>
+      <StyledChatContainer {...props}>{props.children}</StyledChatContainer>
       <TimeStamp timeStamp={props.timeStamp} />
     </View>
   );
@@ -38,12 +38,13 @@ const StyledChatContainer = styled.View<{
   width?: number;
 }>`
   height: ${(props) => props.height || heightPercent * 15}px;
-  width: ${(props) => props.width || widthPercent * 130}px;
+  width: ${(props) => props.width || widthPercent * 15}px;
   background-color: ${Color.GREEN400};
   border-radius: 10px;
+  padding-left: 10px;
   margin: 5px 5px;
-  align-items: center;
-  justify-content: left;
+  align-items: flex-start;
+  justify-content: center;
 `;
 
 const TimeStampText = styled.Text`
@@ -51,4 +52,5 @@ const TimeStampText = styled.Text`
   color: ${Color.ONYX};
   margin-left: 5px;
   margin-right: 5px;
+  justify-content: flex-end;
 `;

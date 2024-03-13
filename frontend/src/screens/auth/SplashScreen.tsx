@@ -25,6 +25,7 @@ import Post from '../../components/post/Post';
 import { Calendar } from 'react-native-calendars';
 import CustomCalendar from '../../components/customCalendar/CustomCalendar';
 import { BasicTag } from '../../components/classificationTag/ClassificationTag';
+import { MyChat } from '../../components/chattingMessage/ChattingMessage';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -32,6 +33,10 @@ type RootStackParamList = {
 };
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
+
+function ChattingMessage(props: { timeStamp: Date; width: number; height: number }) {
+  return null;
+}
 
 const SplashScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
@@ -177,6 +182,7 @@ const SplashScreen = () => {
         <BasicTag>
           <Typo.Detail1_M color={Color.WHITE}>기본</Typo.Detail1_M>
         </BasicTag>
+        <MyChat timeStamp={new Date()} width={widthPercent * 130} height={heightPercent * 15} children={<Typo.Detail1_M color={Color.WHITE}>내 채팅</Typo.Detail1_M>} />
       </ScrollView>
       <FloatingActionButton data={buttonData} />
       <PopupModal isVisible={isVisible} setIsVisible={setIsVisible}>
