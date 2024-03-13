@@ -178,7 +178,16 @@ const SplashScreen = () => {
         <BasicTag>
           <Typo.Detail1_M color={Color.WHITE}>기본</Typo.Detail1_M>
         </BasicTag>
-        <MyChat timeStamp={new Date()} width={widthPercent * 130} height={heightPercent * 15} children={<Typo.Detail1_M color={Color.WHITE}>내 채팅</Typo.Detail1_M>} />
+        <MyChat
+          timeStamp={new Date()}
+          width={widthPercent * 150}
+          height={heightPercent * 15}
+          children={
+            <Typo.Detail1_M color={Color.WHITE}>
+              dsaaaaaaaaaaaaaaaasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssㅇㅁㄴㅇㄴㅁㅇㄴㅁㅇㅁ
+            </Typo.Detail1_M>
+          }
+        />
       </ScrollView>
       <FloatingActionButton data={buttonData} />
       <PopupModal isVisible={isVisible} setIsVisible={setIsVisible}>

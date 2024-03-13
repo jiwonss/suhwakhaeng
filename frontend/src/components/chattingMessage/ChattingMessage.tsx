@@ -37,14 +37,16 @@ const StyledChatContainer = styled.View<{
   height?: number;
   width?: number;
 }>`
-  height: ${(props) => props.height || heightPercent * 15}px;
-  width: ${(props) => props.width || widthPercent * 15}px;
+  min-height: ${(props) => props.height || heightPercent * 15}px;
+  min-width: ${(props) => props.width || widthPercent * 25}px;
+  max-width: ${(props) => props.width || widthPercent * 150}px;
   background-color: ${Color.GREEN400};
   border-radius: 10px;
   padding-left: 10px;
   margin: 5px 5px;
   align-items: flex-start;
   justify-content: center;
+  flex-wrap: wrap;
 `;
 
 const TimeStampText = styled.Text`
@@ -53,4 +55,6 @@ const TimeStampText = styled.Text`
   margin-left: 5px;
   margin-right: 5px;
   justify-content: flex-end;
+  bottom: 5px;
+  left: 5px;
 `;
