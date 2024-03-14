@@ -4,7 +4,7 @@ import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import styled from 'styled-components/native';
 import { getTimeSincePost } from '../../util/BasicUtil';
-import ProfileCard from '../profileCard/ProfileCard';
+import { ProfileCard } from '../profileCard/ProfileCard';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { LocalImageLoader, UriImageLoader } from '../image/ImageLoader';
 import Favorite from '../../../assets/icons/favorite.svg';
