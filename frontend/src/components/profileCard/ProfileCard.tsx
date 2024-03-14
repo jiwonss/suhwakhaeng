@@ -1,11 +1,12 @@
 import styled from 'styled-components/native';
-import React, { useState } from 'react';
+import React from 'react';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import ProfileImage from '../profileImg/ProfileImg';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { getTimeSincePost } from '../../util/BasicUtil';
 import { Divider } from '../basic/Divider';
+import { TouchableOpacity } from 'react-native';
 
 const StyledView = styled.View`
   flex-direction: row;
@@ -18,7 +19,6 @@ const ColumContainer = styled.View`
 `;
 
 const RowContainer = styled.View`
-  margin-left: 5px;
   flex-direction: row;
   justify-content: space-around;
 `;
@@ -30,16 +30,20 @@ interface ProfileCardProps {
 }
 
 interface ProfileProps {
+  onPress?: () => void;
   url?: string;
   name: string;
   date: string;
   location: string;
   children?: React.ReactNode;
+  certification: boolean;
 }
 
-const CertificationBusiness = () => {
-  const [certification, setCertification] = useState(false);
+interface CertificationBusinessProps {
+  certification: boolean;
+}
 
+const CertificationBusiness = ({ certification }: CertificationBusinessProps) => {
   return <>{certification ? <Typo.BODY4_M color={Color.GREEN500}>인증된 사업자</Typo.BODY4_M> : <Typo.BODY4_M color={Color.RED300}>미인증 사업자</Typo.BODY4_M>}</>;
 };
 
@@ -62,10 +66,10 @@ export const Profile = (props: ProfileProps) => {
       <ProfileImage url={props.url} width={widthPercent * 45} height={heightPercent * 45} />
       <ColumContainer>
         <RowContainer>
-          <Typo.BODY3_M color={Color.BLACK}>{props.name}</Typo.BODY3_M>
+          <Typo.BODY3_M color={Color.BLACK}>{props.name} </Typo.BODY3_M>
           <Typo.BODY4_M color={Color.GRAY400}>{props.location}</Typo.BODY4_M>
         </RowContainer>
-        <CertificationBusiness />
+        <CertificationBusiness certification={props.certification} />
       </ColumContainer>
     </StyledView>
   );
@@ -73,18 +77,20 @@ export const Profile = (props: ProfileProps) => {
 
 export const ChattingListItem = (props: ProfileProps) => {
   return (
-    <StyledView>
-      <ProfileImage url={props.url} width={widthPercent * 45} height={heightPercent * 45} />
-      <ColumContainer>
-        <RowContainer>
-          <Typo.BODY3_M color={Color.BLACK}>{props.name}</Typo.BODY3_M>
-          <Typo.Detail1_M color={Color.GRAY400}>
-            {getTimeSincePost(props.date)} · {props.location}
-          </Typo.Detail1_M>
-        </RowContainer>
-        <Typo.BODY4_M>{props.children}</Typo.BODY4_M>
-        <Divider />
-      </ColumContainer>
-    </StyledView>
+    <TouchableOpacity onPress={props.onPress}>
+      <StyledView>
+        <ProfileImage url={props.url} width={widthPercent * 45} height={heightPercent * 45} />
+        <ColumContainer>
+          <RowContainer>
+            <Typo.BODY3_M color={Color.BLACK}>{props.name} </Typo.BODY3_M>
+            <Typo.Detail1_M color={Color.GRAY400}>
+              {getTimeSincePost(props.date)} · {props.location}
+            </Typo.Detail1_M>
+          </RowContainer>
+          <Typo.BODY4_M>{props.children}</Typo.BODY4_M>
+          <Divider />
+        </ColumContainer>
+      </StyledView>
+    </TouchableOpacity>
   );
 };
