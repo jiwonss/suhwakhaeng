@@ -88,9 +88,9 @@ export const ChattingListItem = (props: ProfileProps) => {
             </Typo.Detail1_M>
           </RowContainer>
           <Typo.BODY4_M>{props.children}</Typo.BODY4_M>
-          <Divider />
         </ColumContainer>
       </StyledView>
+      <Divider />
     </TouchableOpacity>
   );
 };

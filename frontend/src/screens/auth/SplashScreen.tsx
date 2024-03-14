@@ -28,6 +28,7 @@ import { Comment } from '../../components/comment/Comment';
 import { BasicTag } from '../../components/classificationTag/ClassificationTag';
 import { MyChat, PartnerChat } from '../../components/chattingMessage/ChattingMessage';
 import { ChattingListItem, Profile } from '../../components/profileCard/ProfileCard';
+import { PlantAdd } from '../../components/plantAdd/PlantAdd';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -270,6 +271,7 @@ const SplashScreen = () => {
         <Profile name={'홍길동'} date={'1일 전'} location={'광주 서구'} certification={true} />
         <Profile name={'임꺽정'} date={'1일 전'} location={'광주 서구'} certification={false} />
         <ChattingListItem name={'홍길동'} date={'1일 전'} location={'광주 서구'} certification={true} onPress={() => console.log('채팅 룸 입장')} children={'이거 얼마에요?'} />
+        <PlantAdd onPress={() => console.log('작물추가스 ')} borderColor={Color.GRAY200} backgroundColor={Color.GRAY200} />
       </ScrollView>
       <FloatingActionButton data={buttonData} />
       <PopupModal isVisible={isVisible} setIsVisible={setIsVisible}>

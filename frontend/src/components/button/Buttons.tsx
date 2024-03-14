@@ -9,8 +9,8 @@ import Send from '../../../assets/icons/send.svg';
 
 type BasicButtonProps = {
   onPress: () => void;
-  width?: DimensionValue;
-  height?: number;
+  width: number;
+  height: number;
   disabled?: boolean;
   backgroundColor?: string;
   borderColor: string;
@@ -52,12 +52,17 @@ export const BasicButton = (props: BasicButtonProps) => {
   return (
     <View
       style={{
-        width: props.width || '50%',
         paddingHorizontal: widthPercent * 4,
       }}
     >
       <TouchableOpacity onPress={props.onPress} disabled={props.disabled}>
-        <StyledView backgroundColor={props.backgroundColor || Color.GREEN500} borderColor={props.borderColor} borderRadius={props.borderRadius} height={props.height}>
+        <StyledView
+          backgroundColor={props.backgroundColor || Color.GREEN500}
+          borderColor={props.borderColor}
+          borderRadius={props.borderRadius}
+          height={props.height}
+          width={props.width}
+        >
           {props.children}
         </StyledView>
       </TouchableOpacity>
@@ -68,15 +73,17 @@ const StyledView = styled.View<{
   backgroundColor: string;
   borderColor: string;
   borderRadius: number;
-  height?: number;
+  height: number;
+  width: number;
 }>`
   background-color: ${(props) => props.backgroundColor};
-  border-radius: ${(props) => props.borderRadius}px;
+  border-radius: ${(props) => props.borderRadius * widthPercent}px;
   border-width: ${widthPercent * 0.5};
   border-color: ${(props) => props.borderColor};
   padding-top: ${heightPercent * 2};
   padding-bottom: ${heightPercent * 2};
-  height: ${(props) => props.height || 45}px;
+  height: ${(props) => props.height * heightPercent || 45}px;
+  width: ${(props) => props.width * heightPercent || 45}px;
   align-items: center;
   justify-content: center;
 `;
