@@ -266,7 +266,6 @@ const SplashScreen = () => {
             </Typo.BODY4_M>
           }
         />
->>>>>>> frontend/src/screens/auth/SplashScreen.tsx
       </ScrollView>
       <FloatingActionButton data={buttonData} />
       <PopupModal isVisible={isVisible} setIsVisible={setIsVisible}>
