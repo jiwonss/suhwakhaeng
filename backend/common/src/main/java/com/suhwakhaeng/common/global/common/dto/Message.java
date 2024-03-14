@@ -38,4 +38,31 @@ public class Message<T> {
                     .build();
         }
     }
+
+    public static <T> Message<T> success(T dataBody) {
+        return Message.<T>builder()
+                .dataHeader(DataHeader.success())
+                .dataBody(dataBody)
+                .build();
+    }
+
+    public static <T> Message<T> success(T dataBody, String code, String resultMessage) {
+        return Message.<T>builder()
+                .dataHeader(DataHeader.success(code, resultMessage))
+                .dataBody(dataBody)
+                .build();
+    }
+
+    public static Message<Void> success() {
+        return Message.<Void>builder()
+                .dataHeader(DataHeader.success())
+                .build();
+    }
+
+    public static <T> Message<T> fail(String resultCode, String resultMessage) {
+        return Message.<T>builder()
+                .dataHeader(DataHeader.fail(resultCode, resultMessage))
+                .dataBody(null)
+                .build();
+    }
 }
