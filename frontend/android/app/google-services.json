@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "698977184856",
+    "project_id": "suhwakhaeng-d9373",
+    "storage_bucket": "suhwakhaeng-d9373.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:698977184856:android:e998f75e5ebea085af2e2d",
+        "android_client_info": {
+          "package_name": "com.suhwakhaeng"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAO9HiZg5DhSdc0xVSBE9k5NbMAYwHBP0s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
