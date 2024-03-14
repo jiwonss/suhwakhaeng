@@ -24,6 +24,7 @@ import WeatherInfo from '../../components/weather/WeatherInfo';
 import Post from '../../components/post/Post';
 import { Calendar } from 'react-native-calendars';
 import CustomCalendar from '../../components/customCalendar/CustomCalendar';
+import { Comment } from '../../components/comment/Comment';
 
 type RootStackParamList = {
   OauthScreen: undefined;
@@ -69,6 +70,67 @@ const SplashScreen = () => {
     imgUrl_two: '../../../assets/imgs/favicon.png',
     imgUrl_three: '../../../assets/imgs/favicon.png',
   };
+
+  const commentData = [
+    {
+      id: 1,
+      user_id: 1,
+      profileImg_url: '',
+      name: '김농부',
+      date: '2024-03-10 9:46:56',
+      content: '아 그렇군요',
+      group: 0,
+      recomment: [
+        {
+          id: 2,
+          user_id: 2,
+          profileImg_url: '',
+          name: '이농부',
+          date: '2024-03-12 9:46:56',
+          content: '살려조요',
+          group: 1,
+        },
+        {
+          id: 3,
+          user_id: 3,
+          profileImg_url: '',
+          name: '이농민',
+          date: '2024-03-13 9:46:56',
+          content: 'ㅇ응애',
+          group: 1,
+        },
+      ],
+    },
+    {
+      id: 6,
+      user_id: 1,
+      profileImg_url: '',
+      name: '김농부',
+      date: '2024-03-10 9:46:56',
+      content: '🥕🥕🧅🧅🥕🧅🥕🧅',
+      group: 0,
+      recomment: [
+        {
+          id: 7,
+          user_id: 2,
+          profileImg_url: '',
+          name: '이농부',
+          date: '2024-03-13 9:46:56',
+          content: '수확행',
+          group: 1,
+        },
+        {
+          id: 8,
+          user_id: 3,
+          profileImg_url: '',
+          name: '이농민',
+          date: '2024-03-13 10:46:56',
+          content: '많관부',
+          group: 1,
+        },
+      ],
+    },
+  ];
 
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [slideVisible, setSlideVisible] = useState<boolean>(false);
@@ -164,6 +226,11 @@ const SplashScreen = () => {
           }}
           isPreview={true}
         />
+        <View style={{ paddingVertical: heightPercent * 10, paddingHorizontal: widthPercent * 20 }}>
+          {commentData.map((item) => (
+            <Comment key={item.id} data={item} />
+          ))}
+        </View>
       </ScrollView>
       <FloatingActionButton data={buttonData} />
       <PopupModal isVisible={isVisible} setIsVisible={setIsVisible}>
