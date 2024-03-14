@@ -1,11 +1,10 @@
 import React from 'react';
-import { View } from 'react-native';
 import styled from 'styled-components/native';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { Card } from '../card/Card';
-import ProfileCard from '../profileCard/ProfileCard';
+import { ProfileCard } from '../profileCard/ProfileCard';
 import More from '../../../assets/icons/more_black.svg';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
