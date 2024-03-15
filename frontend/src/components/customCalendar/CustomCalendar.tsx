@@ -47,7 +47,7 @@ LocaleConfig.locales.fr = {
 };
 
 LocaleConfig.defaultLocale = 'fr';
-const CustomCalendar = (props: any) => {
+const CustomCalendar = ({data, selectedDate, setSelectedDate}: any) => {
   // 현재 날짜를 가져오는 함수
   const getCurrentDate = () => {
     const today = new Date();
@@ -57,18 +57,16 @@ const CustomCalendar = (props: any) => {
     return `${year}-${month}-${day}`;
   };
   
-  const [selectedDate, setSelectedDate] = useState(getCurrentDate());
   const [markedDates, setMarkedDates] = useState(
-    props.data
+    data
   );
-
 
   
   const handleDayPress = (day : any) => {
     const selectday = day.dateString
     // 선택한 날짜 업데이트
     setSelectedDate(selectday);
-    setMarkedDates({...props.data, [selectday]: {...props.data[selectday] , selected : true } });
+    setMarkedDates({...data, [selectday]: {...data[selectday] , selected : true } });
   };
 
   return (

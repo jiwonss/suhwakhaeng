@@ -8,7 +8,7 @@ export const RootApp = () => {
   const token = useRecoilValue(tokenState);
 
   if (token === '') {
-    return <AuthStack />;
+    return <MainStack />;
   } else {
     return <MainStack />;
   }
