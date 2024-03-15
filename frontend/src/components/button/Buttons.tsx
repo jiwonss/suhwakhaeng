@@ -78,10 +78,10 @@ const StyledView = styled.View<{
 }>`
   background-color: ${(props) => props.backgroundColor};
   border-radius: ${(props) => props.borderRadius * widthPercent}px;
-  border-width: ${widthPercent * 0.5};
+  border-width: ${widthPercent * 0.5}px;
   border-color: ${(props) => props.borderColor};
-  padding-top: ${heightPercent * 2};
-  padding-bottom: ${heightPercent * 2};
+  padding-top: ${heightPercent * 2}px;
+  padding-bottom: ${heightPercent * 2}px;
   height: ${(props) => props.height * heightPercent || 45}px;
   width: ${(props) => props.width * heightPercent || 45}px;
   align-items: center;
