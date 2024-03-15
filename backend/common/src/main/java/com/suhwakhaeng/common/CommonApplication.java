@@ -7,8 +7,8 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, SecurityAutoConfiguration.class})
 @EnableDiscoveryClient
+@SpringBootApplication
 @ConfigurationPropertiesScan
 public class CommonApplication {
 
