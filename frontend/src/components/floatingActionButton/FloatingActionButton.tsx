@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';

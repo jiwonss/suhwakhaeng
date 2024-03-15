@@ -3,8 +3,6 @@ import React from 'react';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 
-
-
 // 타입 정의
 interface ContainerProps {
   width: number;
@@ -37,12 +35,9 @@ const ImgThumbnail: React.FC<ProfileImageProps> = ({ url, width, height }) => {
   const defaultImage = require('../../../assets/imgs/favicon.png'); // 나중에 바꾸기
   return (
     <StyledView width={width} height={height}>
-      <StyledImage source={url ? { uri : url } : defaultImage} resizeMode="cover" />
+      <StyledImage source={url ? { uri: url } : defaultImage} resizeMode='cover' />
     </StyledView>
   );
 };
 
 export default ImgThumbnail;
-
-
-

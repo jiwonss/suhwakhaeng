@@ -11,6 +11,21 @@ interface ClassificationTagProps {
   children: React.ReactNode;
 }
 
+const StyledBasicTag = styled.View<{
+  height?: number;
+  width?: number;
+  borderRadius?: number;
+  backgroundColor?: string;
+}>`
+  height: ${(props) => props.height || heightPercent * 15}px;
+  width: ${(props) => props.width || widthPercent * 30}px;
+  background-color: ${(props) => props.backgroundColor || Color.GREEN400};
+  border-radius: ${({ borderRadius }) => (borderRadius ? `${borderRadius}px` : '10px')};
+  margin: 5px 5px;
+  align-items: center;
+  justify-content: center;
+`;
+
 // Classification Basic Tag
 /**
  * 기본 태그 컴포넌트입니다.
@@ -33,17 +48,3 @@ interface ClassificationTagProps {
 export const BasicTag = (props: ClassificationTagProps) => {
   return <StyledBasicTag {...props}>{props.children}</StyledBasicTag>;
 };
-const StyledBasicTag = styled.View<{
-  height?: number;
-  width?: number;
-  borderRadius?: number;
-  backgroundColor?: string;
-}>`
-  height: ${(props) => props.height || heightPercent * 15}px;
-  width: ${(props) => props.width || widthPercent * 30}px;
-  background-color: ${(props) => props.backgroundColor || Color.GREEN400};
-  border-radius: ${({ borderRadius }) => (borderRadius ? `${borderRadius}px` : '10px')};
-  margin: 5px 5px;
-  align-items: center;
-  justify-content: center;
-`;

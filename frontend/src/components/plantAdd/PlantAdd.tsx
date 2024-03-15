@@ -34,12 +34,12 @@ export const PlantAdd = (props: PlantAddProps) => {
       <RowView>
         <BasicButton
           onPress={() => console.log('Button pressed')}
-          width={24}
-          height={24}
+          width={props.width || 24}
+          height={props.height || 24}
           disabled={false}
-          backgroundColor={Color.GRAY200}
+          backgroundColor={props.backgroundColor || Color.GRAY200}
           borderRadius={50}
-          borderColor={Color.GRAY200}
+          borderColor={props.borderColor || Color.GRAY200}
         >
           <Plus />
         </BasicButton>
