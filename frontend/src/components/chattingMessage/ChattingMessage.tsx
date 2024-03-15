@@ -16,6 +16,31 @@ interface TimeStampProps {
   timeStamp: Date | string;
 }
 
+const TimeStampText = styled.Text`
+  font-size: 12px;
+  color: ${Color.ONYX};
+  justify-content: flex-end;
+  margin-bottom: 5px;
+`;
+
+const StyledChatContainer = styled.View<{
+  minHeight?: number;
+  minWidth?: number;
+  maxWidth?: number;
+  backgroundColor?: string;
+}>`
+  min-height: ${(props) => props.minHeight || heightPercent * 15}px;
+  min-width: ${(props) => props.minWidth || widthPercent * 25}px;
+  max-width: ${(props) => props.maxWidth || widthPercent * 150}px;
+  background-color: ${(props) => props.backgroundColor || Color.GREEN400};
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin: 5px 7px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+`;
+
 // 타임스탬프 컴포넌트
 /**
  * 채팅 메시지의 타임스탬프를 표시하는 컴포넌트입니다. 타임스탬프는 `Date` 객체 또는 문자열 형태로 받을 수 있으며,
@@ -36,12 +61,6 @@ const TimeStamp: React.FC<TimeStampProps> = ({ timeStamp }: { timeStamp: Date | 
 
   return <TimeStampText>{formatTime(timeStamp)}</TimeStampText>;
 };
-const TimeStampText = styled.Text`
-  font-size: 12px;
-  color: ${Color.ONYX};
-  justify-content: flex-end;
-  margin-bottom: 5px;
-`;
 
 // 나의 채팅 메시지 컴포넌트
 /**
@@ -97,20 +116,3 @@ export const PartnerChat = (props: ChattingMessageProps) => {
     </View>
   );
 };
-const StyledChatContainer = styled.View<{
-  minHeight?: number;
-  minWidth?: number;
-  maxWidth?: number;
-  backgroundColor?: string;
-}>`
-  min-height: ${(props) => props.minHeight || heightPercent * 15}px;
-  min-width: ${(props) => props.minWidth || widthPercent * 25}px;
-  max-width: ${(props) => props.maxWidth || widthPercent * 150}px;
-  background-color: ${(props) => props.backgroundColor || Color.GREEN400};
-  border-radius: 10px;
-  padding: 5px 10px;
-  margin: 5px 7px;
-  align-items: flex-start;
-  justify-content: center;
-  flex-wrap: wrap;
-`;

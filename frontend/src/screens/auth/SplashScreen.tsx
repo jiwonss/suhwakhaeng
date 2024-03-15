@@ -247,33 +247,26 @@ const SplashScreen = () => {
         <BasicTag>
           <Typo.Detail1_M color={Color.WHITE}>기본</Typo.Detail1_M>
         </BasicTag>
-        <MyChat
-          timeStamp={new Date()}
-          minWidth={widthPercent * 150}
-          children={
-            <Typo.BODY4_M color={Color.WHITE}>
-              내가 작성한 채팅 입니다. 내가 작성한 채팅 입니다. 내가 작성한 채팅 입니다. 내가 작성한 채팅 입니다. 내가 작성한 채팅 입니다. 내가 작성한 채팅 입니다. 내가 작성한 채팅
-              입니다.
-            </Typo.BODY4_M>
-          }
-        />
-        <PartnerChat
-          timeStamp={new Date()}
-          minWidth={widthPercent * 150}
-          backgroundColor={Color.GRAY100}
-          children={
-            <Typo.BODY4_M color={Color.ONYX}>
-              상대방이 작성한 채팅입니다. 상대방이 작성한 채팅입니다. 상대방이 작성한 채팅입니다. 상대방이 작성한 채팅입니다. 상대방이 작성한 채팅입니다. 상대방이 작성한
-              채팅입니다. 상대방이 작성한 채팅입니다.
-            </Typo.BODY4_M>
-          }
-        />
+        <MyChat timeStamp={new Date()} minWidth={widthPercent * 150}>
+          <Typo.BODY4_M color={Color.WHITE}>
+            내가 작성한 채팅 입니다. 내가 작성한 채팅 입니다. 내가 작성한 채팅 입니다. 내가 작성한 채팅 입니다. 내가 작성한 채팅 입니다. 내가 작성한 채팅 입니다. 내가 작성한 채팅
+            입니다.
+          </Typo.BODY4_M>
+        </MyChat>
+        <PartnerChat timeStamp={new Date()} minWidth={widthPercent * 150} backgroundColor={Color.GRAY100}>
+          <Typo.BODY4_M color={Color.ONYX}>
+            상대방이 작성한 채팅입니다. 상대방이 작성한 채팅입니다. 상대방이 작성한 채팅입니다. 상대방이 작성한 채팅입니다. 상대방이 작성한 채팅입니다. 상대방이 작성한 채팅입니다.
+            상대방이 작성한 채팅입니다.
+          </Typo.BODY4_M>
+        </PartnerChat>
         <Profile name={'홍길동'} date={'1일 전'} location={'광주 서구'} certification={true} />
         <Profile name={'임꺽정'} date={'1일 전'} location={'광주 서구'} certification={false} />
-        <ChattingListItem name={'홍길동'} date={'1일 전'} location={'광주 서구'} certification={true} onPress={() => console.log('채팅 룸 입장')} children={'이거 얼마에요?'} />
+        <ChattingListItem name={'홍길동'} date={'1일 전'} location={'광주 서구'} certification={true} onPress={() => console.log('채팅 룸 입장')}>
+          <Typo.BODY4_M color={Color.WHITE}>이거 얼마에요?</Typo.BODY4_M>
+        </ChattingListItem>
         <PlantAdd onPress={() => console.log('작물추가스 ')} borderColor={Color.GRAY200} backgroundColor={Color.GRAY200} />
       </ScrollView>
-      <FloatingActionButton data={buttonData} />
+      <FloatingActionButton data={buttonData} />;
       <PopupModal isVisible={isVisible} setIsVisible={setIsVisible}>
         <TouchableOpacity
           onPress={() => {
@@ -283,7 +276,7 @@ const SplashScreen = () => {
           <Typo.BODY3_M>닫기</Typo.BODY3_M>
         </TouchableOpacity>
       </PopupModal>
-
+      ;
       <SlideModal isVisible={slideVisible} setIsVisible={setSlideVisible}>
         <TouchableOpacity
           onPress={() => {
@@ -293,6 +286,7 @@ const SplashScreen = () => {
           <Typo.BODY1_M>닫기</Typo.BODY1_M>
         </TouchableOpacity>
       </SlideModal>
+      ;
     </View>
   );
 };

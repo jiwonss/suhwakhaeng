@@ -1,8 +1,5 @@
-import * as Color from '../../config/color/Color';
-import * as FontStyle from '../../config/fontStyle/fontStyle';
-import { heightPercent } from '../../config/dimension/Dimension';
-import { Text } from 'react-native';
 import styled from 'styled-components/native';
+import * as FontStyle from '../../config/fontStyle/fontStyle';
 
 interface TypographyProps {
   numberOfLines?: number;

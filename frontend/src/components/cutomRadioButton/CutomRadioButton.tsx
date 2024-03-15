@@ -15,10 +15,10 @@ import { css } from 'styled-components';
 // <CustomRadioButton data = { Data }/>
 
 type DataItem = {
-  content : string;
-  event : () => void;
-  active : boolean;
-}
+  content: string;
+  event: () => void;
+  active: boolean;
+};
 
 interface CustomRadioButtonProps {
   data: DataItem[];
@@ -31,7 +31,7 @@ interface StyledButtonProps {
 const StyledView = styled.View`
   flex-direction: row;
   width: 100%;
-  height: heightPercent * 30;
+  height: ${heightPercent * 30}px;
   justify-content: space-around;
   align-items: center;
   column-gap: ${widthPercent * 7}px;
@@ -57,7 +57,7 @@ const StyledButton = styled.TouchableOpacity<StyledButtonProps>`
 const CustomRadioButton = (props: CustomRadioButtonProps) => {
   return (
     <StyledView>
-      { props.data.map(({content,event,active},index)=> (
+      {props.data.map(({ content, event, active }, index) => (
         <StyledButton key={index} active={active} onPress={event}>
           <Typo.BODY4_M color={active ? Color.WHITE : Color.BLACK}>{content}</Typo.BODY4_M>
         </StyledButton>

@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
-import { widthPercent, heightPercent } from '../../config/dimension/Dimension';
-import { TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { widthPercent } from '../../config/dimension/Dimension';
+import { TouchableOpacity } from 'react-native';
 import * as Typo from '../typography/Typography';
 import * as Color from '../../config/color/Color';
 

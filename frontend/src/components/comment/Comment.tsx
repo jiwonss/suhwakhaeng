@@ -30,12 +30,32 @@ interface CommentProps {
   };
 }
 
+const CommentContainer = styled.View`
+  row-gap: ${heightPercent * 10}px;
+  margin-top: ${heightPercent * 10}px;
+`;
+
+const ProfileContainer = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const TextContainer = styled.View`
+  margin-left: ${widthPercent * 8}px;
+`;
+
+const RecommentContainer = styled.View`
+  margin-left: ${widthPercent * 20}px;
+  row-gap: ${heightPercent * 10}px;
+`;
+
 export const Comment = (props: CommentProps) => {
   const userInfo = useRecoilValue(userInfoState);
 
   const onPressMore = (userId: number) => {
     if (userId === userInfo.user_id) {
-      console.log;
       console.log('수정/삭제 포함된 모달 열거야');
     } else {
       console.log('답글 달기만 있는 모달 열거야');
@@ -70,24 +90,3 @@ export const Comment = (props: CommentProps) => {
     </CommentContainer>
   );
 };
-
-const CommentContainer = styled.View`
-  row-gap: ${heightPercent * 10}px;
-  margin-top: ${heightPercent * 10}px;
-`;
-
-const ProfileContainer = styled.View`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const TextContainer = styled.View`
-  margin-left: ${widthPercent * 8}px;
-`;
-
-const RecommentContainer = styled.View`
-  margin-left: ${widthPercent * 20}px;
-  row-gap: ${heightPercent * 10}px;
-`;

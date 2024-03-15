@@ -1,4 +1,3 @@
-import { TextInput, View } from 'react-native';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
@@ -19,6 +18,53 @@ interface HeaderProps {
   secondIcon?: string; // 오른쪽 첫번째 아이콘 이름
   thirdIcon?: string; // 오른쪽 두번째 아이콘 이름
 }
+
+/********* styled component 영역 ************/
+const StyledContainer = styled.View`
+  height: ${heightPercent * 63}px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: ${widthPercent * 12}px;
+`;
+
+const TitleContainer = styled.View`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
+
+const LeftIconContainer = styled.View`
+  width: ${widthPercent * 60}px;
+`;
+
+const RightIconContainer = styled.View`
+  width: ${widthPercent * 60}px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  column-gap: ${widthPercent * 8}px;
+`;
+
+const InputContainer = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid ${Color.GRAY300};
+  border-radius: 10px;
+  width: ${widthPercent * 300}px;
+  height: ${heightPercent * 36}px;
+  padding: ${widthPercent * 8}px;
+`;
+
+const StyledInput = styled.TextInput`
+  margin-left: ${widthPercent * 4};
+  font-family: 'GmarketSansTTFMedium';
+  font-size: ${widthPercent * 12}px;
+  width: 100%;
+  height: 100%;
+`;
 
 const Header = (props: HeaderProps) => {
   const navigation = useNavigation();
@@ -89,52 +135,5 @@ const Header = (props: HeaderProps) => {
     </StyledContainer>
   );
 };
-
-/********* styled component 영역 ************/
-const StyledContainer = styled.View`
-  height: ${heightPercent * 63}px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: ${widthPercent * 12}px;
-`;
-
-const TitleContainer = styled.View`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-`;
-
-const LeftIconContainer = styled.View`
-  width: ${widthPercent * 60}px;
-`;
-
-const RightIconContainer = styled.View`
-  width: ${widthPercent * 60}px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  column-gap: ${widthPercent * 8}px;
-`;
-
-const InputContainer = styled.View`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  border: 1px solid ${Color.GRAY300};
-  border-radius: 10px;
-  width: ${widthPercent * 300}px;
-  height: ${heightPercent * 36}px;
-  padding: ${widthPercent * 8}px;
-`;
-
-const StyledInput = styled.TextInput`
-  margin-left: ${widthPercent * 4};
-  font-family: 'GmarketSansTTFMedium';
-  font-size: ${widthPercent * 12}px;
-  width: 100%;
-  height: 100%;
-`;
 
 export default Header;

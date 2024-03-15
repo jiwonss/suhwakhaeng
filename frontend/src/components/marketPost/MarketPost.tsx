@@ -5,10 +5,8 @@ import * as Typo from '../../components/typography/Typography';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import ImgThumbnail from '../imgThumbnail/ImgThumbnail';
 import { View } from 'react-native';
-import Favorite from '../../../assets/icons/favorite.svg'
-import FavoriteBorder from '../../../assets/icons/favorite_border.svg'
-
-
+import Favorite from '../../../assets/icons/favorite.svg';
+import FavoriteBorder from '../../../assets/icons/favorite_border.svg';
 
 const StyledView = styled.View`
   flex-direction: row;
@@ -32,16 +30,16 @@ const StyledBox = styled.View`
 
 interface MarketPostProps {
   imgUrl?: string;
-  classiFication ?: string; // 분류에 적용
+  classiFication?: string; // 분류에 적용
   title: string;
-  price: number; 
+  price: number;
   location?: string;
   likeNumber: number;
 }
 
-const MarketPost = (props:MarketPostProps) => {
+const MarketPost = (props: MarketPostProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
-  
+
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
   };
@@ -51,12 +49,12 @@ const MarketPost = (props:MarketPostProps) => {
     <StyledView>
       <ImgThumbnail url={props.imgUrl} width={80} height={80}></ImgThumbnail>
       <StyledContainer>
-        <StyledBox></StyledBox> 
+        <StyledBox></StyledBox>
         <Typo.BODY3_M>{props.title}</Typo.BODY3_M>
         <Typo.BODY4_M>{props.price}원</Typo.BODY4_M>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Typo.Detail1_M color={Color.GRAY400}>{props.location}</Typo.Detail1_M>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap:widthPercent*5 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: widthPercent * 5 }}>
             {isFavorite ? (
               <FavoriteBorder width={widthPercent * 12} height={heightPercent * 12} onPress={toggleFavorite} />
             ) : (
