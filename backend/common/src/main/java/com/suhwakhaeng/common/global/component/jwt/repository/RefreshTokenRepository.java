@@ -16,19 +16,19 @@ public class RefreshTokenRepository {
 
     private static final String KEY_PREFIX = "refreshToken::";
 
-    public void save(String email, String token, int expiresMin) {
-        String key = KEY_PREFIX + email;
-        redisTemplate.opsForValue().set(key, token, Duration.ofMinutes(expiresMin));
-        redisTemplate.expire(key, expiresMin, TimeUnit.MINUTES);    // 만료시간 설정
+    public void save(String userId, String refreshToken) {
+        redisTemplate.opsForValue()
+                .set(KEY_PREFIX + userId, refreshToken, jwtProps.refreshExpiration());
     }
 
-    public Optional<String> find(String email) {
-        String token = redisTemplate.opsForValue().get(KEY_PREFIX + email);
+    public Optional<String> find(String userId) {
+        String token = redisTemplate.opsForValue().get(KEY_PREFIX + userId);
+
         return Optional.ofNullable(token);
     }
 
-    public void delete(String email) {
-        redisTemplate.delete(KEY_PREFIX + email);
+    public void delete(String userId) {
+        redisTemplate.delete(KEY_PREFIX + userId);
     }
 }
 

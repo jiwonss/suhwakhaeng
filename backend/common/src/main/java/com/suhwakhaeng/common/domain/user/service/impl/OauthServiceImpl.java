@@ -5,6 +5,7 @@ import com.suhwakhaeng.common.domain.user.entity.User;
 import com.suhwakhaeng.common.domain.user.repository.UserRepository;
 import com.suhwakhaeng.common.domain.user.service.OauthService;
 import com.suhwakhaeng.common.global.component.jwt.repository.JwtProvider;
+import com.suhwakhaeng.common.global.component.jwt.repository.RefreshTokenRepository;
 import com.suhwakhaeng.common.global.component.oauth.OauthMemberClientComposite;
 import com.suhwakhaeng.common.global.component.oauth.vendor.enums.OauthServerType;
 import lombok.RequiredArgsConstructor;
@@ -19,28 +20,27 @@ import java.util.Optional;
 public class OauthServiceImpl implements OauthService {
     private final OauthMemberClientComposite oauthMemberClientComposite;
     private final UserRepository userRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final JwtProvider jwtProvider;
     @Override
     public LoginResponse login(OauthServerType oauthServerType, String token) {
-        User user = oauthMemberClientComposite.fetch(oauthServerType, token);
+        User oauthUser = oauthMemberClientComposite.fetch(oauthServerType, token);
 
         // 이메일을 통해 조회
         // 이미 존재하면 get
         // 존재하지 않으면 save
 
-        Optional<User> findUser = userRepository.findByEmail(user.getEmail());
-
-        // 이미 존재
-        if (findUser.isPresent()) {
-            user = findUser.get();
-        } else {
-            user = userRepository.save(user);
-        }
+        User user = userRepository.findByEmail(oauthUser.getEmail())
+                .orElseGet(
+                        () -> userRepository.save(oauthUser)
+                );
 
         log.debug("user id : {}", user.getId());
 
         String accessToken = jwtProvider.issueAccessToken(user.getId(), user.getRole().name());
         String refreshToken = jwtProvider.issueRefreshToken();
+
+        refreshTokenRepository.save(String.valueOf(user.getId()), refreshToken);
 
         return LoginResponse.builder()
                 .token(
