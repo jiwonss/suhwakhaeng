@@ -44,7 +44,6 @@ const StyledContainer = styled.View<{ width: DimensionValue; height: DimensionVa
   align-items: center;
   border-radius: 10px;
 `;
-
 // 기본 버튼 컴포넌트
 /**
  * 사용자 정의 스타일과 동작을 적용할 수 있는 기본 버튼 컴포넌트입니다.
