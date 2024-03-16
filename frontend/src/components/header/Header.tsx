@@ -18,7 +18,6 @@ interface HeaderProps {
   secondIcon?: string; // 오른쪽 첫번째 아이콘 이름
   thirdIcon?: string; // 오른쪽 두번째 아이콘 이름
 }
-
 /********* styled component 영역 ************/
 const StyledContainer = styled.View`
   height: ${heightPercent * 63}px;

@@ -1,5 +1,5 @@
-import styled from 'styled-components/native';
 import * as FontStyle from '../../config/fontStyle/fontStyle';
+import styled from 'styled-components/native';
 
 interface TypographyProps {
   numberOfLines?: number;

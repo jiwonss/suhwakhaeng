@@ -12,16 +12,6 @@ interface ChattingMessageProps {
   backgroundColor?: string;
   timeStamp: Date | string;
 }
-interface TimeStampProps {
-  timeStamp: Date | string;
-}
-
-const TimeStampText = styled.Text`
-  font-size: 12px;
-  color: ${Color.ONYX};
-  justify-content: flex-end;
-  margin-bottom: 5px;
-`;
 
 const StyledChatContainer = styled.View<{
   minHeight?: number;
@@ -39,6 +29,17 @@ const StyledChatContainer = styled.View<{
   align-items: flex-start;
   justify-content: center;
   flex-wrap: wrap;
+`;
+
+interface TimeStampProps {
+  timeStamp: Date | string;
+}
+
+const TimeStampText = styled.Text`
+  font-size: 12px;
+  color: ${Color.ONYX};
+  justify-content: flex-end;
+  margin-bottom: 5px;
 `;
 
 // 타임스탬프 컴포넌트
