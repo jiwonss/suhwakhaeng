@@ -31,7 +31,7 @@ interface StyledButtonProps {
 const StyledView = styled.View`
   flex-direction: row;
   width: 100%;
-  height: ${heightPercent * 30}px;
+  height: ${heightPercent * 30};
   justify-content: space-around;
   align-items: center;
   column-gap: ${widthPercent * 7}px;

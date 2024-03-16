@@ -28,18 +28,18 @@ const Margin14 = styled.View`
 const Margin10 = styled.View`
   margin-right: 14px;
 `;
-export const PlantAdd = (props: PlantAddProps) => {
+export const PlantAdd = () => {
   return (
     <TouchableOpacity>
       <RowView>
         <BasicButton
           onPress={() => console.log('Button pressed')}
-          width={props.width || 24}
-          height={props.height || 24}
+          width={24}
+          height={24}
           disabled={false}
-          backgroundColor={props.backgroundColor || Color.GRAY200}
+          backgroundColor={Color.GRAY200}
           borderRadius={50}
-          borderColor={props.borderColor || Color.GRAY200}
+          borderColor={Color.GRAY200}
         >
           <Plus />
         </BasicButton>

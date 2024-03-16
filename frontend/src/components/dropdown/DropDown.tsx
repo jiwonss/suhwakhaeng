@@ -12,7 +12,13 @@ interface DropDownProps {
 export const DropDown = (props: DropDownProps) => {
   return (
     <SelectDropdown
-      buttonStyle={{ borderRadius: widthPercent * 10, borderWidth: heightPercent * 2, borderColor: Color.GRAY300, backgroundColor: Color.GRAY100, width: props.width || 'auto' }}
+      buttonStyle={{
+        borderRadius: widthPercent * 10,
+        borderWidth: heightPercent * 2,
+        borderColor: Color.GRAY300,
+        backgroundColor: Color.GRAY100,
+        width: props.width || 'auto',
+      }}
       data={props.dataList}
       onSelect={(selectedItem, index) => props.onSelect(selectedItem)}
       buttonTextAfterSelection={(selectedItem, index) => selectedItem}
