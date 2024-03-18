@@ -10,6 +10,7 @@ import Search from '../../../assets/icons/search_black.svg';
 import SearchGray from '../../../assets/icons/search_gray.svg';
 
 import { useNavigation } from '@react-navigation/native';
+import React from 'react';
 
 interface HeaderProps {
   type: 'default' | 'leftTitle' | 'search';
@@ -17,7 +18,14 @@ interface HeaderProps {
   firstIcon?: string; // 왼쪽 아이콘 이름
   secondIcon?: string; // 오른쪽 첫번째 아이콘 이름
   thirdIcon?: string; // 오른쪽 두번째 아이콘 이름
+  value?: string;
+  setValue?: React.Dispatch<React.SetStateAction<string>>;
+  onSubmitSearch?: () => void;
+  onPressSearch?: () => void;
+  onPressMore?: () => void;
+  onPressChat?: () => void;
 }
+
 /********* styled component 영역 ************/
 const StyledContainer = styled.View`
   height: ${heightPercent * 63}px;
@@ -58,7 +66,7 @@ const InputContainer = styled.View`
 `;
 
 const StyledInput = styled.TextInput`
-  margin-left: ${widthPercent * 4};
+  margin-left: ${widthPercent * 4}px;
   font-family: 'GmarketSansTTFMedium';
   font-size: ${widthPercent * 12}px;
   width: 100%;
@@ -78,9 +86,9 @@ const Header = (props: HeaderProps) => {
 
   const secondIconSelecor = (iconName: string) => {
     if (iconName === 'search') {
-      return <Search onPress={() => {}} width={widthPercent * 24} height={heightPercent * 24} />;
+      return <Search onPress={props.onPressSearch} width={widthPercent * 24} height={heightPercent * 24} />;
     } else if (iconName === 'more') {
-      return <More onPress={() => {}} width={widthPercent * 24} height={heightPercent * 24} />;
+      return <More onPress={props.onPressMore} width={widthPercent * 24} height={heightPercent * 24} />;
     }
   };
 
@@ -89,11 +97,8 @@ const Header = (props: HeaderProps) => {
   };
 
   const onPressSearch = () => {
-    console.log('검색창으로 이동할거예요');
-  };
-
-  const onSubmitSearch = () => {
-    console.log('입력완료!');
+    console.log('검색창 이동');
+    props.onPressSearch;
   };
 
   return (
@@ -108,7 +113,7 @@ const Header = (props: HeaderProps) => {
           <Back onPress={onPressBack} width={widthPercent * 24} height={heightPercent * 24} />
           <InputContainer>
             <SearchGray width={widthPercent * 20} height={heightPercent * 20} />
-            <StyledInput placeholder='검색어를 입력하세요' onSubmitEditing={onSubmitSearch} returnKeyType='done' />
+            <StyledInput value={props.value} onChangeText={props.setValue} placeholder='검색어를 입력하세요' onSubmitEditing={props.onSubmitSearch} returnKeyType='done' />
           </InputContainer>
         </>
       ) : (
@@ -119,15 +124,7 @@ const Header = (props: HeaderProps) => {
           </TitleContainer>
           <RightIconContainer>
             {props.secondIcon && secondIconSelecor(props.secondIcon)}
-            {props.thirdIcon && (
-              <Message
-                onPress={() => {
-                  console.log('누르면 채팅목록으로');
-                }}
-                width={widthPercent * 24}
-                height={heightPercent * 24}
-              />
-            )}
+            {props.thirdIcon && <Message onPress={props.onPressChat} width={widthPercent * 24} height={heightPercent * 24} />}
           </RightIconContainer>
         </>
       )}
