@@ -1,4 +1,4 @@
-import { Modal, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Modal, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import * as Color from '../../config/color/Color';
 import styled from 'styled-components/native';

@@ -1,4 +1,3 @@
-import { TextInput, View } from 'react-native';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
@@ -11,6 +10,7 @@ import Search from '../../../assets/icons/search_black.svg';
 import SearchGray from '../../../assets/icons/search_gray.svg';
 
 import { useNavigation } from '@react-navigation/native';
+import React from 'react';
 
 interface HeaderProps {
   type: 'default' | 'leftTitle' | 'search';
@@ -18,77 +18,13 @@ interface HeaderProps {
   firstIcon?: string; // 왼쪽 아이콘 이름
   secondIcon?: string; // 오른쪽 첫번째 아이콘 이름
   thirdIcon?: string; // 오른쪽 두번째 아이콘 이름
+  value?: string;
+  setValue?: React.Dispatch<React.SetStateAction<string>>;
+  onSubmitSearch?: () => void;
+  onPressSearch?: () => void;
+  onPressMore?: () => void;
+  onPressChat?: () => void;
 }
-
-const Header = (props: HeaderProps) => {
-  const navigation = useNavigation();
-
-  const firstIconSelector = (iconName: string) => {
-    if (iconName === 'exit') {
-      return <Exit onPress={() => navigation.goBack()} width={widthPercent * 24} height={heightPercent * 24} />;
-    } else if (iconName === 'back') {
-      return <Back onPress={() => navigation.goBack()} width={widthPercent * 24} height={heightPercent * 24} />;
-    }
-  };
-
-  const secondIconSelecor = (iconName: string) => {
-    if (iconName === 'search') {
-      return <Search onPress={() => {}} width={widthPercent * 24} height={heightPercent * 24} />;
-    } else if (iconName === 'more') {
-      return <More onPress={() => {}} width={widthPercent * 24} height={heightPercent * 24} />;
-    }
-  };
-
-  const onPressBack = () => {
-    navigation.goBack();
-  };
-
-  const onPressSearch = () => {
-    console.log('검색창으로 이동할거예요');
-  };
-
-  const onSubmitSearch = () => {
-    console.log('입력완료!');
-  };
-
-  return (
-    <StyledContainer>
-      {props.type === 'leftTitle' ? (
-        <>
-          <Typo.BODY1_B color={Color.GREEN600}>수확행</Typo.BODY1_B>
-          <Search onPress={onPressSearch} width={widthPercent * 24} height={heightPercent * 24} />
-        </>
-      ) : props.type === 'search' ? (
-        <>
-          <Back onPress={onPressBack} width={widthPercent * 24} height={heightPercent * 24} />
-          <InputContainer>
-            <SearchGray width={widthPercent * 20} height={heightPercent * 20} />
-            <StyledInput placeholder='검색어를 입력하세요' onSubmitEditing={onSubmitSearch} returnKeyType='done' />
-          </InputContainer>
-        </>
-      ) : (
-        <>
-          <LeftIconContainer>{props.firstIcon && firstIconSelector(props.firstIcon)}</LeftIconContainer>
-          <TitleContainer>
-            <Typo.BODY2_M>{props.title}</Typo.BODY2_M>
-          </TitleContainer>
-          <RightIconContainer>
-            {props.secondIcon && secondIconSelecor(props.secondIcon)}
-            {props.thirdIcon && (
-              <Message
-                onPress={() => {
-                  console.log('누르면 채팅목록으로');
-                }}
-                width={widthPercent * 24}
-                height={heightPercent * 24}
-              />
-            )}
-          </RightIconContainer>
-        </>
-      )}
-    </StyledContainer>
-  );
-};
 
 /********* styled component 영역 ************/
 const StyledContainer = styled.View`
@@ -130,11 +66,70 @@ const InputContainer = styled.View`
 `;
 
 const StyledInput = styled.TextInput`
-  margin-left: ${widthPercent * 4};
+  margin-left: ${widthPercent * 4}px;
   font-family: 'GmarketSansTTFMedium';
   font-size: ${widthPercent * 12}px;
   width: 100%;
   height: 100%;
 `;
+
+const Header = (props: HeaderProps) => {
+  const navigation = useNavigation();
+
+  const firstIconSelector = (iconName: string) => {
+    if (iconName === 'exit') {
+      return <Exit onPress={() => navigation.goBack()} width={widthPercent * 24} height={heightPercent * 24} />;
+    } else if (iconName === 'back') {
+      return <Back onPress={() => navigation.goBack()} width={widthPercent * 24} height={heightPercent * 24} />;
+    }
+  };
+
+  const secondIconSelecor = (iconName: string) => {
+    if (iconName === 'search') {
+      return <Search onPress={props.onPressSearch} width={widthPercent * 24} height={heightPercent * 24} />;
+    } else if (iconName === 'more') {
+      return <More onPress={props.onPressMore} width={widthPercent * 24} height={heightPercent * 24} />;
+    }
+  };
+
+  const onPressBack = () => {
+    navigation.goBack();
+  };
+
+  const onPressSearch = () => {
+    console.log('검색창 이동');
+    props.onPressSearch;
+  };
+
+  return (
+    <StyledContainer>
+      {props.type === 'leftTitle' ? (
+        <>
+          <Typo.BODY1_B color={Color.GREEN600}>수확행</Typo.BODY1_B>
+          <Search onPress={onPressSearch} width={widthPercent * 24} height={heightPercent * 24} />
+        </>
+      ) : props.type === 'search' ? (
+        <>
+          <Back onPress={onPressBack} width={widthPercent * 24} height={heightPercent * 24} />
+          <InputContainer>
+            <SearchGray width={widthPercent * 20} height={heightPercent * 20} />
+            <StyledInput value={props.value} onChangeText={props.setValue} placeholder='검색어를 입력하세요' onSubmitEditing={props.onSubmitSearch} returnKeyType='done' />
+          </InputContainer>
+        </>
+      ) : (
+        <>
+          <LeftIconContainer>{props.firstIcon && firstIconSelector(props.firstIcon)}</LeftIconContainer>
+          <TitleContainer>
+            <Typo.BODY2_M>{props.title}</Typo.BODY2_M>
+          </TitleContainer>
+          <RightIconContainer>
+            {props.secondIcon && secondIconSelecor(props.secondIcon)}
+            {props.thirdIcon && <Message onPress={props.onPressChat} width={widthPercent * 24} height={heightPercent * 24} />}
+          </RightIconContainer>
+        </>
+      )}
+    </StyledContainer>
+  );
+};
 
 export default Header;

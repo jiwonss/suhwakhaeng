@@ -10,8 +10,8 @@ import shopActive from '../../../assets/icons/shopActive.svg';
 import shopDefault from '../../../assets/icons/shopDefault.svg';
 import profileActive from '../../../assets/icons/profileActive.svg';
 import profileDefault from '../../../assets/icons/profileDefault.svg';
-import { TabBarView, TabNavigatorStyle } from './BottomNavigationStyle'; // 스타일 파일 경로에 맞게 수정
-
+import styled from 'styled-components/native';
+import { heightPercent, widthPercent } from '../../config/dimension/Dimension'; // 스타일 파일 경로에 맞게 수정
 
 // 화면 컴포넌트 타입
 type RootTabParamList = {
@@ -20,6 +20,21 @@ type RootTabParamList = {
   hospital: undefined;
   shop: undefined;
   profile: undefined;
+};
+
+const TabBarView = styled.View`
+  width: ${widthPercent * 24}px;
+  height: ${heightPercent * 24}px;
+`;
+
+const TabNavigatorStyle = {
+  tabBarStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    height: heightPercent * 10,
+    backgroundColor: 'white',
+  },
 };
 
 // 화면 컴포넌트
@@ -71,14 +86,13 @@ const BottomNavigation = () => {
         },
       })}
     >
-      <Tabs.Screen name="home" component={HomeScreen}></Tabs.Screen>
-      <Tabs.Screen name="search" component={DictionaryScreen}></Tabs.Screen>
-      <Tabs.Screen name="hospital" component={CropDiagnosisScreen}></Tabs.Screen>
-      <Tabs.Screen name="shop" component={MarketScreen}></Tabs.Screen>
-      <Tabs.Screen name="profile" component={ProfileScreen}></Tabs.Screen>
+      <Tabs.Screen name='home' component={HomeScreen}></Tabs.Screen>
+      <Tabs.Screen name='search' component={DictionaryScreen}></Tabs.Screen>
+      <Tabs.Screen name='hospital' component={CropDiagnosisScreen}></Tabs.Screen>
+      <Tabs.Screen name='shop' component={MarketScreen}></Tabs.Screen>
+      <Tabs.Screen name='profile' component={ProfileScreen}></Tabs.Screen>
     </Tabs.Navigator>
-  )
-    ;
+  );
 };
 
 export default BottomNavigation;

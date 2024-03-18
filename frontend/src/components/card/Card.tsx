@@ -1,4 +1,3 @@
-import { View } from 'react-native';
 import styled from 'styled-components/native';
 import * as Color from '../../config/color/Color';
 import { widthPercent } from '../../config/dimension/Dimension';

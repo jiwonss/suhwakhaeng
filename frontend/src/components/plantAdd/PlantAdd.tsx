@@ -28,7 +28,7 @@ const Margin14 = styled.View`
 const Margin10 = styled.View`
   margin-right: 14px;
 `;
-export const PlantAdd = (props: PlantAddProps) => {
+export const PlantAdd = () => {
   return (
     <TouchableOpacity>
       <RowView>
