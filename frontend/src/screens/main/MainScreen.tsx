@@ -13,6 +13,7 @@ import { Spacer } from '../../components/basic/Spacer';
 import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
 import { useState } from 'react';
 import BottomNavigation from '../../components/navigation/BottomNavigation';
+// import Post from '../../components/post/Post';
 
 const MainScreen = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -56,6 +57,7 @@ const MainScreen = () => {
         </View>
         <Spacer horizontal={false} space={10} />
         <CustomRadioButton data={Data} />
+        {/*<Post postData={} onPress={} />*/}
       </ScrollView>
       <BottomNavigation />
     </SafeAreaView>

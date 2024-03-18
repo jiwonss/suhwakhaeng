@@ -46,6 +46,7 @@ const ProfileScreen = () => <></>;
 
 const Tabs = createBottomTabNavigator<RootTabParamList>();
 
+// 스타일은 나중에 수정...하자
 const BottomNavigation = () => {
   return (
     <Tabs.Navigator
