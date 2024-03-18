@@ -12,6 +12,7 @@ import Coin3D from '../../../assets/icons/coin3D.svg';
 import { Spacer } from '../../components/basic/Spacer';
 import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
 import { useState } from 'react';
+import BottomNavigation from '../../components/navigation/BottomNavigation';
 
 const MainScreen = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -56,6 +57,7 @@ const MainScreen = () => {
         <Spacer horizontal={false} space={10} />
         <CustomRadioButton data={Data} />
       </ScrollView>
+      <BottomNavigation />
     </SafeAreaView>
   );
 };
