@@ -4,11 +4,13 @@ import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import ImgThumbnail from '../imgThumbnail/ImgThumbnail';
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import Favorite from '../../../assets/icons/favorite.svg';
 import FavoriteBorder from '../../../assets/icons/favorite_border.svg';
+import { BasicTag } from '../classificationTag/ClassificationTag';
+import { getTimeSincePost } from '../../util/BasicUtil';
 
-const StyledView = styled.View`
+const StyledView = styled.TouchableOpacity`
   flex-direction: row;
   border-bottom-width: 1px;
   border-bottom-color: ${Color.GRAY200};
@@ -30,11 +32,13 @@ const StyledBox = styled.View`
 
 interface MarketPostProps {
   imgUrl?: string;
-  classiFication?: string; // 분류에 적용
+  classification?: string; // 분류에 적용
   title: string;
   price: number;
   location?: string;
   likeNumber: number;
+  date: string;
+  onPress: () => void;
 }
 
 const MarketPost = (props: MarketPostProps) => {
@@ -46,14 +50,18 @@ const MarketPost = (props: MarketPostProps) => {
 
   // styledBox 는 나중에 고치기 -> 컴포넌트 만들어지면 추가
   return (
-    <StyledView>
+    <StyledView onPress={props.onPress}>
       <ImgThumbnail url={props.imgUrl} width={80} height={80}></ImgThumbnail>
       <StyledContainer>
-        <StyledBox></StyledBox>
+        <BasicTag>
+          <Typo.Detail1_M color={Color.WHITE}>{props.classification}</Typo.Detail1_M>
+        </BasicTag>
         <Typo.BODY3_M>{props.title}</Typo.BODY3_M>
         <Typo.BODY4_M>{props.price}원</Typo.BODY4_M>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Typo.Detail1_M color={Color.GRAY400}>{props.location}</Typo.Detail1_M>
+          <Typo.Detail1_M color={Color.GRAY400}>
+            {props.location} · {getTimeSincePost(props.date)}
+          </Typo.Detail1_M>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: widthPercent * 5 }}>
             {isFavorite ? (
               <FavoriteBorder width={widthPercent * 12} height={heightPercent * 12} onPress={toggleFavorite} />
