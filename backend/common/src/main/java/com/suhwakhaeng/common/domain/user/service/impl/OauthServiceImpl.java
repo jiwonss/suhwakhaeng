@@ -1,6 +1,9 @@
 package com.suhwakhaeng.common.domain.user.service.impl;
 
 import com.suhwakhaeng.common.domain.user.dto.LoginResponse;
+import com.suhwakhaeng.common.domain.user.dto.Token;
+import com.suhwakhaeng.common.domain.user.dto.UserDetailInfo;
+import com.suhwakhaeng.common.domain.user.dto.UserInfo;
 import com.suhwakhaeng.common.domain.user.entity.User;
 import com.suhwakhaeng.common.domain.user.repository.UserRepository;
 import com.suhwakhaeng.common.domain.user.service.OauthService;
@@ -26,16 +29,10 @@ public class OauthServiceImpl implements OauthService {
     public LoginResponse login(OauthServerType oauthServerType, String token) {
         User oauthUser = oauthMemberClientComposite.fetch(oauthServerType, token);
 
-        // 이메일을 통해 조회
-        // 이미 존재하면 get
-        // 존재하지 않으면 save
-
         User user = userRepository.findByEmail(oauthUser.getEmail())
                 .orElseGet(
                         () -> userRepository.save(oauthUser)
                 );
-
-        log.debug("user id : {}", user.getId());
 
         String accessToken = jwtProvider.issueAccessToken(user.getId(), user.getRole().name());
         String refreshToken = jwtProvider.issueRefreshToken();
@@ -44,16 +41,30 @@ public class OauthServiceImpl implements OauthService {
 
         return LoginResponse.builder()
                 .token(
-                        LoginResponse.Token.builder()
+                        Token.builder()
                                 .accessToken(accessToken)
                                 .refreshToken(refreshToken).
                                 build())
-                .userInfo(LoginResponse.UserInfo.builder()
+                .userDetailInfo(UserDetailInfo.builder()
                         .userId(user.getId())
                         .nickname(user.getNickname())
                         .email(user.getEmail())
                         .profileImage(user.getProfileImage())
                         .build()
                 ).build();
+    }
+
+    @Override
+    public Token reissue(String accessToken, String refreshToken) {
+        UserInfo userInfo = jwtProvider.parseAccessTokenByBase64(accessToken);
+        String newAccessToken = jwtProvider.issueAccessToken(userInfo.userId(), userInfo.role());
+        String newRefreshToken = jwtProvider.issueRefreshToken();
+
+        refreshTokenRepository.save(String.valueOf(userInfo.userId()), newRefreshToken);
+
+        return Token.builder()
+                .accessToken(newAccessToken)
+                .refreshToken(newRefreshToken)
+                .build();
     }
 }
