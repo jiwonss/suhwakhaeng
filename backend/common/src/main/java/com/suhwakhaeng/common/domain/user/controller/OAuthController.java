@@ -1,5 +1,7 @@
 package com.suhwakhaeng.common.domain.user.controller;
 
+import com.suhwakhaeng.common.domain.user.dto.LoginResponse;
+import com.suhwakhaeng.common.domain.user.dto.Token;
 import com.suhwakhaeng.common.domain.user.service.OauthService;
 import com.suhwakhaeng.common.global.common.dto.Message;
 import com.suhwakhaeng.common.global.component.oauth.vendor.enums.OauthServerType;
@@ -17,11 +19,14 @@ public class OAuthController {
 
     @PostMapping("/{oauthServerType}/login")
     public ResponseEntity login(@PathVariable OauthServerType oauthServerType, @RequestParam("token") String token) {
+        LoginResponse loginResponse = oauthService.login(oauthServerType, token);
+        return ResponseEntity.ok().body(Message.success(loginResponse));
+    }
 
-        log.debug("OauthServerType : {}", oauthServerType);
-        log.debug("token : {}", token);
-
-        return ResponseEntity.ok().body(Message.success(oauthService.login(oauthServerType, token)));
+    @PostMapping("/reissue")
+    public ResponseEntity reissue(@RequestBody Token token) {
+        Token reissuedToken = oauthService.reissue(token.accessToken(), token.refreshToken());
+        return ResponseEntity.ok().body(Message.success(reissuedToken));
     }
 
     /**
@@ -31,6 +36,7 @@ public class OAuthController {
      */
     @GetMapping
     public ResponseEntity getCode(@RequestParam String code) {
+
         log.debug("code : {}", code);
         return ResponseEntity.ok().build();
     }
