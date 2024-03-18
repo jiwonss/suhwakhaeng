@@ -14,11 +14,11 @@ import static jakarta.persistence.EnumType.STRING;
 @AllArgsConstructor
 public class OauthId {
 
-    @Column(nullable = false, name = "provider_id")
+    @Column(name = "provider_id", nullable = false)
     private String oauthServerId;
 
     @Enumerated(STRING)
-    @Column(nullable = false, name = "provider")
+    @Column(name = "provider", nullable = false)
     private OauthServerType oauthServerType;
 
 }
