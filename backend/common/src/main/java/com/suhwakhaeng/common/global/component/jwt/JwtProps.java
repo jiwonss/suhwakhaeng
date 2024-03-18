@@ -1,4 +1,4 @@
-package com.suhwakhaeng.common.global.component.jwt.repository;
+package com.suhwakhaeng.common.global.component.jwt;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

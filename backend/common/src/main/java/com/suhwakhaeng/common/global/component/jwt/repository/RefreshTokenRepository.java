@@ -1,12 +1,11 @@
 package com.suhwakhaeng.common.global.component.jwt.repository;
 
+import com.suhwakhaeng.common.global.component.jwt.JwtProps;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.time.Duration;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 @Repository
 @RequiredArgsConstructor
