@@ -1,6 +1,6 @@
-package com.suhwakhaeng.common.global.component.jwt.repository;
+package com.suhwakhaeng.common.global.component.jwt;
 
-import com.suhwakhaeng.common.domain.user.dto.UserInfo;
+import com.suhwakhaeng.common.global.common.dto.UserInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

@@ -7,9 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class UserDetailInfo {
-    private Long userId;
-    private String nickname;
-    private String email;
-    private String profileImage;
+public class TokenInfo {
+    private String accessToken;
+    private String refreshToken;
 }

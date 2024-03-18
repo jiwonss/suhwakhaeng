@@ -1,11 +1,14 @@
 package com.suhwakhaeng.common.domain.user.dto;
 
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
 @Builder
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public record LoginResponse(Token token, UserDetailInfo userDetailInfo) {
-
+@AllArgsConstructor
+public class LoginResponse {
+    private TokenInfo tokenInfo;
+    private UserDetailInfo userDetailInfo;
 }

@@ -14,10 +14,13 @@ import lombok.*;
 public class User {
     @Id
     @GeneratedValue
+    @Column(name = "user_id")
     private Long id;
+
     private String nickname;
     private String profileImage;
     private String email;
+    private String profileContent;
 
     @Embedded
     private OauthId oauthId;
