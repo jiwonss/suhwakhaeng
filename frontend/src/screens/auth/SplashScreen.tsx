@@ -1,31 +1,30 @@
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
-import Header from '../../components/header/Header';
+import styled from 'styled-components/native';
 
-type RootStackParamList = {
-  OauthScreen: undefined;
-  SplashScreen: undefined;
-};
+const Container = styled.View`
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: ${Color.GREEN50};
+  position: 'relative';
+`;
 
-type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
+const LogoContainer = styled.View`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 const SplashScreen = () => {
-  const navigation = useNavigation<RootStackNavigationProp>();
-  const [searchValue, setSearchValue] = useState<string>('');
-
-  const onSubmit = () => {
-    console.log('제출완료');
-  };
-
   return (
-    <View style={{ flex: 1 }}>
-      <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
-        <Header value={searchValue} setValue={setSearchValue} onSubmitSearch={onSubmit} type={'search'} />
-      </ScrollView>
-    </View>
+    <Container>
+      <LogoContainer>
+        <Typo.H1 color={Color.GREEN600}>수확행</Typo.H1>
+      </LogoContainer>
+    </Container>
   );
 };
 
