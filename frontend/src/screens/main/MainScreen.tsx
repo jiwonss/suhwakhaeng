@@ -10,8 +10,19 @@ import Search3D from '../../../assets/icons/search3D.svg';
 import Bag3D from '../../../assets/icons/bag3D.svg';
 import Coin3D from '../../../assets/icons/coin3D.svg';
 import { Spacer } from '../../components/basic/Spacer';
+import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
+import { useState } from 'react';
 
 const MainScreen = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const Data = [
+    { content: '전체', event: () => setActiveIndex(0), active: activeIndex === 0 },
+    { content: '자유', event: () => setActiveIndex(1), active: activeIndex === 1 },
+    { content: '꿀팁', event: () => setActiveIndex(3), active: activeIndex === 3 },
+    { content: '나눔', event: () => setActiveIndex(4), active: activeIndex === 4 },
+    { content: '질문', event: () => setActiveIndex(5), active: activeIndex === 5 },
+  ];
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
@@ -42,6 +53,8 @@ const MainScreen = () => {
             <Coin3D width={widthPercent * 36} height={heightPercent * 36} />
           </MenuButton>
         </View>
+        <Spacer horizontal={false} space={10} />
+        <CustomRadioButton data={Data} />
       </ScrollView>
     </SafeAreaView>
   );
