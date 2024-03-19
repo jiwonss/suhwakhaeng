@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.suhwakhaeng.common.domain.user.entity.OauthId;
 import com.suhwakhaeng.common.domain.user.entity.User;
 import com.suhwakhaeng.common.domain.user.enums.Role;
+import com.suhwakhaeng.common.domain.user.enums.Status;
 
 import java.time.LocalDateTime;
 
@@ -25,6 +26,7 @@ public record KakaoMemberResponse(
                 .profileImage(kakaoAccount.profile.profileImageUrl())
                 .role(Role.USER)
                 .oauthId(new OauthId(String.valueOf(id), KAKAO))
+                .status(Status.RUN)
                 .build();
     }
 
