@@ -1,6 +1,7 @@
 package com.suhwakhaeng.common.domain.user.controller;
 
 import com.suhwakhaeng.common.domain.user.dto.BusinessRequest;
+import com.suhwakhaeng.common.domain.user.dto.ProfileRequest;
 import com.suhwakhaeng.common.domain.user.dto.ProfileResponse;
 import com.suhwakhaeng.common.domain.user.dto.UserInfoResponse;
 import com.suhwakhaeng.common.domain.user.service.BusinessService;
@@ -32,6 +33,13 @@ public class UserController {
     @PostMapping("/business")
     public ResponseEntity createBusiness(@RequestHeader("X-Authorization-Id") Long userId, @RequestBody BusinessRequest businessRequest) {
         businessService.createBusiness(userId, businessRequest.businessImage());
+        return ResponseEntity.ok().body(Message.success());
+    }
+
+    @PatchMapping("/my-profile")
+    public ResponseEntity updateUser(@RequestHeader("X-Authorization-Id") Long userId, @RequestBody ProfileRequest profileRequest) {
+
+        userService.updateUser(userId, profileRequest.toEntity());
         return ResponseEntity.ok().body(Message.success());
     }
 }
