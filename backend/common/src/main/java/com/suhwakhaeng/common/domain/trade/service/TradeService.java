@@ -1,11 +1,13 @@
 package com.suhwakhaeng.common.domain.trade.service;
 
-import com.suhwakhaeng.common.domain.trade.dto.TradeCreateRequest;
-import com.suhwakhaeng.common.domain.trade.dto.TradeDetailResponse;
-import com.suhwakhaeng.common.domain.trade.repository.TradeRepository;
+import com.suhwakhaeng.common.domain.trade.dto.*;
+
+import java.util.List;
 
 public interface TradeService {
-    TradeDetailResponse createTrade(Long userId, TradeCreateRequest request);
-    TradeDetailResponse selectDetailTrade(Long userId, Long tradeId);
+    TradeCreateResponse createTrade(Long userId, TradeCreateRequest request);
+    TradeDetailResponse selectDetailTrade(Long tradeId);
+
+    List<TradeListResponse> selectListTrade(Long userId, TradeSearchRequest tradeSearchRequest);
     Boolean selectIsLiked(Long userId, Long tradeId);
 }
