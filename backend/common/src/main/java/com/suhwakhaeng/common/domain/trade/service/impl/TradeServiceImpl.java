@@ -36,6 +36,9 @@ public class TradeServiceImpl implements TradeService {
     public TradeDetailResponse selectDetailTrade(Long tradeId) {
         TradeBoard tradeBoard = tradeRepository.findTradeBoardById(tradeId).orElseThrow(() -> new TradeException(TradeErrorCode.NO_EXIST_TRADE));
         TradeDetailInfo tradeDetailInfo = TradeDetailInfo.fromTradeTable(tradeBoard);
+
+        System.out.println(tradeBoard.getUser().getId());
+
         UserInfoResponse userInfo = userService.selectDetailUserInfo(tradeBoard.getUser().getId());
         return TradeDetailResponse.fromInfo(tradeDetailInfo, userInfo);
     }
@@ -44,6 +47,21 @@ public class TradeServiceImpl implements TradeService {
     @Override
     public List<TradeListResponse> selectListTrade(Long userId, TradeSearchRequest tradeSelectRequest) {
         return tradeSearchRepository.searchTrade(userId, tradeSelectRequest);
+    }
+
+    @Transactional
+    @Override
+    public void updateTrade(Long userId, Long tradeId, TradeUpdateRequest tradeUpdateRequest) {
+        TradeBoard tradeBoard = tradeRepository.findTradeBoardById(tradeId).orElseThrow(() -> new TradeException(TradeErrorCode.NO_EXIST_TRADE));
+        if(!userId.equals(tradeBoard.getUser().getId())) throw new TradeException(TradeErrorCode.NOT_MATCH_USER);
+        tradeBoard.updateTrade(tradeUpdateRequest);
+    }
+
+    @Override
+    public void deleteTrade(Long userId, Long tradeId) {
+        TradeBoard tradeBoard = tradeRepository.findTradeBoardById(tradeId).orElseThrow(() -> new TradeException(TradeErrorCode.NO_EXIST_TRADE));
+        if(!userId.equals(tradeBoard.getUser().getId())) throw new TradeException(TradeErrorCode.NOT_MATCH_USER);
+        tradeRepository.deleteById(tradeId);
     }
 
     @Override
