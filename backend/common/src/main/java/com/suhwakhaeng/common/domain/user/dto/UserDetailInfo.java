@@ -1,7 +1,15 @@
 package com.suhwakhaeng.common.domain.user.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 @Builder
-public record UserDetailInfo(Long userId, String nickname, String email, String profileImage) {
+@AllArgsConstructor
+public class UserDetailInfo {
+    private Long userId;
+    private String nickname;
+    private String email;
+    private String profileImage;
 }

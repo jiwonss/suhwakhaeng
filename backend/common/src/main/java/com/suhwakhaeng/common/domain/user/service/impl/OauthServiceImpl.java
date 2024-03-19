@@ -1,24 +1,22 @@
 package com.suhwakhaeng.common.domain.user.service.impl;
 
-import com.suhwakhaeng.common.domain.user.dto.LoginResponse;
-import com.suhwakhaeng.common.domain.user.dto.Token;
-import com.suhwakhaeng.common.domain.user.dto.UserDetailInfo;
-import com.suhwakhaeng.common.domain.user.dto.UserInfo;
+import com.suhwakhaeng.common.domain.user.dto.*;
 import com.suhwakhaeng.common.domain.user.entity.User;
 import com.suhwakhaeng.common.domain.user.repository.UserRepository;
 import com.suhwakhaeng.common.domain.user.service.OauthService;
-import com.suhwakhaeng.common.global.component.jwt.repository.JwtProvider;
+import com.suhwakhaeng.common.global.common.dto.UserInfo;
+import com.suhwakhaeng.common.global.component.jwt.JwtProvider;
 import com.suhwakhaeng.common.global.component.jwt.repository.RefreshTokenRepository;
 import com.suhwakhaeng.common.global.component.oauth.OauthMemberClientComposite;
 import com.suhwakhaeng.common.global.component.oauth.vendor.enums.OauthServerType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class OauthServiceImpl implements OauthService {
     private final OauthMemberClientComposite oauthMemberClientComposite;
@@ -40,8 +38,8 @@ public class OauthServiceImpl implements OauthService {
         refreshTokenRepository.save(String.valueOf(user.getId()), refreshToken);
 
         return LoginResponse.builder()
-                .token(
-                        Token.builder()
+                .tokenInfo(
+                        TokenInfo.builder()
                                 .accessToken(accessToken)
                                 .refreshToken(refreshToken).
                                 build())
@@ -55,14 +53,14 @@ public class OauthServiceImpl implements OauthService {
     }
 
     @Override
-    public Token reissue(String accessToken, String refreshToken) {
+    public TokenInfo reissue(String accessToken, String refreshToken) {
         UserInfo userInfo = jwtProvider.parseAccessTokenByBase64(accessToken);
-        String newAccessToken = jwtProvider.issueAccessToken(userInfo.userId(), userInfo.role());
+        String newAccessToken = jwtProvider.issueAccessToken(userInfo.getUserId(), userInfo.getRole());
         String newRefreshToken = jwtProvider.issueRefreshToken();
 
-        refreshTokenRepository.save(String.valueOf(userInfo.userId()), newRefreshToken);
+        refreshTokenRepository.save(String.valueOf(userInfo.getUserId()), newRefreshToken);
 
-        return Token.builder()
+        return TokenInfo.builder()
                 .accessToken(newAccessToken)
                 .refreshToken(newRefreshToken)
                 .build();

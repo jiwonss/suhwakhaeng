@@ -15,7 +15,7 @@ export const RootApp = () => {
   });
 
   if (token === '') {
-    return <AuthStack />;
+    return <MainStack />;
   } else {
     return <MainStack />;
   }

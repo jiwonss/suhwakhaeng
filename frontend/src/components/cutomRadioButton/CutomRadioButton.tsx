@@ -22,15 +22,16 @@ type DataItem = {
 
 interface CustomRadioButtonProps {
   data: DataItem[];
+  width?: number;
 }
 
 interface StyledButtonProps {
   active: boolean;
 }
 
-const StyledView = styled.View`
+const StyledView = styled.View<CustomRadioButtonProps>`
   flex-direction: row;
-  width: 100%;
+  width: ${(props) => (props.width ? props.width * heightPercent : 100)}%;
   height: ${heightPercent * 30}px;
   justify-content: space-around;
   align-items: center;
@@ -56,7 +57,7 @@ const StyledButton = styled.TouchableOpacity<StyledButtonProps>`
 
 const CustomRadioButton = (props: CustomRadioButtonProps) => {
   return (
-    <StyledView>
+    <StyledView data={props.data} width={props.width}>
       {props.data.map(({ content, event, active }, index) => (
         <StyledButton key={index} active={active} onPress={event}>
           <Typo.BODY4_M color={active ? Color.WHITE : Color.BLACK}>{content}</Typo.BODY4_M>

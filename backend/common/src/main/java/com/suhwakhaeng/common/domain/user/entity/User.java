@@ -14,10 +14,13 @@ import lombok.*;
 public class User {
     @Id
     @GeneratedValue
+    @Column(name = "user_id")
     private Long id;
+
     private String nickname;
     private String profileImage;
     private String email;
+    private String profileContent;
 
     @Embedded
     private OauthId oauthId;
@@ -30,5 +33,13 @@ public class User {
 
     @Embedded
     private Location location;
+
+    public void updateProfile(User user) {
+        this.nickname = user.getNickname();
+        this.profileImage = user.getProfileImage();
+        this.profileContent = user.getProfileContent();
+        this.role = user.getRole();
+        this.location = user.getLocation();
+    }
 
 }
