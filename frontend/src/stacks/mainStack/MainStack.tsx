@@ -6,6 +6,7 @@ import FarmLedgerAddScreen from '../../screens/farmDairy/FarmLedgerAddScreen';
 import CreatePostScreen from '../../screens/post/CreatePostScreen';
 import DetailPostScreen from '../../screens/post/DetailPostScreen';
 import UpdatePostScreen from '../../screens/post/UpdatePostScreen';
+import SearchPostScreen from '../../screens/post/SearchPostScreen';
 import MyPostScreen from '../../screens/myPost/MyPostScreen';
 
 const Stack = createNativeStackNavigator();
@@ -22,9 +23,10 @@ const MainStack = () => {
       <Stack.Screen name='CreatePostScreen' component={CreatePostScreen} options={{ headerShown: false }} />
       <Stack.Screen name='DetailPostScreen' component={DetailPostScreen} options={{ headerShown: false }} />
       <Stack.Screen name='UpdatePostScreen' component={UpdatePostScreen} options={{ headerShown: false }} />
+      {/*게시글 검색 페이지*/}
+      <Stack.Screen name='SearchPostScreen' component={SearchPostScreen} options={{ headerShown: false }} />
       {/*내 게시글 조회 페이지*/}
       <Stack.Screen name='MyPostScreen' component={MyPostScreen} options={{ headerShown: false }} />
-
     </Stack.Navigator>
   );
 };
