@@ -34,8 +34,8 @@ const StyledMultiContainer = styled.TextInput.attrs({
   border-radius: 10px;
   border-width: 0.8px;
   border-color: ${Color.GRAY300};
-  padding: widthPercent * 10;
-  margin: ${heightPercent * 10} ${widthPercent * 5};
+  padding: ${widthPercent * 10}px;
+  margin: ${heightPercent * 10}px ${widthPercent * 5}px;
   font-family: 'GmarketSansTTFMedium';
   font-size: ${widthPercent * 12}px;
 `;
