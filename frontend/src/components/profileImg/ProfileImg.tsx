@@ -1,7 +1,6 @@
 import styled from 'styled-components/native';
 import React from 'react';
 
-
 // 타입 정의
 interface ContainerProps {
   width: number;
@@ -34,7 +33,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ url, width, height }) => {
 
   return (
     <StyledView width={width} height={height}>
-      <StyledImage source={url ? { url } : defaultImage} resizeMode="cover" />
+      <StyledImage source={url ? { url } : defaultImage} resizeMode='cover' />
     </StyledView>
   );
 };

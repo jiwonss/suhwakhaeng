@@ -10,6 +10,32 @@ interface InputBoxProps {
   height?: number;
 }
 
+const StyledSingleContainer = styled.TextInput<{
+  height?: number;
+  width?: number;
+}>`
+  height: ${(props) => props.height || heightPercent * 36}px;
+  width: ${(props) => props.width || widthPercent * 300}px;
+  border-radius: 10px;
+  border-width: 0.8px;
+  border-color: ${Color.GRAY300};
+  padding-left: 10px;
+  margin: 10px 5px 10px 5px;
+`;
+
+const StyledMultiContainer = styled.TextInput<{
+  height?: number;
+  width?: number;
+}>`
+  height: ${(props) => props.height || heightPercent * 136}px;
+  width: ${(props) => props.width || widthPercent * 300}px;
+  border-radius: 10px;
+  border-width: 0.8px;
+  border-color: ${Color.GRAY300};
+  padding: 10px;
+  margin: 10px 5px 10px 5px;
+`;
+
 // single line InputBox
 /**
  * 단일 줄 텍스트 입력을 위한 컴포넌트입니다.
@@ -35,18 +61,6 @@ interface InputBoxProps {
 export const SingleLineInputBox = (props: InputBoxProps) => {
   return <StyledSingleContainer {...props} multiline={false} />;
 };
-const StyledSingleContainer = styled.TextInput<{
-  height?: number;
-  width?: number;
-}>`
-  height: ${(props) => props.height || heightPercent * 36}px;
-  width: ${(props) => props.width || widthPercent * 300}px;
-  border-radius: 10px;
-  border-width: 0.8px;
-  border-color: ${Color.GRAY300};
-  padding-left: 10px;
-  margin: 10px 5px 10px 5px;
-`;
 
 // Multi line InputBox
 /**
@@ -73,15 +87,3 @@ const StyledSingleContainer = styled.TextInput<{
 export const MultiLineInputBox = (props: InputBoxProps) => {
   return <StyledMultiContainer {...props} multiline={true} textAlignVertical='top' />;
 };
-const StyledMultiContainer = styled.TextInput<{
-  height?: number;
-  width?: number;
-}>`
-  height: ${(props) => props.height || heightPercent * 136}px;
-  width: ${(props) => props.width || widthPercent * 300}px;
-  border-radius: 10px;
-  border-width: 0.8px;
-  border-color: ${Color.GRAY300};
-  padding: 10px;
-  margin: 10px 5px 10px 5px;
-`;

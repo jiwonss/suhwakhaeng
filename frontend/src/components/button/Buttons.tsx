@@ -18,6 +18,32 @@ type BasicButtonProps = {
   children: React.ReactNode;
 };
 
+const StyledView = styled.View<{
+  backgroundColor: string;
+  borderColor: string;
+  borderRadius: number;
+  height: number;
+  width: number;
+}>`
+  background-color: ${(props) => props.backgroundColor};
+  border-radius: ${(props) => props.borderRadius * widthPercent}px;
+  border-width: ${widthPercent * 0.5}px;
+  border-color: ${(props) => props.borderColor};
+  padding-top: ${heightPercent * 2}px;
+  padding-bottom: ${heightPercent * 2}px;
+  height: ${(props) => props.height * heightPercent || 45}px;
+  width: ${(props) => props.width * heightPercent || 45}px;
+  align-items: center;
+  justify-content: center;
+`;
+
+const StyledContainer = styled.View<{ width: DimensionValue; height: DimensionValue }>`
+  width: ${(props) => (typeof props.width === 'number' ? props.width * widthPercent : 50 * widthPercent)}px;
+  height: ${(props) => (typeof props.height === 'number' ? props.height * widthPercent : 50 * widthPercent)}px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+`;
 // 기본 버튼 컴포넌트
 /**
  * 사용자 정의 스타일과 동작을 적용할 수 있는 기본 버튼 컴포넌트입니다.
@@ -69,24 +95,6 @@ export const BasicButton = (props: BasicButtonProps) => {
     </View>
   );
 };
-const StyledView = styled.View<{
-  backgroundColor: string;
-  borderColor: string;
-  borderRadius: number;
-  height: number;
-  width: number;
-}>`
-  background-color: ${(props) => props.backgroundColor};
-  border-radius: ${(props) => props.borderRadius * widthPercent}px;
-  border-width: ${widthPercent * 0.5};
-  border-color: ${(props) => props.borderColor};
-  padding-top: ${heightPercent * 2};
-  padding-bottom: ${heightPercent * 2};
-  height: ${(props) => props.height * heightPercent || 45}px;
-  width: ${(props) => props.width * heightPercent || 45}px;
-  align-items: center;
-  justify-content: center;
-`;
 
 type LikeButtonProps = {
   onPress: () => void;
@@ -161,10 +169,3 @@ export const SendButton = (props: LikeButtonProps) => {
     </StyledContainer>
   );
 };
-const StyledContainer = styled.View<{ width: DimensionValue; height: DimensionValue }>`
-  width: ${(props) => (typeof props.width === 'number' ? props.width * widthPercent : 50 * widthPercent)}px;
-  height: ${(props) => (typeof props.height === 'number' ? props.height * widthPercent : 50 * widthPercent)}px;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-`;

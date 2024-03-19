@@ -18,9 +18,17 @@ interface NewsItemProps {
 export const NewsItemCard = (props: NewsItemProps) => {
   return (
     <Hyperlink>
-      <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'space-between', padding: widthPercent * 8, alignItems: 'center' }} onPress={() => openURL(props.href)}>
+      <TouchableOpacity
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          padding: widthPercent * 8,
+          alignItems: 'center',
+        }}
+        onPress={() => openURL(props.href)}
+      >
         <View style={{ height: 'auto', flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
-          <BODY4_M children={props.title} />
+          <BODY4_M>{props.title}</BODY4_M>
           <Spacer space={heightPercent * 4} />
           <Detail1_M children={props.content} numberOfLines={3} />
           <Spacer space={heightPercent * 4} />

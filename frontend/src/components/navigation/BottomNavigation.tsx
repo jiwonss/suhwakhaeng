@@ -10,8 +10,8 @@ import shopActive from '../../../assets/icons/shopActive.svg';
 import shopDefault from '../../../assets/icons/shopDefault.svg';
 import profileActive from '../../../assets/icons/profileActive.svg';
 import profileDefault from '../../../assets/icons/profileDefault.svg';
-import { TabBarView, TabNavigatorStyle } from './BottomNavigationStyle'; // 스타일 파일 경로에 맞게 수정
-
+import styled from 'styled-components/native';
+import { heightPercent, widthPercent } from '../../config/dimension/Dimension'; // 스타일 파일 경로에 맞게 수정
 
 // 화면 컴포넌트 타입
 type RootTabParamList = {
@@ -20,6 +20,21 @@ type RootTabParamList = {
   hospital: undefined;
   shop: undefined;
   profile: undefined;
+};
+
+const TabBarView = styled.View`
+  width: ${widthPercent * 24}px;
+  height: ${heightPercent * 24}px;
+`;
+
+const TabNavigatorStyle = {
+  tabBarStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    height: heightPercent * 10,
+    backgroundColor: 'white',
+  },
 };
 
 // 화면 컴포넌트
@@ -31,11 +46,11 @@ const ProfileScreen = () => <></>;
 
 const Tabs = createBottomTabNavigator<RootTabParamList>();
 
+// 스타일은 나중에 수정...하자
 const BottomNavigation = () => {
   return (
     <Tabs.Navigator
       screenOptions={({ route }) => ({
-        tabBarShowLabel: false, // 레이블 표시 x
         headerShown: false, // 헤더 숨김
         tabBarHideOnKeyboard: true, // 키보드 활성 시 탭 숨김
         unmountOnBlur: true, // 다른 탭으로 이동 시 현재 탭 언마운트
@@ -71,14 +86,13 @@ const BottomNavigation = () => {
         },
       })}
     >
-      <Tabs.Screen name="home" component={HomeScreen}></Tabs.Screen>
-      <Tabs.Screen name="search" component={DictionaryScreen}></Tabs.Screen>
-      <Tabs.Screen name="hospital" component={CropDiagnosisScreen}></Tabs.Screen>
-      <Tabs.Screen name="shop" component={MarketScreen}></Tabs.Screen>
-      <Tabs.Screen name="profile" component={ProfileScreen}></Tabs.Screen>
+      <Tabs.Screen name='home' component={HomeScreen} options={{ title: '홈' }}></Tabs.Screen>
+      <Tabs.Screen name='search' component={DictionaryScreen} options={{ title: '작물검색' }}></Tabs.Screen>
+      <Tabs.Screen name='hospital' component={CropDiagnosisScreen} options={{ title: '작물진단' }}></Tabs.Screen>
+      <Tabs.Screen name='shop' component={MarketScreen} options={{ title: '장터' }}></Tabs.Screen>
+      <Tabs.Screen name='profile' component={ProfileScreen} options={{ title: '프로필' }}></Tabs.Screen>
     </Tabs.Navigator>
-  )
-    ;
+  );
 };
 
 export default BottomNavigation;

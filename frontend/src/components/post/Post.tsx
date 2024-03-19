@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import styled from 'styled-components/native';
-import { getTimeSincePost } from '../../util/BasicUtil';
 import { ProfileCard } from '../profileCard/ProfileCard';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
-import { LocalImageLoader, UriImageLoader } from '../image/ImageLoader';
 import Favorite from '../../../assets/icons/favorite.svg';
 import FavoriteBorder from '../../../assets/icons/favorite_border.svg';
 import Comment from '../../../assets/icons/comment.svg';
@@ -27,6 +25,47 @@ interface PostProps {
   isPreview?: boolean;
   onPress: () => void;
 }
+
+/// ************ styled component 영역 ************
+const PostContainer = styled.View`
+  padding: 0px ${widthPercent * 15}px;
+  border-bottom-width: 1px;
+  border-bottom-color: ${Color.GRAY200};
+`;
+
+const ProfileContainer = styled.View`
+  padding: ${widthPercent * 12}px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const ContentContainer = styled.View`
+  margin: 10px 20px;
+`;
+
+const TextContainer = styled.View`
+  width: ${widthPercent * 220}px;
+`;
+
+const ImgeContainer = styled.View`
+  margin-top: ${heightPercent * 20}px;
+`;
+const ReactionContainer = styled.View`
+  margin-top: ${heightPercent * 10}px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: ${widthPercent * 10}px;
+`;
+
+const ReactionElemContainer = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: ${widthPercent * 4}px;
+`;
 
 // 이미지 부분 추후 수정
 // 게시글 분류 태그 추후 수정
@@ -103,46 +142,5 @@ const Post = (props: PostProps) => {
     </PostContainer>
   );
 };
-
-/// ************ styled component 영역 ************
-const PostContainer = styled.View`
-  padding: 0px ${widthPercent * 15}px;
-  border-bottom-width: 1px;
-  border-bottom-color: ${Color.GRAY200};
-`;
-
-const ProfileContainer = styled.View`
-  padding: ${widthPercent * 12}px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const ContentContainer = styled.View`
-  margin: 10px 20px;
-`;
-
-const TextContainer = styled.View`
-  width: ${widthPercent * 220}px;
-`;
-
-const ImgeContainer = styled.View`
-  margin-top: ${heightPercent * 20}px;
-`;
-const ReactionContainer = styled.View`
-  margin-top: ${heightPercent * 10}px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  column-gap: ${widthPercent * 10}px;
-`;
-
-const ReactionElemContainer = styled.View`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  column-gap: ${widthPercent * 4}px;
-`;
 
 export default Post;

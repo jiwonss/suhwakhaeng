@@ -1,12 +1,12 @@
 import styled from 'styled-components/native';
-import React, { useState } from 'react';
+import React from 'react';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import ImgThumbnail from '../imgThumbnail/ImgThumbnail';
 import { Spacer } from '../basic/Spacer';
 import * as ImagePicker from 'expo-image-picker';
-import { Image, ScrollView, TouchableOpacity, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import Xbutton from '../../../assets/icons/xButton.svg';
 
 const Container = styled.View`
@@ -37,9 +37,8 @@ const RemoveButton = styled.TouchableOpacity`
 
 interface ImgUploaderProps {
   data: string[];
-  setData: any
+  setData: any;
 }
-
 
 const ImgUploader = ({ data, setData }: ImgUploaderProps) => {
   const handleAddPress = async () => {
@@ -66,7 +65,7 @@ const ImgUploader = ({ data, setData }: ImgUploaderProps) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={{height: heightPercent * 80, alignItems:'center', paddingRight: widthPercent*10}} horizontal showsHorizontalScrollIndicator={false}>
+    <ScrollView contentContainerStyle={{ height: heightPercent * 80, alignItems: 'center', paddingRight: widthPercent * 10 }} horizontal showsHorizontalScrollIndicator={false}>
       <StyledView onPress={handleAddPress}>
         <Typo.BODY0_M color={Color.BLACK}>+</Typo.BODY0_M>
       </StyledView>

@@ -6,7 +6,7 @@ const Stack = createNativeStackNavigator();
 
 const AuthStack = () => {
   return (
-    <Stack.Navigator initialRouteName='SplashScreen'>
+    <Stack.Navigator initialRouteName='OauthScreen'>
       <Stack.Screen name='SplashScreen' component={SplashScreen} options={{ headerShown: false }} />
       <Stack.Screen name='OauthScreen' component={OauthScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
