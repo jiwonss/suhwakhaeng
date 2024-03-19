@@ -20,9 +20,9 @@ const MainScreen = () => {
   const Data = [
     { content: '전체', event: () => setActiveIndex(0), active: activeIndex === 0 },
     { content: '자유', event: () => setActiveIndex(1), active: activeIndex === 1 },
-    { content: '꿀팁', event: () => setActiveIndex(3), active: activeIndex === 3 },
-    { content: '나눔', event: () => setActiveIndex(4), active: activeIndex === 4 },
-    { content: '질문', event: () => setActiveIndex(5), active: activeIndex === 5 },
+    { content: '꿀팁', event: () => setActiveIndex(2), active: activeIndex === 2 },
+    { content: '나눔', event: () => setActiveIndex(3), active: activeIndex === 3 },
+    { content: '질문', event: () => setActiveIndex(4), active: activeIndex === 4 },
   ];
 
   return (
