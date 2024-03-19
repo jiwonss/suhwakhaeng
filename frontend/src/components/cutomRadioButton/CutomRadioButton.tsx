@@ -32,7 +32,7 @@ interface StyledButtonProps {
 const StyledView = styled.View<CustomRadioButtonProps>`
   flex-direction: row;
   width: ${(props) => (props.width ? props.width * heightPercent : 100)}%;
-  height: ${heightPercent * 30};
+  height: ${heightPercent * 30}px;
   justify-content: space-around;
   align-items: center;
   column-gap: ${widthPercent * 7}px;
