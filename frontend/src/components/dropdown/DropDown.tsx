@@ -13,11 +13,20 @@ export const DropDown = (props: DropDownProps) => {
   return (
     <SelectDropdown
       buttonStyle={{
-        borderRadius: widthPercent * 10,
-        borderWidth: heightPercent * 2,
+        borderRadius: 10,
+        borderWidth: 0.8,
         borderColor: Color.GRAY300,
-        backgroundColor: Color.GRAY100,
-        width: props.width || 'auto',
+        backgroundColor: Color.WHITE,
+        width: props.width ? props.width * widthPercent : '100%',
+        height: heightPercent * 36,
+        padding: widthPercent * 10,
+        marginVertical: heightPercent * 10, 
+      }}
+      buttonTextStyle={{ 
+        textAlign: 'left', // 텍스트를 왼쪽 정렬
+        fontSize: widthPercent * 12, // 텍스트 크기 설정
+        fontFamily: 'GmarketSansTTFMedium',
+        color: Color.GRAY400, // 텍스트 색상 설정
       }}
       data={props.dataList}
       onSelect={(selectedItem, index) => props.onSelect(selectedItem)}
@@ -25,7 +34,7 @@ export const DropDown = (props: DropDownProps) => {
       rowTextForSelection={(item, index) => item}
       defaultButtonText={props.defaultText}
       dropdownOverlayColor='none'
-      dropdownStyle={{ borderRadius: widthPercent * 10, borderColor: Color.GRAY300, backgroundColor: Color.GRAY100 }}
+      dropdownStyle={{ borderRadius: widthPercent * 5, borderColor: Color.GRAY300, backgroundColor: Color.WHITE }}
     />
   );
 };
