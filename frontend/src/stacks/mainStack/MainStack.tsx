@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator();
 
 const MainStack = () => {
   return (
-    <Stack.Navigator initialRouteName='UpdatePostScreen'>
+    <Stack.Navigator initialRouteName='FarmDairyAddScreen'>
       <Stack.Screen name='MainScreen' component={MainScreen} options={{ headerShown: false }} />
       {/* 영농일지,장부 페이지 */}
       <Stack.Screen name='FarmDairyScreen' component={FarmDairyScreen} options={{ headerShown: false }} />
