@@ -14,6 +14,7 @@ import { Spacer } from '../../components/basic/Spacer';
 const StyledContainer = styled.View`
   margin: 0 ${widthPercent * 30}px;
 `;
+
 const FarmDairyAddScreen = () => {
   const [ urls, setUrls ] = useState<string[]>([]);
   return (

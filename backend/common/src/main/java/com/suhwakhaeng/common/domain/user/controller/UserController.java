@@ -1,11 +1,15 @@
 package com.suhwakhaeng.common.domain.user.controller;
 
+import com.suhwakhaeng.common.domain.user.dto.BusinessRequest;
+import com.suhwakhaeng.common.domain.user.dto.ProfileRequest;
 import com.suhwakhaeng.common.domain.user.dto.ProfileResponse;
 import com.suhwakhaeng.common.domain.user.dto.UserInfoResponse;
+import com.suhwakhaeng.common.domain.user.service.BusinessService;
 import com.suhwakhaeng.common.domain.user.service.UserService;
 import com.suhwakhaeng.common.global.common.dto.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final BusinessService businessService;
 
     @GetMapping("/my-profile")
     public ResponseEntity selectDetailUser(@RequestHeader("X-Authorization-Id") Long userId) {
@@ -26,4 +31,16 @@ public class UserController {
         return ResponseEntity.ok().body(Message.success(userInfoResponse));
     }
 
+    @PostMapping("/business")
+    public ResponseEntity createBusiness(@RequestHeader("X-Authorization-Id") Long userId, @RequestBody BusinessRequest businessRequest) {
+        businessService.createBusiness(userId, businessRequest.businessImage());
+        return ResponseEntity.ok().body(Message.success());
+    }
+
+    @PatchMapping("/my-profile")
+    public ResponseEntity updateUser(@RequestHeader("X-Authorization-Id") Long userId, @Validated @RequestBody ProfileRequest profileRequest) {
+
+        userService.updateUser(userId, profileRequest.toEntity());
+        return ResponseEntity.ok().body(Message.success());
+    }
 }
