@@ -1,7 +1,6 @@
 import * as Color from '../../config/color/Color';
 import { ScrollView } from 'react-native';
 import Header from '../../components/header/Header';
-import Post from '../../components/post/Post';
 
 const CreatePostScreen = () => {
   return (
