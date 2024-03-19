@@ -23,6 +23,7 @@ interface MarketDetailProps {
 }
 
 type RootStackParamList = {
+  MarketModifyScreen: { id: number };
   MarketDetailScreen: { id: number };
   MarketScreen: undefined;
 };
@@ -30,7 +31,7 @@ type RootStackParamList = {
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 const MarketDetailScreen = (props: MarketDetailProps) => {
-  const navigate = useNavigation<RootStackNavigationProp>();
+  const navigation = useNavigation<RootStackNavigationProp>();
 
   useEffect(() => {
     // console.log('게시글 상세 내용 로드하자');
@@ -71,6 +72,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
   const modifyPost = (postId: number) => {
     console.log(`${postId}번 게시글 수정합니다`);
     // TODO: 게시글 수정 화면(MarketModifyScreen)으로 이동
+    navigation.navigate('MarketModifyScreen', { id: postId });
   };
 
   return (
