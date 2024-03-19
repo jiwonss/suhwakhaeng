@@ -2,6 +2,7 @@ package com.suhwakhaeng.common.domain.trade.dto;
 
 import com.suhwakhaeng.common.domain.trade.entity.TradeBoard;
 import com.suhwakhaeng.common.domain.trade.enums.TradeCate;
+import com.suhwakhaeng.common.domain.user.entity.User;
 import com.suhwakhaeng.common.global.common.entity.AxisLocation;
 import lombok.Builder;
 
@@ -19,11 +20,12 @@ public record TradeCreateRequest(
     Double y,
     String roadNameAddress
 ){
-    public TradeBoard toEntity() {
+    public TradeBoard toEntity(Long userId) {
         return TradeBoard.builder()
                 .cate(TradeCate.valueOf(cate))
                 .title(title)
                 .price(price)
+                .user(User.builder().id(userId).build())
                 .content(content)
                 .image1(image1)
                 .image2(image2)
