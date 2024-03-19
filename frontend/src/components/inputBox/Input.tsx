@@ -8,6 +8,7 @@ interface InputBoxProps {
   multiline?: boolean;
   width?: number;
   height?: number;
+  children?: React.ReactNode;
 }
 
 const StyledSingleContainer = styled.TextInput<{
@@ -59,7 +60,11 @@ const StyledMultiContainer = styled.TextInput<{
  * @author 오민상
  */
 export const SingleLineInputBox = (props: InputBoxProps) => {
-  return <StyledSingleContainer {...props} multiline={false} />;
+  return (
+    <StyledSingleContainer {...props} multiline={false}>
+      {props.children}
+    </StyledSingleContainer>
+  );
 };
 
 // Multi line InputBox
@@ -85,5 +90,9 @@ export const SingleLineInputBox = (props: InputBoxProps) => {
  * @author 오민상
  */
 export const MultiLineInputBox = (props: InputBoxProps) => {
-  return <StyledMultiContainer {...props} multiline={true} textAlignVertical='top' />;
+  return (
+    <StyledMultiContainer {...props} multiline={true} textAlignVertical='top'>
+      {props.children}
+    </StyledMultiContainer>
+  );
 };
