@@ -1,6 +1,7 @@
 package com.suhwakhaeng.common.domain.trade.entity;
 
 import com.suhwakhaeng.common.domain.user.entity.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
