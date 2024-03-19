@@ -14,6 +14,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 
 type RootStackParamList = {
+  MarketDetailScreen: { id: number };
   MarketRegistScreen: undefined;
   MarketScreen: undefined;
 };
@@ -38,6 +39,7 @@ const MarketScreen = () => {
     {
       title: '작물 등록',
       event: () => {
+        // TODO: 사업자인지 아닌지 확인 필요
         navigation.navigate('MarketRegistScreen');
       },
       color: `${Color.GREEN500}`,
@@ -53,9 +55,9 @@ const MarketScreen = () => {
   ];
 
   const marketPostData = [
-    { postId: 1, imgUrl: '', postType: '작물', title: '감자 1kg', price: 1000, likeNumber: 2, location: '광주 서구', date: '2024-03-12 13:22:12' },
-    { postId: 2, imgUrl: '', postType: '작물', title: '감자 1kg', price: 1000, likeNumber: 2, location: '광주 서구', date: '2024-03-12 13:22:12' },
-    { postId: 3, imgUrl: '', postType: '작물', title: '감자 1kg', price: 1000, likeNumber: 2, location: '광주 서구', date: '2024-03-12 13:22:12' },
+    { postId: 1, imgUrl: '', postType: '작물', title: '감자 1kg', price: 1000, likeNumber: 2, location: '광주 서구', date: '2024-03-12 13:22:12', isFavorite: false },
+    { postId: 2, imgUrl: '', postType: '작물', title: '감자 1kg', price: 1000, likeNumber: 2, location: '광주 서구', date: '2024-03-12 13:22:12', isFavorite: false },
+    { postId: 3, imgUrl: '', postType: '작물', title: '감자 1kg', price: 1000, likeNumber: 2, location: '광주 서구', date: '2024-03-12 13:22:12', isFavorite: true },
   ];
 
   const onPressChat = () => {
@@ -66,8 +68,12 @@ const MarketScreen = () => {
     console.log('검색창 이동');
   };
 
+  const onPressPost = (postId: number) => {
+    navigation.navigate('MarketDetailScreen', { id: postId });
+  };
+
   useEffect(() => {
-    console.log('검색 필터 바뀔 때마다 장터 글 업데이트');
+    // console.log('검색 필터 바뀔 때마다 장터 글 업데이트');
   }, [activeIndex]);
 
   return (
@@ -79,9 +85,7 @@ const MarketScreen = () => {
       <ScrollView style={{ flex: 1 }}>
         {marketPostData.map((data) => (
           <MarketPost
-            onPress={() => {
-              console.log(`${data.postId}번 게시물로 이동`);
-            }}
+            onPress={() => onPressPost(data.postId)}
             key={data.postId}
             imgUrl={data.imgUrl}
             location={data.location}
@@ -90,6 +94,7 @@ const MarketScreen = () => {
             price={data.price}
             likeNumber={data.likeNumber}
             date={data.date}
+            isFavorite={data.isFavorite}
           />
         ))}
       </ScrollView>

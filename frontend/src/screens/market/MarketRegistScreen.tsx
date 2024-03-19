@@ -45,10 +45,10 @@ const MarketRegistScreen = () => {
   const [address, setAddress] = useState<string>('');
 
   const radioData = [
-    { content: '작물', event: () => setActiveIndex(1), active: activeIndex === 0 },
-    { content: '농자재', event: () => setActiveIndex(2), active: activeIndex === 1 },
-    { content: '체험', event: () => setActiveIndex(3), active: activeIndex === 2 },
-    { content: '일손', event: () => setActiveIndex(4), active: activeIndex === 3 },
+    { content: '작물', event: () => setActiveIndex(0), active: activeIndex === 0 },
+    { content: '농자재', event: () => setActiveIndex(1), active: activeIndex === 1 },
+    { content: '체험', event: () => setActiveIndex(2), active: activeIndex === 2 },
+    { content: '일손', event: () => setActiveIndex(3), active: activeIndex === 3 },
   ];
 
   useEffect(() => {

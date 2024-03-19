@@ -39,14 +39,15 @@ interface MarketPostProps {
   likeNumber: number;
   date: string;
   onPress: () => void;
+  isFavorite: boolean;
 }
 
 const MarketPost = (props: MarketPostProps) => {
-  const [isFavorite, setIsFavorite] = useState(false);
+  // const [isFavorite, setIsFavorite] = useState(false);
 
-  const toggleFavorite = () => {
-    setIsFavorite(!isFavorite);
-  };
+  // const toggleFavorite = () => {
+  //   setIsFavorite(!isFavorite);
+  // };
 
   // styledBox 는 나중에 고치기 -> 컴포넌트 만들어지면 추가
   return (
@@ -63,11 +64,7 @@ const MarketPost = (props: MarketPostProps) => {
             {props.location} · {getTimeSincePost(props.date)}
           </Typo.Detail1_M>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: widthPercent * 5 }}>
-            {isFavorite ? (
-              <FavoriteBorder width={widthPercent * 12} height={heightPercent * 12} onPress={toggleFavorite} />
-            ) : (
-              <Favorite width={widthPercent * 12} height={heightPercent * 12} onPress={toggleFavorite} />
-            )}
+            {props.isFavorite ? <Favorite width={widthPercent * 12} height={heightPercent * 12} /> : <FavoriteBorder width={widthPercent * 12} height={heightPercent * 12} />}
             <Typo.Detail1_M color={Color.GRAY400}>{props.likeNumber}</Typo.Detail1_M>
           </View>
         </View>
