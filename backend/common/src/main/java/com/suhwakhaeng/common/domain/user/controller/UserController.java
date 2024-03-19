@@ -9,6 +9,7 @@ import com.suhwakhaeng.common.domain.user.service.UserService;
 import com.suhwakhaeng.common.global.common.dto.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -37,7 +38,7 @@ public class UserController {
     }
 
     @PatchMapping("/my-profile")
-    public ResponseEntity updateUser(@RequestHeader("X-Authorization-Id") Long userId, @RequestBody ProfileRequest profileRequest) {
+    public ResponseEntity updateUser(@RequestHeader("X-Authorization-Id") Long userId, @Validated @RequestBody ProfileRequest profileRequest) {
 
         userService.updateUser(userId, profileRequest.toEntity());
         return ResponseEntity.ok().body(Message.success());
