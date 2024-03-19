@@ -1,6 +1,7 @@
 package com.suhwakhaeng.common.domain.trade.controller;
 
 import com.suhwakhaeng.common.domain.trade.dto.TradeCreateRequest;
+import com.suhwakhaeng.common.domain.trade.dto.TradeSearchRequest;
 import com.suhwakhaeng.common.domain.trade.service.TradeService;
 import com.suhwakhaeng.common.global.common.dto.Message;
 import lombok.RequiredArgsConstructor;
@@ -22,31 +23,26 @@ public class TradeController {
      */
     @PostMapping
     public ResponseEntity<?> createTrade(@RequestHeader("X-Authorization-Id") Long userId, @RequestBody TradeCreateRequest request) {
-        tradeService.createTrade(userId, request);
-        return ResponseEntity.ok(Message.success());
+        return ResponseEntity.ok(Message.success(tradeService.createTrade(userId, request)));
+    }
+
+    @GetMapping("/{tradeId}")
+    public ResponseEntity<?> selectDetailTrade(@PathVariable Long tradeId) {
+        return ResponseEntity.ok(Message.success(tradeService.selectDetailTrade(tradeId)));
     }
 
     @GetMapping("/list")
-    public ResponseEntity<?> selectListTrade() {
-
-        return ResponseEntity.ok(Message.success());
+    public ResponseEntity<?> selectListTrade(@RequestHeader("X-Authorization-Id") Long userId, @ModelAttribute TradeSearchRequest tradeSearchRequest) {
+        return ResponseEntity.ok(Message.success(tradeService.selectListTrade(userId, tradeSearchRequest)));
     }
 
     @PatchMapping("/{tradeId}")
     public ResponseEntity<?> updateTrade() {
-
         return ResponseEntity.ok(Message.success());
     }
 
     @DeleteMapping("/{tradeId}")
     public ResponseEntity<?> deleteTrade() {
-
-        return ResponseEntity.ok(Message.success());
-    }
-
-    @GetMapping("/{tradeId}")
-    public ResponseEntity<?> selectDetailTrade() {
-
         return ResponseEntity.ok(Message.success());
     }
 }

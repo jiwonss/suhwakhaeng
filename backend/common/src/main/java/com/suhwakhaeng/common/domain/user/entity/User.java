@@ -34,4 +34,12 @@ public class User {
     @Embedded
     private Location location;
 
+    public void updateProfile(User user) {
+        this.nickname = user.getNickname();
+        this.profileImage = user.getProfileImage();
+        this.profileContent = user.getProfileContent();
+        this.role = user.getRole();
+        this.location = user.getLocation();
+    }
+
 }
