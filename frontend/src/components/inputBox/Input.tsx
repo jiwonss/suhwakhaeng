@@ -21,6 +21,8 @@ const StyledSingleContainer = styled.TextInput<{
   border-color: ${Color.GRAY300};
   padding-left: 10px;
   margin: 10px 5px 10px 5px;
+  font-family: 'GmarketSansTTFMedium';
+  font-size: ${widthPercent * 12}px;
 `;
 
 const StyledMultiContainer = styled.TextInput<{
@@ -34,6 +36,8 @@ const StyledMultiContainer = styled.TextInput<{
   border-color: ${Color.GRAY300};
   padding: 10px;
   margin: 10px 5px 10px 5px;
+  font-family: 'GmarketSansTTFMedium';
+  font-size: ${widthPercent * 12}px;
 `;
 
 // single line InputBox

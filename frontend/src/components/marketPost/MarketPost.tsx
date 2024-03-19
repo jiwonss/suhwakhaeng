@@ -8,7 +8,7 @@ import { TouchableOpacity, View } from 'react-native';
 import Favorite from '../../../assets/icons/favorite.svg';
 import FavoriteBorder from '../../../assets/icons/favorite_border.svg';
 import { BasicTag } from '../classificationTag/ClassificationTag';
-import { getTimeSincePost } from '../../util/BasicUtil';
+import { getTimeSincePost, addComma } from '../../util/BasicUtil';
 
 const StyledView = styled.TouchableOpacity`
   flex-direction: row;
@@ -57,7 +57,7 @@ const MarketPost = (props: MarketPostProps) => {
           <Typo.Detail1_M color={Color.WHITE}>{props.classification}</Typo.Detail1_M>
         </BasicTag>
         <Typo.BODY3_M>{props.title}</Typo.BODY3_M>
-        <Typo.BODY4_M>{props.price}원</Typo.BODY4_M>
+        <Typo.BODY4_M>{addComma(props.price)}원</Typo.BODY4_M>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Typo.Detail1_M color={Color.GRAY400}>
             {props.location} · {getTimeSincePost(props.date)}

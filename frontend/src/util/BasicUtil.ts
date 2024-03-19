@@ -31,3 +31,11 @@ export const getTimeSincePost = (postDate: string) => {
     }
   }
 };
+
+export const addComma = (data: string | number) => {
+  let number = data;
+  if (typeof data === 'string') {
+    number = parseInt(data);
+  }
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};

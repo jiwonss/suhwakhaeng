@@ -10,6 +10,15 @@ import { ScrollView, View } from 'react-native';
 import BottomNavigation from '../../components/navigation/BottomNavigation';
 import ActionButton from 'react-native-action-button';
 import FloatingActionButton from '../../components/floatingActionButton/FloatingActionButton';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
+
+type RootStackParamList = {
+  MarketRegistScreen: undefined;
+  MarketScreen: undefined;
+};
+
+type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 const Container = styled.View`
   flex: 1;
@@ -21,13 +30,15 @@ const ButtonContainer = styled.View`
 `;
 
 const MarketScreen = () => {
+  const navigation = useNavigation<RootStackNavigationProp>();
+
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   const buttonData = [
     {
       title: '작물 등록',
       event: () => {
-        console.log('작물 등록 페이지로 이동');
+        navigation.navigate('MarketRegistScreen');
       },
       color: `${Color.GREEN500}`,
     },
