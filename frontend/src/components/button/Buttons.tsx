@@ -31,8 +31,8 @@ const StyledView = styled.View<{
   border-color: ${(props) => props.borderColor};
   padding-top: ${heightPercent * 2}px;
   padding-bottom: ${heightPercent * 2}px;
-  height: ${(props) => props.height * heightPercent || 45}px;
-  width: ${(props) => props.width ? props.width * heightPercent : '100%'};
+  height: ${(props) => (props.height ? `${props.height}` : 45)}px;
+  width: ${(props) => (props.width ? `${props.width}px` : '100%')};
   align-items: center;
   justify-content: center;
 `;
