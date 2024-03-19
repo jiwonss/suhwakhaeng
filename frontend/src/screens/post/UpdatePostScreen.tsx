@@ -20,6 +20,7 @@ const Container = styled.View`
 
 const UpdatePostScreen = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [postContent, setPostContent] = useState('');
   const Data = [
     { content: '자유', event: () => setActiveIndex(0), active: activeIndex === 0 },
     { content: '꿀팁', event: () => setActiveIndex(1), active: activeIndex === 1 },
@@ -40,7 +41,7 @@ const UpdatePostScreen = () => {
         </Container>
         <Container>
           <Typo.BODY4_M>내용</Typo.BODY4_M>
-          <MultiLineInputBox placeholder={'내용을 작성하세요'}>ddsa</MultiLineInputBox>
+          <MultiLineInputBox placeholder={'내용을 작성하세요'}>{postContent}</MultiLineInputBox>
         </Container>
         <Container>
           <Typo.BODY4_M>사진</Typo.BODY4_M>
@@ -48,7 +49,16 @@ const UpdatePostScreen = () => {
         </Container>
       </ScrollView>
       <Container>
-        <BasicButton borderColor={Color.GREEN500} borderRadius={10} height={45} onPress={() => console.log('작성완료')} width={300}>
+        <BasicButton
+          borderColor={Color.GREEN500}
+          borderRadius={10}
+          height={45}
+          onPress={() => {
+            setPostContent(postContent);
+            console.log('게시글 수정 완료');
+          }}
+          width={300}
+        >
           <Typo.BODY3_M color={Color.WHITE}>작성완료</Typo.BODY3_M>
         </BasicButton>
       </Container>
