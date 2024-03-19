@@ -25,8 +25,8 @@ const FarmLedgerAddScreen = () => {
   const [ urls, setUrls ] = useState<string[]>([]);    
   const [activeIndex, setActiveIndex] = useState(0);
   const Data = [
-    { content: '수입', event: () => setActiveIndex(0), active: activeIndex === 0},
-    { content: '지출', event: () => setActiveIndex(1), active: activeIndex === 1},
+    { content: '수입', event: () => setActiveIndex(0), active: activeIndex === 0 },
+    { content: '지출', event: () => setActiveIndex(1), active: activeIndex === 1 },
   ];
   return (
     <SafeAreaView style={{ flex: 1 }}>
