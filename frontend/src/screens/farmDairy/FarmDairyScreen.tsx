@@ -20,6 +20,8 @@ const FarmDairyScreen = () => {
     { content: '영농장부', event: () => setActiveIndex(1), active: activeIndex === 1},
   ];
 
+  const data : any = []
+
   const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -43,10 +45,10 @@ const FarmDairyScreen = () => {
         <Header type='default' firstIcon='back' title='영농일지/장부'></Header>
         <CustomRadioButton data = { Data }/>
         {activeIndex === 0 && (
-          <FarmDairy></FarmDairy>
+          <FarmDairy data={data}></FarmDairy>
         )}
         {activeIndex === 1 && (
-          <FarmLedger></FarmLedger>
+          <FarmLedger data={data}></FarmLedger>
         )}
       </ScrollView>
     </SafeAreaView>
