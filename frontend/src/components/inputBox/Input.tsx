@@ -16,7 +16,7 @@ const StyledSingleContainer = styled.TextInput.attrs({
   placeholderTextColor: `${Color.GRAY400}`,
 })<{ height?: number; width?: number }>`
   height: ${(props) => props.height || heightPercent * 36}px;
-  width: ${(props) => props.width ? props.width * widthPercent : '100%'};
+  width: ${(props) => (props.width ? props.width * widthPercent : '100%')};
   border-radius: 10px;
   border-width: 0.8px;
   border-color: ${Color.GRAY300};
@@ -26,16 +26,16 @@ const StyledSingleContainer = styled.TextInput.attrs({
   font-size: ${widthPercent * 12}px;
 `;
 
-const StyledMultiContainer  = styled.TextInput.attrs({
+const StyledMultiContainer = styled.TextInput.attrs({
   placeholderTextColor: `${Color.GRAY400}`,
 })<{ height?: number; width?: number }>`
   height: ${(props) => props.height || heightPercent * 136}px;
-  width: ${(props) => props.width ? props.width * widthPercent : '100%'};
+  width: ${(props) => (props.width ? props.width * widthPercent : '100%')};
   border-radius: 10px;
   border-width: 0.8px;
   border-color: ${Color.GRAY300};
-  padding: widthPercent * 10;
-  margin: ${heightPercent * 10} ${widthPercent * 5};
+  padding: ${widthPercent * 10}px;
+  margin: ${heightPercent * 10}px ${widthPercent * 5}px;
   font-family: 'GmarketSansTTFMedium';
   font-size: ${widthPercent * 12}px;
 `;
