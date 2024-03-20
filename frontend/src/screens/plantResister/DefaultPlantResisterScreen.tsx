@@ -43,7 +43,7 @@ const PlantContainer = styled.View`
   flex-wrap: wrap;
 `;
 
-const PlantResisterScreen = () => {
+const DefaultPlantResisterScreen = () => {
   const plantData = [
     { name: '가지', Icon: Eggplant },
     { name: '고구마', Icon: SweetPotato },
@@ -94,4 +94,4 @@ const PlantResisterScreen = () => {
   );
 };
 
-export default PlantResisterScreen;
+export default DefaultPlantResisterScreen;
