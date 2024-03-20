@@ -1,6 +1,6 @@
 package com.suhwakhaeng.common.global.error;
 
-import com.suhwakhaeng.common.domain.trade.Exception.TradeException;
+import com.suhwakhaeng.common.domain.trade.exception.TradeException;
 import com.suhwakhaeng.common.domain.user.exception.UserException;
 import com.suhwakhaeng.common.global.common.dto.Message;
 import com.suhwakhaeng.common.global.error.exception.ErrorCode;
