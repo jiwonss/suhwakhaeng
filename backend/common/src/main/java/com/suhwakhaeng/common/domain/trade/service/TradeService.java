@@ -1,6 +1,7 @@
 package com.suhwakhaeng.common.domain.trade.service;
 
 import com.suhwakhaeng.common.domain.trade.dto.*;
+import com.suhwakhaeng.common.domain.trade.enums.TradeStatus;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ public interface TradeService {
     List<TradeListResponse> selectListTrade(Long userId, TradeSearchRequest tradeSearchRequest);
     void updateTrade(Long userId, Long tradeId, TradeUpdateRequest tradeUpdateRequest);
     void deleteTrade(Long userId, Long tradeId);
-    Boolean selectIsLiked(Long userId, Long tradeId);
+    void updateStatus(Long userId, Long tradeId, TradeStatus status);
 }

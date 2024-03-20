@@ -3,6 +3,7 @@ package com.suhwakhaeng.common.domain.trade.controller;
 import com.suhwakhaeng.common.domain.trade.dto.TradeCreateRequest;
 import com.suhwakhaeng.common.domain.trade.dto.TradeSearchRequest;
 import com.suhwakhaeng.common.domain.trade.dto.TradeUpdateRequest;
+import com.suhwakhaeng.common.domain.trade.enums.TradeStatus;
 import com.suhwakhaeng.common.domain.trade.service.TradeService;
 import com.suhwakhaeng.common.global.common.dto.Message;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +47,12 @@ public class TradeController {
     @DeleteMapping("/{tradeId}")
     public ResponseEntity<?> deleteTrade(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long tradeId) {
         tradeService.deleteTrade(userId, tradeId);
+        return ResponseEntity.ok(Message.success());
+    }
+
+    @PatchMapping("/status/{tradeId}")
+    public ResponseEntity<?> updateStatus(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long tradeId, TradeStatus status) {
+        tradeService.updateStatus(userId, tradeId, status);
         return ResponseEntity.ok(Message.success());
     }
 }

@@ -77,4 +77,8 @@ public class TradeBoard extends BaseEntity {
                 .roadNameAddress(tradeUpdateRequest.roadNameAddress())
                 .build();
     }
+
+    public void updateStatus(TradeStatus status) {
+        this.status = status;
+    }
 }
