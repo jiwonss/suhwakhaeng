@@ -10,6 +10,8 @@ import SearchPostScreen from '../../screens/post/SearchPostScreen';
 import MyPostScreen from '../../screens/myPost/MyPostScreen';
 import SetLocationScreen from '../../screens/SetLocationScreen';
 import SearchResultScreen from '../../screens/post/SearchResultScreen';
+import FavoriteProductScreen from '../../screens/favoriteProduct/FavoriteProductScreen';
+import MyProfileScreen from '../../screens/myProfile/MyProfileScreen';
 import MarketScreen from '../../screens/market/MarketScreen';
 import MarketRegistScreen from '../../screens/market/MarketRegistScreen';
 import MarketDetailScreen from '../../screens/market/MarketDetailScreen';
@@ -37,6 +39,8 @@ type RootStackParamList = {
   SearchResultScreen: undefined;
   ChatListScreen: undefined;
   ChattingRoomScreen: { id: number };
+  FavoriteProductScreen: undefined;
+  MyProfileScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -59,9 +63,9 @@ const MainStack = () => {
       <Stack.Screen name='CreatePostScreen' component={CreatePostScreen} options={{ headerShown: false }} />
       <Stack.Screen name='DetailPostScreen' component={DetailPostScreen} options={{ headerShown: false }} />
       <Stack.Screen name='UpdatePostScreen' component={UpdatePostScreen} options={{ headerShown: false }} />
-      {/*내 게시글/관심 상품  조회 페이지*/}
+      {/*내 게시글 조회 페이지*/}
       <Stack.Screen name='MyPostScreen' component={MyPostScreen} options={{ headerShown: false }} />
-      {/*내 게시글/관심 상품  조회 페이지*/}
+      {/*지역 설정 페이지*/}
       <Stack.Screen name='SetLocationScreen' component={SetLocationScreen} options={{ headerShown: false }} />
       {/*게시글 검색 페이지*/}
       <Stack.Screen name='SearchPostScreen' component={SearchPostScreen} options={{ headerShown: false }} />
@@ -69,6 +73,9 @@ const MainStack = () => {
       {/* 채팅 페이지 */}
       <Stack.Screen name='ChatListScreen' component={ChatListScreen} options={{ headerShown: false }} />
       <Stack.Screen name='ChattingRoomScreen' component={ChattingRoomScreen} options={{ headerShown: false }} />
+      {/* 관심상품 페이지 */}
+      <Stack.Screen name='FavoriteProductScreen' component={FavoriteProductScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='MyProfileScreen' component={MyProfileScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };

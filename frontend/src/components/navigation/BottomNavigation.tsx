@@ -16,6 +16,7 @@ import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
 import { StyleSheet, View } from 'react-native';
+import { Spacer } from '../basic/Spacer';
 
 // 타입 정의
 type RootTabParamList = {
@@ -65,11 +66,12 @@ const screenOptions = ({ route }: ScreenOptionsProps): BottomTabNavigationOption
   unmountOnBlur: true,
   tabBarIcon: ({ focused }) => tabBarIcon({ route, focused }),
   tabBarStyle: {
-    height: 56,
+    height: 64,
     backgroundColor: Color.WHITE,
   },
   tabBarLabelStyle: {
     fontSize: 14,
+    padding: 30, // 라벨 아래 공간을 추가합니다.
   },
 });
 
@@ -109,8 +111,8 @@ const BottomNavigation = () => {
           name='search'
           component={DictionaryScreen}
           options={{
-            title: '작물검색',
-            tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>작물검색</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>작물검색</Typo.BODY4_M>),
+            title: '작물도감',
+            tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>작물도감</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>작물도감</Typo.BODY4_M>),
           }}
         />
         <Tabs.Screen
