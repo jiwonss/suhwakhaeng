@@ -10,7 +10,6 @@ export const RootApp = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      console.log('여기 언제와!');
       SplashScreen.hide();
     }, 500);
   });

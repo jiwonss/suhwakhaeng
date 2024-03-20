@@ -9,7 +9,7 @@ import Send from '../../../assets/icons/send.svg';
 
 type BasicButtonProps = {
   onPress: () => void;
-  width: number;
+  width?: number;
   height: number;
   disabled?: boolean;
   backgroundColor?: string;
@@ -23,7 +23,7 @@ const StyledView = styled.View<{
   borderColor: string;
   borderRadius: number;
   height: number;
-  width: number;
+  width?: number;
 }>`
   background-color: ${(props) => props.backgroundColor};
   border-radius: ${(props) => props.borderRadius * widthPercent}px;
@@ -31,8 +31,8 @@ const StyledView = styled.View<{
   border-color: ${(props) => props.borderColor};
   padding-top: ${heightPercent * 2}px;
   padding-bottom: ${heightPercent * 2}px;
-  height: ${(props) => props.height * heightPercent || 45}px;
-  width: ${(props) => props.width * heightPercent || 45}px;
+  height: ${(props) => (props.height ? `${props.height}` : 45)}px;
+  width: ${(props) => (props.width ? `${props.width}px` : '100%')};
   align-items: center;
   justify-content: center;
 `;
@@ -76,11 +76,7 @@ const StyledContainer = styled.View<{ width: DimensionValue; height: DimensionVa
  */
 export const BasicButton = (props: BasicButtonProps) => {
   return (
-    <View
-      style={{
-        paddingHorizontal: widthPercent * 4,
-      }}
-    >
+    <View>
       <TouchableOpacity onPress={props.onPress} disabled={props.disabled}>
         <StyledView
           backgroundColor={props.backgroundColor || Color.GREEN500}

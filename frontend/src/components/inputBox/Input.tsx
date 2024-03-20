@@ -9,32 +9,35 @@ interface InputBoxProps {
   width?: number;
   height?: number;
   children?: React.ReactNode;
+  value?: string;
 }
 
-const StyledSingleContainer = styled.TextInput<{
-  height?: number;
-  width?: number;
-}>`
+const StyledSingleContainer = styled.TextInput.attrs({
+  placeholderTextColor: `${Color.GRAY400}`,
+})<{ height?: number; width?: number }>`
   height: ${(props) => props.height || heightPercent * 36}px;
-  width: ${(props) => props.width || widthPercent * 300}px;
+  width: ${(props) => (props.width ? props.width * widthPercent : '100%')};
   border-radius: 10px;
   border-width: 0.8px;
   border-color: ${Color.GRAY300};
-  padding-left: 10px;
-  margin: 10px 5px 10px 5px;
+  padding: ${widthPercent * 10}px;
+  margin: ${heightPercent * 10}px 0px;
+  font-family: 'GmarketSansTTFMedium';
+  font-size: ${widthPercent * 12}px;
 `;
 
-const StyledMultiContainer = styled.TextInput<{
-  height?: number;
-  width?: number;
-}>`
+const StyledMultiContainer = styled.TextInput.attrs({
+  placeholderTextColor: `${Color.GRAY400}`,
+})<{ height?: number; width?: number }>`
   height: ${(props) => props.height || heightPercent * 136}px;
-  width: ${(props) => props.width || widthPercent * 300}px;
+  width: ${(props) => (props.width ? props.width * widthPercent : '100%')};
   border-radius: 10px;
   border-width: 0.8px;
   border-color: ${Color.GRAY300};
-  padding: 10px;
-  margin: 10px 5px 10px 5px;
+  padding: ${widthPercent * 10}px;
+  margin: ${heightPercent * 10}px ${widthPercent * 5}px;
+  font-family: 'GmarketSansTTFMedium';
+  font-size: ${widthPercent * 12}px;
 `;
 
 // single line InputBox
@@ -61,7 +64,7 @@ const StyledMultiContainer = styled.TextInput<{
  */
 export const SingleLineInputBox = (props: InputBoxProps) => {
   return (
-    <StyledSingleContainer {...props} multiline={false}>
+    <StyledSingleContainer {...props} multiline={false} value={props.value}>
       {props.children}
     </StyledSingleContainer>
   );
@@ -91,7 +94,7 @@ export const SingleLineInputBox = (props: InputBoxProps) => {
  */
 export const MultiLineInputBox = (props: InputBoxProps) => {
   return (
-    <StyledMultiContainer {...props} multiline={true} textAlignVertical='top'>
+    <StyledMultiContainer {...props} multiline={true} textAlignVertical='top' value={props.value}>
       {props.children}
     </StyledMultiContainer>
   );
