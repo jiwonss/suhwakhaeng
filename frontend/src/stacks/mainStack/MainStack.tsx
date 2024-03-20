@@ -20,6 +20,7 @@ import MarketSearchScreen from '../../screens/market/MarketSearchScreen';
 import PlantBookScreen from '../../screens/plantBook/PlantBookScreen';
 import ChatListScreen from '../../screens/chat/ChatListScreen';
 import ChattingRoomScreen from '../../screens/chat/ChattingRoomScreen';
+import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
 import VarietySelectScreen from '../../screens/plantBook/VarietySelectScreen';
 
 type RootStackParamList = {
@@ -41,6 +42,7 @@ type RootStackParamList = {
   SearchResultScreen: undefined;
   FavoriteProductScreen: undefined;
   MyProfileScreen: undefined;
+  ModifyProfileScreen: undefined;
   PlantBookScreen: undefined;
   ChatListScreen: undefined;
   ChattingRoomScreen: { id: number };
@@ -80,6 +82,7 @@ const MainStack = () => {
       {/* 관심상품 페이지 */}
       <Stack.Screen name='FavoriteProductScreen' component={FavoriteProductScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MyProfileScreen' component={MyProfileScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='ModifyProfileScreen' component={ModifyProfileScreen} options={{ headerShown: false }} />
       {/*작물 도감 페이지*/}
       <Stack.Screen name='PlantBookScreen' component={PlantBookScreen} options={{ headerShown: false }} />
       <Stack.Screen name='VarietySelectScreen' component={VarietySelectScreen} options={{ headerShown: false }} />
