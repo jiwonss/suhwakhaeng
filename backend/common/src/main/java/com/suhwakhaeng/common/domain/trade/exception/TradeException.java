@@ -1,4 +1,4 @@
-package com.suhwakhaeng.common.domain.trade.Exception;
+package com.suhwakhaeng.common.domain.trade.exception;
 
 import lombok.Getter;
 

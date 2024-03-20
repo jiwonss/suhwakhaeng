@@ -12,13 +12,43 @@ import SetLocationScreen from '../../screens/SetLocationScreen';
 import SearchResultScreen from '../../screens/post/SearchResultScreen';
 import FavoriteProductScreen from '../../screens/favoriteProduct/FavoriteProductScreen';
 import MyProfileScreen from '../../screens/myProfile/MyProfileScreen';
+import MarketScreen from '../../screens/market/MarketScreen';
+import MarketRegistScreen from '../../screens/market/MarketRegistScreen';
+import MarketDetailScreen from '../../screens/market/MarketDetailScreen';
+import MarketModifyScreen from '../../screens/market/MarketModifyScreen';
+import MarketSearchScreen from '../../screens/market/MarketSearchScreen';
 
-const Stack = createNativeStackNavigator();
+type RootStackParamList = {
+  MainScreen: undefined;
+  MarketScreen: undefined;
+  MarketRegistScreen: undefined;
+  MarketDetailScreen: { id: number };
+  MarketModifyScreen: { id: number };
+  MarketSearchScreen: undefined;
+  FarmDairyScreen: undefined;
+  FarmDairyAddScreen: undefined;
+  FarmLedgerAddScreen: undefined;
+  CreatePostScreen: undefined;
+  DetailPostScreen: undefined;
+  UpdatePostScreen: undefined;
+  MyPostScreen: undefined;
+  SetLocationScreen: undefined;
+  SearchPostScreen: undefined;
+  SearchResultScreen: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
   return (
-    <Stack.Navigator initialRouteName='MyProfileScreen'>
+    <Stack.Navigator initialRouteName='MainScreen'>
+      {/* 장터 페이지 */}
       <Stack.Screen name='MainScreen' component={MainScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='MarketScreen' component={MarketScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='MarketRegistScreen' component={MarketRegistScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='MarketDetailScreen' component={MarketDetailScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='MarketModifyScreen' component={MarketModifyScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='MarketSearchScreen' component={MarketSearchScreen} options={{ headerShown: false }} />
       {/* 영농일지,장부 페이지 */}
       <Stack.Screen name='FarmDairyScreen' component={FarmDairyScreen} options={{ headerShown: false }} />
       <Stack.Screen name='FarmDairyAddScreen' component={FarmDairyAddScreen} options={{ headerShown: false }} />
@@ -37,7 +67,6 @@ const MainStack = () => {
       {/* 관심상품 페이지 */}
       <Stack.Screen name='FavoriteProductScreen' component={FavoriteProductScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MyProfileScreen' component={MyProfileScreen} options={{ headerShown: false }} />
-
     </Stack.Navigator>
   );
 };

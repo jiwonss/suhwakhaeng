@@ -3,6 +3,7 @@ package com.suhwakhaeng.common.domain.trade.controller;
 import com.suhwakhaeng.common.domain.trade.dto.TradeCreateRequest;
 import com.suhwakhaeng.common.domain.trade.dto.TradeSearchRequest;
 import com.suhwakhaeng.common.domain.trade.dto.TradeUpdateRequest;
+import com.suhwakhaeng.common.domain.trade.enums.TradeStatus;
 import com.suhwakhaeng.common.domain.trade.service.TradeService;
 import com.suhwakhaeng.common.global.common.dto.Message;
 import lombok.RequiredArgsConstructor;
@@ -47,5 +48,28 @@ public class TradeController {
     public ResponseEntity<?> deleteTrade(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long tradeId) {
         tradeService.deleteTrade(userId, tradeId);
         return ResponseEntity.ok(Message.success());
+    }
+
+    @PatchMapping("/status/{tradeId}")
+    public ResponseEntity<?> updateStatus(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long tradeId, TradeStatus status) {
+        tradeService.updateStatus(userId, tradeId, status);
+        return ResponseEntity.ok(Message.success());
+    }
+
+    @PostMapping("/like/{tradeId}")
+    public ResponseEntity<?> createLike(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long tradeId) {
+        tradeService.createLike(userId, tradeId);
+        return ResponseEntity.ok(Message.success());
+    }
+
+    @DeleteMapping("/like/{tradeId}")
+    public ResponseEntity<?> deleteLike(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long tradeId) {
+        tradeService.deleteLike(userId, tradeId);
+        return ResponseEntity.ok(Message.success());
+    }
+
+    @GetMapping("/like/{tradeId}")
+    public ResponseEntity<?> selectLike(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long tradeId) {
+        return ResponseEntity.ok(Message.success(tradeService.selectLike(userId, tradeId)));
     }
 }
