@@ -43,8 +43,6 @@ type RootStackParamList = {
   PlantBookScreen: undefined;
   ChatListScreen: undefined;
   ChattingRoomScreen: { id: number };
-  FavoriteProductScreen: undefined;
-  MyProfileScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
