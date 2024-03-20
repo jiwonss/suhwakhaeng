@@ -1,6 +1,8 @@
 import styled from 'styled-components/native';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import * as Color from '../../config/color/Color';
+import SearchGray from '../../../assets/icons/search_gray.svg';
+import React from 'react';
 
 interface InputBoxProps {
   placeholder: string;
@@ -10,6 +12,16 @@ interface InputBoxProps {
   height?: number;
   children?: React.ReactNode;
   value?: string;
+}
+interface SearchInputProps {
+  title?: string;
+  value?: string;
+  setValue?: React.Dispatch<React.SetStateAction<string>>;
+  onSubmitSearch?: () => void;
+  onPressSearch?: () => void;
+  onPressMore?: () => void;
+  onPressChat?: () => void;
+  placeHolder: string;
 }
 
 const StyledSingleContainer = styled.TextInput.attrs({
@@ -40,6 +52,23 @@ const StyledMultiContainer = styled.TextInput.attrs({
   font-size: ${widthPercent * 12}px;
 `;
 
+const InputContainer = styled.View`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: 1px solid ${Color.GRAY300};
+  border-radius: 10px;
+  width: ${widthPercent * 300}px;
+  height: ${heightPercent * 36}px;
+  padding: ${widthPercent * 8}px;
+`;
+const StyledInput = styled.TextInput`
+  margin-left: ${widthPercent * 4}px;
+  font-family: 'GmarketSansTTFMedium';
+  font-size: ${widthPercent * 12}px;
+  width: 100%;
+  height: 100%;
+`;
 // single line InputBox
 /**
  * 단일 줄 텍스트 입력을 위한 컴포넌트입니다.
@@ -97,5 +126,29 @@ export const MultiLineInputBox = (props: InputBoxProps) => {
     <StyledMultiContainer {...props} multiline={true} textAlignVertical='top' value={props.value}>
       {props.children}
     </StyledMultiContainer>
+  );
+};
+
+// Search Input Box
+/**
+ * 검색할 때 사용 할 수 있는 인풋 박스입니다.
+ *
+ * @component
+ * @example
+ * <SearchInputBox
+ *   value={searchValue}
+ *   setValue={setSearchValue}
+ *   onSubmitSearch={onSubmit}
+ *   placeHolder={'작물 이름을 입력해주세요'}
+ * />
+ *
+ * @author 오민상
+ */
+export const SearchInputBox = (props: SearchInputProps) => {
+  return (
+    <InputContainer>
+      <SearchGray width={widthPercent * 20} height={heightPercent * 20} />
+      <StyledInput value={props.value} onChangeText={props.setValue} onSubmitEditing={props.onSubmitSearch} placeholder={props.placeHolder} returnKeyType='done' />
+    </InputContainer>
   );
 };

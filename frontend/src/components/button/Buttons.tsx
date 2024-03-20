@@ -9,7 +9,7 @@ import Send from '../../../assets/icons/send.svg';
 
 type BasicButtonProps = {
   onPress: () => void;
-  width?: number;
+  width: number;
   height: number;
   disabled?: boolean;
   backgroundColor?: string;
