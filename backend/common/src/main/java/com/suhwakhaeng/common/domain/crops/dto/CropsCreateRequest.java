@@ -2,6 +2,8 @@ package com.suhwakhaeng.common.domain.crops.dto;
 
 import lombok.Builder;
 
+import java.util.List;
+
 @Builder
 public record CropsCreateRequest(
         String name,
@@ -10,7 +12,8 @@ public record CropsCreateRequest(
         String diseaseType,
         String pestType,
         CultivationCharacteristicInfo cultivationCharacteristicInfo,
-        ShippingTimeTableInfo shippingTimeTableInfo
+
+        List<ShippingTimeTableInfo> shippingTimeTableInfoList
 ) {
 
 }
