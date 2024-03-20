@@ -6,7 +6,7 @@ import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { getTimeSincePost } from '../../util/BasicUtil';
 import { Divider } from '../basic/Divider';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
 const StyledView = styled.View`
   flex-direction: row;
@@ -20,7 +20,6 @@ const ColumContainer = styled.View`
 
 const RowContainer = styled.View`
   flex-direction: row;
-  justify-content: space-around;
   align-items: center;
 `;
 
@@ -87,7 +86,7 @@ export const Profile = (props: ProfileProps) => {
 export const ChattingListItem = (props: ProfileProps) => {
   return (
     <TouchableOpacity onPress={props.onPress}>
-      <StyledView style={{ paddingHorizontal: widthPercent * 20, paddingVertical: heightPercent * 10 }}>
+      <StyledView style={{ paddingHorizontal: widthPercent * 20, paddingVertical: heightPercent * 12 }}>
         <ProfileImage url={props.url} width={widthPercent * 45} height={heightPercent * 45} />
         <ColumContainer>
           <RowContainer>
@@ -96,7 +95,7 @@ export const ChattingListItem = (props: ProfileProps) => {
               {getTimeSincePost(props.date)} · {props.location}
             </Typo.Detail1_M>
           </RowContainer>
-          <Typo.BODY4_M>{props.children}</Typo.BODY4_M>
+          <View style={{ width: widthPercent * 200 }}>{props.children}</View>
         </ColumContainer>
       </StyledView>
       <Divider />
