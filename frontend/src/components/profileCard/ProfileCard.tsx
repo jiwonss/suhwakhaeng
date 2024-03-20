@@ -21,7 +21,7 @@ const ColumContainer = styled.View`
 
 const RowContainer = styled.View`
   flex-direction: row;
-  justify-content: space-around;
+  align-items: center;
 `;
 
 interface ProfileCardProps {
@@ -112,7 +112,7 @@ export const Profile = (props: ProfileProps) => {
 export const ChattingListItem = (props: ProfileProps) => {
   return (
     <TouchableOpacity onPress={props.onPress}>
-      <StyledView>
+      <StyledView style={{ paddingHorizontal: widthPercent * 20, paddingVertical: heightPercent * 12 }}>
         <ProfileImage url={props.url} width={widthPercent * 45} height={heightPercent * 45} />
         <ColumContainer>
           <RowContainer>
@@ -121,7 +121,7 @@ export const ChattingListItem = (props: ProfileProps) => {
               {getTimeSincePost(props.date)} · {props.location}
             </Typo.Detail1_M>
           </RowContainer>
-          <Typo.BODY4_M>{props.children}</Typo.BODY4_M>
+          <View style={{ width: widthPercent * 200 }}>{props.children}</View>
         </ColumContainer>
       </StyledView>
       <Divider />

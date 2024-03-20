@@ -24,7 +24,7 @@ const StyledChatContainer = styled.View<{
   max-width: ${(props) => props.maxWidth || widthPercent * 150}px;
   background-color: ${(props) => props.backgroundColor || Color.GREEN400};
   border-radius: 10px;
-  padding: 5px 10px;
+  padding: ${heightPercent * 10}px ${widthPercent * 12}px;
   margin: 5px 7px;
   align-items: flex-start;
   justify-content: center;
@@ -36,6 +36,7 @@ interface TimeStampProps {
 }
 
 const TimeStampText = styled.Text`
+  font-family: 'GmarketSansTTFMedium';
   font-size: 12px;
   color: ${Color.ONYX};
   justify-content: flex-end;
@@ -83,7 +84,7 @@ const TimeStamp: React.FC<TimeStampProps> = ({ timeStamp }: { timeStamp: Date | 
  */
 export const MyChat = (props: ChattingMessageProps) => {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
       <TimeStamp timeStamp={props.timeStamp} />
       <StyledChatContainer {...props}>{props.children}</StyledChatContainer>
     </View>
