@@ -35,7 +35,7 @@ const MyPostScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
-        {activeIndex === 0 ? <Header type='default' firstIcon='back' title='내 글 목록'></Header> : <Header type='default' firstIcon='back' title='관심 상품'></Header>}
+        <Header type='default' firstIcon='back' title='내 글 목록'></Header>
         <StyledView>
           <CustomRadioButton data={Data} />
         </StyledView>
@@ -69,9 +69,7 @@ const MyPostScreen = () => {
             <MarketPost title={'햇감자 5000원 팔아요'} price={5000} likeNumber={8}></MarketPost>
           ) : (
             <NoPost>
-              <Typo.BODY3_B>관심 상품이 없어요</Typo.BODY3_B>
-              <Spacer space={heightPercent * 10}></Spacer>
-              <Typo.BODY4_M color={Color.GRAY400}>장터에서 관심가는 상품에 하트를 눌러보세요</Typo.BODY4_M>
+              <Typo.BODY3_B>아직 작성한 글이 없어요</Typo.BODY3_B>
             </NoPost>
           ))}
       </View>
