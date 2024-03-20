@@ -109,8 +109,8 @@ const BottomNavigation = () => {
           name='search'
           component={DictionaryScreen}
           options={{
-            title: '작물검색',
-            tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>작물검색</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>작물검색</Typo.BODY4_M>),
+            title: '작물도감',
+            tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>작물도감</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>작물도감</Typo.BODY4_M>),
           }}
         />
         <Tabs.Screen
