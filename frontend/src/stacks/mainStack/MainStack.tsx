@@ -26,6 +26,7 @@ import DetailPlantResisterScreen from '../../screens/plantResister/DetailPlantRe
 import CulturePlantSelectScreen from '../../screens/plantResister/CulturePlantSelectScreen';
 import EnvironmentPlantScreen from '../../screens/plantResister/EnvironmentPlantScreen';
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
+import DetailPlantScreen from '../../screens/plantBook/DetailPlantScreen';
 
 type RootStackParamList = {
   MainScreen: undefined;
@@ -51,6 +52,7 @@ type RootStackParamList = {
   ChatListScreen: undefined;
   ChattingRoomScreen: { id: number };
   VarietySelectScreen: undefined;
+  DetailPlantScreen: undefined;
   PlantResisterScreen: undefined;
   DefaultPlantResisterScreen: undefined;
   DetailPlantResisterScreen: undefined;
@@ -62,7 +64,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
   return (
-    <Stack.Navigator initialRouteName='MainScreen'>
+    <Stack.Navigator initialRouteName='DetailPlantScreen'>
       {/* 장터 페이지 */}
       <Stack.Screen name='MainScreen' component={MainScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketScreen' component={MarketScreen} options={{ headerShown: false }} />
@@ -95,6 +97,7 @@ const MainStack = () => {
       {/*작물 도감 페이지*/}
       <Stack.Screen name='PlantBookScreen' component={PlantBookScreen} options={{ headerShown: false }} />
       <Stack.Screen name='VarietySelectScreen' component={VarietySelectScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='DetailPlantScreen' component={DetailPlantScreen} options={{ headerShown: false }} />
       {/*작물 등록 페이지*/}
       <Stack.Screen name='DefaultPlantResisterScreen' component={DefaultPlantResisterScreen} options={{ headerShown: false }} />
       <Stack.Screen name='DetailPlantResisterScreen' component={DetailPlantResisterScreen} options={{ headerShown: false }} />
