@@ -2,11 +2,8 @@ import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
 import { ScrollView, View } from 'react-native';
 import Header from '../../components/header/Header';
-import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
-import { useState } from 'react';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import styled from 'styled-components/native';
-import { SearchInputBox } from '../../components/inputBox/Input';
 import { BasicButton } from '../../components/button/Buttons';
 import { Spacer } from '../../components/basic/Spacer';
 // 작물 이모지 컴포넌트
