@@ -90,7 +90,7 @@ const MarketRegistScreen = () => {
           <SingleLineInputBox onChangeText={setAddress} placeholder={'주소를 입력해주세요'} />
         </FormItemContainer>
         <ButtonContainer>
-          <BasicButton onPress={onPressButton} width={widthPercent * 300} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
+          <BasicButton onPress={onPressButton} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
             <Typo.BODY3_M color={Color.WHITE}>작성 완료</Typo.BODY3_M>
           </BasicButton>
         </ButtonContainer>
