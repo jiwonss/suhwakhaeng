@@ -17,6 +17,7 @@ import MarketRegistScreen from '../../screens/market/MarketRegistScreen';
 import MarketDetailScreen from '../../screens/market/MarketDetailScreen';
 import MarketModifyScreen from '../../screens/market/MarketModifyScreen';
 import MarketSearchScreen from '../../screens/market/MarketSearchScreen';
+import FcmTestScreen from '../../screens/FcmTestScreen';
 
 type RootStackParamList = {
   MainScreen: undefined;
@@ -35,13 +36,16 @@ type RootStackParamList = {
   SetLocationScreen: undefined;
   SearchPostScreen: undefined;
   SearchResultScreen: undefined;
+  FavoriteProductScreen: undefined;
+  MyProfileScreen: undefined;
+  FcmTestScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
   return (
-    <Stack.Navigator initialRouteName='MainScreen'>
+    <Stack.Navigator initialRouteName='FarmLedgerAddScreen'>
       {/* 장터 페이지 */}
       <Stack.Screen name='MainScreen' component={MainScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketScreen' component={MarketScreen} options={{ headerShown: false }} />
@@ -66,7 +70,9 @@ const MainStack = () => {
       <Stack.Screen name='SearchResultScreen' component={SearchResultScreen} options={{ headerShown: false }} />
       {/* 관심상품 페이지 */}
       <Stack.Screen name='FavoriteProductScreen' component={FavoriteProductScreen} options={{ headerShown: false }} />
+      {/* 마이 페이지 */} 
       <Stack.Screen name='MyProfileScreen' component={MyProfileScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='FcmTestScreen' component={FcmTestScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
