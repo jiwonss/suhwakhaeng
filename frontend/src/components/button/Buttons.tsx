@@ -10,7 +10,7 @@ import Send from '../../../assets/icons/send.svg';
 type BasicButtonProps = {
   onPress: () => void;
   width?: number;
-  height: number;
+  height?: number;
   disabled?: boolean;
   backgroundColor?: string;
   borderColor: string;
@@ -22,7 +22,7 @@ const StyledView = styled.View<{
   backgroundColor: string;
   borderColor: string;
   borderRadius: number;
-  height: number;
+  height?: number;
   width?: number;
 }>`
   background-color: ${(props) => props.backgroundColor};
