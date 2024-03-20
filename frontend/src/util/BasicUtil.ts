@@ -39,3 +39,26 @@ export const addComma = (data: string | number) => {
   }
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
+
+/**
+ * 한국 현재 시간 반환해주는 함수입니다.
+ * @author 조은서
+ * @returns
+ */
+export const getKST = () => {
+  const now = new Date();
+  const utc = now.getTime() + now.getTimezoneOffset() * 60 * 1000;
+  const koreaTimeDiff = 9 * 60 * 60 * 1000;
+  const currentTime = new Date(utc + koreaTimeDiff);
+
+  // 현재 날짜 및 시간을 문자열로 변환
+  const year = currentTime.getFullYear();
+  const month = ('0' + (currentTime.getMonth() + 1)).slice(-2);
+  const day = ('0' + currentTime.getDate()).slice(-2);
+  const hours = ('0' + currentTime.getHours()).slice(-2);
+  const minutes = ('0' + currentTime.getMinutes()).slice(-2);
+  const seconds = ('0' + currentTime.getSeconds()).slice(-2);
+
+  // YYYY-MM-DD HH:MM:SS 형식으로 반환
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
