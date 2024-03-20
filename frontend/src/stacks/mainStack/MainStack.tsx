@@ -17,6 +17,7 @@ import MarketRegistScreen from '../../screens/market/MarketRegistScreen';
 import MarketDetailScreen from '../../screens/market/MarketDetailScreen';
 import MarketModifyScreen from '../../screens/market/MarketModifyScreen';
 import MarketSearchScreen from '../../screens/market/MarketSearchScreen';
+import PlantBookScreen from '../../screens/plantBook/PlantBookScreen';
 import ChatListScreen from '../../screens/chat/ChatListScreen';
 import ChattingRoomScreen from '../../screens/chat/ChattingRoomScreen';
 
@@ -37,6 +38,9 @@ type RootStackParamList = {
   SetLocationScreen: undefined;
   SearchPostScreen: undefined;
   SearchResultScreen: undefined;
+  FavoriteProductScreen: undefined;
+  MyProfileScreen: undefined;
+  PlantBookScreen: undefined;
   ChatListScreen: undefined;
   ChattingRoomScreen: { id: number };
   FavoriteProductScreen: undefined;
@@ -76,6 +80,8 @@ const MainStack = () => {
       {/* 관심상품 페이지 */}
       <Stack.Screen name='FavoriteProductScreen' component={FavoriteProductScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MyProfileScreen' component={MyProfileScreen} options={{ headerShown: false }} />
+      {/*작물 도감 페이지*/}
+      <Stack.Screen name='PlantBookScreen' component={PlantBookScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
