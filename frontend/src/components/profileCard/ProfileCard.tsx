@@ -27,6 +27,7 @@ interface ProfileCardProps {
   url?: string;
   name: string;
   date: string;
+  size?: string;
 }
 
 interface ProfileProps {
@@ -51,11 +52,18 @@ const CertificationBusiness = ({ certification }: CertificationBusinessProps) =>
 export const ProfileCard = (props: ProfileCardProps) => {
   return (
     <StyledView>
-      <ProfileImage url={props.url} width={widthPercent * 30} height={heightPercent * 30} />
-      <ColumContainer>
-        <Typo.BODY3_M color={Color.BLACK}>{props.name}</Typo.BODY3_M>
-        <Typo.Detail1_M color={Color.GRAY400}>{getTimeSincePost(props.date)}</Typo.Detail1_M>
-      </ColumContainer>
+      <ProfileImage url={props.url} width={props.size ? widthPercent * 45 : widthPercent * 30} height={props.size ? heightPercent * 45 : heightPercent * 30} />
+      {props.size ? (
+        <ColumContainer>
+          <Typo.BODY2_M color={Color.BLACK}>{props.name}</Typo.BODY2_M>
+          <Typo.BODY4_M color={Color.GRAY400}>{props.date}</Typo.BODY4_M>
+        </ColumContainer>
+      ) : (
+        <ColumContainer>
+          <Typo.BODY3_M color={Color.BLACK}>{props.name}</Typo.BODY3_M>
+          <Typo.Detail1_M color={Color.GRAY400}>{getTimeSincePost(props.date)}</Typo.Detail1_M>
+        </ColumContainer>
+      )}
     </StyledView>
   );
 };
