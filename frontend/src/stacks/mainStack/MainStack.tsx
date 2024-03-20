@@ -18,6 +18,15 @@ import MarketDetailScreen from '../../screens/market/MarketDetailScreen';
 import MarketModifyScreen from '../../screens/market/MarketModifyScreen';
 import MarketSearchScreen from '../../screens/market/MarketSearchScreen';
 import FcmTestScreen from '../../screens/FcmTestScreen';
+import PlantBookScreen from '../../screens/plantBook/PlantBookScreen';
+import VarietySelectScreen from '../../screens/plantBook/VarietySelectScreen';
+import ChatListScreen from '../../screens/chat/ChatListScreen';
+import ChattingRoomScreen from '../../screens/chat/ChattingRoomScreen';
+import DefaultPlantResisterScreen from '../../screens/plantResister/DefaultPlantResisterScreen';
+import DetailPlantResisterScreen from '../../screens/plantResister/DetailPlantResisterScreen';
+import CulturePlantSelectScreen from '../../screens/plantResister/CulturePlantSelectScreen';
+import EnvironmentPlantScreen from '../../screens/plantResister/EnvironmentPlantScreen';
+import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
 
 type RootStackParamList = {
   MainScreen: undefined;
@@ -39,6 +48,16 @@ type RootStackParamList = {
   FavoriteProductScreen: undefined;
   MyProfileScreen: undefined;
   FcmTestScreen: undefined;
+  ModifyProfileScreen: undefined;
+  PlantBookScreen: undefined;
+  ChatListScreen: undefined;
+  ChattingRoomScreen: { id: number };
+  VarietySelectScreen: undefined;
+  PlantResisterScreen: undefined;
+  DefaultPlantResisterScreen: undefined;
+  DetailPlantResisterScreen: undefined;
+  CulturePlantSelectScreen: undefined;
+  EnvironmentPlantScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -68,11 +87,23 @@ const MainStack = () => {
       {/*게시글 검색 페이지*/}
       <Stack.Screen name='SearchPostScreen' component={SearchPostScreen} options={{ headerShown: false }} />
       <Stack.Screen name='SearchResultScreen' component={SearchResultScreen} options={{ headerShown: false }} />
+      {/* 채팅 페이지 */}
+      <Stack.Screen name='ChatListScreen' component={ChatListScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='ChattingRoomScreen' component={ChattingRoomScreen} options={{ headerShown: false }} />
       {/* 관심상품 페이지 */}
       <Stack.Screen name='FavoriteProductScreen' component={FavoriteProductScreen} options={{ headerShown: false }} />
       {/* 마이 페이지 */} 
       <Stack.Screen name='MyProfileScreen' component={MyProfileScreen} options={{ headerShown: false }} />
       <Stack.Screen name='FcmTestScreen' component={FcmTestScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='ModifyProfileScreen' component={ModifyProfileScreen} options={{ headerShown: false }} />
+      {/*작물 도감 페이지*/}
+      <Stack.Screen name='PlantBookScreen' component={PlantBookScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='VarietySelectScreen' component={VarietySelectScreen} options={{ headerShown: false }} />
+      {/*작물 등록 페이지*/}
+      <Stack.Screen name='DefaultPlantResisterScreen' component={DefaultPlantResisterScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='DetailPlantResisterScreen' component={DetailPlantResisterScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='CulturePlantSelectScreen' component={CulturePlantSelectScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='EnvironmentPlantScreen' component={EnvironmentPlantScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
