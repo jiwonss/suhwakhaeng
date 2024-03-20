@@ -13,6 +13,9 @@ import com.suhwakhaeng.common.domain.trade.repository.TradeSearchRepository;
 import com.suhwakhaeng.common.domain.trade.service.TradeService;
 import com.suhwakhaeng.common.domain.user.dto.UserInfoResponse;
 import com.suhwakhaeng.common.domain.user.entity.User;
+import com.suhwakhaeng.common.domain.user.exception.UserErrorCode;
+import com.suhwakhaeng.common.domain.user.exception.UserException;
+import com.suhwakhaeng.common.domain.user.repository.UserRepository;
 import com.suhwakhaeng.common.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +31,7 @@ import java.util.List;
 public class TradeServiceImpl implements TradeService {
     private final TradeRepository tradeRepository;
     private final TradeLikeRepository tradeLikeRepository;
+    private final UserRepository userRepository;
     private final TradeSearchRepository tradeSearchRepository;
     private final UserService userService;
 
@@ -77,8 +81,8 @@ public class TradeServiceImpl implements TradeService {
 
     @Override
     public void createLike(Long userId, Long tradeId) {
-        TradeBoard tradeBoard = TradeBoard.builder().id(tradeId).build();
-        User user = User.builder().id(userId).build();
+        TradeBoard tradeBoard = tradeRepository.findTradeBoardById(tradeId).orElseThrow(() -> new TradeException(TradeErrorCode.NO_EXIST_TRADE));
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST_USER));
         tradeLikeRepository.save(TradeLike.builder()
                 .tradeLikePK(new TradeLikePK(user, tradeBoard))
                 .build());
@@ -86,8 +90,8 @@ public class TradeServiceImpl implements TradeService {
 
     @Override
     public void deleteLike(Long userId, Long tradeId) {
-        TradeBoard tradeBoard = TradeBoard.builder().id(tradeId).build();
-        User user = User.builder().id(userId).build();
+        TradeBoard tradeBoard = tradeRepository.findTradeBoardById(tradeId).orElseThrow(() -> new TradeException(TradeErrorCode.NO_EXIST_TRADE));
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST_USER));
         tradeLikeRepository.delete(TradeLike.builder()
                 .tradeLikePK(new TradeLikePK(user, tradeBoard))
                 .build());
@@ -96,8 +100,8 @@ public class TradeServiceImpl implements TradeService {
     @Transactional(readOnly = true)
     @Override
     public TradeLikeResponse selectLike(Long userId, Long tradeId) {
-        TradeBoard tradeBoard = TradeBoard.builder().id(tradeId).build();
-        User user = User.builder().id(userId).build();
+        TradeBoard tradeBoard = tradeRepository.findTradeBoardById(tradeId).orElseThrow(() -> new TradeException(TradeErrorCode.NO_EXIST_TRADE));
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST_USER));
         boolean isLiked = tradeLikeRepository.existsTradeLikeByTradeLikePK(new TradeLikePK(user, tradeBoard));
         return TradeLikeResponse.builder().isLiked(isLiked).build();
     }
