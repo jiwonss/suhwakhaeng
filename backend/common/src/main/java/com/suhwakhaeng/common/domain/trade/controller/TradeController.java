@@ -55,4 +55,21 @@ public class TradeController {
         tradeService.updateStatus(userId, tradeId, status);
         return ResponseEntity.ok(Message.success());
     }
+
+    @PostMapping("/like/{tradeId}")
+    public ResponseEntity<?> createLike(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long tradeId) {
+        tradeService.createLike(userId, tradeId);
+        return ResponseEntity.ok(Message.success());
+    }
+
+    @DeleteMapping("/like/{tradeId}")
+    public ResponseEntity<?> deleteLike(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long tradeId) {
+        tradeService.deleteLike(userId, tradeId);
+        return ResponseEntity.ok(Message.success());
+    }
+
+    @GetMapping("/like/{tradeId}")
+    public ResponseEntity<?> selectLike(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long tradeId) {
+        return ResponseEntity.ok(Message.success(tradeService.selectLike(userId, tradeId)));
+    }
 }
