@@ -22,6 +22,7 @@ public class Crops {
     private String name;
 
     @Column(name="crops_category")
+    @Enumerated(EnumType.STRING)
     private CropsCate category;
 
     @Column(name = "crops_growing_condition")
