@@ -67,9 +67,9 @@ export const PlantItem = (props: PlantAddProps) => {
           {props.children}
         </BasicButton>
         <Margin14 />
-        <Typo.BODY4_M color={Color.BLACK}>감자</Typo.BODY4_M>
+        <Typo.BODY4_M color={Color.BLACK}>{props.name}</Typo.BODY4_M>
         <Margin10 />
-        <Typo.Detail1_M color={Color.GRAY200}>작물 추가</Typo.Detail1_M>
+        <Typo.Detail1_M color={Color.GRAY200}>{props.location}</Typo.Detail1_M>
       </RowView>
     </TouchableOpacity>
   );
