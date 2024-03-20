@@ -19,6 +19,7 @@ import MarketModifyScreen from '../../screens/market/MarketModifyScreen';
 import MarketSearchScreen from '../../screens/market/MarketSearchScreen';
 import ChatListScreen from '../../screens/chat/ChatListScreen';
 import ChattingRoomScreen from '../../screens/chat/ChattingRoomScreen';
+import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
 
 type RootStackParamList = {
   MainScreen: undefined;
@@ -41,6 +42,7 @@ type RootStackParamList = {
   ChattingRoomScreen: { id: number };
   FavoriteProductScreen: undefined;
   MyProfileScreen: undefined;
+  ModifyProfileScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -76,6 +78,7 @@ const MainStack = () => {
       {/* 관심상품 페이지 */}
       <Stack.Screen name='FavoriteProductScreen' component={FavoriteProductScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MyProfileScreen' component={MyProfileScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='ModifyProfileScreen' component={ModifyProfileScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
