@@ -12,10 +12,10 @@ import { BasicButton } from '../../components/button/Buttons';
 import { Spacer } from '../../components/basic/Spacer';
 
 const Container = styled.View`
-  margin-left: ${20 * widthPercent};
-  margin-right: ${20 * widthPercent};
-  margin-bottom: ${20 * heightPercent};
-  row-gap: ${5 * heightPercent};
+  margin-left: ${20 * widthPercent}px;
+  margin-right: ${20 * widthPercent}px;
+  margin-bottom: ${20 * heightPercent}px;
+  row-gap: ${5 * heightPercent}px;
 `;
 
 const CreatePostScreen = () => {
@@ -48,7 +48,7 @@ const CreatePostScreen = () => {
         </Container>
       </ScrollView>
       <Container>
-        <BasicButton borderColor={Color.GREEN500} borderRadius={10} height={45} onPress={() => console.log('작성완료')} width={300}>
+        <BasicButton borderColor={Color.GREEN500} borderRadius={10} height={45} onPress={() => console.log('작성완료')}>
           <Typo.BODY3_M color={Color.WHITE}>작성완료</Typo.BODY3_M>
         </BasicButton>
       </Container>

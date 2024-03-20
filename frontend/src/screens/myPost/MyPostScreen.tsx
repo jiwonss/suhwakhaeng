@@ -17,7 +17,7 @@ const StyledView = styled.View`
 `;
 
 const NoPost = styled.View`
-  margin-top: ${heightPercent * 95};
+  margin-top: ${heightPercent * 95}px;
   align-items: center;
   flex: 1;
 `;

@@ -48,7 +48,7 @@ const FarmLedgerAddScreen = () => {
           <ImgUploader data={urls} setData={setUrls}></ImgUploader>
           {/* 나중에 다른 것 과 맞추기 */}
           <Spacer space={heightPercent * 200}></Spacer>
-          <BasicButton onPress={function (): void {} } width={300} height={heightPercent * 45} borderColor={Color.WHITE} borderRadius={10} >
+          <BasicButton onPress={function (): void {} } height={heightPercent * 45} borderColor={Color.WHITE} borderRadius={10} >
             <Typo.BODY3_M color={Color.WHITE}>작성 완료</Typo.BODY3_M> 
           </BasicButton>
 
