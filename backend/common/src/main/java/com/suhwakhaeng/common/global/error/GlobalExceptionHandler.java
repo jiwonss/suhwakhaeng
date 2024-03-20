@@ -1,5 +1,6 @@
 package com.suhwakhaeng.common.global.error;
 
+import com.suhwakhaeng.common.domain.crops.exeption.CropsException;
 import com.suhwakhaeng.common.domain.trade.Exception.TradeException;
 import com.suhwakhaeng.common.domain.user.exception.UserException;
 import com.suhwakhaeng.common.global.common.dto.Message;
@@ -30,6 +31,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(TradeException.class)
     public ResponseEntity<?> tradeExceptionHandler(TradeException e){
+        log.debug(Arrays.toString(e.getStackTrace()));
+        return ResponseEntity.ok(Message.fail(String.valueOf(e.getErrorCode()), e.getMessage()));
+    }
+
+    @ExceptionHandler(CropsException.class)
+    public ResponseEntity<?> cropsExceptionHandler(CropsException e){
         log.debug(Arrays.toString(e.getStackTrace()));
         return ResponseEntity.ok(Message.fail(String.valueOf(e.getErrorCode()), e.getMessage()));
     }

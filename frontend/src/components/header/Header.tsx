@@ -97,7 +97,6 @@ const Header = (props: HeaderProps) => {
   };
 
   const onPressSearch = () => {
-    console.log('검색창 이동');
     props.onPressSearch;
   };
 

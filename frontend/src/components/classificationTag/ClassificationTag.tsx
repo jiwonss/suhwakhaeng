@@ -21,7 +21,7 @@ const StyledBasicTag = styled.View<{
   width: ${(props) => props.width || widthPercent * 30}px;
   background-color: ${(props) => props.backgroundColor || Color.GREEN400};
   border-radius: ${({ borderRadius }) => (borderRadius ? `${borderRadius}px` : '10px')};
-  margin: 5px 5px;
+  /* margin: 5px 5px; */
   align-items: center;
   justify-content: center;
 `;

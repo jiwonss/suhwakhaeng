@@ -6,7 +6,8 @@ import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { getTimeSincePost } from '../../util/BasicUtil';
 import { Divider } from '../basic/Divider';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
+import { Spacer } from '../basic/Spacer';
 
 const StyledView = styled.View`
   flex-direction: row;
@@ -27,6 +28,7 @@ interface ProfileCardProps {
   url?: string;
   name: string;
   date: string;
+  size?: string;
 }
 
 interface ProfileProps {
@@ -51,10 +53,42 @@ const CertificationBusiness = ({ certification }: CertificationBusinessProps) =>
 export const ProfileCard = (props: ProfileCardProps) => {
   return (
     <StyledView>
+      <ProfileImage url={props.url} width={props.size ? widthPercent * 45 : widthPercent * 30} height={props.size ? heightPercent * 45 : heightPercent * 30} />
+      {props.size ? (
+        <ColumContainer>
+          <Typo.BODY2_M color={Color.BLACK}>{props.name}</Typo.BODY2_M>
+          <Typo.BODY4_M color={Color.GRAY400}>{props.date}</Typo.BODY4_M>
+        </ColumContainer>
+      ) : (
+        <ColumContainer>
+          <Typo.BODY3_M color={Color.BLACK}>{props.name}</Typo.BODY3_M>
+          <Typo.Detail1_M color={Color.GRAY400}>{getTimeSincePost(props.date)}</Typo.Detail1_M>
+        </ColumContainer>
+      )}
+    </StyledView>
+  );
+};
+
+interface BussinessProfileCardProps {
+  url?: string;
+  name: string;
+  location: string;
+  Certified: boolean;
+}
+
+export const BussinessProfileCard = (props: BussinessProfileCardProps) => {
+  return (
+    <StyledView>
       <ProfileImage url={props.url} width={widthPercent * 30} height={heightPercent * 30} />
+      <Spacer horizontal space={widthPercent * 8}></Spacer>
       <ColumContainer>
-        <Typo.BODY3_M color={Color.BLACK}>{props.name}</Typo.BODY3_M>
-        <Typo.Detail1_M color={Color.GRAY400}>{getTimeSincePost(props.date)}</Typo.Detail1_M>
+        <View style={{ flexDirection: 'row' }}>
+          <Typo.BODY3_M color={Color.BLACK}>{props.name}</Typo.BODY3_M>
+          <Spacer space={widthPercent * 5} horizontal></Spacer>
+          <Typo.BODY4_M color={Color.GRAY400}>{props.location}</Typo.BODY4_M>
+        </View>
+        <Spacer space={heightPercent * 3}></Spacer>
+        {props.Certified === true ? <Typo.BODY4_M color={Color.GREEN600}>인증된 사용자</Typo.BODY4_M> : <Typo.BODY4_M color={Color.RED100}>인증되지 않은 사용자</Typo.BODY4_M>}
       </ColumContainer>
     </StyledView>
   );

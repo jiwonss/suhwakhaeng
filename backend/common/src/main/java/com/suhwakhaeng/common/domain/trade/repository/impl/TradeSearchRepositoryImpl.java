@@ -10,6 +10,8 @@ import com.suhwakhaeng.common.domain.trade.dto.TradeSearchRequest;
 import static com.suhwakhaeng.common.domain.trade.entity.QTradeBoard.tradeBoard;
 import static com.suhwakhaeng.common.domain.user.entity.QUser.user;
 import static com.suhwakhaeng.common.domain.trade.entity.QTradeLike.tradeLike;
+
+import com.suhwakhaeng.common.domain.trade.enums.TradeStatus;
 import com.suhwakhaeng.common.domain.trade.repository.TradeSearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -22,6 +24,7 @@ public class TradeSearchRepositoryImpl implements TradeSearchRepository {
 
     private BooleanBuilder getSearchOption(TradeSearchRequest request){
         BooleanBuilder searchOptions = new BooleanBuilder();
+        searchOptions.and(tradeBoard.status.eq(TradeStatus.SALE));
         if(request.id() != null){
             searchOptions.and(tradeBoard.id.gt(request.id()));
         }

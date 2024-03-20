@@ -20,7 +20,7 @@ const FarmDairyScreen = () => {
         <Header type='default' firstIcon='back' title='영농일지/장부'></Header>
         <CustomRadioButton data = { Data }/>
         {activeIndex === 0 && (
-          <FarmDairy data={[]}></FarmDairy>
+          <FarmDairy data={[1]}></FarmDairy>
         )}
         {activeIndex === 1 && (
           <FarmLedger data={[]}></FarmLedger>
