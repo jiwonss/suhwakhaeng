@@ -4,6 +4,7 @@ import com.suhwakhaeng.common.domain.trade.Exception.TradeErrorCode;
 import com.suhwakhaeng.common.domain.trade.Exception.TradeException;
 import com.suhwakhaeng.common.domain.trade.dto.*;
 import com.suhwakhaeng.common.domain.trade.entity.TradeBoard;
+import com.suhwakhaeng.common.domain.trade.enums.TradeStatus;
 import com.suhwakhaeng.common.domain.trade.repository.TradeRepository;
 import com.suhwakhaeng.common.domain.trade.repository.TradeSearchRepository;
 import com.suhwakhaeng.common.domain.trade.service.TradeService;
@@ -64,8 +65,11 @@ public class TradeServiceImpl implements TradeService {
         tradeRepository.deleteById(tradeId);
     }
 
+    @Transactional
     @Override
-    public Boolean selectIsLiked(Long userId, Long tradeId) {
-        return false;
+    public void updateStatus(Long userId, Long tradeId, TradeStatus status) {
+        TradeBoard tradeBoard = tradeRepository.findTradeBoardById(tradeId).orElseThrow(() -> new TradeException(TradeErrorCode.NO_EXIST_TRADE));
+        if(!userId.equals(tradeBoard.getUser().getId())) throw new TradeException(TradeErrorCode.NOT_MATCH_USER);
+        tradeBoard.updateStatus(status);
     }
 }
