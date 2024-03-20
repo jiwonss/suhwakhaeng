@@ -15,6 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import { BasicButton } from '../../components/button/Buttons';
 
 type RootStackParamList = {
+  ChatListScreen: undefined;
   MarketSearchScreen: undefined;
   MarketDetailScreen: { id: number };
   MarketRegistScreen: undefined;
@@ -46,7 +47,7 @@ const MarketScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
 
   const onPressChat = () => {
-    console.log('채팅창 이동');
+    navigation.navigate('ChatListScreen');
   };
 
   const onPressSearch = () => {

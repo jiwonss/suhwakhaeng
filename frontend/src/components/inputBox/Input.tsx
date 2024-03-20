@@ -28,7 +28,7 @@ const StyledSingleContainer = styled.TextInput.attrs({
   placeholderTextColor: `${Color.GRAY400}`,
 })<{ height?: number; width?: number }>`
   height: ${(props) => props.height || heightPercent * 36}px;
-  width: ${(props) => (props.width ? props.width * widthPercent : '100%')};
+  width: ${(props) => (props.width ? `${props.width * widthPercent}px` : '100%')};
   border-radius: 10px;
   border-width: 0.8px;
   border-color: ${Color.GRAY300};

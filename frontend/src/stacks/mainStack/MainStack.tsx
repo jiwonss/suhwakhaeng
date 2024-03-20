@@ -18,6 +18,8 @@ import MarketDetailScreen from '../../screens/market/MarketDetailScreen';
 import MarketModifyScreen from '../../screens/market/MarketModifyScreen';
 import MarketSearchScreen from '../../screens/market/MarketSearchScreen';
 import PlantBookScreen from '../../screens/plantBook/PlantBookScreen';
+import ChatListScreen from '../../screens/chat/ChatListScreen';
+import ChattingRoomScreen from '../../screens/chat/ChattingRoomScreen';
 
 type RootStackParamList = {
   MainScreen: undefined;
@@ -39,13 +41,17 @@ type RootStackParamList = {
   FavoriteProductScreen: undefined;
   MyProfileScreen: undefined;
   PlantBookScreen: undefined;
+  ChatListScreen: undefined;
+  ChattingRoomScreen: { id: number };
+  FavoriteProductScreen: undefined;
+  MyProfileScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
   return (
-    <Stack.Navigator initialRouteName='MainScreen'>
+    <Stack.Navigator initialRouteName='MarketScreen'>
       {/* 장터 페이지 */}
       <Stack.Screen name='MainScreen' component={MainScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketScreen' component={MarketScreen} options={{ headerShown: false }} />
@@ -68,6 +74,9 @@ const MainStack = () => {
       {/*게시글 검색 페이지*/}
       <Stack.Screen name='SearchPostScreen' component={SearchPostScreen} options={{ headerShown: false }} />
       <Stack.Screen name='SearchResultScreen' component={SearchResultScreen} options={{ headerShown: false }} />
+      {/* 채팅 페이지 */}
+      <Stack.Screen name='ChatListScreen' component={ChatListScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='ChattingRoomScreen' component={ChattingRoomScreen} options={{ headerShown: false }} />
       {/* 관심상품 페이지 */}
       <Stack.Screen name='FavoriteProductScreen' component={FavoriteProductScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MyProfileScreen' component={MyProfileScreen} options={{ headerShown: false }} />
