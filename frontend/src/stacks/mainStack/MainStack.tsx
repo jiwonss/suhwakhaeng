@@ -17,6 +17,7 @@ import MarketRegistScreen from '../../screens/market/MarketRegistScreen';
 import MarketDetailScreen from '../../screens/market/MarketDetailScreen';
 import MarketModifyScreen from '../../screens/market/MarketModifyScreen';
 import MarketSearchScreen from '../../screens/market/MarketSearchScreen';
+import PlantBookScreen from '../../screens/plantBook/PlantBookScreen';
 
 type RootStackParamList = {
   MainScreen: undefined;
@@ -35,6 +36,9 @@ type RootStackParamList = {
   SetLocationScreen: undefined;
   SearchPostScreen: undefined;
   SearchResultScreen: undefined;
+  FavoriteProductScreen: undefined;
+  MyProfileScreen: undefined;
+  PlantBookScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -67,6 +71,8 @@ const MainStack = () => {
       {/* 관심상품 페이지 */}
       <Stack.Screen name='FavoriteProductScreen' component={FavoriteProductScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MyProfileScreen' component={MyProfileScreen} options={{ headerShown: false }} />
+      {/*작물 도감 페이지*/}
+      <Stack.Screen name='PlantBookScreen' component={PlantBookScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };

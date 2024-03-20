@@ -16,7 +16,6 @@ import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
 import { StyleSheet, View } from 'react-native';
-import { Spacer } from '../basic/Spacer';
 
 // 타입 정의
 type RootTabParamList = {
@@ -66,7 +65,7 @@ const screenOptions = ({ route }: ScreenOptionsProps): BottomTabNavigationOption
   unmountOnBlur: true,
   tabBarIcon: ({ focused }) => tabBarIcon({ route, focused }),
   tabBarStyle: {
-    height: 64,
+    height: 50 * heightPercent,
     backgroundColor: Color.WHITE,
   },
   tabBarLabelStyle: {
