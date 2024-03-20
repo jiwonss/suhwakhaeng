@@ -79,7 +79,7 @@ export const SlideModal = (props: ModalProps) => {
   return (
     <Modal animationType='slide' transparent={true} visible={props.isVisible}>
       <SlideDimmer onPress={() => props.setIsVisible(false)} />
-      <SlideContainer>
+      <SlideContainer style={{ elevation: 20 }}>
         <SlideBar />
         {props.children}
       </SlideContainer>
