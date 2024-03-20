@@ -2,11 +2,8 @@ import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
 import { ScrollView, View } from 'react-native';
 import Header from '../../components/header/Header';
-import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
-import { useState } from 'react';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import styled from 'styled-components/native';
-import { SearchInputBox } from '../../components/inputBox/Input';
 import { BasicButton } from '../../components/button/Buttons';
 import { Spacer } from '../../components/basic/Spacer';
 // 작물 이모지 컴포넌트
@@ -43,13 +40,7 @@ const PlantContainer = styled.View`
   flex-wrap: wrap;
 `;
 
-const PlantBookScreen = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const Data = [
-    { content: '전체', event: () => setActiveIndex(0), active: activeIndex === 0 },
-    { content: '제철 파종', event: () => setActiveIndex(1), active: activeIndex === 1 },
-    { content: '제철 수확', event: () => setActiveIndex(2), active: activeIndex === 2 },
-  ];
+const DefaultPlantResisterScreen = () => {
   const plantData = [
     { name: '가지', Icon: Eggplant },
     { name: '고구마', Icon: SweetPotato },
@@ -67,32 +58,16 @@ const PlantBookScreen = () => {
     { name: '호박', Icon: Pumpkin },
   ];
 
-  const [searchValue, setSearchValue] = useState<string>('');
-
   const dummyCount = 3 - (plantData.length % 3 || 3);
 
-  const onSubmit = () => {
-    console.log('검색');
-  };
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }} contentContainerStyle={{ paddingBottom: 50 * heightPercent }}>
         {/*헤더*/}
-        <Header type={'default'} title={'작물도감'} />
-        {/*작물검색*/}
-        <View style={{ alignItems: 'center' }}>
-          <SearchInputBox value={searchValue} setValue={setSearchValue} onSubmitSearch={onSubmit} placeHolder={'작물 이름을 입력해주세요'} />
-        </View>
-        <Spacer space={20} />
-        {/*작물 라디오 버튼*/}
-        <Container>
-          <View style={{ alignItems: 'flex-start' }}>
-            <CustomRadioButton data={Data} width={60} />
-          </View>
-        </Container>
+        <Header type={'default'} firstIcon={'back'} />
         {/*전체 작물 글자*/}
         <Container>
-          <Typo.BODY4_M>전체 작물</Typo.BODY4_M>
+          <Typo.BODY2_M>어떤 작물을 추가하시겠어요?</Typo.BODY2_M>
         </Container>
         {/*작물 리스트 가나다순으로 정렬*/}
         <PlantContainer>
@@ -116,4 +91,4 @@ const PlantBookScreen = () => {
   );
 };
 
-export default PlantBookScreen;
+export default DefaultPlantResisterScreen;

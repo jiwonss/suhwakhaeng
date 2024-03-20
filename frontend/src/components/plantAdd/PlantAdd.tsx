@@ -9,8 +9,8 @@ import { Spacer } from '../basic/Spacer';
 
 type PlantAddProps = {
   onPress: () => void;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   svgWidth?: number;
   svgHeight?: number;
   backgroundColor: string;
