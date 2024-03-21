@@ -23,11 +23,11 @@ import MarketScreen from '../../screens/market/MarketScreen';
 import MyProfileScreen from '../../screens/myProfile/MyProfileScreen';
 
 type RootTabParamList = {
-  home: undefined;
-  search: undefined;
-  hospital: undefined;
-  shop: undefined;
-  profile: undefined;
+  MainScreen: undefined;
+  PlantBookScreen: undefined;
+  DiseasePlantScreen: undefined;
+  MarketScreen: undefined;
+  MyProfileScreen: undefined;
 };
 
 type ScreenOptionsProps = {
@@ -46,11 +46,11 @@ const IconSizeStyle = styled.View`
 
 const tabBarIcon = ({ route, focused }: TabBarIconProps) => {
   const iconMap: { [key: string]: React.ElementType } = {
-    home: focused ? HomeActive : HomeDefaultIcon,
-    search: focused ? searchActive : searchDefault,
-    hospital: focused ? hospitalActive : hospitalDefault,
-    shop: focused ? shopActive : shopDefault,
-    profile: focused ? profileActive : profileDefault,
+    MainScreen: focused ? HomeActive : HomeDefaultIcon,
+    PlantBookScreen: focused ? searchActive : searchDefault,
+    DiseasePlantScreen: focused ? hospitalActive : hospitalDefault,
+    MarketScreen: focused ? shopActive : shopDefault,
+    MyProfileScreen: focused ? profileActive : profileDefault,
   };
 
   const IconComponent = iconMap[route.name] || HomeDefaultIcon;
@@ -92,7 +92,7 @@ const BottomNavigation = () => {
   return (
     <Tabs.Navigator screenOptions={screenOptions}>
       <Tabs.Screen
-        name='home'
+        name='MainScreen'
         component={MainScreen}
         options={{
           title: '홈',
@@ -100,7 +100,7 @@ const BottomNavigation = () => {
         }}
       />
       <Tabs.Screen
-        name='search'
+        name='PlantBookScreen'
         component={PlantBookScreen}
         options={{
           title: '작물도감',
@@ -108,7 +108,7 @@ const BottomNavigation = () => {
         }}
       />
       <Tabs.Screen
-        name='hospital'
+        name='DiseasePlantScreen'
         component={DiseasePlantScreen}
         options={{
           title: '작물진단',
@@ -116,7 +116,7 @@ const BottomNavigation = () => {
         }}
       />
       <Tabs.Screen
-        name='shop'
+        name='MarketScreen'
         component={MarketScreen}
         options={{
           title: '장터',
@@ -124,7 +124,7 @@ const BottomNavigation = () => {
         }}
       />
       <Tabs.Screen
-        name='profile'
+        name='MyProfileScreen'
         component={MyProfileScreen}
         options={{
           title: '프로필',

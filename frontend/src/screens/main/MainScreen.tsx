@@ -14,6 +14,7 @@ import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
+import FarmDairyScreen from '../farmDairy/FarmDairyScreen';
 // import Post from '../../components/post/Post';
 
 const MainScreen = () => {
@@ -46,21 +47,15 @@ const MainScreen = () => {
             <Leaf3D width={widthPercent * 36} height={heightPercent * 36} />
           </MenuButton>
           <Spacer horizontal={true} space={20} />
-          <MenuButton
-            size='small'
-            title='영농일지'
-            onPressButton={() => {
-              console.log('영농일지');
-            }}
-          >
+          <MenuButton size='small' title='영농일지' onPressButton={() => navigation.navigate('FarmDairyScreen')}>
             <Calendar3D width={widthPercent * 36} height={heightPercent * 36} />
           </MenuButton>
           <Spacer horizontal={true} space={20} />
-          <MenuButton size='small' title='영농장부' onPressButton={() => {}}>
+          <MenuButton size='small' title='영농장부' onPressButton={() => navigation.navigate('FarmDairyScreen')}>
             <Bag3D width={widthPercent * 36} height={heightPercent * 36} />
           </MenuButton>
           <Spacer horizontal={true} space={20} />
-          <MenuButton size='small' title='정부 보조금' onPressButton={() => {}}>
+          <MenuButton size='small' title='정부 보조금' onPressButton={() => navigation.navigate('DiseasePlantScreen')}>
             <Coin3D width={widthPercent * 36} height={heightPercent * 36} />
           </MenuButton>
         </View>

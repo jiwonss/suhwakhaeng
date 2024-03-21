@@ -33,6 +33,7 @@ import DetailDiseasePlantScreen from '../../screens/plantDisease/DetailDiseasePl
 import BottomNavigation from '../../components/navigation/BottomNavigation';
 
 export type RootStackParamList = {
+  HomeTabs: undefined;
   MainScreen: undefined;
   MarketScreen: undefined;
   MarketRegistScreen: undefined;
@@ -65,7 +66,6 @@ export type RootStackParamList = {
   DetailDiseasePlantScreen: undefined;
   CulturePlantSelectScreen: undefined;
   EnvironmentPlantScreen: undefined;
-  HomeTabs: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
