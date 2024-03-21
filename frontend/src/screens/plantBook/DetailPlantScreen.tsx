@@ -1,10 +1,10 @@
-import * as Color from '../../config/color/Color';
 import { ScrollView, View } from 'react-native';
-import Header from '../../components/header/Header';
-import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import styled from 'styled-components/native';
 import { Spacer } from '../../components/basic/Spacer';
+import Header from '../../components/header/Header';
 import BottomNavigation from '../../components/navigation/BottomNavigation';
+import * as Color from '../../config/color/Color';
+import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;

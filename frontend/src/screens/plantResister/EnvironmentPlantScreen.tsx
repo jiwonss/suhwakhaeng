@@ -1,14 +1,14 @@
-import * as Color from '../../config/color/Color';
-import * as Typo from '../../components/typography/Typography';
+import React, { useState } from 'react';
 import { ScrollView, View } from 'react-native';
-import Header from '../../components/header/Header';
-import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import styled from 'styled-components/native';
 import { Spacer } from '../../components/basic/Spacer';
-import { SingleLineInputBox } from '../../components/inputBox/Input';
-import { DropDown } from '../../components/dropdown/DropDown';
-import React, { useState } from 'react';
 import { BasicButton } from '../../components/button/Buttons';
+import { DropDown } from '../../components/dropdown/DropDown';
+import Header from '../../components/header/Header';
+import { SingleLineInputBox } from '../../components/inputBox/Input';
+import * as Typo from '../../components/typography/Typography';
+import * as Color from '../../config/color/Color';
+import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;

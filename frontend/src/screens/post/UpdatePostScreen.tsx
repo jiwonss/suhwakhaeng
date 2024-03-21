@@ -1,15 +1,15 @@
-import * as Color from '../../config/color/Color';
-import * as Typo from '../../components/typography/Typography';
-import { ScrollView, View } from 'react-native';
-import Header from '../../components/header/Header';
-import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
 import { useState } from 'react';
-import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
+import { ScrollView, View } from 'react-native';
 import styled from 'styled-components/native';
-import { MultiLineInputBox } from '../../components/inputBox/Input';
-import ImgUploader from '../../components/imgUploader/ImgUploader';
-import { BasicButton } from '../../components/button/Buttons';
 import { Spacer } from '../../components/basic/Spacer';
+import { BasicButton } from '../../components/button/Buttons';
+import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
+import Header from '../../components/header/Header';
+import ImgUploader from '../../components/imgUploader/ImgUploader';
+import { MultiLineInputBox } from '../../components/inputBox/Input';
+import * as Typo from '../../components/typography/Typography';
+import * as Color from '../../config/color/Color';
+import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;

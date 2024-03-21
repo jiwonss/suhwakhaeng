@@ -1,12 +1,12 @@
-import * as Color from '../../config/color/Color';
-import * as Typo from '../../components/typography/Typography';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
-import Header from '../../components/header/Header';
-import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import styled from 'styled-components/native';
-import { Spacer } from '../../components/basic/Spacer';
-import BottomNavigation from '../../components/navigation/BottomNavigation';
 import { Divider } from '../../components/basic/Divider';
+import { Spacer } from '../../components/basic/Spacer';
+import Header from '../../components/header/Header';
+import BottomNavigation from '../../components/navigation/BottomNavigation';
+import * as Typo from '../../components/typography/Typography';
+import * as Color from '../../config/color/Color';
+import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;

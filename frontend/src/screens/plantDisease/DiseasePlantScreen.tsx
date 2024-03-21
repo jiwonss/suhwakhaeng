@@ -1,15 +1,15 @@
-import * as Color from '../../config/color/Color';
 import { ScrollView, View } from 'react-native';
-import Header from '../../components/header/Header';
-import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import styled from 'styled-components/native';
+import Calendar3D from '../../../assets/icons/calendar3D.svg';
+import Search3D from '../../../assets/icons/search3D.svg';
 import { Spacer } from '../../components/basic/Spacer';
+import { NewsItemCard } from '../../components/card/NewsItemCard';
+import Header from '../../components/header/Header';
+import MenuButton from '../../components/menuButton/MenuButton';
 import BottomNavigation from '../../components/navigation/BottomNavigation';
 import * as Typo from '../../components/typography/Typography';
-import MenuButton from '../../components/menuButton/MenuButton';
-import Search3D from '../../../assets/icons/search3D.svg';
-import Calendar3D from '../../../assets/icons/calendar3D.svg';
-import { NewsItemCard } from '../../components/card/NewsItemCard';
+import * as Color from '../../config/color/Color';
+import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;

@@ -1,18 +1,18 @@
+import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import * as Color from '../../config/color/Color';
-import * as Typo from '../../components/typography/Typography';
-import Header from '../../components/header/Header';
-import MenuButton from '../../components/menuButton/MenuButton';
-import Calendar3D from '../../../assets/icons/calendar3D.svg';
-import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
-import Search3D from '../../../assets/icons/search3D.svg';
 import Bag3D from '../../../assets/icons/bag3D.svg';
+import Calendar3D from '../../../assets/icons/calendar3D.svg';
 import Coin3D from '../../../assets/icons/coin3D.svg';
+import Search3D from '../../../assets/icons/search3D.svg';
 import { Spacer } from '../../components/basic/Spacer';
 import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
-import { useState } from 'react';
+import Header from '../../components/header/Header';
+import MenuButton from '../../components/menuButton/MenuButton';
 import BottomNavigation from '../../components/navigation/BottomNavigation';
+import * as Typo from '../../components/typography/Typography';
+import * as Color from '../../config/color/Color';
+import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 // import Post from '../../components/post/Post';
 
 const MainScreen = () => {

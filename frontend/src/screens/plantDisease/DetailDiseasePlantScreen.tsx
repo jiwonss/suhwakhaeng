@@ -1,13 +1,13 @@
-import * as Color from '../../config/color/Color';
-import * as Typo from '../../components/typography/Typography';
+import React from 'react';
 import { ScrollView, View } from 'react-native';
-import Header from '../../components/header/Header';
-import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import styled from 'styled-components/native';
 import { Spacer } from '../../components/basic/Spacer';
-import BottomNavigation from '../../components/navigation/BottomNavigation';
 import { Card } from '../../components/card/Card';
-import React from 'react';
+import Header from '../../components/header/Header';
+import BottomNavigation from '../../components/navigation/BottomNavigation';
+import * as Typo from '../../components/typography/Typography';
+import * as Color from '../../config/color/Color';
+import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
