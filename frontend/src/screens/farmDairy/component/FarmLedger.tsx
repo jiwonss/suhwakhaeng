@@ -1,21 +1,26 @@
-import { ScrollView, Text, View } from 'react-native';
+import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Typo from '../../../components/typography/Typography';
 import * as Color from '../../../config/color/Color';
 import { heightPercent, widthPercent } from '../../../config/dimension/Dimension';
-import Header from '../../../components/header/Header';
-import CustomRadioButton from '../../../components/cutomRadioButton/CutomRadioButton';
-import { SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import CustomCalendar from '../../../components/customCalendar/CustomCalendar';
-import { DropDown } from '../../../components/dropdown/DropDown';
 import { Card } from '../../../components/card/Card';
 import { Spacer } from '../../../components/basic/Spacer';
 import styled from 'styled-components/native';
 import { BasicButton } from '../../../components/button/Buttons';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 type FarmLedgerProps = {
   data: any[];
 };
+
+type RootStackParamList = {
+  FarmLedgerAddScreen: undefined;
+};
+
+type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 const StyledContainer = styled.View`
   flex-direction: row;
@@ -36,6 +41,12 @@ const StyledView = styled.View`
 `;
 
 const FarmLedger = (props: FarmLedgerProps) => {
+  const navigation = useNavigation<RootStackNavigationProp>();
+
+  const onPressLedger = () => {
+    navigation.navigate('FarmLedgerAddScreen');
+  };
+
   const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -95,6 +106,19 @@ const FarmLedger = (props: FarmLedgerProps) => {
                     <Spacer space={heightPercent * 10}></Spacer>
                   </View>
                 </Card>
+
+                <Spacer space={heightPercent * 20}></Spacer>
+                <BasicButton
+                  onPress={onPressLedger}
+                  width={widthPercent * 100}
+                  height={heightPercent * 40}
+                  disabled={false}
+                  backgroundColor={Color.GREEN500}
+                  borderColor={Color.WHITE}
+                  borderRadius={10}
+                >
+                  <Typo.BODY4_M color={Color.WHITE}>일지 작성하기</Typo.BODY4_M>
+                </BasicButton>
               </View>
             </>
           </>
@@ -103,7 +127,7 @@ const FarmLedger = (props: FarmLedgerProps) => {
             <Typo.BODY4_M color={Color.GRAY400}>오늘 지출/수입 내역을 작성해주세요</Typo.BODY4_M>
             <Spacer space={heightPercent * 13}></Spacer>
             <BasicButton
-              onPress={() => console.log('Button pressed')}
+              onPress={onPressLedger}
               width={widthPercent * 100}
               height={heightPercent * 40}
               disabled={false}
