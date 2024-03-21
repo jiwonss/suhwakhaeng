@@ -31,7 +31,7 @@ const UpdatePostScreen = () => {
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
-        <Header type={'default'} firstIcon='back' title={'게시글 수정'} onPressMore={() => console.log('더보기')} />
+        <Header type={'default'} firstIcon='back' title={'날씨'} onPressMore={() => console.log('더보기')} />
         <Spacer space={20} />
         <Container>
           <Typo.BODY4_M>분류 선택</Typo.BODY4_M>
