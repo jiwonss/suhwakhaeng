@@ -1,21 +1,26 @@
-import { useState } from 'react';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Bag3D from '../../../assets/icons/bag3D.svg';
 import Calendar3D from '../../../assets/icons/calendar3D.svg';
 import Coin3D from '../../../assets/icons/coin3D.svg';
-import Search3D from '../../../assets/icons/search3D.svg';
+import Leaf3D from '../../../assets/icons/leaf3D.svg';
 import { Spacer } from '../../components/basic/Spacer';
 import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
 import Header from '../../components/header/Header';
 import MenuButton from '../../components/menuButton/MenuButton';
-import BottomNavigation from '../../components/navigation/BottomNavigation';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
+import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 // import Post from '../../components/post/Post';
 
 const MainScreen = () => {
+  useEffect(() => {
+    console.log('메인화면 마운트 완료');
+  }, []);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const Data = [
     { content: '전체', event: () => setActiveIndex(0), active: activeIndex === 0 },
@@ -24,6 +29,8 @@ const MainScreen = () => {
     { content: '나눔', event: () => setActiveIndex(3), active: activeIndex === 3 },
     { content: '질문', event: () => setActiveIndex(4), active: activeIndex === 4 },
   ];
+
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -39,11 +46,17 @@ const MainScreen = () => {
         <Spacer horizontal={false} space={19} />
 
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-          <MenuButton size='small' title='작물 검색' borderColor={Color.GREEN50} onPressButton={() => {}}>
-            <Search3D width={widthPercent * 36} height={heightPercent * 36} />
+          <MenuButton size='small' title='작물 진단' borderColor={Color.GREEN50} onPressButton={() => navigation.navigate('DiseasePlantScreen')}>
+            <Leaf3D width={widthPercent * 36} height={heightPercent * 36} />
           </MenuButton>
           <Spacer horizontal={true} space={20} />
-          <MenuButton size='small' title='영농일지' onPressButton={() => {}}>
+          <MenuButton
+            size='small'
+            title='영농일지'
+            onPressButton={() => {
+              console.log('영농일지');
+            }}
+          >
             <Calendar3D width={widthPercent * 36} height={heightPercent * 36} />
           </MenuButton>
           <Spacer horizontal={true} space={20} />
@@ -59,7 +72,6 @@ const MainScreen = () => {
         <CustomRadioButton data={Data} />
         {/*<Post postData={} onPress={} />*/}
       </ScrollView>
-      <BottomNavigation />
     </SafeAreaView>
   );
 };

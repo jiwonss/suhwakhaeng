@@ -47,7 +47,7 @@ const DetailPlantResisterScreen = () => {
           ))}
         </Container>
       </ScrollView>
-      <BottomNavigation />
+      {/*<BottomNavigation />*/}
     </View>
   );
 };

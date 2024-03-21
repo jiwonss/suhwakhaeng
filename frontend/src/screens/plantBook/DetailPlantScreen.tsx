@@ -21,7 +21,7 @@ const DetailPlantScreen = () => {
         <Header type={'default'} firstIcon={'back'} />
         <Spacer space={20} />
       </ScrollView>
-      <BottomNavigation />
+      {/*<BottomNavigation />*/}
     </View>
   );
 };

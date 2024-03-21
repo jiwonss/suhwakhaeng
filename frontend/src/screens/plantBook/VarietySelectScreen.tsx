@@ -47,7 +47,7 @@ const VarietySelectScreen = () => {
           ))}
         </Container>
       </ScrollView>
-      <BottomNavigation />
+      {/*<BottomNavigation />*/}
     </View>
   );
 };

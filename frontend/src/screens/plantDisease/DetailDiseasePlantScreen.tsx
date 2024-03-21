@@ -55,7 +55,7 @@ const DetailDiseasePlantScreen = () => {
           </Card>
         </Container>
       </ScrollView>
-      <BottomNavigation />
+      {/*<BottomNavigation />*/}
     </View>
   );
 };

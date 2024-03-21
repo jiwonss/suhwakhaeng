@@ -49,7 +49,7 @@ const CulturePlantSelectScreen = () => {
           <Divider marginHorizontal={1} />
         </Container>
       </ScrollView>
-      <BottomNavigation />
+      {/*<BottomNavigation />*/}
     </View>
   );
 };

@@ -86,7 +86,7 @@ const DefaultPlantResisterScreen = () => {
           ))}
         </PlantContainer>
       </ScrollView>
-      <BottomNavigation />
+      {/*<BottomNavigation />*/}
     </View>
   );
 };

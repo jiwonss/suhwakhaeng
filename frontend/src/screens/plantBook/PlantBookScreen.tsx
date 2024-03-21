@@ -111,7 +111,7 @@ const PlantBookScreen = () => {
           ))}
         </PlantContainer>
       </ScrollView>
-      <BottomNavigation />
+      {/*<BottomNavigation />*/}
     </View>
   );
 };

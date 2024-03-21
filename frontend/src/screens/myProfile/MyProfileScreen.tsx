@@ -157,7 +157,7 @@ const MyProfileScreen = () => {
           </ButtonContainer>
         </FormContainer>
       </Container>
-      <BottomNavigation></BottomNavigation>
+      {/*<BottomNavigation></BottomNavigation>*/}
     </>
   );
 };

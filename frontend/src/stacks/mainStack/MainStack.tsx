@@ -30,8 +30,9 @@ import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
 import DetailPlantScreen from '../../screens/plantBook/DetailPlantScreen';
 import DetailDiseasePlantScreen from '../../screens/plantDisease/DetailDiseasePlantScreen';
+import BottomNavigation from '../../components/navigation/BottomNavigation';
 
-type RootStackParamList = {
+export type RootStackParamList = {
   MainScreen: undefined;
   MarketScreen: undefined;
   MarketRegistScreen: undefined;
@@ -64,14 +65,16 @@ type RootStackParamList = {
   DetailDiseasePlantScreen: undefined;
   CulturePlantSelectScreen: undefined;
   EnvironmentPlantScreen: undefined;
+  HomeTabs: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
   return (
-    <Stack.Navigator initialRouteName='FarmLedgerAddScreen'>
+    <Stack.Navigator initialRouteName='HomeTabs'>
       {/* 장터 페이지 */}
+      <Stack.Screen name='HomeTabs' component={BottomNavigation} options={{ headerShown: false }} />
       <Stack.Screen name='MainScreen' component={MainScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketScreen' component={MarketScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketRegistScreen' component={MarketRegistScreen} options={{ headerShown: false }} />
@@ -98,7 +101,7 @@ const MainStack = () => {
       <Stack.Screen name='ChattingRoomScreen' component={ChattingRoomScreen} options={{ headerShown: false }} />
       {/* 관심상품 페이지 */}
       <Stack.Screen name='FavoriteProductScreen' component={FavoriteProductScreen} options={{ headerShown: false }} />
-      {/* 마이 페이지 */} 
+      {/* 마이 페이지 */}
       <Stack.Screen name='MyProfileScreen' component={MyProfileScreen} options={{ headerShown: false }} />
       <Stack.Screen name='FcmTestScreen' component={FcmTestScreen} options={{ headerShown: false }} />
       <Stack.Screen name='ModifyProfileScreen' component={ModifyProfileScreen} options={{ headerShown: false }} />

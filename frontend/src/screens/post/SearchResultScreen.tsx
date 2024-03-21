@@ -17,7 +17,7 @@ const SearchResultScreen = () => {
           <Header type='search' value={searchValue} setValue={setSearchValue} onSubmitSearch={onSubmit} />
         </ScrollView>
       </View>
-      <BottomNavigation />
+      {/*<BottomNavigation />*/}
     </SafeAreaView>
   );
 };

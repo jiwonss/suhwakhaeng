@@ -10,6 +10,7 @@ import BottomNavigation from '../../components/navigation/BottomNavigation';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
+import { useNavigation } from '@react-navigation/native';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -19,6 +20,8 @@ const Container = styled.View`
 `;
 
 const DiseasePlantScreen = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }} contentContainerStyle={{ paddingBottom: 50 * heightPercent }}>
@@ -31,7 +34,7 @@ const DiseasePlantScreen = () => {
           </Typo.BODY4_M>
         </Container>
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-          <MenuButton size='big' title='작물 검색' borderColor={Color.GREEN50} onPressButton={() => {}}>
+          <MenuButton size='big' title='작물 검색' borderColor={Color.GREEN50} onPressButton={() => navigation.navigate('MainScreen')}>
             <Search3D width={widthPercent * 40} height={heightPercent * 40} />
           </MenuButton>
           <Spacer horizontal={true} space={40} />
@@ -47,7 +50,7 @@ const DiseasePlantScreen = () => {
         </Container>
         <NewsItemCard company={'회사'} content={'컨텐츠'} date={'날짜'} href={'하이퍼링크'} title={'제목'} uri={'유알아이'} />
       </ScrollView>
-      <BottomNavigation />
+      {/*<BottomNavigation />*/}
     </View>
   );
 };

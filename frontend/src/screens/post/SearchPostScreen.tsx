@@ -56,7 +56,7 @@ const SearchPostScreen = () => {
           ))}
         </ScrollView>
       </View>
-      <BottomNavigation />
+      {/*<BottomNavigation />*/}
     </SafeAreaView>
   );
 };

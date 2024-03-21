@@ -16,8 +16,12 @@ import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
 import { StyleSheet, View } from 'react-native';
+import MainScreen from '../../screens/main/MainScreen';
+import PlantBookScreen from '../../screens/plantBook/PlantBookScreen';
+import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
+import MarketScreen from '../../screens/market/MarketScreen';
+import MyProfileScreen from '../../screens/myProfile/MyProfileScreen';
 
-// 타입 정의
 type RootTabParamList = {
   home: undefined;
   search: undefined;
@@ -35,7 +39,6 @@ type TabBarIconProps = {
   focused: boolean;
 };
 
-// 스타일 컴포넌트 정의
 const IconSizeStyle = styled.View`
   width: ${widthPercent * 24}px;
   height: ${heightPercent * 24}px;
@@ -58,7 +61,6 @@ const tabBarIcon = ({ route, focused }: TabBarIconProps) => {
   );
 };
 
-// screenOptions 함수
 const screenOptions = ({ route }: ScreenOptionsProps): BottomTabNavigationOptions => ({
   headerShown: false,
   tabBarHideOnKeyboard: true,
@@ -70,18 +72,17 @@ const screenOptions = ({ route }: ScreenOptionsProps): BottomTabNavigationOption
   },
   tabBarLabelStyle: {
     fontSize: 14,
-    padding: 30, // 라벨 아래 공간을 추가합니다.
+    padding: 30,
   },
 });
 
 // 화면 컴포넌트
-const HomeScreen = () => <></>;
-const DictionaryScreen = () => <></>;
-const CropDiagnosisScreen = () => <></>;
-const MarketScreen = () => <></>;
-const ProfileScreen = () => <></>;
+const Home = () => <MainScreen />;
+const Dictionary = () => <PlantBookScreen />;
+const CropDiagnosis = () => <DiseasePlantScreen />;
+const Market = () => <MarketScreen />;
+const Profile = () => <MyProfileScreen />;
 
-// 탭 내비게이션 구성
 const Tabs = createBottomTabNavigator<RootTabParamList>();
 
 const styles = StyleSheet.create({
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: Color.WHITE, // 배경색이 필요하면 설정합니다.
+    backgroundColor: Color.WHITE,
   },
 });
 
@@ -100,7 +101,7 @@ const BottomNavigation = () => {
       <Tabs.Navigator screenOptions={screenOptions}>
         <Tabs.Screen
           name='home'
-          component={HomeScreen}
+          component={Home}
           options={{
             title: '홈',
             tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>홈</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>홈</Typo.BODY4_M>),
@@ -108,7 +109,7 @@ const BottomNavigation = () => {
         />
         <Tabs.Screen
           name='search'
-          component={DictionaryScreen}
+          component={Dictionary}
           options={{
             title: '작물도감',
             tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>작물도감</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>작물도감</Typo.BODY4_M>),
@@ -116,7 +117,7 @@ const BottomNavigation = () => {
         />
         <Tabs.Screen
           name='hospital'
-          component={CropDiagnosisScreen}
+          component={CropDiagnosis}
           options={{
             title: '작물진단',
             tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>작물진단</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>작물진단</Typo.BODY4_M>),
@@ -124,7 +125,7 @@ const BottomNavigation = () => {
         />
         <Tabs.Screen
           name='shop'
-          component={MarketScreen}
+          component={Market}
           options={{
             title: '장터',
             tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>장터</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>장터</Typo.BODY4_M>),
@@ -132,7 +133,7 @@ const BottomNavigation = () => {
         />
         <Tabs.Screen
           name='profile'
-          component={ProfileScreen}
+          component={Profile}
           options={{
             title: '프로필',
             tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>프로필</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>프로필</Typo.BODY4_M>),
