@@ -14,7 +14,6 @@ import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
-import FarmDairyScreen from '../farmDairy/FarmDairyScreen';
 // import Post from '../../components/post/Post';
 
 const MainScreen = () => {
@@ -43,7 +42,12 @@ const MainScreen = () => {
         <Spacer horizontal={false} space={19} />
 
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-          <MenuButton size='small' title='작물 진단' borderColor={Color.GREEN50} onPressButton={() => navigation.navigate('DiseasePlantScreen')}>
+          <MenuButton
+            size='small'
+            title='작물 진단'
+            borderColor={Color.GREEN50}
+            onPressButton={() => navigation.navigate('BottomTabStackNavigator', { screen: 'SearchPostScreen' })}
+          >
             <Leaf3D width={widthPercent * 36} height={heightPercent * 36} />
           </MenuButton>
           <Spacer horizontal={true} space={20} />

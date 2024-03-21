@@ -15,7 +15,6 @@ import profileActive from '../../../assets/icons/profileActive.svg';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
-import { StyleSheet } from 'react-native';
 import MainScreen from '../../screens/main/MainScreen';
 import PlantBookScreen from '../../screens/plantBook/PlantBookScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
@@ -77,16 +76,6 @@ const screenOptions = ({ route }: ScreenOptionsProps): BottomTabNavigationOption
 });
 
 const Tabs = createBottomTabNavigator<RootTabParamList>();
-
-const styles = StyleSheet.create({
-  bottomNavigation: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: Color.WHITE,
-  },
-});
 
 const BottomNavigation = () => {
   return (
