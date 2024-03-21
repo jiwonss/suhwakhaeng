@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  mongodb:
+    build:
+      context: ./mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+
+  rabbitmq:
+    build:
+      context: ./rabbitmq
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"  # rabbitmq
+      - "61613:61613" # stomp
+    environment:
+      RABBITMQ_DEFAULT_USER: ssafy
+      RABBITMQ_DEFAULT_PASS: ssafy
+
+#  redis:
+#    build:
+#      context: ./redis
+#    container_name: redis
+#    ports:
+#      - "6379:6379"
+#    command: ["redis-server", "--requirepass", "example"]
