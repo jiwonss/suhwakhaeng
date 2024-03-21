@@ -30,9 +30,9 @@ export const NewsItemCard = (props: NewsItemProps) => {
         <View style={{ height: 'auto', flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
           <BODY4_M>{props.title}</BODY4_M>
           <Spacer space={heightPercent * 4} />
-          <Detail1_M children={props.content} numberOfLines={3} />
+          <Detail1_M numberOfLines={3}>{props.content}</Detail1_M>
           <Spacer space={heightPercent * 4} />
-          <Detail1_M children={`${props.company} · ${props.date}`} color='' />
+          <Detail1_M color=''>{`${props.company} · ${props.date}`}</Detail1_M>
         </View>
         <Spacer space={widthPercent * 8} horizontal />
         <UriImageLoader uri={props.uri} style={{ width: widthPercent * 50, aspectRatio: 1 / 1, borderRadius: widthPercent * 12 }} />
