@@ -27,6 +27,9 @@ import DetailPlantResisterScreen from '../../screens/plantResister/DetailPlantRe
 import CulturePlantSelectScreen from '../../screens/plantResister/CulturePlantSelectScreen';
 import EnvironmentPlantScreen from '../../screens/plantResister/EnvironmentPlantScreen';
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
+import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
+import DetailPlantScreen from '../../screens/plantBook/DetailPlantScreen';
+import DetailDiseasePlantScreen from '../../screens/plantDisease/DetailDiseasePlantScreen';
 
 type RootStackParamList = {
   MainScreen: undefined;
@@ -53,9 +56,12 @@ type RootStackParamList = {
   ChatListScreen: undefined;
   ChattingRoomScreen: { id: number };
   VarietySelectScreen: undefined;
+  DetailPlantScreen: undefined;
+  DiseasePlantScreen: undefined;
   PlantResisterScreen: undefined;
   DefaultPlantResisterScreen: undefined;
   DetailPlantResisterScreen: undefined;
+  DetailDiseasePlantScreen: undefined;
   CulturePlantSelectScreen: undefined;
   EnvironmentPlantScreen: undefined;
 };
@@ -99,6 +105,10 @@ const MainStack = () => {
       {/*작물 도감 페이지*/}
       <Stack.Screen name='PlantBookScreen' component={PlantBookScreen} options={{ headerShown: false }} />
       <Stack.Screen name='VarietySelectScreen' component={VarietySelectScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='DetailPlantScreen' component={DetailPlantScreen} options={{ headerShown: false }} />
+      {/*작물 진단 페이지*/}
+      <Stack.Screen name='DiseasePlantScreen' component={DiseasePlantScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='DetailDiseasePlantScreen' component={DetailDiseasePlantScreen} options={{ headerShown: false }} />
       {/*작물 등록 페이지*/}
       <Stack.Screen name='DefaultPlantResisterScreen' component={DefaultPlantResisterScreen} options={{ headerShown: false }} />
       <Stack.Screen name='DetailPlantResisterScreen' component={DetailPlantResisterScreen} options={{ headerShown: false }} />
