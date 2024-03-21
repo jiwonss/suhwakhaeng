@@ -1,27 +1,33 @@
-import { ScrollView, Text, View } from 'react-native';
+import { View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Typo from '../../../components/typography/Typography';
 import * as Color from '../../../config/color/Color';
 import { heightPercent, widthPercent } from '../../../config/dimension/Dimension';
-import Header from '../../../components/header/Header';
-import CustomRadioButton from '../../../components/cutomRadioButton/CutomRadioButton';
-import { SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import CustomCalendar from '../../../components/customCalendar/CustomCalendar';
-import { DropDown } from '../../../components/dropdown/DropDown';
 import { Card } from '../../../components/card/Card';
 import { Spacer } from '../../../components/basic/Spacer';
 import { BasicButton } from '../../../components/button/Buttons';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 type FarmDairyProps = {
   data: any[];
 };
 
+type RootStackParamList = {
+  FarmDairyAddScreen: undefined;
+};
+
+type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
+
 const FarmDairy = (props: FarmDairyProps) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const Data = [
-    { content: '영농일지', event: () => setActiveIndex(0), active: activeIndex === 0 },
-    { content: '영농장부', event: () => setActiveIndex(1), active: activeIndex === 1 },
-  ];
+
+  const navigation = useNavigation<RootStackNavigationProp>();
+
+  const onPressDairy = () => {
+    navigation.navigate('FarmDairyAddScreen');
+  };
 
   const getCurrentDate = () => {
     const today = new Date();
@@ -69,7 +75,7 @@ const FarmDairy = (props: FarmDairyProps) => {
 
             <Spacer space={heightPercent * 20}></Spacer>
             <BasicButton
-              onPress={() => console.log('Button pressed')}
+              onPress={onPressDairy}
               width={widthPercent * 100}
               height={heightPercent * 40}
               disabled={false}
@@ -85,7 +91,7 @@ const FarmDairy = (props: FarmDairyProps) => {
             <Typo.BODY4_M color={Color.GRAY400}>오늘 지출/수입 내역을 작성해주세요</Typo.BODY4_M>
             <Spacer space={heightPercent * 13}></Spacer>
             <BasicButton
-              onPress={() => console.log('Button pressed')}
+              onPress={onPressDairy}
               width={widthPercent * 100}
               height={heightPercent * 40}
               disabled={false}

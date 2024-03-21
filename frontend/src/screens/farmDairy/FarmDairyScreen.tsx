@@ -7,7 +7,10 @@ import { useState } from 'react';
 import FarmDairy from './component/FarmDairy';
 import FarmLedger from './component/FarmLedger';
 
+
 const FarmDairyScreen = () => {
+  //네비게이션
+
   const [activeIndex, setActiveIndex] = useState(0);
   const Data = [
     { content: '영농일지', event: () => setActiveIndex(0), active: activeIndex === 0 },
