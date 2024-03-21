@@ -6,7 +6,6 @@ import { Spacer } from '../../components/basic/Spacer';
 import { NewsItemCard } from '../../components/card/NewsItemCard';
 import Header from '../../components/header/Header';
 import MenuButton from '../../components/menuButton/MenuButton';
-import BottomNavigation from '../../components/navigation/BottomNavigation';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
@@ -50,7 +49,6 @@ const DiseasePlantScreen = () => {
         </Container>
         <NewsItemCard company={'회사'} content={'컨텐츠'} date={'날짜'} href={'하이퍼링크'} title={'제목'} uri={'유알아이'} />
       </ScrollView>
-      {/*<BottomNavigation />*/}
     </View>
   );
 };

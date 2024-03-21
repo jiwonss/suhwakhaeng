@@ -3,7 +3,6 @@ import styled from 'styled-components/native';
 import { Divider } from '../../components/basic/Divider';
 import { Spacer } from '../../components/basic/Spacer';
 import Header from '../../components/header/Header';
-import BottomNavigation from '../../components/navigation/BottomNavigation';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
@@ -47,7 +46,6 @@ const DetailPlantResisterScreen = () => {
           ))}
         </Container>
       </ScrollView>
-      {/*<BottomNavigation />*/}
     </View>
   );
 };

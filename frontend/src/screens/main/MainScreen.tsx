@@ -1,5 +1,5 @@
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Bag3D from '../../../assets/icons/bag3D.svg';
@@ -17,10 +17,6 @@ import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 // import Post from '../../components/post/Post';
 
 const MainScreen = () => {
-  useEffect(() => {
-    console.log('메인화면 마운트 완료');
-  }, []);
-
   const [activeIndex, setActiveIndex] = useState(0);
   const Data = [
     { content: '전체', event: () => setActiveIndex(0), active: activeIndex === 0 },

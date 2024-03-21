@@ -16,7 +16,6 @@ import Person_remove from '../../../assets/icons/person-remove.svg';
 import Location from '../../../assets/icons/location.svg';
 import Lucide from '../../../assets/icons/Lucide Icon.svg';
 import { PlantAdd, PlantItem } from '../../components/plantAdd/PlantAdd';
-import BottomNavigation from '../../components/navigation/BottomNavigation';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 
@@ -157,7 +156,6 @@ const MyProfileScreen = () => {
           </ButtonContainer>
         </FormContainer>
       </Container>
-      {/*<BottomNavigation></BottomNavigation>*/}
     </>
   );
 };

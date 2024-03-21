@@ -15,7 +15,7 @@ import profileActive from '../../../assets/icons/profileActive.svg';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import MainScreen from '../../screens/main/MainScreen';
 import PlantBookScreen from '../../screens/plantBook/PlantBookScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
@@ -76,13 +76,6 @@ const screenOptions = ({ route }: ScreenOptionsProps): BottomTabNavigationOption
   },
 });
 
-// 화면 컴포넌트
-const Home = () => <MainScreen />;
-const Dictionary = () => <PlantBookScreen />;
-const CropDiagnosis = () => <DiseasePlantScreen />;
-const Market = () => <MarketScreen />;
-const Profile = () => <MyProfileScreen />;
-
 const Tabs = createBottomTabNavigator<RootTabParamList>();
 
 const styles = StyleSheet.create({
@@ -97,50 +90,48 @@ const styles = StyleSheet.create({
 
 const BottomNavigation = () => {
   return (
-    <View style={styles.bottomNavigation}>
-      <Tabs.Navigator screenOptions={screenOptions}>
-        <Tabs.Screen
-          name='home'
-          component={Home}
-          options={{
-            title: '홈',
-            tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>홈</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>홈</Typo.BODY4_M>),
-          }}
-        />
-        <Tabs.Screen
-          name='search'
-          component={Dictionary}
-          options={{
-            title: '작물도감',
-            tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>작물도감</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>작물도감</Typo.BODY4_M>),
-          }}
-        />
-        <Tabs.Screen
-          name='hospital'
-          component={CropDiagnosis}
-          options={{
-            title: '작물진단',
-            tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>작물진단</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>작물진단</Typo.BODY4_M>),
-          }}
-        />
-        <Tabs.Screen
-          name='shop'
-          component={Market}
-          options={{
-            title: '장터',
-            tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>장터</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>장터</Typo.BODY4_M>),
-          }}
-        />
-        <Tabs.Screen
-          name='profile'
-          component={Profile}
-          options={{
-            title: '프로필',
-            tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>프로필</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>프로필</Typo.BODY4_M>),
-          }}
-        />
-      </Tabs.Navigator>
-    </View>
+    <Tabs.Navigator screenOptions={screenOptions}>
+      <Tabs.Screen
+        name='home'
+        component={MainScreen}
+        options={{
+          title: '홈',
+          tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>홈</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>홈</Typo.BODY4_M>),
+        }}
+      />
+      <Tabs.Screen
+        name='search'
+        component={PlantBookScreen}
+        options={{
+          title: '작물도감',
+          tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>작물도감</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>작물도감</Typo.BODY4_M>),
+        }}
+      />
+      <Tabs.Screen
+        name='hospital'
+        component={DiseasePlantScreen}
+        options={{
+          title: '작물진단',
+          tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>작물진단</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>작물진단</Typo.BODY4_M>),
+        }}
+      />
+      <Tabs.Screen
+        name='shop'
+        component={MarketScreen}
+        options={{
+          title: '장터',
+          tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>장터</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>장터</Typo.BODY4_M>),
+        }}
+      />
+      <Tabs.Screen
+        name='profile'
+        component={MyProfileScreen}
+        options={{
+          title: '프로필',
+          tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>프로필</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>프로필</Typo.BODY4_M>),
+        }}
+      />
+    </Tabs.Navigator>
   );
 };
 

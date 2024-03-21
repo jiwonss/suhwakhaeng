@@ -4,7 +4,6 @@ import styled from 'styled-components/native';
 import { Spacer } from '../../components/basic/Spacer';
 import { Card } from '../../components/card/Card';
 import Header from '../../components/header/Header';
-import BottomNavigation from '../../components/navigation/BottomNavigation';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
@@ -55,7 +54,6 @@ const DetailDiseasePlantScreen = () => {
           </Card>
         </Container>
       </ScrollView>
-      {/*<BottomNavigation />*/}
     </View>
   );
 };

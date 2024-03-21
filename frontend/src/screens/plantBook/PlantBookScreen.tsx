@@ -24,7 +24,6 @@ import Pumpkin from '../../../assets/icons/pumpkin.svg';
 import SweetPotato from '../../../assets/icons/sweetPotato.svg';
 import Tomato from '../../../assets/icons/tomato.svg';
 import Watermelon from '../../../assets/icons/watermelon.svg';
-import BottomNavigation from '../../components/navigation/BottomNavigation';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -111,7 +110,6 @@ const PlantBookScreen = () => {
           ))}
         </PlantContainer>
       </ScrollView>
-      {/*<BottomNavigation />*/}
     </View>
   );
 };

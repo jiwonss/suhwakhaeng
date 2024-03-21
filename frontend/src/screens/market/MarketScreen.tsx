@@ -144,7 +144,6 @@ const MarketScreen = () => {
         )}
       </ScrollView>
       <FloatingActionButton data={buttonData} />
-      {/* BOTTOM NAVIGATION 추가 예정 */}
     </Container>
   );
 };

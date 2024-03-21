@@ -72,7 +72,11 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
   return (
-    <Stack.Navigator initialRouteName='HomeTabs'>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       {/* 장터 페이지 */}
       <Stack.Screen name='HomeTabs' component={BottomNavigation} options={{ headerShown: false }} />
       <Stack.Screen name='MainScreen' component={MainScreen} options={{ headerShown: false }} />

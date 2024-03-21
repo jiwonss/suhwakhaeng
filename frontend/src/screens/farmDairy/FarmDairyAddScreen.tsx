@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
@@ -6,7 +6,6 @@ import Header from '../../components/header/Header';
 import { BasicButton } from '../../components/button/Buttons';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { DropDown } from '../../components/dropdown/DropDown';
-import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
 import { SingleLineInputBox } from '../../components/inputBox/Input';
 import ImgUploader from '../../components/imgUploader/ImgUploader';
 
