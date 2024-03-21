@@ -26,8 +26,9 @@ import DetailPlantResisterScreen from '../../screens/plantResister/DetailPlantRe
 import CulturePlantSelectScreen from '../../screens/plantResister/CulturePlantSelectScreen';
 import EnvironmentPlantScreen from '../../screens/plantResister/EnvironmentPlantScreen';
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
-import DiseasePlantScreen from '../../screens/plantBook/DiseasePlantScreen';
+import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
 import DetailPlantScreen from '../../screens/plantBook/DetailPlantScreen';
+import DetailDiseasePlantScreen from '../../screens/plantDisease/DetailDiseasePlantScreen';
 
 type RootStackParamList = {
   MainScreen: undefined;
@@ -58,6 +59,7 @@ type RootStackParamList = {
   PlantResisterScreen: undefined;
   DefaultPlantResisterScreen: undefined;
   DetailPlantResisterScreen: undefined;
+  DetailDiseasePlantScreen: undefined;
   CulturePlantSelectScreen: undefined;
   EnvironmentPlantScreen: undefined;
 };
@@ -66,7 +68,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
   return (
-    <Stack.Navigator initialRouteName='DetailPlantScreen'>
+    <Stack.Navigator initialRouteName='MainScreen'>
       {/* 장터 페이지 */}
       <Stack.Screen name='MainScreen' component={MainScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketScreen' component={MarketScreen} options={{ headerShown: false }} />
@@ -102,6 +104,7 @@ const MainStack = () => {
       <Stack.Screen name='DetailPlantScreen' component={DetailPlantScreen} options={{ headerShown: false }} />
       {/*작물 진단 페이지*/}
       <Stack.Screen name='DiseasePlantScreen' component={DiseasePlantScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='DetailDiseasePlantScreen' component={DetailDiseasePlantScreen} options={{ headerShown: false }} />
       {/*작물 등록 페이지*/}
       <Stack.Screen name='DefaultPlantResisterScreen' component={DefaultPlantResisterScreen} options={{ headerShown: false }} />
       <Stack.Screen name='DetailPlantResisterScreen' component={DetailPlantResisterScreen} options={{ headerShown: false }} />
