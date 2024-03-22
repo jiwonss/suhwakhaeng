@@ -42,12 +42,8 @@ const MainScreen = () => {
         <Spacer horizontal={false} space={19} />
 
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-          <MenuButton
-            size='small'
-            title='작물 진단'
-            borderColor={Color.GREEN50}
-            onPressButton={() => navigation.navigate('BottomTabStackNavigator', { screen: 'SearchPostScreen' })}
-          >
+          {/*바로 카메라 촬영으로 들어간 뒤에 촬영되면 진단결과로 넘어가게 수정하기*/}
+          <MenuButton size='small' title='병해 진단' borderColor={Color.GREEN50} onPressButton={() => navigation.navigate('DiseasePlantScreen')}>
             <Leaf3D width={widthPercent * 36} height={heightPercent * 36} />
           </MenuButton>
           <Spacer horizontal={true} space={20} />

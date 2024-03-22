@@ -23,7 +23,15 @@ import CulturePlantSelectScreen from '../../screens/plantResister/CulturePlantSe
 import EnvironmentPlantScreen from '../../screens/plantResister/EnvironmentPlantScreen';
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
-import BottomTabStackNavigator from '../navigatorStack/NavigatorStack';
+import SearchPostScreen from '../../screens/post/SearchPostScreen';
+import React from 'react';
+import BottomNavigation from '../../components/navigation/BottomNavigation';
+import MyPostScreen from '../../screens/myPost/MyPostScreen';
+import SearchResultScreen from '../../screens/post/SearchResultScreen';
+import DetailPlantScreen from '../../screens/plantBook/DetailPlantScreen';
+import DetailDiseasePlantScreen from '../../screens/plantDisease/DetailDiseasePlantScreen';
+import ChatListScreen from '../../screens/chat/ChatListScreen';
+import FavoriteProductScreen from '../../screens/favoriteProduct/FavoriteProductScreen';
 
 export type RootStackParamList = {
   BottomTabStackNavigator: undefined;
@@ -59,6 +67,7 @@ export type RootStackParamList = {
   DetailDiseasePlantScreen: undefined;
   CulturePlantSelectScreen: undefined;
   EnvironmentPlantScreen: undefined;
+  BottomNavigation: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -70,8 +79,9 @@ const MainStack = () => {
         headerShown: false,
       }}
     >
+      <Stack.Screen name='BottomNavigation' component={BottomNavigation} />
       {/* 장터 페이지 */}
-      <Stack.Screen name='BottomTabStackNavigator' component={BottomTabStackNavigator} />
+      {/*<Stack.Screen name='BottomTabStackNavigator' component={BottomTabStackNavigator} />*/}
       <Stack.Screen name='MainScreen' component={MainScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketScreen' component={MarketScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketResistScreen' component={MarketResistScreen} options={{ headerShown: false }} />
@@ -86,6 +96,11 @@ const MainStack = () => {
       <Stack.Screen name='CreatePostScreen' component={CreatePostScreen} options={{ headerShown: false }} />
       <Stack.Screen name='DetailPostScreen' component={DetailPostScreen} options={{ headerShown: false }} />
       <Stack.Screen name='UpdatePostScreen' component={UpdatePostScreen} options={{ headerShown: false }} />
+      {/*게시글 검색 페이지*/}
+      <Stack.Screen name='SearchPostScreen' component={SearchPostScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='SearchResultScreen' component={SearchResultScreen} options={{ headerShown: false }} />
+      {/*작성한 게시글 조회 페이지*/}
+      <Stack.Screen name='MyPostScreen' component={MyPostScreen} options={{ headerShown: false }} />
       {/*지역 설정 페이지*/}
       <Stack.Screen name='SetLocationScreen' component={SetLocationScreen} options={{ headerShown: false }} />
       {/* 채팅 페이지 */}
@@ -97,13 +112,19 @@ const MainStack = () => {
       {/*작물 도감 페이지*/}
       <Stack.Screen name='PlantBookScreen' component={PlantBookScreen} options={{ headerShown: false }} />
       <Stack.Screen name='VarietySelectScreen' component={VarietySelectScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='DetailPlantScreen' component={DetailPlantScreen} options={{ headerShown: false }} />
       {/*작물 진단 페이지*/}
       <Stack.Screen name='DiseasePlantScreen' component={DiseasePlantScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='DetailDiseasePlantScreen' component={DetailDiseasePlantScreen} options={{ headerShown: false }} />
       {/*작물 등록 페이지*/}
       <Stack.Screen name='DefaultPlantResisterScreen' component={DefaultPlantResisterScreen} options={{ headerShown: false }} />
       <Stack.Screen name='DetailPlantResisterScreen' component={DetailPlantResisterScreen} options={{ headerShown: false }} />
       <Stack.Screen name='CulturePlantSelectScreen' component={CulturePlantSelectScreen} options={{ headerShown: false }} />
       <Stack.Screen name='EnvironmentPlantScreen' component={EnvironmentPlantScreen} options={{ headerShown: false }} />
+      {/* 채팅 페이지 */}
+      <Stack.Screen name='ChatListScreen' component={ChatListScreen} options={{ headerShown: false }} />
+      {/* 관심상품 페이지 */}
+      <Stack.Screen name='FavoriteProductScreen' component={FavoriteProductScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };

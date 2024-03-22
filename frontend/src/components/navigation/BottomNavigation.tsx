@@ -100,8 +100,8 @@ const BottomNavigation = () => {
         name='DiseasePlantScreen'
         component={DiseasePlantScreen}
         options={{
-          title: '작물진단',
-          tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>작물진단</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>작물진단</Typo.BODY4_M>),
+          title: '작물병원',
+          tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>작물병원</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>작물병원</Typo.BODY4_M>),
         }}
       />
       <Tabs.Screen
