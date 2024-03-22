@@ -11,6 +11,7 @@ import { MyChat, PartnerChat } from '../../components/chattingMessage/ChattingMe
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { getKST } from '../../util/BasicUtil';
+import * as StompJs from '@stomp/stompjs';
 
 interface ChattingRoomProps {
   route: {
@@ -35,10 +36,12 @@ const ButtonContainer = styled.View`
 const ChattingRoomScreen = (props: ChattingRoomProps) => {
   // 보낼 메세지
   const [message, setMessage] = useState<string>('');
+  let [client, changeClient] = useState<StompJs.Client>(new StompJs.Client());
 
   const onSubmitMessage = () => {
     if (message) {
       // TODO: 메세지 보내기
+      // sendMessage(message, 'pub/room/1', 1);
       setChatData([...chatData, { userId: userInfo.user_id, message: message, date: getKST() }]);
       setMessage('');
     }
@@ -55,8 +58,43 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
     }[]
   >([]);
 
+  const callback = function (message: any) {
+    if (message.body) {
+      setChatData([...chatData, message]);
+    }
+  };
+
+  const connect = () => {
+    try {
+      const clientdata = new StompJs.Client({
+        brokerURL: 'ws://localhost:8888/ws',
+        reconnectDelay: 5000,
+        heartbeatIncoming: 4000,
+        heartbeatOutgoing: 4000,
+      });
+      clientdata.debug(() => {
+        console.log('h');
+      });
+      clientdata.onConnect = function () {
+        console.log('연결되었습니다.');
+        clientdata.subscribe(`/topic/room.1`, callback);
+      };
+      // console.log(clientdata.brokerURL, clientdata.active);
+      clientdata.activate();
+      changeClient(clientdata);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const disConnect = () => {
+    if (client === null) {
+      return;
+    }
+    client.deactivate();
+  };
+
   useEffect(() => {
-    // TODO: 렌더링 시 채팅 데이터 불러오기
     const data: React.SetStateAction<{ userId: number; message: string; date: string }[]> = [
       { userId: 1, message: '안녕하세요', date: '2023-01-01 11:30:12' },
       { userId: 2, message: '안녕하세요22', date: '2023-01-01 11:30:13' },
@@ -78,6 +116,8 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
       { userId: 2, message: '안녕하세요22', date: '2023-01-01 11:45:28' },
     ];
     setChatData(data);
+    connect();
+    return () => disConnect();
   }, []);
 
   // 스크롤 하단으로
