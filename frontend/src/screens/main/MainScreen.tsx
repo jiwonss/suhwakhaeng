@@ -27,10 +27,14 @@ const MainScreen = () => {
 
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
+  const onPressSearch = () => {
+    navigation.navigate('SearchPostScreen');
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
-        <Header type={'leftTitle'} />
+        <Header type={'leftTitle'} onPressSearch={onPressSearch} />
         <Spacer horizontal={false} space={19} />
         <View style={{ flex: 1, flexDirection: 'row' }}>
           <Spacer horizontal={true} space={20} />
@@ -54,7 +58,7 @@ const MainScreen = () => {
             <Bag3D width={widthPercent * 36} height={heightPercent * 36} />
           </MenuButton>
           <Spacer horizontal={true} space={20} />
-          <MenuButton size='small' title='정부 보조금' onPressButton={() => navigation.navigate('DiseasePlantScreen')}>
+          <MenuButton size='small' title='정부 보조금' onPressButton={() => console.log('보조금조회 페이지이동')}>
             <Coin3D width={widthPercent * 36} height={heightPercent * 36} />
           </MenuButton>
         </View>

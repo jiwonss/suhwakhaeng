@@ -23,16 +23,17 @@ import CulturePlantSelectScreen from '../../screens/plantResister/CulturePlantSe
 import EnvironmentPlantScreen from '../../screens/plantResister/EnvironmentPlantScreen';
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
-import SearchPostScreen from '../../screens/post/SearchPostScreen';
+import SearchResultScreen from '../../screens/post/SearchResultScreen';
 import React from 'react';
 import BottomNavigation from '../../components/navigation/BottomNavigation';
 import MyPostScreen from '../../screens/myPost/MyPostScreen';
-import SearchResultScreen from '../../screens/post/SearchResultScreen';
+import SearchPostScreen from '../../screens/post/SearchPostScreen';
 import DetailPlantScreen from '../../screens/plantBook/DetailPlantScreen';
 import DetailDiseasePlantScreen from '../../screens/plantDisease/DetailDiseasePlantScreen';
 import ChatListScreen from '../../screens/chat/ChatListScreen';
 import FavoriteProductScreen from '../../screens/favoriteProduct/FavoriteProductScreen';
 import WeatherScreen from '../../screens/weather/WeatherScreen';
+import { PostProps } from '../../components/post/Post';
 
 export type RootStackParamList = {
   BottomTabStackNavigator: undefined;
@@ -46,12 +47,12 @@ export type RootStackParamList = {
   FarmDairyAddScreen: undefined;
   FarmLedgerAddScreen: undefined;
   CreatePostScreen: undefined;
-  DetailPostScreen: undefined;
-  UpdatePostScreen: undefined;
+  DetailPostScreen: { postData: PostProps['postData'] };
+  UpdatePostScreen: { postData: PostProps['postData'] };
   MyPostScreen: undefined;
   SetLocationScreen: undefined;
+  SearchResultScreen: { searchValue: string };
   SearchPostScreen: undefined;
-  SearchResultScreen: undefined;
   FavoriteProductScreen: undefined;
   MyProfileScreen: undefined;
   FcmTestScreen: undefined;
@@ -78,14 +79,14 @@ const MainStack = () => {
   {
   }
   return (
-    <Stack.Navigator initialRouteName='WeatherScreen'>
+    <Stack.Navigator initialRouteName='SearchPostScreen'>
       {/* 페이지 개발이 완료되면 아래 코드 주석을 해제하고 윗줄은 지워야합니다.*/}
       {/* <Stack.Navigator*/}
       {/*   screenOptions={{*/}
       {/*     headerShown: false,*/}
       {/*   }}*/}
       {/* >*/}
-      <Stack.Screen name='BottomNavigation' component={BottomNavigation} />
+      <Stack.Screen name='BottomNavigation' component={BottomNavigation} options={{ headerShown: false }} />
       {/* 장터 페이지 */}
       <Stack.Screen name='MainScreen' component={MainScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketScreen' component={MarketScreen} options={{ headerShown: false }} />

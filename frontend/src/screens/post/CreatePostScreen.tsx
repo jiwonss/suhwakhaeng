@@ -10,6 +10,8 @@ import { MultiLineInputBox } from '../../components/inputBox/Input';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -19,6 +21,7 @@ const Container = styled.View`
 `;
 
 const CreatePostScreen = () => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [activeIndex, setActiveIndex] = useState(0);
   const Data = [
     { content: '자유', event: () => setActiveIndex(0), active: activeIndex === 0 },
@@ -27,10 +30,17 @@ const CreatePostScreen = () => {
     { content: '질문', event: () => setActiveIndex(3), active: activeIndex === 3 },
   ];
   const [Urls, setUrls] = useState<string[]>([]);
+
+  const onSubmit = () => {
+    // back으로 보내는 API 코드 작성
+    // try시 navigation.goBack()
+    navigation.goBack();
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
-        <Header type={'default'} firstIcon='back' title={'게시글 등록'} onPressMore={() => console.log('더보기')} />
+        <Header type={'default'} firstIcon='back' title={'게시글 등록'} />
         <Spacer space={20} />
         <Container>
           <Typo.BODY4_M>분류 선택</Typo.BODY4_M>
@@ -48,7 +58,7 @@ const CreatePostScreen = () => {
         </Container>
       </ScrollView>
       <Container>
-        <BasicButton borderColor={Color.GREEN500} borderRadius={10} height={45} onPress={() => console.log('작성완료')}>
+        <BasicButton borderColor={Color.GREEN500} borderRadius={10} height={45} onPress={onSubmit}>
           <Typo.BODY3_M color={Color.WHITE}>작성완료</Typo.BODY3_M>
         </BasicButton>
       </Container>
