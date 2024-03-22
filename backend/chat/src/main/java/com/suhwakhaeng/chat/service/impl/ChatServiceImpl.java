@@ -37,7 +37,7 @@ public class ChatServiceImpl implements ChatService {
                 .userId(userInfo.userId())
                 .nickname(userInfo.nickname())
                 .profileImage(userInfo.profileImage())
-                .message(chatRequest.messaage())
+                .message(chatRequest.message())
                 .chatRoomId(chatRoomId)
                 .build();
 
