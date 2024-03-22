@@ -41,13 +41,8 @@ public class MyCrops {
     @Column(name = "my_crops_yield")
     private int yield;
 
-//    @Embedded
-//    private Location location;
-
     // TODO sido, gugun, dong으로 묶고 도로명은 따로 관리하게 리팩토링? >> sido, gugun, dong 묶는 place class / place, 도로명 주소 합친 RoadPlace class
     private String sido;
     private String gugun;
     private String dong;
-
-    private boolean isCultivated;
 }

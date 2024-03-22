@@ -18,4 +18,10 @@ public class MyCropsController {
         myCropsService.createMyCrops(userId, request.cropsId(), request.toEntity());
         return ResponseEntity.ok().body(Message.success());
     }
+
+    @GetMapping
+    public ResponseEntity selectMyCrops(@RequestHeader("X-Authorization-Id") Long userId) {
+        myCropsService.selectMyCrops(userId);
+        return ResponseEntity.ok().body(Message.success());
+    }
 }

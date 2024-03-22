@@ -4,6 +4,7 @@ import com.suhwakhaeng.common.domain.crops.entity.Crops;
 import com.suhwakhaeng.common.domain.crops.exeption.CropsErrorCode;
 import com.suhwakhaeng.common.domain.crops.exeption.CropsException;
 import com.suhwakhaeng.common.domain.crops.repository.CropsRepository;
+import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsResponse;
 import com.suhwakhaeng.common.domain.mycrops.entity.MyCrops;
 import com.suhwakhaeng.common.domain.mycrops.repository.MyCropsRepository;
 import com.suhwakhaeng.common.domain.mycrops.service.MyCropsService;
@@ -14,6 +15,8 @@ import com.suhwakhaeng.common.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -31,5 +34,10 @@ public class MyCropsServiceImpl implements MyCropsService {
         myCrops = myCrops.toBuilder().user(user).crops(crops).build();
 
         return myCropsRepository.save(myCrops).getId();
+    }
+
+    @Override
+    public List<MyCropsResponse> selectMyCrops(Long userId) {
+        return null;
     }
 }

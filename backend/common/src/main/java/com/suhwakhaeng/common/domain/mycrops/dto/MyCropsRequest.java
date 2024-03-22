@@ -6,7 +6,6 @@ import com.suhwakhaeng.common.global.common.entity.Location;
 
 public record MyCropsRequest(
         Long cropsId,
-        Boolean isCultivated,
         Location location,
         double area,
         String areaUnit,
@@ -20,7 +19,6 @@ public record MyCropsRequest(
     public MyCrops toEntity() {
         AreaUnit unit = AreaUnit.fromName(areaUnit);
         return MyCrops.builder()
-                .isCultivated(isCultivated)
                 .sido(location().sido)
                 .gugun(location().gugun)
                 .dong(location().dong)
