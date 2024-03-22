@@ -21,6 +21,7 @@ import Pumpkin from '../../../assets/icons/pumpkin.svg';
 import SweetPotato from '../../../assets/icons/sweetPotato.svg';
 import Tomato from '../../../assets/icons/tomato.svg';
 import Watermelon from '../../../assets/icons/watermelon.svg';
+import { plantData } from '../plantBook/PlantBookScreen';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -40,23 +41,6 @@ const PlantContainer = styled.View`
 `;
 
 const DefaultPlantResisterScreen = () => {
-  const plantData = [
-    { name: '가지', Icon: Eggplant },
-    { name: '고구마', Icon: SweetPotato },
-    { name: '고추', Icon: ChiliPepper },
-    { name: '감자', Icon: Potato },
-    { name: '당근', Icon: Carrot },
-    { name: '마늘', Icon: Garlic },
-    { name: '상추', Icon: Lettuce },
-    { name: '수박', Icon: Watermelon },
-    { name: '양파', Icon: Onion },
-    { name: '오이', Icon: Cucumber },
-    { name: '파', Icon: GreenOnion },
-    { name: '파프리카', Icon: BellPepper },
-    { name: '토마토', Icon: Tomato },
-    { name: '호박', Icon: Pumpkin },
-  ];
-
   const dummyCount = 3 - (plantData.length % 3 || 3);
 
   return (

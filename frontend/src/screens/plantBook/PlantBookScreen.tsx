@@ -41,29 +41,28 @@ const PlantContainer = styled.View`
   justify-content: center;
   flex-wrap: wrap;
 `;
-
+export const plantData = [
+  { name: '가지', Icon: Eggplant },
+  { name: '고구마', Icon: SweetPotato },
+  { name: '고추', Icon: ChiliPepper },
+  { name: '감자', Icon: Potato },
+  { name: '당근', Icon: Carrot },
+  { name: '마늘', Icon: Garlic },
+  { name: '상추', Icon: Lettuce },
+  { name: '수박', Icon: Watermelon },
+  { name: '양파', Icon: Onion },
+  { name: '오이', Icon: Cucumber },
+  { name: '파', Icon: GreenOnion },
+  { name: '파프리카', Icon: BellPepper },
+  { name: '토마토', Icon: Tomato },
+  { name: '호박', Icon: Pumpkin },
+];
 const PlantBookScreen = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const Data = [
     { content: '전체', event: () => setActiveIndex(0), active: activeIndex === 0 },
     { content: '제철 파종', event: () => setActiveIndex(1), active: activeIndex === 1 },
     { content: '제철 수확', event: () => setActiveIndex(2), active: activeIndex === 2 },
-  ];
-  const plantData = [
-    { name: '가지', Icon: Eggplant },
-    { name: '고구마', Icon: SweetPotato },
-    { name: '고추', Icon: ChiliPepper },
-    { name: '감자', Icon: Potato },
-    { name: '당근', Icon: Carrot },
-    { name: '마늘', Icon: Garlic },
-    { name: '상추', Icon: Lettuce },
-    { name: '수박', Icon: Watermelon },
-    { name: '양파', Icon: Onion },
-    { name: '오이', Icon: Cucumber },
-    { name: '파', Icon: GreenOnion },
-    { name: '파프리카', Icon: BellPepper },
-    { name: '토마토', Icon: Tomato },
-    { name: '호박', Icon: Pumpkin },
   ];
 
   const [searchValue, setSearchValue] = useState<string>('');
@@ -84,14 +83,14 @@ const PlantBookScreen = () => {
         </View>
         <Spacer space={20} />
         {/*작물 라디오 버튼*/}
-        <Container>
-          <View style={{ alignItems: 'flex-start' }}>
-            <CustomRadioButton data={Data} width={60} />
-          </View>
-        </Container>
+        {/*<Container>*/}
+        {/*  <View style={{ alignItems: 'flex-start' }}>*/}
+        {/*    <CustomRadioButton data={Data} width={60} />*/}
+        {/*  </View>*/}
+        {/*</Container>*/}
         {/*전체 작물 글자*/}
         <Container>
-          <Typo.BODY4_M>전체 작물</Typo.BODY4_M>
+          <Typo.BODY4_M>작물 목록</Typo.BODY4_M>
         </Container>
         {/*작물 리스트 가나다순으로 정렬*/}
         <PlantContainer>
