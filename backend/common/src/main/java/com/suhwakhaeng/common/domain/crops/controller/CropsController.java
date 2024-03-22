@@ -34,8 +34,8 @@ public class CropsController {
     }
 
     @GetMapping
-    public ResponseEntity selectListCrops() {
-        return ResponseEntity.ok(Message.success(cropsService.selectListCrops()));
+    public ResponseEntity selectListCrops(@RequestParam String keyword) {
+        return ResponseEntity.ok(Message.success(cropsService.selectListCrops(keyword)));
     }
 
     @GetMapping("/{cropsId}/variety")

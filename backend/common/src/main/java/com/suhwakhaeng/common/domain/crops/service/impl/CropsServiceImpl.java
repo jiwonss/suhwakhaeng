@@ -8,10 +8,7 @@ import com.suhwakhaeng.common.domain.crops.entity.ShippingTimeTable;
 import com.suhwakhaeng.common.domain.crops.enums.CropsCate;
 import com.suhwakhaeng.common.domain.crops.exeption.CropsErrorCode;
 import com.suhwakhaeng.common.domain.crops.exeption.CropsException;
-import com.suhwakhaeng.common.domain.crops.repository.CropsRepository;
-import com.suhwakhaeng.common.domain.crops.repository.CropsVarietyRepository;
-import com.suhwakhaeng.common.domain.crops.repository.CultivationCharacteristicRepository;
-import com.suhwakhaeng.common.domain.crops.repository.ShippingTimeTableRepository;
+import com.suhwakhaeng.common.domain.crops.repository.*;
 import com.suhwakhaeng.common.domain.crops.service.CropsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +26,7 @@ public class CropsServiceImpl implements CropsService {
     private final CropsVarietyRepository cropsVarietyRepository;
     private final CultivationCharacteristicRepository cultivationCharacteristicRepository;
     private final ShippingTimeTableRepository shippingTimeTableRepository;
+    private final CropsSearchRepository cropsSearchRepository;
 
     @Override
     public void createCrops(CropsCreateRequest cropsCreateRequest) {
@@ -90,16 +88,14 @@ public class CropsServiceImpl implements CropsService {
     }
 
     @Override
-    public List<CropsResponse> selectListCrops() {
-        return cropsRepository.findAll().stream()
-                .map(CropsResponse::from)
-                .collect(Collectors.toList());
+    public List<CropsListResponse> selectListCrops(String keyword) {
+        return cropsSearchRepository.searchCrops(keyword);
     }
 
     @Override
-    public List<CropsVarietyResponse> selectListCropsVariety(Long cropsId) {
+    public List<CropsVarietyListResponse> selectListCropsVariety(Long cropsId) {
         return cropsVarietyRepository.findAllByCropsId(cropsId).stream()
-                .map(CropsVarietyResponse::from)
+                .map(CropsVarietyListResponse::from)
                 .collect(Collectors.toList());
     }
 }
