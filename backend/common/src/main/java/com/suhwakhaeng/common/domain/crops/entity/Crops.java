@@ -2,12 +2,10 @@ package com.suhwakhaeng.common.domain.crops.entity;
 
 import com.suhwakhaeng.common.domain.crops.enums.CropsCate;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
+@Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor

@@ -36,4 +36,9 @@ public class CropsController {
         return ResponseEntity.ok(Message.success());
     }
 
+    @GetMapping
+    public ResponseEntity selectListCrops() {
+        return ResponseEntity.ok(Message.success(cropsService.selectListCrops()));
+    }
+
 }
