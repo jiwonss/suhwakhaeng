@@ -9,7 +9,7 @@ import Favorite from '../../../assets/icons/favorite.svg';
 import FavoriteBorder from '../../../assets/icons/favorite_border.svg';
 import Comment from '../../../assets/icons/comment.svg';
 
-interface PostProps {
+export interface PostProps {
   postData: {
     name: string;
     date: string;

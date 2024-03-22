@@ -10,7 +10,8 @@ import { MultiLineInputBox } from '../../components/inputBox/Input';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -20,7 +21,7 @@ const Container = styled.View`
 `;
 
 const CreatePostScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [activeIndex, setActiveIndex] = useState(0);
   const Data = [
     { content: '자유', event: () => setActiveIndex(0), active: activeIndex === 0 },
