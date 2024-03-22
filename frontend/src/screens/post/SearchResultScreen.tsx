@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../../components/header/Header';
-import BottomNavigation from '../../components/navigation/BottomNavigation';
-import Post from '../../components/post/Post';
+import Post, { PostProps } from '../../components/post/Post';
 import * as Color from '../../config/color/Color';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../stacks/mainStack/MainStack';
+import { useRoute } from '@react-navigation/core';
 
 const postData = [
   {
@@ -26,7 +28,7 @@ const postData = [
     date: '2024-03-12 9:46:56',
     classification: '자유',
     title: 'asdf',
-    content: '아오 이걸 일일히 써야해?',
+    content: '가나다라마바사 아자차카타파하',
     likeNumber: 1,
     commentNumber: 0,
     imgUrl_one: require('../../../assets/imgs/kakaoButton.png'),
@@ -36,14 +38,36 @@ const postData = [
 ];
 
 const SearchResultScreen = () => {
-  const [searchValue, setSearchValue] = useState<string>('');
-  const [posts, setPosts] = useState(postData);
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const route = useRoute();
+  const routeParams = route.params as { searchValue: string } | undefined;
 
-  // 검색값을 포함하는 게시글만 필터링
-  const filteredPosts = posts.filter((post) => post.title.toLowerCase().includes(searchValue.toLowerCase()));
+  const [searchValue, setSearchValue] = useState<string>(routeParams?.searchValue || '');
+  const [filteredPosts, setFilteredPosts] = useState(postData);
+
+  useEffect(() => {
+    if (routeParams?.searchValue) {
+      setSearchValue(routeParams.searchValue);
+      handleSearch(routeParams.searchValue);
+    }
+  }, [routeParams?.searchValue]);
+
+  const handleSearch = (value: string) => {
+    if (value) {
+      const newFilteredPosts = postData.filter((post) => post.title.toLowerCase().includes(value.toLowerCase()));
+      setFilteredPosts(newFilteredPosts);
+    } else {
+      setFilteredPosts(postData);
+    }
+  };
 
   const onSubmit = () => {
-    console.log('검색');
+    handleSearch(searchValue);
+    console.log('검색: ', searchValue);
+  };
+
+  const onPostPress = (postData: PostProps['postData']) => {
+    navigation.navigate('DetailPostScreen', { postData });
   };
 
   return (
@@ -52,11 +76,10 @@ const SearchResultScreen = () => {
         <ScrollView>
           <Header type='search' value={searchValue} setValue={setSearchValue} onSubmitSearch={onSubmit} />
           {filteredPosts.map((post) => (
-            <Post key={post.id} postData={post} onPress={() => console.log('게시글 입장')} />
+            <Post key={post.id} postData={post} onPress={() => onPostPress(post)} />
           ))}
         </ScrollView>
       </View>
-      {/*<BottomNavigation />*/}
     </SafeAreaView>
   );
 };

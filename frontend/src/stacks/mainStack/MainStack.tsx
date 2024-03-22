@@ -47,7 +47,7 @@ export type RootStackParamList = {
   FarmDairyAddScreen: undefined;
   FarmLedgerAddScreen: undefined;
   CreatePostScreen: undefined;
-  DetailPostScreen: undefined;
+  DetailPostScreen: { postData: PostProps['postData'] };
   UpdatePostScreen: { postData: PostProps['postData'] };
   MyPostScreen: undefined;
   SetLocationScreen: undefined;
@@ -79,7 +79,7 @@ const MainStack = () => {
   {
   }
   return (
-    <Stack.Navigator initialRouteName='DetailPostScreen'>
+    <Stack.Navigator initialRouteName='SearchPostScreen'>
       {/* 페이지 개발이 완료되면 아래 코드 주석을 해제하고 윗줄은 지워야합니다.*/}
       {/* <Stack.Navigator*/}
       {/*   screenOptions={{*/}

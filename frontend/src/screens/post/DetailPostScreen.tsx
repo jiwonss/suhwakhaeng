@@ -9,22 +9,25 @@ import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { SlideModal } from '../../components/modal/Modal';
 import { BasicButton } from '../../components/button/Buttons';
 import { Spacer } from '../../components/basic/Spacer';
+import { useRoute } from '@react-navigation/core';
 
 const DetailPostScreen = () => {
+  const route = useRoute();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [modalVisible, setModalVisible] = useState(false);
+  const { postData } = route.params as { postData: PostProps['postData'] };
 
-  const postData: PostProps['postData'] = {
-    name: '김농부',
-    date: '2024-03-10 9:46:56',
-    classification: '자유',
-    content: '부직포 벗긴 밭에 풀이 너무 많아 뽑기를 포기하고 ‘트리부닐’을 살포했습니다.',
-    likeNumber: 0,
-    commentNumber: 0,
-    imgUrl_one: require('../../../assets/imgs/favicon.png'),
-    imgUrl_two: require('../../../assets/imgs/favicon.png'),
-    imgUrl_three: require('../../../assets/imgs/favicon.png'),
-  };
+  // const postData: PostProps['postData'] = {
+  //   name: '김농부',
+  //   date: '2024-03-10 9:46:56',
+  //   classification: '자유',
+  //   content: '부직포 벗긴 밭에 풀이 너무 많아 뽑기를 포기하고 ‘트리부닐’을 살포했습니다.',
+  //   likeNumber: 0,
+  //   commentNumber: 0,
+  //   imgUrl_one: require('../../../assets/imgs/favicon.png'),
+  //   imgUrl_two: require('../../../assets/imgs/favicon.png'),
+  //   imgUrl_three: require('../../../assets/imgs/favicon.png'),
+  // };
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
