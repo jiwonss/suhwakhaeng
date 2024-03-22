@@ -22,7 +22,6 @@ import DetailPlantResisterScreen from '../../screens/plantResister/DetailPlantRe
 import CulturePlantSelectScreen from '../../screens/plantResister/CulturePlantSelectScreen';
 import EnvironmentPlantScreen from '../../screens/plantResister/EnvironmentPlantScreen';
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
-import WeatherScreen from '../../screens/weather/WeatherScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
 import SearchPostScreen from '../../screens/post/SearchPostScreen';
 import React from 'react';
@@ -33,6 +32,7 @@ import DetailPlantScreen from '../../screens/plantBook/DetailPlantScreen';
 import DetailDiseasePlantScreen from '../../screens/plantDisease/DetailDiseasePlantScreen';
 import ChatListScreen from '../../screens/chat/ChatListScreen';
 import FavoriteProductScreen from '../../screens/favoriteProduct/FavoriteProductScreen';
+import WeatherScreen from '../../screens/weather/WeatherScreen';
 
 export type RootStackParamList = {
   BottomTabStackNavigator: undefined;
@@ -75,16 +75,18 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
+  {
+  }
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
+    <Stack.Navigator initialRouteName='WeatherScreen'>
+      {/* 페이지 개발이 완료되면 아래 코드 주석을 해제하고 윗줄은 지워야합니다.*/}
+      {/* <Stack.Navigator*/}
+      {/*   screenOptions={{*/}
+      {/*     headerShown: false,*/}
+      {/*   }}*/}
+      {/* >*/}
       <Stack.Screen name='BottomNavigation' component={BottomNavigation} />
-    <Stack.Navigator initialRouteName='MyProfileScreen'>
       {/* 장터 페이지 */}
-      {/*<Stack.Screen name='BottomTabStackNavigator' component={BottomTabStackNavigator} />*/}
       <Stack.Screen name='MainScreen' component={MainScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketScreen' component={MarketScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketResistScreen' component={MarketResistScreen} options={{ headerShown: false }} />
@@ -128,6 +130,7 @@ const MainStack = () => {
       <Stack.Screen name='ChatListScreen' component={ChatListScreen} options={{ headerShown: false }} />
       {/* 관심상품 페이지 */}
       <Stack.Screen name='FavoriteProductScreen' component={FavoriteProductScreen} options={{ headerShown: false }} />
+      {/*날씨 페이지*/}
       <Stack.Screen name='WeatherScreen' component={WeatherScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
