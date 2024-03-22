@@ -1,6 +1,9 @@
 server:
   port: 8000
 
+jwt:
+  access-key: TestAccessKey111111122222222223333333333333aaaaaaaaabbbbbbbbccccccccdddddddddfqwrqwfqwifjaisfjoihfoiqwflasjdglkkjasdlgjlkasdgjiowejgliasjglasjdgio
+
 eureka:
   client:
     register-with-eureka: true
@@ -14,9 +17,17 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: auth-service
+          uri: lb://COMMON
+          predicates:
+            - Path=/common/oauth/**
+          filters:
+            - RewritePath=/common/(?<segment>.*), /$\{segment}
+
         - id: common
           uri: lb://COMMON
           predicates:
             - Path=/common/**
           filters:
             - RewritePath=/common/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
