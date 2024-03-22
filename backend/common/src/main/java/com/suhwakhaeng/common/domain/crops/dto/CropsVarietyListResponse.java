@@ -6,14 +6,14 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class CropsVarietyResponse {
+public class CropsVarietyListResponse {
 
     private Long cropId;
     private Long cropsVarietyId;
     private String cropsVarietyName;
 
-    public static CropsVarietyResponse from(CropsVariety cropsVariety) {
-        return CropsVarietyResponse.builder()
+    public static CropsVarietyListResponse from(CropsVariety cropsVariety) {
+        return CropsVarietyListResponse.builder()
                 .cropId(cropsVariety.getCrops().getId())
                 .cropsVarietyId(cropsVariety.getId())
                 .cropsVarietyName(cropsVariety.getName())

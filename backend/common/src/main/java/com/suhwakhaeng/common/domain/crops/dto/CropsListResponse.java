@@ -6,13 +6,13 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class CropsResponse {
+public class CropsListResponse {
 
     private Long cropsId;
     private String cropsName;
 
-    public static CropsResponse from(Crops crops) {
-        return CropsResponse.builder()
+    public static CropsListResponse from(Crops crops) {
+        return CropsListResponse.builder()
                 .cropsId(crops.getId())
                 .cropsName(crops.getName())
                 .build();
