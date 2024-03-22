@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, ScrollView, View, Text } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
 import Header from '../../components/header/Header';
 import Post, { PostProps } from '../../components/post/Post';
 import * as Color from '../../config/color/Color';
