@@ -7,10 +7,7 @@ import com.suhwakhaeng.common.global.common.dto.Message;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -39,6 +36,11 @@ public class CropsController {
     @GetMapping
     public ResponseEntity selectListCrops() {
         return ResponseEntity.ok(Message.success(cropsService.selectListCrops()));
+    }
+
+    @GetMapping("/{cropsId}/variety")
+    public ResponseEntity selectListCropsVariety(@PathVariable Long cropsId) {
+        return ResponseEntity.ok(Message.success(cropsService.selectListCropsVariety(cropsId)));
     }
 
 }
