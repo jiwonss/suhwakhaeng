@@ -32,8 +32,8 @@ public class CropsSearchRepositoryImpl implements CropsSearchRepository {
         return jpaQueryFactory
                 .select(
                         Projections.constructor(CropsListResponse.class,
-                                crops.id.as("cropsId"),
-                                crops.name.as("cropsName")
+                                crops.id.as("id"),
+                                crops.name.as("name")
                         )
                 )
                 .from(crops)
