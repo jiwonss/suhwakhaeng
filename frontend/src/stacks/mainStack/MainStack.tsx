@@ -41,7 +41,7 @@ export type RootStackParamList = {
   MarketDetailScreen: { id: number };
   MarketModifyScreen: { id: number };
   MarketSearchScreen: undefined;
-  FarmDairyScreen: undefined;
+  FarmDairyScreen: { activeIndex: number };
   FarmDairyAddScreen: undefined;
   FarmLedgerAddScreen: undefined;
   CreatePostScreen: undefined;

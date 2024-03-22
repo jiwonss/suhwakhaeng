@@ -14,7 +14,6 @@ import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
-// import Post from '../../components/post/Post';
 
 const MainScreen = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -47,11 +46,11 @@ const MainScreen = () => {
             <Leaf3D width={widthPercent * 36} height={heightPercent * 36} />
           </MenuButton>
           <Spacer horizontal={true} space={20} />
-          <MenuButton size='small' title='영농일지' onPressButton={() => navigation.navigate('FarmDairyScreen')}>
+          <MenuButton size='small' title='영농일지' onPressButton={() => navigation.navigate('FarmDairyScreen', { activeIndex: 0 })}>
             <Calendar3D width={widthPercent * 36} height={heightPercent * 36} />
           </MenuButton>
           <Spacer horizontal={true} space={20} />
-          <MenuButton size='small' title='영농장부' onPressButton={() => navigation.navigate('FarmDairyScreen')}>
+          <MenuButton size='small' title='영농장부' onPressButton={() => navigation.navigate('FarmDairyScreen', { activeIndex: 1 })}>
             <Bag3D width={widthPercent * 36} height={heightPercent * 36} />
           </MenuButton>
           <Spacer horizontal={true} space={20} />
