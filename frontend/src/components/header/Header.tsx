@@ -97,7 +97,7 @@ const Header = (props: HeaderProps) => {
   };
 
   const onPressSearch = () => {
-    props.onPressSearch;
+    props.onPressSearch?.();
   };
 
   return (

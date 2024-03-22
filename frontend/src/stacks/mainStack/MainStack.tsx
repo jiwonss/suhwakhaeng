@@ -23,11 +23,11 @@ import CulturePlantSelectScreen from '../../screens/plantResister/CulturePlantSe
 import EnvironmentPlantScreen from '../../screens/plantResister/EnvironmentPlantScreen';
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
-import SearchPostScreen from '../../screens/post/SearchPostScreen';
+import SearchResultScreen from '../../screens/post/SearchResultScreen';
 import React from 'react';
 import BottomNavigation from '../../components/navigation/BottomNavigation';
 import MyPostScreen from '../../screens/myPost/MyPostScreen';
-import SearchResultScreen from '../../screens/post/SearchResultScreen';
+import SearchPostScreen from '../../screens/post/SearchPostScreen';
 import DetailPlantScreen from '../../screens/plantBook/DetailPlantScreen';
 import DetailDiseasePlantScreen from '../../screens/plantDisease/DetailDiseasePlantScreen';
 import ChatListScreen from '../../screens/chat/ChatListScreen';
@@ -50,8 +50,8 @@ export type RootStackParamList = {
   UpdatePostScreen: undefined;
   MyPostScreen: undefined;
   SetLocationScreen: undefined;
-  SearchPostScreen: undefined;
   SearchResultScreen: undefined;
+  SearchPostScreen: undefined;
   FavoriteProductScreen: undefined;
   MyProfileScreen: undefined;
   FcmTestScreen: undefined;
@@ -78,7 +78,7 @@ const MainStack = () => {
   {
   }
   return (
-    <Stack.Navigator initialRouteName='WeatherScreen'>
+    <Stack.Navigator initialRouteName='BottomNavigation'>
       {/* 페이지 개발이 완료되면 아래 코드 주석을 해제하고 윗줄은 지워야합니다.*/}
       {/* <Stack.Navigator*/}
       {/*   screenOptions={{*/}
