@@ -22,6 +22,7 @@ import DetailPlantResisterScreen from '../../screens/plantResister/DetailPlantRe
 import CulturePlantSelectScreen from '../../screens/plantResister/CulturePlantSelectScreen';
 import EnvironmentPlantScreen from '../../screens/plantResister/EnvironmentPlantScreen';
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
+import WeatherScreen from '../../screens/weather/WeatherScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
 import SearchPostScreen from '../../screens/post/SearchPostScreen';
 import React from 'react';
@@ -68,6 +69,7 @@ export type RootStackParamList = {
   CulturePlantSelectScreen: undefined;
   EnvironmentPlantScreen: undefined;
   BottomNavigation: undefined;
+  WeatherScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -80,6 +82,7 @@ const MainStack = () => {
       }}
     >
       <Stack.Screen name='BottomNavigation' component={BottomNavigation} />
+    <Stack.Navigator initialRouteName='MyProfileScreen'>
       {/* 장터 페이지 */}
       {/*<Stack.Screen name='BottomTabStackNavigator' component={BottomTabStackNavigator} />*/}
       <Stack.Screen name='MainScreen' component={MainScreen} options={{ headerShown: false }} />
@@ -125,6 +128,7 @@ const MainStack = () => {
       <Stack.Screen name='ChatListScreen' component={ChatListScreen} options={{ headerShown: false }} />
       {/* 관심상품 페이지 */}
       <Stack.Screen name='FavoriteProductScreen' component={FavoriteProductScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='WeatherScreen' component={WeatherScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };

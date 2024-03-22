@@ -12,6 +12,7 @@ import { RouteProp } from '@react-navigation/native';
 
 type FarmDairyScreenRouteProp = RouteProp<RootStackParamList, 'FarmDairyScreen'>;
 
+
 const FarmDairyScreen = () => {
   const route = useRoute<FarmDairyScreenRouteProp>();
   const [activeIndex, setActiveIndex] = useState(route.params?.activeIndex ?? 0);

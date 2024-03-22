@@ -21,6 +21,11 @@ import { useNavigation } from '@react-navigation/native';
 
 type RootStackParamList = {
   ModifyProfileScreen: undefined;
+  MyPostScreen: undefined;
+  FavoriteProductScreen: undefined;
+  FarmDairyScreen: undefined;
+  SetLocationScreen: undefined;
+  WeatherScreen: undefined;
 };
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
@@ -98,28 +103,32 @@ const MyProfileScreen = () => {
               <PlantAdd></PlantAdd>
             </StyledView>
             <StyledView>
-              <PlantItem name='감자' location='광주광역시 서구 금호2동' onPress={function (): void {}} backgroundColor={''} borderColor={''}></PlantItem>
+              <PlantItem name='감자' location='광주광역시 서구 금호2동' onPress={function (): void {}} backgroundColor={''} borderColor={''}>
+                <Sunny width={widthPercent * 16} height={heightPercent * 16}></Sunny>
+              </PlantItem>
             </StyledView>
             <StyledView>
-              <PlantItem name='감자' location='광주광역시 서구 금호2동' onPress={function (): void {}} backgroundColor={''} borderColor={''}></PlantItem>
+              <PlantItem name='감자' location='광주광역시 서구 금호2동' onPress={function (): void {}} backgroundColor={''} borderColor={''}>
+                <Sunny width={widthPercent * 16} height={heightPercent * 16}></Sunny>
+              </PlantItem>
             </StyledView>
           </FormItemContainer>
           <FormItemContainer>
             <Typo.BODY4_B>내 활동</Typo.BODY4_B>
             <Spacer space={heightPercent * 4}></Spacer>
-            <StyledButton onPress={() => {}}>
+            <StyledButton onPress={() => navigation.navigate('MyPostScreen')}>
               <Feather width={widthPercent * 16} height={heightPercent * 16}></Feather>
               <Spacer space={widthPercent * 8} horizontal></Spacer>
               <Typo.BODY4_M>작성한 글</Typo.BODY4_M>
             </StyledButton>
 
-            <StyledButton onPress={() => {}}>
+            <StyledButton onPress={() => navigation.navigate('FavoriteProductScreen')}>
               <Favorite_border width={widthPercent * 16} height={heightPercent * 16}></Favorite_border>
               <Spacer space={widthPercent * 8} horizontal></Spacer>
               <Typo.BODY4_M>관심 상품</Typo.BODY4_M>
             </StyledButton>
 
-            <StyledButton onPress={() => {}}>
+            <StyledButton onPress={() => navigation.navigate('FarmDairyScreen')}>
               <New_Icon width={widthPercent * 16} height={heightPercent * 16}></New_Icon>
               <Spacer space={widthPercent * 8} horizontal></Spacer>
               <Typo.BODY4_M>영농일지/영농장부</Typo.BODY4_M>
@@ -128,16 +137,16 @@ const MyProfileScreen = () => {
           <FormItemContainer>
             <Typo.BODY4_B>내 지역 정보</Typo.BODY4_B>
             <Spacer space={heightPercent * 4}></Spacer>
-            <StyledButton onPress={() => {}}>
+            <StyledButton onPress={() => navigation.navigate('SetLocationScreen')}>
               <Location width={widthPercent * 16} height={heightPercent * 16}></Location>
               <Spacer space={widthPercent * 8} horizontal></Spacer>
-              <Typo.BODY4_M>작성한 글</Typo.BODY4_M>
+              <Typo.BODY4_M>거주지역</Typo.BODY4_M>
             </StyledButton>
 
-            <StyledButton onPress={() => {}}>
+            <StyledButton onPress={() => navigation.navigate('WeatherScreen')}>
               <Sunny width={widthPercent * 16} height={heightPercent * 16}></Sunny>
               <Spacer space={widthPercent * 8} horizontal></Spacer>
-              <Typo.BODY4_M>작성한 글</Typo.BODY4_M>
+              <Typo.BODY4_M>날씨</Typo.BODY4_M>
             </StyledButton>
           </FormItemContainer>
 
