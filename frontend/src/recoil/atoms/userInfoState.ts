@@ -6,7 +6,14 @@ import { atom } from 'recoil';
 export const userInfoState = atom({
   key: 'userInfoState',
   default: {
-    user_id: 1,
-    name: '김농부',
+    userId: null,
+    email: null,
+    nickname: null,
+    profileImage: null,
+    isBusiness: null,
+    profileContent: null,
+    sido: null,
+    gugun: null,
+    dong: null,
   },
 });

@@ -24,8 +24,6 @@ import EnvironmentPlantScreen from '../../screens/plantResister/EnvironmentPlant
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
 import SearchPostScreen from '../../screens/post/SearchPostScreen';
-import React from 'react';
-import BottomNavigation from '../../components/navigation/BottomNavigation';
 import MyPostScreen from '../../screens/myPost/MyPostScreen';
 import SearchResultScreen from '../../screens/post/SearchResultScreen';
 import DetailPlantScreen from '../../screens/plantBook/DetailPlantScreen';
@@ -33,6 +31,7 @@ import DetailDiseasePlantScreen from '../../screens/plantDisease/DetailDiseasePl
 import ChatListScreen from '../../screens/chat/ChatListScreen';
 import FavoriteProductScreen from '../../screens/favoriteProduct/FavoriteProductScreen';
 import WeatherScreen from '../../screens/weather/WeatherScreen';
+import BottomNavigation from '../../components/navigation/BottomNavigation';
 
 export type RootStackParamList = {
   BottomTabStackNavigator: undefined;
@@ -75,17 +74,15 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
-  {
-  }
   return (
-    <Stack.Navigator initialRouteName='WeatherScreen'>
+    <Stack.Navigator initialRouteName='MainScreen'>
       {/* 페이지 개발이 완료되면 아래 코드 주석을 해제하고 윗줄은 지워야합니다.*/}
       {/* <Stack.Navigator*/}
       {/*   screenOptions={{*/}
       {/*     headerShown: false,*/}
       {/*   }}*/}
       {/* >*/}
-      <Stack.Screen name='BottomNavigation' component={BottomNavigation} />
+      <Stack.Screen name='BottomNavigation' component={BottomNavigation} options={{ headerShown: false }} />
       {/* 장터 페이지 */}
       <Stack.Screen name='MainScreen' component={MainScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketScreen' component={MarketScreen} options={{ headerShown: false }} />

@@ -5,6 +5,13 @@ import styled from 'styled-components/native';
 import { LocalImageLoader } from '../../components/image/ImageLoader';
 import { heightPercent } from '../../config/dimension/Dimension';
 import { login } from '@react-native-seoul/kakao-login';
+import { getUserInfo, userLogin } from '../../apis/services/user/user';
+import { useRecoilState } from 'recoil';
+import { tokenState } from '../../recoil/atoms/tokenState';
+import axios from 'axios';
+import { setTokens, getTokens } from '../../util/TokenUtil';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import { userInfoState } from '../../recoil/atoms/userInfoState';
 
 const Container = styled.View`
   flex: 1;
@@ -28,13 +35,28 @@ const ButtonContainer = styled.TouchableOpacity`
 `;
 
 const OauthScreen = () => {
-  const [result, setResult] = useState<string>('');
+  const [currentToken, setCurrentToken] = useRecoilState(tokenState);
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
-  // TODO: 카카오 서버 accessToken 서버로 보내야함
   const signInWithKakao = async () => {
     try {
-      const token = await login();
-      setResult(JSON.stringify(token));
+      // 카카오 로그인 파트
+      const res = await login();
+
+      // 로그인 요청 보내기
+      const data = { token: res.accessToken }; // 서버로 보낼 params 세팅
+
+      const response = await userLogin(data); // 서버에 로그인 요청
+
+      // TODO: accessToken, refreshToken 저장
+      setTokens(response.dataBody.tokenInfo);
+
+      // TODO: 회원 정보 recoil 세팅
+      console.log(await getTokens());
+      const userInfoData = await getUserInfo();
+      setUserInfo({ ...userInfo, email: userInfoData.email, nickname: userInfoData.nickname, profileImage: userInfoData.profileImage });
+
+      setCurrentToken(true); // tokenState 변경
     } catch (err) {
       console.error('login err', err);
     }
