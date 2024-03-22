@@ -6,9 +6,7 @@ import Header from '../../components/header/Header';
 import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import MarketPost from '../../components/marketPost/MarketPost';
-import { ScrollView, View } from 'react-native';
-import BottomNavigation from '../../components/navigation/BottomNavigation';
-import ActionButton from 'react-native-action-button';
+import { ScrollView } from 'react-native';
 import FloatingActionButton from '../../components/floatingActionButton/FloatingActionButton';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
@@ -144,7 +142,6 @@ const MarketScreen = () => {
         )}
       </ScrollView>
       <FloatingActionButton data={buttonData} />
-      {/* BOTTOM NAVIGATION 추가 예정 */}
     </Container>
   );
 };

@@ -1,27 +1,26 @@
-import * as Color from '../../config/color/Color';
-import * as Typo from '../../components/typography/Typography';
 import { ScrollView, View } from 'react-native';
-import Header from '../../components/header/Header';
-import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import styled from 'styled-components/native';
-import { BasicButton } from '../../components/button/Buttons';
 import { Spacer } from '../../components/basic/Spacer';
+import { BasicButton } from '../../components/button/Buttons';
+import Header from '../../components/header/Header';
+import * as Typo from '../../components/typography/Typography';
+import * as Color from '../../config/color/Color';
+import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 // 작물 이모지 컴포넌트
-import Eggplant from '../../../assets/icons/eggplant.svg';
-import SweetPotato from '../../../assets/icons/sweetPotato.svg';
-import ChiliPepper from '../../../assets/icons/chiliPepper.svg';
-import Potato from '../../../assets/icons/potato.svg';
-import Carrot from '../../../assets/icons/carrot.svg';
-import Garlic from '../../../assets/icons/garlic.svg';
-import Lettuce from '../../../assets/icons/lettuce.svg';
-import Watermelon from '../../../assets/icons/watermelon.svg';
-import Onion from '../../../assets/icons/onion.svg';
-import Cucumber from '../../../assets/icons/cucumber.svg';
-import GreenOnion from '../../../assets/icons/greenOnion.svg';
 import BellPepper from '../../../assets/icons/bellPepper.svg';
-import Tomato from '../../../assets/icons/tomato.svg';
+import Carrot from '../../../assets/icons/carrot.svg';
+import ChiliPepper from '../../../assets/icons/chiliPepper.svg';
+import Cucumber from '../../../assets/icons/cucumber.svg';
+import Eggplant from '../../../assets/icons/eggplant.svg';
+import Garlic from '../../../assets/icons/garlic.svg';
+import GreenOnion from '../../../assets/icons/greenOnion.svg';
+import Lettuce from '../../../assets/icons/lettuce.svg';
+import Onion from '../../../assets/icons/onion.svg';
+import Potato from '../../../assets/icons/potato.svg';
 import Pumpkin from '../../../assets/icons/pumpkin.svg';
-import BottomNavigation from '../../components/navigation/BottomNavigation';
+import SweetPotato from '../../../assets/icons/sweetPotato.svg';
+import Tomato from '../../../assets/icons/tomato.svg';
+import Watermelon from '../../../assets/icons/watermelon.svg';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -86,7 +85,6 @@ const DefaultPlantResisterScreen = () => {
           ))}
         </PlantContainer>
       </ScrollView>
-      <BottomNavigation />
     </View>
   );
 };

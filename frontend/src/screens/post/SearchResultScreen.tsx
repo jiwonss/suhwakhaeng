@@ -1,9 +1,8 @@
-import * as Color from '../../config/color/Color';
-import { ScrollView, View } from 'react-native';
-import Header from '../../components/header/Header';
 import { useState } from 'react';
+import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import BottomNavigation from '../../components/navigation/BottomNavigation';
+import Header from '../../components/header/Header';
+import * as Color from '../../config/color/Color';
 
 const SearchResultScreen = () => {
   const [searchValue, setSearchValue] = useState<string>('');
@@ -17,7 +16,6 @@ const SearchResultScreen = () => {
           <Header type='search' value={searchValue} setValue={setSearchValue} onSubmitSearch={onSubmit} />
         </ScrollView>
       </View>
-      <BottomNavigation />
     </SafeAreaView>
   );
 };
