@@ -21,7 +21,7 @@ const DetailPostScreen = () => {
     content: '부직포 벗긴 밭에 풀이 너무 많아 뽑기를 포기하고 ‘트리부닐’을 살포했습니다.',
     likeNumber: 0,
     commentNumber: 0,
-    imgUrl_one: require('../../../assets/imgs/kakaoButton.png'),
+    imgUrl_one: require('../../../assets/imgs/favicon.png'),
     imgUrl_two: require('../../../assets/imgs/favicon.png'),
     imgUrl_three: require('../../../assets/imgs/favicon.png'),
   };

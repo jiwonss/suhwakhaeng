@@ -8,7 +8,6 @@ import { Spacer } from '../basic/Spacer';
 import * as ImagePicker from 'expo-image-picker';
 import { Alert, ScrollView } from 'react-native';
 import Xbutton from '../../../assets/icons/xButton.svg';
-import { storage } from '@react-native-firebase/storage';
 
 const Container = styled.View`
   width: ${widthPercent * 70}px;
