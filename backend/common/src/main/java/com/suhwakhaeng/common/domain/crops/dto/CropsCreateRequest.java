@@ -1,8 +1,10 @@
 package com.suhwakhaeng.common.domain.crops.dto;
 
+import com.suhwakhaeng.common.domain.crops.entity.Crops;
+import com.suhwakhaeng.common.domain.crops.entity.CultivationCharacteristic;
+import com.suhwakhaeng.common.domain.crops.entity.ShippingTimeTable;
+import com.suhwakhaeng.common.domain.crops.enums.CropsCate;
 import lombok.Builder;
-
-import java.util.List;
 
 @Builder
 public record CropsCreateRequest(
@@ -12,6 +14,17 @@ public record CropsCreateRequest(
         String diseaseType,
         String pestType,
         CultivationCharacteristicInfo cultivationCharacteristicInfo,
+        ShippingTimeTableInfo shippingTimeTableInfo
+) {
+    public Crops toCropsEntity() {
+        return Crops.builder()
+                .name(name)
+                .category(CropsCate.valueOf(category))
+                .growingCondition(growingCondition)
+                .diseaseType(diseaseType)
+                .pestType(pestType)
+                .build();
+    }
 
         List<ShippingTimeTableInfo> shippingTimeTableInfoList
 ) {
