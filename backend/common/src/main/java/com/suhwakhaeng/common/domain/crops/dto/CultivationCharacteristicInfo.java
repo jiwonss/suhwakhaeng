@@ -9,9 +9,9 @@ import lombok.ToString;
 @ToString
 public class CultivationCharacteristicInfo {
 
-    String scientificName;
-    String classification;
-    String physiologicalCharacteristic;
-    String mainTech;
+    private String scientificName;
+    private String classification;
+    private String physiologicalCharacteristic;
+    private String mainTech;
 
 }

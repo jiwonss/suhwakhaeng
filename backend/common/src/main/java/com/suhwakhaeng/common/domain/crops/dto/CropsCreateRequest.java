@@ -26,7 +26,22 @@ public record CropsCreateRequest(
                 .build();
     }
 
-        List<ShippingTimeTableInfo> shippingTimeTableInfoList
-) {
+    public CultivationCharacteristic toCultivationCharacteristicEntity(Crops crops) {
+        return CultivationCharacteristic.builder()
+                .crops(crops)
+                .scientificName(cultivationCharacteristicInfo.getScientificName())
+                .classification(cultivationCharacteristicInfo.getClassification())
+                .physiologicalCharacteristic(cultivationCharacteristicInfo.getPhysiologicalCharacteristic())
+                .mainTech(cultivationCharacteristicInfo.getMainTech())
+                .build();
+    }
+
+    public ShippingTimeTable toShippingTimeTableEntity(Crops crops) {
+        return ShippingTimeTable.builder()
+                .crops(crops)
+                .tableHead(shippingTimeTableInfo.getTableHead())
+                .tableTitle(shippingTimeTableInfo.getTableTitle())
+                .build();
+    }
 
 }

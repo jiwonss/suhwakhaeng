@@ -1,10 +1,7 @@
 package com.suhwakhaeng.common.domain.crops.service.impl;
 
 import com.suhwakhaeng.common.domain.crops.dto.*;
-import com.suhwakhaeng.common.domain.crops.entity.Crops;
-import com.suhwakhaeng.common.domain.crops.entity.CropsVariety;
-import com.suhwakhaeng.common.domain.crops.entity.CultivationCharacteristic;
-import com.suhwakhaeng.common.domain.crops.entity.ShippingTimeTable;
+import com.suhwakhaeng.common.domain.crops.entity.*;
 import com.suhwakhaeng.common.domain.crops.enums.CropsCate;
 import com.suhwakhaeng.common.domain.crops.exeption.CropsErrorCode;
 import com.suhwakhaeng.common.domain.crops.exeption.CropsException;
@@ -26,64 +23,33 @@ public class CropsServiceImpl implements CropsService {
     private final CropsVarietyRepository cropsVarietyRepository;
     private final CultivationCharacteristicRepository cultivationCharacteristicRepository;
     private final ShippingTimeTableRepository shippingTimeTableRepository;
+    private final ShippingTimeTableValueRepository shippingTimeTableValueRepository;
     private final CropsSearchRepository cropsSearchRepository;
 
     @Override
     public void createCrops(CropsCreateRequest cropsCreateRequest) {
-        CropsCate category = CropsCate.valueOf(cropsCreateRequest.category());
-
         // 작물
-        Crops crops = Crops.builder()
-                .name(cropsCreateRequest.name())
-                .category(category)
-                .growingCondition(cropsCreateRequest.growingCondition())
-                .diseaseType(cropsCreateRequest.diseaseType())
-                .pestType(cropsCreateRequest.pestType())
-                .build();
-        crops = cropsRepository.save(crops);
+        Crops crops = cropsRepository.save(cropsCreateRequest.toCropsEntity());
 
         // 재배적 특성
-        if (!category.equals(CropsCate.FOOD_CROPS)) {
-            CultivationCharacteristicInfo cultivationCharacteristicInfo = cropsCreateRequest.cultivationCharacteristicInfo();
-            CultivationCharacteristic cultivationCharacteristic = CultivationCharacteristic.builder()
-                    .crops(crops)
-                    .scientificName(cultivationCharacteristicInfo.getScientificName())
-                    .classification(cultivationCharacteristicInfo.getClassification())
-                    .physiologicalCharacteristic(cultivationCharacteristicInfo.getPhysiologicalCharacteristic())
-                    .mainTech(cultivationCharacteristicInfo.getMainTech())
-                    .build();
-            cultivationCharacteristicRepository.save(cultivationCharacteristic);
+        if (!crops.getCategory().equals(CropsCate.FOOD_CROPS)) {
+            cultivationCharacteristicRepository.save(cropsCreateRequest.toCultivationCharacteristicEntity(crops));
         }
 
         // 작형별 출하시기 표
-        for (ShippingTimeTableInfo shippingTimeTableInfo : cropsCreateRequest.shippingTimeTableInfoList()) {
-            ShippingTimeTable shippingTimeTable = ShippingTimeTable.builder()
-                    .crops(crops)
-                    .croppingTypeName(shippingTimeTableInfo.getCroppingTypeName())
-                    .rowOrder(shippingTimeTableInfo.getRowOrder())
-                    .columnOrder(shippingTimeTableInfo.getColumnOrder())
-                    .attr(shippingTimeTableInfo.getAttr())
-                    .value(shippingTimeTableInfo.getValue())
-                    .build();
-            shippingTimeTableRepository.save(shippingTimeTable);
+        ShippingTimeTable shippingTimeTable = shippingTimeTableRepository.save(cropsCreateRequest.toShippingTimeTableEntity(crops));
+
+        // 작형별 출하시기 표 값
+        List<ShippingTimeTableValueInfo> shippingTimeTableValueInfoList = cropsCreateRequest.shippingTimeTableInfo().getShippingTimeTableValueInfoList();
+        for (ShippingTimeTableValueInfo shippingTimeTableValueInfo : shippingTimeTableValueInfoList) {
+            shippingTimeTableValueRepository.save(shippingTimeTableValueInfo.toEntity(shippingTimeTable));
         }
     }
 
     @Override
     public void createCropsVariety(CropsVarietyCreateRequest cropsVarietyCreateRequest) {
         Crops crops = cropsRepository.findById(cropsVarietyCreateRequest.cropsId()).orElseThrow(() -> new CropsException(CropsErrorCode.NO_EXIST_CROPS));
-        CropsVarietyInfo cropsVarietyInfo = cropsVarietyCreateRequest.cropsVarietyInfo();
-        CropsVariety cropsVariety = CropsVariety.builder()
-                .crops(crops)
-                .name(cropsVarietyInfo.getName())
-                .category(cropsVarietyInfo.getCategory())
-                .usage(cropsVarietyInfo.getUsage())
-                .function(cropsVarietyInfo.getFunction())
-                .characteristic(cropsVarietyInfo.getCharacteristic())
-                .adaptationArea(cropsVarietyInfo.getAdaptationArea())
-                .caution(cropsVarietyInfo.getCaution())
-                .image(cropsVarietyInfo.getImage())
-                .build();
+        CropsVariety cropsVariety = cropsVarietyCreateRequest.toEntity(crops);
         cropsVarietyRepository.save(cropsVariety);
     }
 
