@@ -34,6 +34,7 @@ import ChatListScreen from '../../screens/chat/ChatListScreen';
 import FavoriteProductScreen from '../../screens/favoriteProduct/FavoriteProductScreen';
 import WeatherScreen from '../../screens/weather/WeatherScreen';
 import { PostProps } from '../../components/post/Post';
+import CameraScreen from '../../screens/plantDisease/CarmeraScreen';
 
 export type RootStackParamList = {
   BottomTabStackNavigator: undefined;
@@ -63,14 +64,15 @@ export type RootStackParamList = {
   VarietySelectScreen: { plantName: string };
   DetailPlantScreen: { plantName: string; varietyName: string };
   DiseasePlantScreen: undefined;
+  DetailDiseasePlantScreen: { photo: string };
   PlantResisterScreen: undefined;
   DefaultPlantResisterScreen: undefined;
   DetailPlantResisterScreen: undefined;
-  DetailDiseasePlantScreen: undefined;
   CulturePlantSelectScreen: undefined;
   EnvironmentPlantScreen: undefined;
   BottomNavigation: undefined;
   WeatherScreen: undefined;
+  CameraScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -79,7 +81,7 @@ const MainStack = () => {
   {
   }
   return (
-    <Stack.Navigator initialRouteName='PlantBookScreen'>
+    <Stack.Navigator initialRouteName='DetailDiseasePlantScreen'>
       {/* 페이지 개발이 완료되면 아래 코드 주석을 해제하고 윗줄은 지워야합니다.*/}
       {/* <Stack.Navigator*/}
       {/*   screenOptions={{*/}
@@ -121,6 +123,7 @@ const MainStack = () => {
       <Stack.Screen name='DetailPlantScreen' component={DetailPlantScreen} options={{ headerShown: false }} />
       {/*작물 진단 페이지*/}
       <Stack.Screen name='DiseasePlantScreen' component={DiseasePlantScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='CameraScreen' component={CameraScreen} options={{ headerShown: false }} />
       <Stack.Screen name='DetailDiseasePlantScreen' component={DetailDiseasePlantScreen} options={{ headerShown: false }} />
       {/*작물 등록 페이지*/}
       <Stack.Screen name='DefaultPlantResisterScreen' component={DefaultPlantResisterScreen} options={{ headerShown: false }} />
