@@ -4,15 +4,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Builder
 @ToString
 public class ShippingTimeTableInfo {
 
-    private String croppingTypeName;
-    private int rowOrder;
-    private int columnOrder;
-    private String attr;
-    private String value;
+    private String tableHead;
+    private String tableTitle;
+    private List<ShippingTimeTableValueInfo> shippingTimeTableValueInfoList;
 
 }

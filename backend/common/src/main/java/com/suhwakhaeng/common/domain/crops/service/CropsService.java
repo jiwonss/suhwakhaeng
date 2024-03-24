@@ -1,9 +1,6 @@
 package com.suhwakhaeng.common.domain.crops.service;
 
-import com.suhwakhaeng.common.domain.crops.dto.CropsCreateRequest;
-import com.suhwakhaeng.common.domain.crops.dto.CropsResponse;
-import com.suhwakhaeng.common.domain.crops.dto.CropsVarietyCreateRequest;
-import com.suhwakhaeng.common.domain.crops.dto.CropsVarietyResponse;
+import com.suhwakhaeng.common.domain.crops.dto.*;
 
 import java.util.List;
 
@@ -11,7 +8,8 @@ public interface CropsService {
 
     void createCrops(CropsCreateRequest cropsCreateRequest);
     void createCropsVariety(CropsVarietyCreateRequest cropsVarietyCreateRequest);
-    List<CropsResponse> selectListCrops();
-    List<CropsVarietyResponse> selectListCropsVariety(Long cropsId);
+    List<CropsListResponse> selectListCrops(String keyword);
+    List<CropsVarietyListResponse> selectListCropsVariety(Long cropsId);
+    CropsDetailResponse selectDetailCrops(Long cropsId, Long cropsVarietyId);
 
 }

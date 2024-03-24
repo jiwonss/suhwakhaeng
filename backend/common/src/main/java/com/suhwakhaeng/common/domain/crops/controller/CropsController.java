@@ -34,13 +34,18 @@ public class CropsController {
     }
 
     @GetMapping
-    public ResponseEntity selectListCrops() {
-        return ResponseEntity.ok(Message.success(cropsService.selectListCrops()));
+    public ResponseEntity selectListCrops(@RequestParam(required = false) String keyword) {
+        return ResponseEntity.ok(Message.success(cropsService.selectListCrops(keyword)));
     }
 
     @GetMapping("/{cropsId}/variety")
     public ResponseEntity selectListCropsVariety(@PathVariable Long cropsId) {
         return ResponseEntity.ok(Message.success(cropsService.selectListCropsVariety(cropsId)));
+    }
+
+    @GetMapping("/{cropsId}/variety/{cropsVarietyId}")
+    public ResponseEntity selectDetailCrops(@PathVariable Long cropsId, @PathVariable Long cropsVarietyId) {
+        return ResponseEntity.ok(Message.success(cropsService.selectDetailCrops(cropsId, cropsVarietyId)));
     }
 
 }
