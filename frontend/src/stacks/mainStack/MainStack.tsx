@@ -60,8 +60,8 @@ export type RootStackParamList = {
   PlantBookScreen: undefined;
   ChatListScreen: undefined;
   ChattingRoomScreen: { id: number };
-  VarietySelectScreen: undefined;
-  DetailPlantScreen: undefined;
+  VarietySelectScreen: { plantName: string };
+  DetailPlantScreen: { plantName: string; varietyName: string };
   DiseasePlantScreen: undefined;
   PlantResisterScreen: undefined;
   DefaultPlantResisterScreen: undefined;
@@ -79,7 +79,7 @@ const MainStack = () => {
   {
   }
   return (
-    <Stack.Navigator initialRouteName='SearchPostScreen'>
+    <Stack.Navigator initialRouteName='PlantBookScreen'>
       {/* 페이지 개발이 완료되면 아래 코드 주석을 해제하고 윗줄은 지워야합니다.*/}
       {/* <Stack.Navigator*/}
       {/*   screenOptions={{*/}

@@ -4,7 +4,7 @@ import Header from '../../components/header/Header';
 import Post, { PostProps } from '../../components/post/Post';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { SlideModal } from '../../components/modal/Modal';
 import { BasicButton } from '../../components/button/Buttons';
