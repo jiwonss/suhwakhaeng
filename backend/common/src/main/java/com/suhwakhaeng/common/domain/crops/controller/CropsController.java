@@ -43,4 +43,9 @@ public class CropsController {
         return ResponseEntity.ok(Message.success(cropsService.selectListCropsVariety(cropsId)));
     }
 
+    @GetMapping("/{cropsId}/variety/{cropsVarietyId}")
+    public ResponseEntity selectDetailCrops(@PathVariable Long cropsId, @PathVariable Long cropsVarietyId) {
+        return ResponseEntity.ok(Message.success(cropsService.selectDetailCrops(cropsId, cropsVarietyId)));
+    }
+
 }

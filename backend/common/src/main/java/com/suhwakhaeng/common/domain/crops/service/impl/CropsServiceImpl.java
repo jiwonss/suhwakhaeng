@@ -64,4 +64,23 @@ public class CropsServiceImpl implements CropsService {
                 .map(CropsVarietyListResponse::from)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public CropsDetailResponse selectDetailCrops(Long cropsId, Long cropsVarietyId) {
+        Crops crops = cropsRepository.findById(cropsId).orElseThrow(() -> new CropsException(CropsErrorCode.NO_EXIST_CROPS));
+
+        if (!crops.getCategory().equals(CropsCate.FOOD_CROPS)) {
+            CultivationCharacteristic cultivationCharacteristic = cultivationCharacteristicRepository.findByCropsId(cropsId).orElseThrow();
+            log.info("{}", CultivationCharacteristicInfo.fromCultivationCharacteristic(cultivationCharacteristic));
+        }
+
+        ShippingTimeTable shippingTimeTable = shippingTimeTableRepository.findByCropsId(cropsId).orElseThrow();
+        log.info("{}", shippingTimeTable);
+
+        CropsVariety cropsVariety = cropsVarietyRepository.findById(cropsVarietyId).orElseThrow(() -> new CropsException(CropsErrorCode.NO_EXIST_CROPS_VARIETY));
+        log.info("{}", CropsInfo.fromCrops(crops));
+        log.info("{}", CropsVarietyInfo.fromCropsVariety(cropsVariety));
+
+        return null;
+    }
 }
