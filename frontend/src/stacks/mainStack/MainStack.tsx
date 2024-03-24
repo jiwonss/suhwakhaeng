@@ -18,7 +18,6 @@ import PlantBookScreen from '../../screens/plantBook/PlantBookScreen';
 import VarietySelectScreen from '../../screens/plantBook/VarietySelectScreen';
 import ChattingRoomScreen from '../../screens/chat/ChattingRoomScreen';
 import DefaultPlantResisterScreen from '../../screens/plantResister/DefaultPlantResisterScreen';
-import DetailPlantResisterScreen from '../../screens/plantResister/DetailPlantResisterScreen';
 import CulturePlantSelectScreen from '../../screens/plantResister/CulturePlantSelectScreen';
 import EnvironmentPlantScreen from '../../screens/plantResister/EnvironmentPlantScreen';
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
@@ -67,9 +66,8 @@ export type RootStackParamList = {
   DetailDiseasePlantScreen: { photo: string };
   PlantResisterScreen: undefined;
   DefaultPlantResisterScreen: undefined;
-  DetailPlantResisterScreen: undefined;
-  CulturePlantSelectScreen: undefined;
-  EnvironmentPlantScreen: undefined;
+  CulturePlantSelectScreen: { plantName: string };
+  EnvironmentPlantScreen: { isCultivating: boolean; plantName: string };
   BottomNavigation: undefined;
   WeatherScreen: undefined;
   CameraScreen: undefined;
@@ -81,7 +79,7 @@ const MainStack = () => {
   {
   }
   return (
-    <Stack.Navigator initialRouteName='DetailDiseasePlantScreen'>
+    <Stack.Navigator initialRouteName='DefaultPlantResisterScreen'>
       {/* 페이지 개발이 완료되면 아래 코드 주석을 해제하고 윗줄은 지워야합니다.*/}
       {/* <Stack.Navigator*/}
       {/*   screenOptions={{*/}
@@ -127,7 +125,6 @@ const MainStack = () => {
       <Stack.Screen name='DetailDiseasePlantScreen' component={DetailDiseasePlantScreen} options={{ headerShown: false }} />
       {/*작물 등록 페이지*/}
       <Stack.Screen name='DefaultPlantResisterScreen' component={DefaultPlantResisterScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='DetailPlantResisterScreen' component={DetailPlantResisterScreen} options={{ headerShown: false }} />
       <Stack.Screen name='CulturePlantSelectScreen' component={CulturePlantSelectScreen} options={{ headerShown: false }} />
       <Stack.Screen name='EnvironmentPlantScreen' component={EnvironmentPlantScreen} options={{ headerShown: false }} />
       {/* 채팅 페이지 */}

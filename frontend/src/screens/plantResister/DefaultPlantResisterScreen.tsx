@@ -6,22 +6,9 @@ import Header from '../../components/header/Header';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
-// 작물 이모지 컴포넌트
-import BellPepper from '../../../assets/icons/bellPepper.svg';
-import Carrot from '../../../assets/icons/carrot.svg';
-import ChiliPepper from '../../../assets/icons/chiliPepper.svg';
-import Cucumber from '../../../assets/icons/cucumber.svg';
-import Eggplant from '../../../assets/icons/eggplant.svg';
-import Garlic from '../../../assets/icons/garlic.svg';
-import GreenOnion from '../../../assets/icons/greenOnion.svg';
-import Lettuce from '../../../assets/icons/lettuce.svg';
-import Onion from '../../../assets/icons/onion.svg';
-import Potato from '../../../assets/icons/potato.svg';
-import Pumpkin from '../../../assets/icons/pumpkin.svg';
-import SweetPotato from '../../../assets/icons/sweetPotato.svg';
-import Tomato from '../../../assets/icons/tomato.svg';
-import Watermelon from '../../../assets/icons/watermelon.svg';
 import { plantData } from '../plantBook/PlantBookScreen';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -41,6 +28,8 @@ const PlantContainer = styled.View`
 `;
 
 const DefaultPlantResisterScreen = () => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   const dummyCount = 3 - (plantData.length % 3 || 3);
 
   return (
@@ -56,7 +45,14 @@ const DefaultPlantResisterScreen = () => {
         <PlantContainer>
           {plantData.map((plant, index) => (
             <View key={index} style={{ alignItems: 'center', width: 100, marginBottom: 20 * heightPercent }}>
-              <BasicButton borderColor={Color.GRAY50} backgroundColor={Color.GRAY100} borderRadius={50} width={80} height={80} onPress={() => console.log(`${plant.name} 선택`)}>
+              <BasicButton
+                borderColor={Color.GRAY50}
+                backgroundColor={Color.GRAY100}
+                borderRadius={50}
+                width={80}
+                height={80}
+                onPress={() => navigation.navigate('CulturePlantSelectScreen', { plantName: plant.name })}
+              >
                 <plant.Icon width={50} height={50} />
               </BasicButton>
               <Spacer space={5} />
