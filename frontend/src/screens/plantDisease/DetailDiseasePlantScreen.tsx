@@ -27,7 +27,8 @@ const TextContainer = styled.Text`
 const ImageContainer = styled.View`
   align-items: center;
   justify-content: center;
-  margin-vertical: ${20 * heightPercent}px;
+  margin-top: ${5 * heightPercent}px;
+  margin-bottom: ${20 * heightPercent}px;
 `;
 
 const DetailDiseasePlantScreen = () => {
