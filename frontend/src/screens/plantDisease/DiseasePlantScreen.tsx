@@ -34,11 +34,11 @@ const DiseasePlantScreen = () => {
           </Typo.BODY4_M>
         </Container>
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-          <MenuButton size='big' title='작물 검색' borderColor={Color.GREEN50} onPressButton={() => navigation.navigate('MainScreen')}>
+          <MenuButton size='big' title='작물 검색' borderColor={Color.GREEN50} onPressButton={() => navigation.navigate('PlantBookScreen')}>
             <Search3D width={widthPercent * 40} height={heightPercent * 40} />
           </MenuButton>
           <Spacer horizontal={true} space={40} />
-          <MenuButton size='big' title='질병 진단' onPressButton={() => {}}>
+          <MenuButton size='big' title='질병 진단' onPressButton={() => navigation.navigate('CameraScreen')}>
             <Calendar3D width={widthPercent * 40} height={heightPercent * 40} />
           </MenuButton>
         </View>

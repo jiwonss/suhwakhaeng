@@ -24,6 +24,7 @@ interface HeaderProps {
   onPressSearch?: () => void;
   onPressMore?: () => void;
   onPressChat?: () => void;
+  onPressFirstIcon?: () => void;
 }
 
 /********* styled component 영역 ************/
@@ -78,9 +79,9 @@ const Header = (props: HeaderProps) => {
 
   const firstIconSelector = (iconName: string) => {
     if (iconName === 'exit') {
-      return <Exit onPress={() => navigation.goBack()} width={widthPercent * 24} height={heightPercent * 24} />;
+      return <Exit onPress={() => (props.onPressFirstIcon ? props.onPressFirstIcon() : navigation.goBack())} width={widthPercent * 24} height={heightPercent * 24} />;
     } else if (iconName === 'back') {
-      return <Back onPress={() => navigation.goBack()} width={widthPercent * 24} height={heightPercent * 24} />;
+      return <Back onPress={() => (props.onPressFirstIcon ? props.onPressFirstIcon() : navigation.goBack())} width={widthPercent * 24} height={heightPercent * 24} />;
     }
   };
 

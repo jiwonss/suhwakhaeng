@@ -6,6 +6,9 @@ import Header from '../../components/header/Header';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
+import { useRoute } from '@react-navigation/core';
+import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -15,10 +18,15 @@ const Container = styled.View`
 `;
 
 const CulturePlantSelectScreen = () => {
-  const Select = [{ content: '품종1' }, { content: '품종2' }, { content: '품종3' }];
+  const route = useRoute<RouteProp<RootStackParamList, 'CulturePlantSelectScreen'>>();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const { plantName } = route.params;
 
-  const onSubmit = () => {
-    console.log('검색');
+  const onSubmit = (isCultivating: boolean): void => {
+    navigation.navigate('EnvironmentPlantScreen', {
+      isCultivating,
+      plantName,
+    });
   };
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
@@ -29,18 +37,26 @@ const CulturePlantSelectScreen = () => {
         {/*품종 선택 안내메시지*/}
         <Container>
           <Typo.BODY2_M>
-            현재 <Typo.BODY2_M color={Color.GREEN600}>재배 중</Typo.BODY2_M>이신가요?
+            현재 <Typo.BODY2_M color={Color.GREEN600}>{plantName}</Typo.BODY2_M>를 <Typo.BODY2_M color={Color.GREEN600}>재배 중</Typo.BODY2_M>이신가요?
           </Typo.BODY2_M>
         </Container>
         {/*품종선택*/}
         <Container>
-          <TouchableOpacity onPress={onSubmit}>
+          <TouchableOpacity
+            onPress={() => {
+              onSubmit(true);
+            }}
+          >
             <Spacer space={23} />
             <Typo.BODY3_M>네, 재배 중이에요</Typo.BODY3_M>
             <Spacer space={23} />
           </TouchableOpacity>
           <Divider marginHorizontal={1} />
-          <TouchableOpacity onPress={onSubmit}>
+          <TouchableOpacity
+            onPress={() => {
+              onSubmit(false);
+            }}
+          >
             <Spacer space={23} />
             <Typo.BODY3_M>아니오, 재배하고 있지 않아요</Typo.BODY3_M>
             <Spacer space={23} />
