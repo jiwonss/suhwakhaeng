@@ -31,12 +31,28 @@ const CameraScreen = () => {
       // 카메라에서 사진을 성공적으로 촬영했고, 그 사진의 URI가 존재할 경우
       else if (response.assets && response.assets.length > 0 && response.assets[0].uri) {
         const source = { uri: response.assets[0].uri };
+        console.log(source); // {"uri": "file:///data/user/0/com.suhwakhaeng/cache/rn_image_picker_lib_temp_bd2f65b0-b754-4627-a227-39393f76db41.jpg"}
         if (value == 1) {
           navigation.navigate('DetailDiseasePlantScreen', { photo: source });
         }
       }
     });
   }, [navigation]);
+
+  // const sendImageToServer = (base64Image) => {
+  //   axios
+  //     .post('http://localhost:8080/crop/disease', {
+  //       image: base64Image,
+  //     })
+  //     .then((response) => {
+  //       console.log('Image uploaded successfully', response.data);
+  //       // 성공적으로 업로드되었다는 메시지를 표시하거나 다른 처리를 수행합니다.
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error uploading image', error);
+  //       // 에러 처리
+  //     });
+  // };
 
   return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>{photo && <Image source={photo} style={{ width: 300, height: 300 }} />}</View>;
 };
