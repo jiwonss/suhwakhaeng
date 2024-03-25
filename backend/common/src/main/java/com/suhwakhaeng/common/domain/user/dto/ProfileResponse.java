@@ -17,6 +17,7 @@ public class ProfileResponse {
     private String profileImage;
     private Boolean isBusiness;
     private String profileContent;
+    private String role;
 
     private String sido;
     private String gugun;
@@ -29,6 +30,7 @@ public class ProfileResponse {
                 .nickname(user.getNickname())
                 .profileImage(user.getProfileImage())
                 .profileContent(user.getProfileContent())
+                .role(user.getRole().getName())
                 .sido(user.getLocation() == null ? null : user.getLocation().getSido())
                 .gugun(user.getLocation() == null ? null : user.getLocation().getGugun())
                 .dong(user.getLocation() == null ? null : user.getLocation().getDong())
