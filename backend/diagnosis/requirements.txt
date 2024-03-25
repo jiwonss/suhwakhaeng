@@ -22,6 +22,7 @@ gast==0.5.4
 google-pasta==0.2.0
 grpcio==1.62.1
 gunicorn==21.2.0
+h11==0.14.0
 h5py==3.10.0
 humanfriendly==10.0
 idna==3.6
@@ -92,5 +93,6 @@ tqdm==4.66.2
 typing_extensions==4.10.0
 tzdata==2024.1
 urllib3==2.2.1
+uvicorn==0.29.0
 Werkzeug==3.0.1
 wrapt==1.16.0
