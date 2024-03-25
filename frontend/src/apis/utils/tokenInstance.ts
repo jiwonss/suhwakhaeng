@@ -1,6 +1,8 @@
-import axios, { AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import { getTokens, removeTokens, setTokens } from '../../util/TokenUtil';
 
-const BASE_URL = 'http://localhost:8080/api/v1';
+const BASE_URL = 'http://10.0.2.2:8000/';
 
 export const tokenInstance = axios.create({
   baseURL: `${BASE_URL}`,
@@ -8,22 +10,42 @@ export const tokenInstance = axios.create({
 
 const setCommonHeaders = async (config: any) => {
   config.headers['Content-Type'] = 'application/json';
-  // encryptedStorage 에서 TOKEN 받아오지
+  config.headers['Authorization'] = `Bearer ${await EncryptedStorage.getItem('accessToken')}`;
   return config;
+};
+
+const reIssueAccessTokenAndRetry = async (config: AxiosRequestConfig) => {
+  const tokenData = getTokens();
+  try {
+    const response = await axios.post(`${BASE_URL}/common/reissue`, tokenData, { headers: { 'Content-Type': 'application/json' } });
+    if (response.status === 201) {
+      setTokens(response.data.dataBody); // 토큰 재 세팅
+      axios(config); // 재요청
+    }
+    console.error('reIssueAccessTokenAndRetry error: ', response);
+    return Promise.reject(response);
+  } catch (error: any) {
+    console.error(error.response.data);
+    if (error.response.status === 401) {
+      alert('토큰 갱신에 실패했습니다. 다시 로그인 해주세요.');
+      removeTokens();
+      return Promise.reject(error);
+    }
+  }
 };
 
 const handleResponseError = async (error: AxiosError) => {
   if (!error.response) return Promise.reject(error);
-  const { status, data } = error.response as { status: number; data: any };
-  console.log('status :', status, data);
+  const { status, config } = error.response;
+  console.log('status :', status);
 
   switch (status) {
     case 400:
       // alert('이미 매칭에 참여 중입니다');
       break;
     case 401:
-    // TODO
-    // 로그아웃 로직타기
+      return await reIssueAccessTokenAndRetry(config);
+
     case 500:
       alert('시스템 에러, 관리자에게 문의 바랍니다.');
       break;

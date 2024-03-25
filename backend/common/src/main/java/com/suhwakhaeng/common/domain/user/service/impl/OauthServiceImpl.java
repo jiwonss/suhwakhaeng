@@ -46,7 +46,6 @@ public class OauthServiceImpl implements OauthService {
                 .userDetailInfo(UserDetailInfo.builder()
                         .userId(user.getId())
                         .nickname(user.getNickname())
-                        .email(user.getEmail())
                         .profileImage(user.getProfileImage())
                         .build()
                 ).build();

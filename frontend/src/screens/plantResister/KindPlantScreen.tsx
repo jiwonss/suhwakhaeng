@@ -17,22 +17,23 @@ const Container = styled.View`
   row-gap: ${5 * heightPercent}px;
 `;
 
-const CulturePlantSelectScreen = () => {
-  const route = useRoute<RouteProp<RootStackParamList, 'CulturePlantSelectScreen'>>();
+const KindPlantScreen = () => {
+  const route = useRoute<RouteProp<RootStackParamList, 'KindPlantScreen'>>();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const { plantName } = route.params;
+  const Select = [{ content: '품종1' }, { content: '품종2' }, { content: '품종3' }];
 
-  const onSubmit = (isCultivating: boolean): void => {
+  const onSubmit = (varietyName: string) => {
     navigation.navigate('EnvironmentPlantScreen', {
-      isCultivating,
       plantName,
+      varietyName,
     });
   };
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }} contentContainerStyle={{ paddingBottom: 50 * heightPercent }}>
         {/*헤더*/}
-        <Header type={'default'} firstIcon={'back'} title={'작물이름'} />
+        <Header type={'default'} firstIcon={'back'} title={plantName} />
         <Spacer space={20} />
         {/*품종 선택 안내메시지*/}
         <Container>
@@ -42,30 +43,20 @@ const CulturePlantSelectScreen = () => {
         </Container>
         {/*품종선택*/}
         <Container>
-          <TouchableOpacity
-            onPress={() => {
-              onSubmit(true);
-            }}
-          >
-            <Spacer space={23} />
-            <Typo.BODY3_M>네, 재배 중이에요</Typo.BODY3_M>
-            <Spacer space={23} />
-          </TouchableOpacity>
-          <Divider marginHorizontal={1} />
-          <TouchableOpacity
-            onPress={() => {
-              onSubmit(false);
-            }}
-          >
-            <Spacer space={23} />
-            <Typo.BODY3_M>아니오, 재배하고 있지 않아요</Typo.BODY3_M>
-            <Spacer space={23} />
-          </TouchableOpacity>
-          <Divider marginHorizontal={1} />
+          {Select.map((item, index) => (
+            <View key={index}>
+              <TouchableOpacity onPress={() => onSubmit(item.content)}>
+                <Spacer space={23} />
+                <Typo.BODY3_M>{item.content}</Typo.BODY3_M>
+                <Spacer space={23} />
+              </TouchableOpacity>
+              <Divider marginHorizontal={1} />
+            </View>
+          ))}
         </Container>
       </ScrollView>
     </View>
   );
 };
 
-export default CulturePlantSelectScreen;
+export default KindPlantScreen;
