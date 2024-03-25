@@ -17,18 +17,19 @@ public class ProfileResponse {
     private String profileImage;
     private Boolean isBusiness;
     private String profileContent;
+    private String role;
 
     private String sido;
     private String gugun;
     private String dong;
 
-    // location null 여부에 따라 반환값이 달라진다.
     public static ProfileResponse fromUser(User user) {
         return ProfileResponse.builder()
                 .userId(user.getId())
                 .nickname(user.getNickname())
                 .profileImage(user.getProfileImage())
                 .profileContent(user.getProfileContent())
+                .role(user.getRole().getName())
                 .sido(user.getLocation() == null ? null : user.getLocation().getSido())
                 .gugun(user.getLocation() == null ? null : user.getLocation().getGugun())
                 .dong(user.getLocation() == null ? null : user.getLocation().getDong())
