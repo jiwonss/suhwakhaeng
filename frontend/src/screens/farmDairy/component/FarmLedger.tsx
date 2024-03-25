@@ -62,13 +62,16 @@ const FarmLedger = (props: FarmLedgerProps) => {
     return `${month}월 ${day}일`;
   };
 
-  const [selectedDate, setSelectedDate] = useState(getCurrentDate());
+  const [selectedStartDate, setSelectedStartDate] = useState(getCurrentDate());
+  const [selectedFinDate, setSelectedFinDate] = useState(getCurrentDate());
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <CustomCalendar data={{}} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+      <CustomCalendar setSelectedStartDate={setSelectedStartDate} setSelectedFinDate={setSelectedFinDate} selectedFinDate={selectedFinDate} selectedStartDate={selectedStartDate} />
       <View style={{ padding: widthPercent * 16 }}>
-        <Typo.BODY4_M>{formatDate(selectedDate)}</Typo.BODY4_M>
+        <Typo.BODY4_M>
+          {formatDate(selectedStartDate)} ~ {formatDate(selectedFinDate)}
+        </Typo.BODY4_M>
         <Spacer space={heightPercent * 20}></Spacer>
         {props.data.length !== 0 ? (
           <>

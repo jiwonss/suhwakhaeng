@@ -8,7 +8,6 @@ import { Spacer } from '../basic/Spacer';
 import * as ImagePicker from 'expo-image-picker';
 import { Alert, ScrollView } from 'react-native';
 import Xbutton from '../../../assets/icons/xButton.svg';
-import { storage } from '@react-native-firebase/storage';
 
 const Container = styled.View`
   width: ${widthPercent * 70}px;
@@ -44,18 +43,13 @@ interface ImgUploaderProps {
 const ImgUploader = ({ data, setData }: ImgUploaderProps) => {
   const handleAddPress = async () => {
     if (data.length >= 4) {
-      Alert.alert(
-        '알림',
-        '이미지는 최대 4개까지만 추가할 수 있습니다.',
-        [{ text: '확인', onPress: () => console.log('확인') }]
-      );
+      Alert.alert('알림', '이미지는 최대 4개까지만 추가할 수 있습니다.', [{ text: '확인', onPress: () => console.log('확인') }]);
       return;
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [1, 1],
       quality: 1,
     });
     if (!result.canceled) {

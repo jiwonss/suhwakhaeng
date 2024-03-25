@@ -21,3 +21,17 @@ export const reIssueToken = async (params: { accessToken: string; refreshToken: 
   const response = await instance.post(`${authUrl}/reissue`, params);
   return response.data;
 };
+
+export const modifyUserInfo = async (params: {
+  profileImage: string;
+  nickname: string;
+  role: string;
+  profileContent: string;
+  sido: string;
+  gugun: string;
+  dong: string;
+  roadNameAddress: string;
+}) => {
+  const response = await tokenInstance.patch(`${userUrl}/my-profile`, params);
+  return response.data;
+};

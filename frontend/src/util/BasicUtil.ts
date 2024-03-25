@@ -1,3 +1,4 @@
+import storage from '@react-native-firebase/storage';
 /**
  * 게시글의 게시 시간을 현재 시간 기준 계산하여
  * '방금 전', '몇분 전' 등을 반환해주는 함수입니다.
@@ -61,4 +62,37 @@ export const getKST = () => {
 
   // YYYY-MM-DD HH:MM:SS 형식으로 반환
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
+
+
+export const uploadImagesToFirebaseStorage = async (imageUrls: string[], screen : string) => {
+  try {
+    const downloadUrls = []; // 업로드된 이미지의 다운로드 URL을 저장할 배열
+
+    // 이미지를 업로드하고 다운로드 URL을 가져오는 작업을 순차적으로 수행
+    for (let i = 0; i < imageUrls.length; i++) {
+      const imageUrl = imageUrls[i];
+      const response = await fetch(imageUrl); // 이미지를 가져옴
+      const blob = await response.blob(); // 이미지를 Blob 객체로 변환
+      const filename = `image_${i}.png`; // 이미지 파일명 생성
+
+      // 여기에다가 나중에 글이나, 경로로 유일하게 만들어야함
+      const reference = storage().ref().child(`images//${screen}//${filename}`); // 이미지를 저장할 경로 설정
+      //
+      
+      await reference.put(blob); // 이미지를 Storage에 업로드
+      console.log(`Image ${i + 1} uploaded successfully!`);
+
+      // 이미지가 업로드된 후 해당 이미지의 다운로드 URL을 가져와서 배열에 추가
+      const downloadUrl = await reference.getDownloadURL();
+      downloadUrls.push(downloadUrl);
+    }
+
+    console.log('All images uploaded successfully!');
+    console.log(downloadUrls);
+    return downloadUrls; // 업로드된 이미지들의 다운로드 URL을 반환
+  } catch (error) {
+    console.error('Error uploading images:', error);
+    return []; // 오류가 발생한 경우 빈 배열을 반환
+  }
 };

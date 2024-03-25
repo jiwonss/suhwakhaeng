@@ -29,7 +29,6 @@ export const RootApp = () => {
 
         // 회원 정보 조회 성공
         const userInfoDataBody = userInfoData.dataBody;
-        console.log(userInfoDataBody);
         setUserInfo({
           ...userInfo,
           userId: userInfoDataBody.userId,
@@ -37,9 +36,9 @@ export const RootApp = () => {
           profileImage: userInfoDataBody.profileImage,
           isBusiness: userInfoDataBody.isBuiseness,
           profileContent: userInfoDataBody.profileContent,
-          sido: userInfoDataBody.sido,
-          gugun: userInfoDataBody.gugun,
-          dong: userInfoDataBody.dong,
+          sido: userInfoDataBody.sido ? userInfoDataBody.sido : '',
+          gugun: userInfoDataBody.gugun ? userInfoDataBody.gugun : '',
+          dong: userInfoDataBody.dong ? userInfoDataBody.dong : '',
         });
         setToken(true);
         setTimeout(() => {

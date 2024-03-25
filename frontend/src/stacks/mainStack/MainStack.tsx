@@ -18,19 +18,20 @@ import PlantBookScreen from '../../screens/plantBook/PlantBookScreen';
 import VarietySelectScreen from '../../screens/plantBook/VarietySelectScreen';
 import ChattingRoomScreen from '../../screens/chat/ChattingRoomScreen';
 import DefaultPlantResisterScreen from '../../screens/plantResister/DefaultPlantResisterScreen';
-import DetailPlantResisterScreen from '../../screens/plantResister/DetailPlantResisterScreen';
 import CulturePlantSelectScreen from '../../screens/plantResister/CulturePlantSelectScreen';
 import EnvironmentPlantScreen from '../../screens/plantResister/EnvironmentPlantScreen';
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
-import SearchPostScreen from '../../screens/post/SearchPostScreen';
-import MyPostScreen from '../../screens/myPost/MyPostScreen';
 import SearchResultScreen from '../../screens/post/SearchResultScreen';
+import MyPostScreen from '../../screens/myPost/MyPostScreen';
+import SearchPostScreen from '../../screens/post/SearchPostScreen';
 import DetailPlantScreen from '../../screens/plantBook/DetailPlantScreen';
 import DetailDiseasePlantScreen from '../../screens/plantDisease/DetailDiseasePlantScreen';
 import ChatListScreen from '../../screens/chat/ChatListScreen';
 import FavoriteProductScreen from '../../screens/favoriteProduct/FavoriteProductScreen';
 import WeatherScreen from '../../screens/weather/WeatherScreen';
+import { PostProps } from '../../components/post/Post';
+import CameraScreen from '../../screens/plantDisease/CarmeraScreen';
 import BottomNavigation from '../../components/navigation/BottomNavigation';
 
 export type RootStackParamList = {
@@ -45,12 +46,12 @@ export type RootStackParamList = {
   FarmDairyAddScreen: undefined;
   FarmLedgerAddScreen: undefined;
   CreatePostScreen: undefined;
-  DetailPostScreen: undefined;
-  UpdatePostScreen: undefined;
+  DetailPostScreen: { postData: PostProps['postData'] };
+  UpdatePostScreen: { postData: PostProps['postData'] };
   MyPostScreen: undefined;
   SetLocationScreen: undefined;
+  SearchResultScreen: { searchValue: string };
   SearchPostScreen: undefined;
-  SearchResultScreen: undefined;
   FavoriteProductScreen: undefined;
   MyProfileScreen: undefined;
   FcmTestScreen: undefined;
@@ -58,24 +59,24 @@ export type RootStackParamList = {
   PlantBookScreen: undefined;
   ChatListScreen: undefined;
   ChattingRoomScreen: { id: number };
-  VarietySelectScreen: undefined;
-  DetailPlantScreen: undefined;
+  VarietySelectScreen: { plantName: string };
+  DetailPlantScreen: { plantName: string; varietyName: string };
   DiseasePlantScreen: undefined;
+  DetailDiseasePlantScreen: { photo: string };
   PlantResisterScreen: undefined;
   DefaultPlantResisterScreen: undefined;
-  DetailPlantResisterScreen: undefined;
-  DetailDiseasePlantScreen: undefined;
-  CulturePlantSelectScreen: undefined;
-  EnvironmentPlantScreen: undefined;
+  CulturePlantSelectScreen: { plantName: string };
+  EnvironmentPlantScreen: { isCultivating: boolean; plantName: string };
   BottomNavigation: undefined;
   WeatherScreen: undefined;
+  CameraScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
   return (
-    <Stack.Navigator initialRouteName='MyProfileScreen'>
+    <Stack.Navigator initialRouteName='WeatherScreen'>
       {/* 페이지 개발이 완료되면 아래 코드 주석을 해제하고 윗줄은 지워야합니다.*/}
       {/* <Stack.Navigator*/}
       {/*   screenOptions={{*/}
@@ -117,10 +118,10 @@ const MainStack = () => {
       <Stack.Screen name='DetailPlantScreen' component={DetailPlantScreen} options={{ headerShown: false }} />
       {/*작물 진단 페이지*/}
       <Stack.Screen name='DiseasePlantScreen' component={DiseasePlantScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='CameraScreen' component={CameraScreen} options={{ headerShown: false }} />
       <Stack.Screen name='DetailDiseasePlantScreen' component={DetailDiseasePlantScreen} options={{ headerShown: false }} />
       {/*작물 등록 페이지*/}
       <Stack.Screen name='DefaultPlantResisterScreen' component={DefaultPlantResisterScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='DetailPlantResisterScreen' component={DetailPlantResisterScreen} options={{ headerShown: false }} />
       <Stack.Screen name='CulturePlantSelectScreen' component={CulturePlantSelectScreen} options={{ headerShown: false }} />
       <Stack.Screen name='EnvironmentPlantScreen' component={EnvironmentPlantScreen} options={{ headerShown: false }} />
       {/* 채팅 페이지 */}

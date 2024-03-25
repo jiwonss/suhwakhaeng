@@ -9,6 +9,9 @@ import { SingleLineInputBox } from '../../components/inputBox/Input';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
+import { useRoute } from '@react-navigation/core';
+import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -20,6 +23,9 @@ const ButtonContainer = styled.View`
 `;
 
 const EnvironmentPlantScreen = () => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const route = useRoute<RouteProp<RootStackParamList, 'EnvironmentPlantScreen'>>();
+  const { isCultivating, plantName } = route.params;
   const dropDownData = ['평방미터', '평', '헥타르'];
   const [selectData, setSelectData] = useState('');
 
@@ -33,13 +39,15 @@ const EnvironmentPlantScreen = () => {
         <Header type={'default'} firstIcon={'back'} title={'작물이름'} />
         <Spacer space={20} />
         <Container>
-          <Typo.BODY2_M>재배 환경을 선택해주세요</Typo.BODY2_M>
+          <Typo.BODY2_M>
+            <Typo.BODY2_M color={Color.GREEN600}>{plantName}</Typo.BODY2_M>의 재배 환경을 선택해주세요
+          </Typo.BODY2_M>
           <Spacer space={20} />
         </Container>
         <Container>
           <Typo.BODY4_M>지역</Typo.BODY4_M>
           <BasicButton onPress={onSubmit} height={heightPercent * 36} borderColor={Color.GRAY300} backgroundColor={Color.WHITE} borderRadius={10}>
-            <Typo.BODY3_M>클릭하면 이동하고 위치정보를 가져와서 보여줌</Typo.BODY3_M>
+            <Typo.BODY3_M>클릭하면 이동하고 위치정보를 가져와서 보여줌(드롭다운)</Typo.BODY3_M>
           </BasicButton>
         </Container>
         <Spacer space={20} />
@@ -56,12 +64,11 @@ const EnvironmentPlantScreen = () => {
         </Container>
       </ScrollView>
       <ButtonContainer>
-        <BasicButton onPress={onSubmit} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
+        <BasicButton onPress={() => navigation.navigate('MyProfileScreen')} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
           <Typo.BODY3_M color={Color.WHITE}>작성 완료</Typo.BODY3_M>
         </BasicButton>
       </ButtonContainer>
     </View>
   );
 };
-
 export default EnvironmentPlantScreen;

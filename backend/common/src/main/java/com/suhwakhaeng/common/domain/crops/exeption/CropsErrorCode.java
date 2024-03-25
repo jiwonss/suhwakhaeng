@@ -9,7 +9,8 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 @Getter
 @AllArgsConstructor
 public enum CropsErrorCode {
-    NO_EXIST_CROPS("존재하지 않는 작물입니다.", BAD_REQUEST);
+    NO_EXIST_CROPS("존재하지 않는 작물입니다.", BAD_REQUEST),
+    NO_EXIST_CROPS_VARIETY("존재하지 않는 작물 품종입니다.", BAD_REQUEST);;
     private final String message;
     private final HttpStatus httpStatus;
 }
