@@ -26,8 +26,11 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.2'
 
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
     implementation 'org.springframework.cloud:spring-cloud-config-client'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
