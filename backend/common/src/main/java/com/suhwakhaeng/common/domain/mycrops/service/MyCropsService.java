@@ -18,4 +18,6 @@ public interface MyCropsService {
     MyCrops selectMyCrop(Long myCropsId);
     MyCropsDetailResponse selectMyCropsDetail(Long myCropsId);
 
+    void deleteMyCrops(Long myCropsId);
+
 }
