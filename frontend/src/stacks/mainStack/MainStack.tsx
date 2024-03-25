@@ -79,7 +79,7 @@ const MainStack = () => {
   {
   }
   return (
-    <Stack.Navigator initialRouteName='DefaultPlantResisterScreen'>
+    <Stack.Navigator initialRouteName='FavoriteProductScreen'>
       {/* 페이지 개발이 완료되면 아래 코드 주석을 해제하고 윗줄은 지워야합니다.*/}
       {/* <Stack.Navigator*/}
       {/*   screenOptions={{*/}
