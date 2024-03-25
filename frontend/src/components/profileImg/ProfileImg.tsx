@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import React from 'react';
+import { LocalImageLoader, UriImageLoader } from '../image/ImageLoader';
 
 // 타입 정의
 interface ContainerProps {
@@ -33,7 +34,7 @@ const ProfileImage: React.FC<ProfileImageProps> = ({ url, width, height }) => {
 
   return (
     <StyledView width={width} height={height}>
-      <StyledImage source={url ? { url } : defaultImage} resizeMode='cover' />
+      {url ? <UriImageLoader uri={url} style={{ width: '100%', height: '100%' }} resizeMode='cover' /> : <LocalImageLoader source={defaultImage} />}
     </StyledView>
   );
 };

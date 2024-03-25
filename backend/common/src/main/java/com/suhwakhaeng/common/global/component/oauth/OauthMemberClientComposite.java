@@ -13,6 +13,7 @@ import static java.util.stream.Collectors.toMap;
 
 @Component
 public class OauthMemberClientComposite {
+    // TODO 멀티쓰레드, 싱글톤 >> stateless하게 관리...
     private final Map<OauthServerType, OauthMemberClient> mapping;
 
     public OauthMemberClientComposite(Set<OauthMemberClient> clients) {

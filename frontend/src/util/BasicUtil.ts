@@ -64,8 +64,7 @@ export const getKST = () => {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 };
 
-
-export const uploadImagesToFirebaseStorage = async (imageUrls: string[], screen : string) => {
+export const uploadImagesToFirebaseStorage = async (imageUrls: string[], screen: string) => {
   try {
     const downloadUrls = []; // 업로드된 이미지의 다운로드 URL을 저장할 배열
 
@@ -79,7 +78,7 @@ export const uploadImagesToFirebaseStorage = async (imageUrls: string[], screen 
       // 여기에다가 나중에 글이나, 경로로 유일하게 만들어야함
       const reference = storage().ref().child(`images//${screen}//${filename}`); // 이미지를 저장할 경로 설정
       //
-      
+
       await reference.put(blob); // 이미지를 Storage에 업로드
       console.log(`Image ${i + 1} uploaded successfully!`);
 
@@ -90,6 +89,7 @@ export const uploadImagesToFirebaseStorage = async (imageUrls: string[], screen 
 
     console.log('All images uploaded successfully!');
     console.log(downloadUrls);
+
     return downloadUrls; // 업로드된 이미지들의 다운로드 URL을 반환
   } catch (error) {
     console.error('Error uploading images:', error);

@@ -1,6 +1,8 @@
 package com.suhwakhaeng.common.global.error;
 
+import com.suhwakhaeng.common.domain.crops.entity.CropsVariety;
 import com.suhwakhaeng.common.domain.crops.exeption.CropsException;
+import com.suhwakhaeng.common.domain.crops.exeption.CropsVarietyException;
 import com.suhwakhaeng.common.domain.trade.exception.TradeException;
 import com.suhwakhaeng.common.domain.user.exception.UserException;
 import com.suhwakhaeng.common.global.common.dto.Message;
@@ -37,6 +39,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CropsException.class)
     public ResponseEntity<?> cropsExceptionHandler(CropsException e){
+        log.debug(Arrays.toString(e.getStackTrace()));
+        return ResponseEntity.ok(Message.fail(String.valueOf(e.getErrorCode()), e.getMessage()));
+    }
+
+    @ExceptionHandler(CropsVarietyException.class)
+    public ResponseEntity<?> cropsVarietyExceptionHandler(CropsVarietyException e){
         log.debug(Arrays.toString(e.getStackTrace()));
         return ResponseEntity.ok(Message.fail(String.valueOf(e.getErrorCode()), e.getMessage()));
     }

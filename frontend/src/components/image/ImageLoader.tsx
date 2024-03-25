@@ -21,7 +21,6 @@ interface LocalImageProps {
  * @author 김수린
  */
 export const UriImageLoader = (props: UriImageProps) => {
-  console.log(props);
   return (
     <View>
       <Image source={{ uri: props.uri } as ImageSourcePropType} style={props.style} resizeMode={props.resizeMode} />

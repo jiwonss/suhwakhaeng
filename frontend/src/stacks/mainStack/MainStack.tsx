@@ -17,13 +17,11 @@ import PlantBookScreen from '../../screens/plantBook/PlantBookScreen';
 import VarietySelectScreen from '../../screens/plantBook/VarietySelectScreen';
 import ChattingRoomScreen from '../../screens/chat/ChattingRoomScreen';
 import DefaultPlantResisterScreen from '../../screens/plantResister/DefaultPlantResisterScreen';
-import CulturePlantSelectScreen from '../../screens/plantResister/CulturePlantSelectScreen';
+import KindPlantScreen from '../../screens/plantResister/KindPlantScreen';
 import EnvironmentPlantScreen from '../../screens/plantResister/EnvironmentPlantScreen';
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
 import SearchResultScreen from '../../screens/post/SearchResultScreen';
-import React from 'react';
-import BottomNavigation from '../../components/navigation/BottomNavigation';
 import MyPostScreen from '../../screens/myPost/MyPostScreen';
 import SearchPostScreen from '../../screens/post/SearchPostScreen';
 import DetailPlantScreen from '../../screens/plantBook/DetailPlantScreen';
@@ -36,6 +34,7 @@ import CameraScreen from '../../screens/plantDisease/CarmeraScreen';
 import FarmDairyDetailScreen from '../../screens/farmDairy/FarmDairyDetailScreen';
 import FarmLedgerDetailScreen from '../../screens/farmDairy/FramLedgerDetailScreen';
 import FarmScreen from '../../screens/farmDairy/FarmScreen';
+import BottomNavigation from '../../components/navigation/BottomNavigation';
 
 export type RootStackParamList = {
   BottomTabStackNavigator: undefined;
@@ -54,7 +53,7 @@ export type RootStackParamList = {
   DetailPostScreen: { postData: PostProps['postData'] };
   UpdatePostScreen: { postData: PostProps['postData'] };
   MyPostScreen: undefined;
-  SetLocationScreen: undefined;
+  SetLocationScreen: { value: number; varietyName: string; plantName: string };
   SearchResultScreen: { searchValue: string };
   SearchPostScreen: undefined;
   FavoriteProductScreen: undefined;
@@ -67,23 +66,21 @@ export type RootStackParamList = {
   VarietySelectScreen: { plantName: string };
   DetailPlantScreen: { plantName: string; varietyName: string };
   DiseasePlantScreen: undefined;
-  DetailDiseasePlantScreen: { photo: string };
+  DetailDiseasePlantScreen: { photo: { uri: string } };
   PlantResisterScreen: undefined;
   DefaultPlantResisterScreen: undefined;
-  CulturePlantSelectScreen: { plantName: string };
-  EnvironmentPlantScreen: { isCultivating: boolean; plantName: string };
+  KindPlantScreen: { plantName: string };
+  EnvironmentPlantScreen: { plantName: string; varietyName?: string; dataList_S?: string; dataList_G?: string; dataList_D?: string };
   BottomNavigation: undefined;
   WeatherScreen: undefined;
-  CameraScreen: undefined;
+  CameraScreen: { value: number };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
-  {
-  }
   return (
-    <Stack.Navigator initialRouteName='MyProfileScreen'>
+    <Stack.Navigator initialRouteName='DiseasePlantScreen'>
       {/* 페이지 개발이 완료되면 아래 코드 주석을 해제하고 윗줄은 지워야합니다.*/}
       {/* <Stack.Navigator*/}
       {/*   screenOptions={{*/}
@@ -131,7 +128,7 @@ const MainStack = () => {
       <Stack.Screen name='DetailDiseasePlantScreen' component={DetailDiseasePlantScreen} options={{ headerShown: false }} />
       {/*작물 등록 페이지*/}
       <Stack.Screen name='DefaultPlantResisterScreen' component={DefaultPlantResisterScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='CulturePlantSelectScreen' component={CulturePlantSelectScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='KindPlantScreen' component={KindPlantScreen} options={{ headerShown: false }} />
       <Stack.Screen name='EnvironmentPlantScreen' component={EnvironmentPlantScreen} options={{ headerShown: false }} />
       {/* 채팅 페이지 */}
       <Stack.Screen name='ChatListScreen' component={ChatListScreen} options={{ headerShown: false }} />
