@@ -1,7 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainScreen from '../../screens/main/MainScreen';
 import FarmDairyAddScreen from '../../screens/farmDairy/FarmDairyAddScreen';
-import FarmDairyScreen from '../../screens/farmDairy/FarmDairyScreen';
 import FarmLedgerAddScreen from '../../screens/farmDairy/FarmLedgerAddScreen';
 import CreatePostScreen from '../../screens/post/CreatePostScreen';
 import DetailPostScreen from '../../screens/post/DetailPostScreen';
@@ -34,6 +33,9 @@ import FavoriteProductScreen from '../../screens/favoriteProduct/FavoriteProduct
 import WeatherScreen from '../../screens/weather/WeatherScreen';
 import { PostProps } from '../../components/post/Post';
 import CameraScreen from '../../screens/plantDisease/CarmeraScreen';
+import FarmDairyDetailScreen from '../../screens/farmDairy/FarmDairyDetailScreen';
+import FarmLedgerDetailScreen from '../../screens/farmDairy/FramLedgerDetailScreen';
+import FarmScreen from '../../screens/farmDairy/FarmScreen';
 
 export type RootStackParamList = {
   BottomTabStackNavigator: undefined;
@@ -43,9 +45,11 @@ export type RootStackParamList = {
   MarketDetailScreen: { id: number };
   MarketModifyScreen: { id: number };
   MarketSearchScreen: undefined;
-  FarmDairyScreen: { activeIndex: number };
+  FarmScreen: { activeIndex: number };
   FarmDairyAddScreen: undefined;
   FarmLedgerAddScreen: undefined;
+  FarmDairyDetailScreen: undefined;
+  FarmLedgerDetailScreen: undefined;
   CreatePostScreen: undefined;
   DetailPostScreen: { postData: PostProps['postData'] };
   UpdatePostScreen: { postData: PostProps['postData'] };
@@ -79,7 +83,7 @@ const MainStack = () => {
   {
   }
   return (
-    <Stack.Navigator initialRouteName='FarmLedgerAddScreen'>
+    <Stack.Navigator initialRouteName='FarmLedgerDetailScreen'>
       {/* 페이지 개발이 완료되면 아래 코드 주석을 해제하고 윗줄은 지워야합니다.*/}
       {/* <Stack.Navigator*/}
       {/*   screenOptions={{*/}
@@ -95,9 +99,11 @@ const MainStack = () => {
       <Stack.Screen name='MarketModifyScreen' component={MarketModifyScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketSearchScreen' component={MarketSearchScreen} options={{ headerShown: false }} />
       {/* 영농일지,장부 페이지 */}
-      <Stack.Screen name='FarmDairyScreen' component={FarmDairyScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='FarmScreen' component={FarmScreen} options={{ headerShown: false }} />
       <Stack.Screen name='FarmDairyAddScreen' component={FarmDairyAddScreen} options={{ headerShown: false }} />
       <Stack.Screen name='FarmLedgerAddScreen' component={FarmLedgerAddScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='FarmDairyDetailScreen' component={FarmDairyDetailScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='FarmLedgerDetailScreen' component={FarmLedgerDetailScreen} options={{ headerShown: false }} />
       {/*게시글 CRU 페이지*/}
       <Stack.Screen name='CreatePostScreen' component={CreatePostScreen} options={{ headerShown: false }} />
       <Stack.Screen name='DetailPostScreen' component={DetailPostScreen} options={{ headerShown: false }} />
