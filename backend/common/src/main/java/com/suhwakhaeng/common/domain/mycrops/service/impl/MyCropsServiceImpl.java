@@ -3,6 +3,7 @@ package com.suhwakhaeng.common.domain.mycrops.service.impl;
 import com.suhwakhaeng.common.domain.crops.entity.CropsVariety;
 import com.suhwakhaeng.common.domain.crops.exeption.CropsVarietyException;
 import com.suhwakhaeng.common.domain.crops.repository.CropsVarietyRepository;
+import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsDetailResponse;
 import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsRequest;
 import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsResponse;
 import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsSimpleResponse;
@@ -65,5 +66,9 @@ public class MyCropsServiceImpl implements MyCropsService {
     @Override
     public MyCrops selectMyCrop(Long myCropsId) {
         return myCropsRepository.findById(myCropsId).orElseThrow(() -> new MyCropsException(MyCropsErrorCode.NOT_MATCH_MY_CROPS));
+    }
+
+    public MyCropsDetailResponse selectMyCropsDetail(Long myCropsId) {
+        return myCropsRepository.findMyCropsById(myCropsId);
     }
 }

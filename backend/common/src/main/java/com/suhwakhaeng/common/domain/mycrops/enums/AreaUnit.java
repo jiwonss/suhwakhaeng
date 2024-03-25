@@ -2,10 +2,12 @@ package com.suhwakhaeng.common.domain.mycrops.enums;
 
 import com.suhwakhaeng.common.domain.user.enums.Role;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.function.Function;
 
+@Getter
 @AllArgsConstructor
 public enum AreaUnit {
     // 평방미터가 default
