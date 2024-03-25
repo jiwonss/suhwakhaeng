@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,7 @@ public class CropsServiceImpl implements CropsService {
     private final ShippingTimeTableRepository shippingTimeTableRepository;
     private final ShippingTimeTableValueRepository shippingTimeTableValueRepository;
     private final CropsSearchRepository cropsSearchRepository;
+    private final CropsDetailRepository cropsDetailRepository;
 
     @Override
     public void createCrops(CropsCreateRequest cropsCreateRequest) {
@@ -67,20 +69,19 @@ public class CropsServiceImpl implements CropsService {
 
     @Override
     public CropsDetailResponse selectDetailCrops(Long cropsId, Long cropsVarietyId) {
-        Crops crops = cropsRepository.findById(cropsId).orElseThrow(() -> new CropsException(CropsErrorCode.NO_EXIST_CROPS));
+        CropsDetailResponse cropsDetailResponse = cropsDetailRepository.selectDetailCrops(cropsId, cropsVarietyId);
 
-        if (!crops.getCategory().equals(CropsCate.FOOD_CROPS)) {
-            CultivationCharacteristic cultivationCharacteristic = cultivationCharacteristicRepository.findByCropsId(cropsId).orElseThrow();
-            log.info("{}", CultivationCharacteristicInfo.fromCultivationCharacteristic(cultivationCharacteristic));
+        TableInfo tableInfo = cropsDetailResponse.getTableInfo();
+        int rowSize = tableInfo.getTableHead().size() - 1;
+        int columnSize = tableInfo.getTableTitle().size();
+
+        List<List<String>> tableBody = new ArrayList<>();
+        for (int i = 0; i < rowSize; i++) {
+            tableBody.add(cropsDetailRepository.selectDetailCropsShippingTimeTable(i, columnSize, cropsDetailResponse.getTableInfo().getTableId()));
         }
+        tableInfo.updateTableBody(tableBody);
+        cropsDetailResponse.updateTableInfo(tableInfo);
 
-        ShippingTimeTable shippingTimeTable = shippingTimeTableRepository.findByCropsId(cropsId).orElseThrow();
-        log.info("{}", shippingTimeTable);
-
-        CropsVariety cropsVariety = cropsVarietyRepository.findById(cropsVarietyId).orElseThrow(() -> new CropsException(CropsErrorCode.NO_EXIST_CROPS_VARIETY));
-        log.info("{}", CropsInfo.fromCrops(crops));
-        log.info("{}", CropsVarietyInfo.fromCropsVariety(cropsVariety));
-
-        return null;
+        return cropsDetailResponse;
     }
 }

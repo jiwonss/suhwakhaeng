@@ -13,7 +13,7 @@ import { RouteProp } from '@react-navigation/native';
 type FarmDairyScreenRouteProp = RouteProp<RootStackParamList, 'FarmDairyScreen'>;
 
 
-const FarmDairyScreen = () => {
+const FarmScreen = () => {
   const route = useRoute<FarmDairyScreenRouteProp>();
   const [activeIndex, setActiveIndex] = useState(route.params?.activeIndex ?? 0);
 
@@ -34,4 +34,4 @@ const FarmDairyScreen = () => {
   );
 };
 
-export default FarmDairyScreen;
+export default FarmScreen;

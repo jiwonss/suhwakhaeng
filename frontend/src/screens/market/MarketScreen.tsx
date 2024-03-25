@@ -132,8 +132,9 @@ const MarketScreen = () => {
   useEffect(() => {
     // TODO: 렌더링시 게시글 데이터 불러오기
     const getPost = async () => {
-      const params = { tradeId: tradeId, keyword: '', cate: category };
+      const params = { tradeId: tradeId, keyword: '', cate: '' };
       const response = await getMarketPostList(params);
+      console.log(response);
       setMarketPostData(response.dataBody);
       setTradeId(response.dataBody.length);
     };

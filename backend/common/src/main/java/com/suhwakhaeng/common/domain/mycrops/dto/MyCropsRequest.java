@@ -2,28 +2,24 @@ package com.suhwakhaeng.common.domain.mycrops.dto;
 
 import com.suhwakhaeng.common.domain.mycrops.entity.MyCrops;
 import com.suhwakhaeng.common.domain.mycrops.enums.AreaUnit;
-import com.suhwakhaeng.common.global.common.entity.Location;
 
 public record MyCropsRequest(
-        Long cropsId,
-        Boolean isCultivated,
-        Location location,
+        Long cropsVarietyId,
+        LocationInfo location,
+        String name,
         double area,
         String areaUnit,
         int yield
 ) {
 
-    public record Location(String sido, String gugun, String dong) {
-
-    }
 
     public MyCrops toEntity() {
         AreaUnit unit = AreaUnit.fromName(areaUnit);
         return MyCrops.builder()
-                .isCultivated(isCultivated)
-                .sido(location().sido)
-                .gugun(location().gugun)
-                .dong(location().dong)
+                .sido(location().getSido())
+                .gugun(location().getGugun())
+                .dong(location().getDong())
+                .name(name)
                 .area(unit.getSquareM(area))
                 .areaUnit(unit)
                 .yield(yield)

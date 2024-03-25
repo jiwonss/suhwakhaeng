@@ -2,6 +2,8 @@ package com.suhwakhaeng.common.domain.user.service.impl;
 
 import com.suhwakhaeng.common.domain.user.entity.Business;
 import com.suhwakhaeng.common.domain.user.entity.User;
+import com.suhwakhaeng.common.domain.user.exception.UserErrorCode;
+import com.suhwakhaeng.common.domain.user.exception.UserException;
 import com.suhwakhaeng.common.domain.user.repository.BusinessRepository;
 import com.suhwakhaeng.common.domain.user.repository.UserRepository;
 import com.suhwakhaeng.common.domain.user.service.BusinessService;
@@ -19,7 +21,7 @@ public class BusinessServiceImpl implements BusinessService {
     @Override
     public Long createBusiness(Long userId, String businessImage) {
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException());
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST_USER));
         Business business = Business.builder().user(user).image(businessImage).isAccepted(false).build();
         businessRepository.save(business);
 

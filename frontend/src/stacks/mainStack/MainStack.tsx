@@ -1,7 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MainScreen from '../../screens/main/MainScreen';
 import FarmDairyAddScreen from '../../screens/farmDairy/FarmDairyAddScreen';
-import FarmDairyScreen from '../../screens/farmDairy/FarmDairyScreen';
 import FarmLedgerAddScreen from '../../screens/farmDairy/FarmLedgerAddScreen';
 import CreatePostScreen from '../../screens/post/CreatePostScreen';
 import DetailPostScreen from '../../screens/post/DetailPostScreen';
@@ -17,7 +16,7 @@ import PlantBookScreen from '../../screens/plantBook/PlantBookScreen';
 import VarietySelectScreen from '../../screens/plantBook/VarietySelectScreen';
 import ChattingRoomScreen from '../../screens/chat/ChattingRoomScreen';
 import DefaultPlantResisterScreen from '../../screens/plantResister/DefaultPlantResisterScreen';
-import CulturePlantSelectScreen from '../../screens/plantResister/CulturePlantSelectScreen';
+import KindPlantScreen from '../../screens/plantResister/KindPlantScreen';
 import EnvironmentPlantScreen from '../../screens/plantResister/EnvironmentPlantScreen';
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
@@ -31,6 +30,9 @@ import FavoriteProductScreen from '../../screens/favoriteProduct/FavoriteProduct
 import WeatherScreen from '../../screens/weather/WeatherScreen';
 import { PostProps } from '../../components/post/Post';
 import CameraScreen from '../../screens/plantDisease/CarmeraScreen';
+import FarmDairyDetailScreen from '../../screens/farmDairy/FarmDairyDetailScreen';
+import FarmLedgerDetailScreen from '../../screens/farmDairy/FramLedgerDetailScreen';
+import FarmScreen from '../../screens/farmDairy/FarmScreen';
 import BottomNavigation from '../../components/navigation/BottomNavigation';
 import MarketRegistScreen from '../../screens/market/MarketRegistScreen';
 
@@ -42,14 +44,16 @@ export type RootStackParamList = {
   MarketDetailScreen: { id: number };
   MarketModifyScreen: { id: number };
   MarketSearchScreen: undefined;
-  FarmDairyScreen: { activeIndex: number };
+  FarmScreen: { activeIndex: number };
   FarmDairyAddScreen: undefined;
   FarmLedgerAddScreen: undefined;
+  FarmDairyDetailScreen: undefined;
+  FarmLedgerDetailScreen: undefined;
   CreatePostScreen: undefined;
   DetailPostScreen: { postData: PostProps['postData'] };
   UpdatePostScreen: { postData: PostProps['postData'] };
   MyPostScreen: undefined;
-  SetLocationScreen: undefined;
+  SetLocationScreen: { value: number; varietyName: string; plantName: string };
   SearchResultScreen: { searchValue: string };
   SearchPostScreen: undefined;
   FavoriteProductScreen: undefined;
@@ -62,14 +66,14 @@ export type RootStackParamList = {
   VarietySelectScreen: { plantName: string };
   DetailPlantScreen: { plantName: string; varietyName: string };
   DiseasePlantScreen: undefined;
-  DetailDiseasePlantScreen: { photo: string };
+  DetailDiseasePlantScreen: { photo: { uri: string } };
   PlantResisterScreen: undefined;
   DefaultPlantResisterScreen: undefined;
-  CulturePlantSelectScreen: { plantName: string };
-  EnvironmentPlantScreen: { isCultivating: boolean; plantName: string };
+  KindPlantScreen: { plantName: string };
+  EnvironmentPlantScreen: { plantName: string; varietyName?: string; dataList_S?: string; dataList_G?: string; dataList_D?: string };
   BottomNavigation: undefined;
   WeatherScreen: undefined;
-  CameraScreen: undefined;
+  CameraScreen: { value: number };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -91,9 +95,11 @@ const MainStack = () => {
       <Stack.Screen name='MarketModifyScreen' component={MarketModifyScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketSearchScreen' component={MarketSearchScreen} options={{ headerShown: false }} />
       {/* 영농일지,장부 페이지 */}
-      <Stack.Screen name='FarmDairyScreen' component={FarmDairyScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='FarmScreen' component={FarmScreen} options={{ headerShown: false }} />
       <Stack.Screen name='FarmDairyAddScreen' component={FarmDairyAddScreen} options={{ headerShown: false }} />
       <Stack.Screen name='FarmLedgerAddScreen' component={FarmLedgerAddScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='FarmDairyDetailScreen' component={FarmDairyDetailScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='FarmLedgerDetailScreen' component={FarmLedgerDetailScreen} options={{ headerShown: false }} />
       {/*게시글 CRU 페이지*/}
       <Stack.Screen name='CreatePostScreen' component={CreatePostScreen} options={{ headerShown: false }} />
       <Stack.Screen name='DetailPostScreen' component={DetailPostScreen} options={{ headerShown: false }} />
@@ -121,7 +127,7 @@ const MainStack = () => {
       <Stack.Screen name='DetailDiseasePlantScreen' component={DetailDiseasePlantScreen} options={{ headerShown: false }} />
       {/*작물 등록 페이지*/}
       <Stack.Screen name='DefaultPlantResisterScreen' component={DefaultPlantResisterScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='CulturePlantSelectScreen' component={CulturePlantSelectScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='KindPlantScreen' component={KindPlantScreen} options={{ headerShown: false }} />
       <Stack.Screen name='EnvironmentPlantScreen' component={EnvironmentPlantScreen} options={{ headerShown: false }} />
       {/* 채팅 페이지 */}
       <Stack.Screen name='ChatListScreen' component={ChatListScreen} options={{ headerShown: false }} />
