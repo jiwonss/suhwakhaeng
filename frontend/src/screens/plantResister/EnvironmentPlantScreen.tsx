@@ -46,9 +46,14 @@ const EnvironmentPlantScreen = () => {
             <Typo.BODY2_M color={Color.GREEN600}>
               {plantName}({varietyName})
             </Typo.BODY2_M>
-            의 재배 환경을 선택해주세요
+            의 재배 정보을 선택해주세요
           </Typo.BODY2_M>
           <Spacer space={20} />
+        </Container>
+        <Container>
+          <Typo.BODY4_M>표시이름 (별칭)</Typo.BODY4_M>
+          <SingleLineInputBox placeholder={'표시 이름을 작성해주세요.'} />
+          <Spacer space={10} />
         </Container>
         <Container>
           <Typo.BODY4_M>지역</Typo.BODY4_M>
@@ -65,14 +70,16 @@ const EnvironmentPlantScreen = () => {
               {dataList_S} {dataList_G} {dataList_D}
             </Typo.BODY3_M>
           </BasicButton>
+          <Spacer space={10} />
         </Container>
-        <Spacer space={20} />
+
         <Container>
           <Typo.BODY4_M>재배 면적(선택)</Typo.BODY4_M>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <SingleLineInputBox width={180} placeholder={'재배 면적 입력'} />
             <DropDown width={104} dataList={dropDownData} onSelect={setSelectData} defaultText={'평방미터'} />
           </View>
+          <Spacer space={10} />
         </Container>
         <Container>
           <Typo.BODY4_M>수확량(선택)</Typo.BODY4_M>
