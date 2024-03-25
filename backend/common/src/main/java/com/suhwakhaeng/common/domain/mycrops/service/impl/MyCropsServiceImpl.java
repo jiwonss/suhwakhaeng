@@ -5,6 +5,7 @@ import com.suhwakhaeng.common.domain.crops.exeption.CropsVarietyException;
 import com.suhwakhaeng.common.domain.crops.repository.CropsVarietyRepository;
 import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsRequest;
 import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsResponse;
+import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsSimpleResponse;
 import com.suhwakhaeng.common.domain.mycrops.entity.MyCrops;
 import com.suhwakhaeng.common.domain.mycrops.repository.MyCropsRepository;
 import com.suhwakhaeng.common.domain.mycrops.service.MyCropsService;
@@ -42,5 +43,20 @@ public class MyCropsServiceImpl implements MyCropsService {
     @Override
     public List<MyCropsResponse> selectMyCrops(Long userId) {
         return myCropsRepository.findMyCropsByUserId(userId);
+    }
+
+    @Override
+    public List<MyCropsSimpleResponse> selectMyCropsSimple(Long userId) {
+
+        // TODO 성능비교
+        // join을 이용해서 user, my_crops join해서 myCropsId, myCropsName 가져오기
+        // user를 조회한 후 findByUser(user)로 가져오기 batch size이용
+        User user = userRepository.findById(userId).get();
+        List<MyCrops> myCropsByUser = myCropsRepository.findMyCropsByUser(user);
+
+        return myCropsByUser
+                .stream()
+                .map((myCrops) -> new MyCropsSimpleResponse(myCrops.getId(), myCrops.getName()))
+                .toList();
     }
 }

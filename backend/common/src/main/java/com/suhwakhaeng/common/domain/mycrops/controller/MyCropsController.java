@@ -23,4 +23,9 @@ public class MyCropsController {
     public ResponseEntity selectMyCrops(@RequestHeader("X-Authorization-Id") Long userId) {
         return ResponseEntity.ok().body(Message.success(myCropsService.selectMyCrops(userId)));
     }
+
+    @GetMapping("/simple")
+    public ResponseEntity selectMyCropsSimple(@RequestHeader("X-Authorization-Id") Long userId) {
+        return ResponseEntity.ok().body(Message.success(myCropsService.selectMyCropsSimple(userId)));
+    }
 }

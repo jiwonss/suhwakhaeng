@@ -23,7 +23,6 @@ public class ProfileResponse {
     private String gugun;
     private String dong;
 
-    // location null 여부에 따라 반환값이 달라진다.
     public static ProfileResponse fromUser(User user) {
         return ProfileResponse.builder()
                 .userId(user.getId())
