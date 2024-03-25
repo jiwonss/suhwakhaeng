@@ -52,7 +52,6 @@ const OauthScreen = () => {
       setTokens(response.dataBody.tokenInfo);
 
       // TODO: 회원 정보 recoil 세팅
-      console.log(await getTokens());
       const userInfoData = await getUserInfo();
       setUserInfo({ ...userInfo, email: userInfoData.email, nickname: userInfoData.nickname, profileImage: userInfoData.profileImage });
 
