@@ -18,6 +18,8 @@ import Lucide from '../../../assets/icons/Lucide Icon.svg';
 import { PlantAdd, PlantItem } from '../../components/plantAdd/PlantAdd';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../recoil/atoms/userInfoState';
 
 type RootStackParamList = {
   ModifyProfileScreen: undefined;
@@ -63,13 +65,14 @@ const StyledView = styled.View`
 const MyProfileScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
 
+  const userInfo = useRecoilValue(userInfoState);
   return (
     <>
       <Container>
         <Header type='default' title='프로필' />
         <FormContainer>
           <FormItemContainer>
-            <BussinessProfileCard name={'김농민'} location={'광주 서구'} Certified={false}></BussinessProfileCard>
+            <BussinessProfileCard url={userInfo.profileImage} name={userInfo.nickname} location={`${userInfo.sido} ${userInfo.dong}`} Certified={userInfo.isBusiness} />
             <Spacer space={heightPercent * 20}></Spacer>
             <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
               <BasicButton

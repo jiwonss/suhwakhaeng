@@ -43,11 +43,7 @@ interface ImgUploaderProps {
 const ImgUploader = ({ data, setData }: ImgUploaderProps) => {
   const handleAddPress = async () => {
     if (data.length >= 4) {
-      Alert.alert(
-        '알림',
-        '이미지는 최대 4개까지만 추가할 수 있습니다.',
-        [{ text: '확인', onPress: () => console.log('확인') }]
-      );
+      Alert.alert('알림', '이미지는 최대 4개까지만 추가할 수 있습니다.', [{ text: '확인', onPress: () => console.log('확인') }]);
       return;
     }
 
@@ -56,7 +52,6 @@ const ImgUploader = ({ data, setData }: ImgUploaderProps) => {
       allowsEditing: true,
       quality: 1,
     });
-    
     if (!result.canceled) {
       // assets 속성이 없는 경우 result.uri 직접 사용
       const newImageUrl = result.assets[0].uri;

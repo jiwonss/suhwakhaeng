@@ -23,8 +23,6 @@ import EnvironmentPlantScreen from '../../screens/plantResister/EnvironmentPlant
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
 import SearchResultScreen from '../../screens/post/SearchResultScreen';
-import React from 'react';
-import BottomNavigation from '../../components/navigation/BottomNavigation';
 import MyPostScreen from '../../screens/myPost/MyPostScreen';
 import SearchPostScreen from '../../screens/post/SearchPostScreen';
 import DetailPlantScreen from '../../screens/plantBook/DetailPlantScreen';
@@ -34,6 +32,7 @@ import FavoriteProductScreen from '../../screens/favoriteProduct/FavoriteProduct
 import WeatherScreen from '../../screens/weather/WeatherScreen';
 import { PostProps } from '../../components/post/Post';
 import CameraScreen from '../../screens/plantDisease/CarmeraScreen';
+import BottomNavigation from '../../components/navigation/BottomNavigation';
 
 export type RootStackParamList = {
   BottomTabStackNavigator: undefined;
@@ -76,10 +75,8 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
-  {
-  }
   return (
-    <Stack.Navigator initialRouteName='FarmLedgerAddScreen'>
+    <Stack.Navigator initialRouteName='MyProfileScreen'>
       {/* 페이지 개발이 완료되면 아래 코드 주석을 해제하고 윗줄은 지워야합니다.*/}
       {/* <Stack.Navigator*/}
       {/*   screenOptions={{*/}
