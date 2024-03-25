@@ -56,6 +56,7 @@ const ImgUploader = ({ data, setData }: ImgUploaderProps) => {
       allowsEditing: true,
       quality: 1,
     });
+    
     if (!result.canceled) {
       // assets 속성이 없는 경우 result.uri 직접 사용
       const newImageUrl = result.assets[0].uri;
