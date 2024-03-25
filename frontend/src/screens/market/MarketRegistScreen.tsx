@@ -33,7 +33,7 @@ const ButtonContainer = styled.View`
   padding: ${heightPercent * 0}px ${widthPercent * 20}px;
 `;
 
-const MarketResistScreen = () => {
+const MarketRegistScreen = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [title, setTitle] = useState<string>('');
   const [price, setPrice] = useState<string>('');
@@ -99,4 +99,4 @@ const MarketResistScreen = () => {
   );
 };
 
-export default MarketResistScreen;
+export default MarketRegistScreen;

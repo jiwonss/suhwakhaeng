@@ -14,6 +14,7 @@ export const RootApp = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
   useEffect(() => {
+    // removeTokens();
     const fetchTokens = async () => {
       const { accessToken, refreshToken } = await getTokens();
 
@@ -31,7 +32,7 @@ export const RootApp = () => {
         const userInfoDataBody = userInfoData.dataBody;
         setUserInfo({
           ...userInfo,
-          userId: userInfoDataBody.userId,
+          userId: userInfoDataBody.userIad,
           nickname: userInfoDataBody.nickname,
           profileImage: userInfoDataBody.profileImage,
           isBusiness: userInfoDataBody.isBuiseness,
@@ -39,6 +40,7 @@ export const RootApp = () => {
           sido: userInfoDataBody.sido ? userInfoDataBody.sido : '',
           gugun: userInfoDataBody.gugun ? userInfoDataBody.gugun : '',
           dong: userInfoDataBody.dong ? userInfoDataBody.dong : '',
+          role: userInfoData.role,
         });
         setToken(true);
         setTimeout(() => {

@@ -40,7 +40,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
   const userInfo = useRecoilValue(userInfoState);
 
   const postData = {
-    userId: 1,
+    userId: '1',
     name: '김농민',
     date: '2024-03-12 11:02:02',
     classification: '작물',
@@ -59,7 +59,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
   // 모달 관련
   const [moreModalVisible, setMoreModalVisible] = useState<boolean>(false);
   const onPressMore = () => {
-    if (userInfo.user_id === postData.userId) {
+    if (userInfo.userId === postData.userId) {
       setMoreModalVisible(true);
     }
   };
@@ -102,7 +102,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
       </ScrollView>
       <ButtonContainer>
         <LikeButton onPress={() => {}} />
-        {userInfo.user_id === postData.userId ? (
+        {userInfo.userId === postData.userId ? (
           <BasicButton
             onPress={() => {
               console.log('내 대화목록으로 이동');
