@@ -25,13 +25,16 @@ const ButtonContainer = styled.View`
 const EnvironmentPlantScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'EnvironmentPlantScreen'>>();
-  const { isCultivating, plantName } = route.params;
+  const { plantName, varietyName, dataList_S, dataList_D, dataList_G } = route.params;
   const dropDownData = ['평방미터', '평', '헥타르'];
   const [selectData, setSelectData] = useState('');
 
-  const onSubmit = () => {
-    console.log('검색');
+  const moveSetLocation = (value: number) => {
+    if (!varietyName) return;
+    const params = { value, plantName, varietyName };
+    navigation.navigate('SetLocationScreen', params);
   };
+
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
@@ -40,14 +43,27 @@ const EnvironmentPlantScreen = () => {
         <Spacer space={20} />
         <Container>
           <Typo.BODY2_M>
-            <Typo.BODY2_M color={Color.GREEN600}>{plantName}</Typo.BODY2_M>의 재배 환경을 선택해주세요
+            <Typo.BODY2_M color={Color.GREEN600}>
+              {plantName}({varietyName})
+            </Typo.BODY2_M>
+            의 재배 환경을 선택해주세요
           </Typo.BODY2_M>
           <Spacer space={20} />
         </Container>
         <Container>
           <Typo.BODY4_M>지역</Typo.BODY4_M>
-          <BasicButton onPress={onSubmit} height={heightPercent * 36} borderColor={Color.GRAY300} backgroundColor={Color.WHITE} borderRadius={10}>
-            <Typo.BODY3_M>클릭하면 이동하고 위치정보를 가져와서 보여줌(드롭다운)</Typo.BODY3_M>
+          <BasicButton
+            onPress={() => {
+              moveSetLocation(1);
+            }}
+            height={heightPercent * 36}
+            borderColor={Color.GRAY300}
+            backgroundColor={Color.WHITE}
+            borderRadius={10}
+          >
+            <Typo.BODY3_M>
+              {dataList_S} {dataList_G} {dataList_D}
+            </Typo.BODY3_M>
           </BasicButton>
         </Container>
         <Spacer space={20} />
