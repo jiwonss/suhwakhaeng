@@ -14,7 +14,7 @@ import { BasicButton } from '../../components/button/Buttons';
 import { getMarketPostList } from '../../apis/services/market/market';
 import { useRecoilState } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
-import { NotBusinessModal } from '../../modules/marketModules/MarketModules';
+import { NotBusinessModal, RegistBusinessModal } from '../../modules/marketModules/MarketModules';
 
 type RootStackParamList = {
   ChatListScreen: undefined;
@@ -45,10 +45,12 @@ const MarketScreen = () => {
     navigation.navigate('MarketDetailScreen', { id: postId });
   };
 
+  // 사업자 등록, 게시글 등록 관련
   const [popUpVisible, setPopUpVisible] = useState<boolean>(false);
+  const [slideVisible, setSlideVisible] = useState<boolean>(false);
   const onPressRegist = () => {
     // TODO: 사업자인지 아닌지 확인 필요
-    if (userInfo.isBusiness) {
+    if (!userInfo.isBusiness) {
       navigation.navigate('MarketRegistScreen');
     } else {
       // 모달 열기
@@ -182,7 +184,8 @@ const MarketScreen = () => {
         )}
       </ScrollView>
       <FloatingActionButton data={buttonData} />
-      <NotBusinessModal isVisible={popUpVisible} setIsVisible={setPopUpVisible} />
+      <NotBusinessModal isVisible={popUpVisible} setIsVisible={setPopUpVisible} onClickCertButton={() => setSlideVisible(true)} />
+      <RegistBusinessModal userId={userInfo.userId} isVisible={slideVisible} setIsVisible={setSlideVisible} />
     </Container>
   );
 };
