@@ -33,4 +33,10 @@ public class MyCropsController {
     public ResponseEntity selectMyCropsDetail(@PathVariable Long myCropsId) {
         return ResponseEntity.ok().body(Message.success(myCropsService.selectMyCropsDetail(myCropsId)));
     }
+
+    @DeleteMapping("/{myCropsId}")
+    public ResponseEntity deleteMyCrops(@PathVariable Long myCropsId) {
+        myCropsService.deleteMyCrops(myCropsId);
+        return ResponseEntity.ok().body(Message.success());
+    }
 }
