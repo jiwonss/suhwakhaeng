@@ -51,7 +51,7 @@ const DefaultPlantResisterScreen = () => {
                 borderRadius={50}
                 width={80}
                 height={80}
-                onPress={() => navigation.navigate('CulturePlantSelectScreen', { plantName: plant.name })}
+                onPress={() => navigation.navigate('KindPlantScreen', { plantName: plant.name })}
               >
                 <plant.Icon width={50} height={50} />
               </BasicButton>
