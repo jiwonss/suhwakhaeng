@@ -96,3 +96,4 @@ export const uploadImagesToFirebaseStorage = async (imageUrls: string[], screen 
     return []; // 오류가 발생한 경우 빈 배열을 반환
   }
 };
+

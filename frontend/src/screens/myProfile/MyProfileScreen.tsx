@@ -103,14 +103,10 @@ const MyProfileScreen = () => {
               <PlantAdd></PlantAdd>
             </StyledView>
             <StyledView>
-              <PlantItem name='감자' location='광주광역시 서구 금호2동' onPress={function (): void {}} backgroundColor={''} borderColor={''}>
-                <Sunny width={widthPercent * 16} height={heightPercent * 16}></Sunny>
-              </PlantItem>
+              <PlantItem onPress={()=>{}} name='감자' location='광주광역시 서구 금호 2동'></PlantItem>
             </StyledView>
             <StyledView>
-              <PlantItem name='감자' location='광주광역시 서구 금호2동' onPress={function (): void {}} backgroundColor={''} borderColor={''}>
-                <Sunny width={widthPercent * 16} height={heightPercent * 16}></Sunny>
-              </PlantItem>
+              <PlantItem onPress={()=>{}} name='고추' location='광주광역시 서구 금호 2동'></PlantItem>
             </StyledView>
           </FormItemContainer>
           <FormItemContainer>

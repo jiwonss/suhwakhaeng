@@ -27,13 +27,13 @@ const FormItemContainer = styled.View`
 const FarmDairyDetailScreen = () => {
   const [isVisible, setIsVisible] = useState(false);
   const onPressButton = () => {
-    setIsVisible(prevState => !prevState);
+    setIsVisible((prevState) => !prevState);
     console.log('작성 완료');
   };
-  
+
   return (
     <Container>
-      <Header type='default' firstIcon='back' secondIcon='more' onPressMore={onPressButton}/>
+      <Header type='default' firstIcon='back' secondIcon='more' onPressMore={onPressButton} />
       <FormContainer>
         <FormItemContainer>
           <Typo.BODY3_B>2024.03.23</Typo.BODY3_B>
@@ -41,29 +41,29 @@ const FarmDairyDetailScreen = () => {
         <FormItemContainer>
           <View style={{ flexDirection: 'row' }}>
             <Typo.BODY3_M color={Color.GREEN500}>작물명</Typo.BODY3_M>
-            <Typo.BODY3_M > | </Typo.BODY3_M>
-            <Typo.BODY3_M >감자</Typo.BODY3_M>
+            <Typo.BODY3_M> | </Typo.BODY3_M>
+            <Typo.BODY3_M>감자</Typo.BODY3_M>
           </View>
         </FormItemContainer>
         <FormItemContainer>
           <View style={{ flexDirection: 'row' }}>
             <Typo.BODY3_M color={Color.GREEN500}>카테고리</Typo.BODY3_M>
-            <Typo.BODY3_M > | </Typo.BODY3_M>
-            <Typo.BODY3_M >씨뿌림</Typo.BODY3_M>
+            <Typo.BODY3_M> | </Typo.BODY3_M>
+            <Typo.BODY3_M>씨뿌림</Typo.BODY3_M>
           </View>
         </FormItemContainer>
         <FormItemContainer>
           <View style={{ flexDirection: 'row' }}>
             <Typo.BODY3_M color={Color.GREEN500}>수입/지출</Typo.BODY3_M>
-            <Typo.BODY3_M > | </Typo.BODY3_M>
-            <Typo.BODY3_M >+20,000원</Typo.BODY3_M>
+            <Typo.BODY3_M> | </Typo.BODY3_M>
+            <Typo.BODY3_M>+20,000원</Typo.BODY3_M>
           </View>
         </FormItemContainer>
         <FormItemContainer>
           <View style={{ flexDirection: 'row' }}>
             <Typo.BODY3_M color={Color.GREEN500}>한줄 메모</Typo.BODY3_M>
-            <Typo.BODY3_M > | </Typo.BODY3_M>
-            <Typo.BODY3_M >감자의 싹이나서 감자감자싹</Typo.BODY3_M>
+            <Typo.BODY3_M> | </Typo.BODY3_M>
+            <Typo.BODY3_M>감자의 싹이나서 감자감자싹</Typo.BODY3_M>
           </View>
         </FormItemContainer>
         <FormItemContainer>
@@ -78,8 +78,7 @@ const FarmDairyDetailScreen = () => {
           <LocalImageLoader style={{ width: '100%', height: heightPercent * 150 }} resizeMode='contain' source={require('../../../assets/imgs/favicon.png')} />
         </FormItemContainer>
       </FormContainer>
-        <MoreModal isVisible={isVisible} setIsVisible={setIsVisible} onDelete={()=>{}} onModify={()=>{}} postId={0}>          
-      </MoreModal>
+      <MoreModal isVisible={isVisible} setIsVisible={setIsVisible} onDelete={() => {}} onModify={() => {}} postId={0}></MoreModal>
     </Container>
   );
 };
