@@ -71,4 +71,9 @@ public class MyCropsServiceImpl implements MyCropsService {
     public MyCropsDetailResponse selectMyCropsDetail(Long myCropsId) {
         return myCropsRepository.findMyCropsById(myCropsId);
     }
+
+    @Override
+    public void deleteMyCrops(Long myCropsId) {
+        myCropsRepository.deleteById(myCropsId);
+    }
 }
