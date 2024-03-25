@@ -12,6 +12,9 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { BasicButton } from '../../components/button/Buttons';
 import { getMarketPostList } from '../../apis/services/market/market';
+import { useRecoilState } from 'recoil';
+import { userInfoState } from '../../recoil/atoms/userInfoState';
+import { NotBusinessModal } from '../../modules/marketModules/MarketModules';
 
 type RootStackParamList = {
   ChatListScreen: undefined;
@@ -24,6 +27,9 @@ type RootStackParamList = {
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 const MarketScreen = () => {
+  // 유저 정보
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+
   // 네이게이션
   const navigation = useNavigation<RootStackNavigationProp>();
 
@@ -39,9 +45,15 @@ const MarketScreen = () => {
     navigation.navigate('MarketDetailScreen', { id: postId });
   };
 
+  const [popUpVisible, setPopUpVisible] = useState<boolean>(false);
   const onPressRegist = () => {
     // TODO: 사업자인지 아닌지 확인 필요
-    navigation.navigate('MarketRegistScreen');
+    if (userInfo.isBusiness) {
+      navigation.navigate('MarketRegistScreen');
+    } else {
+      // 모달 열기
+      setPopUpVisible(true);
+    }
   };
 
   // action button
@@ -55,7 +67,6 @@ const MarketScreen = () => {
 
   // 라디오버튼
   const [activeIndex, setActiveIndex] = useState<number>(0);
-
   const radioData = [
     {
       content: '전체',
@@ -105,15 +116,14 @@ const MarketScreen = () => {
 
   const [marketPostData, setMarketPostData] = useState<
     {
-      postId: number;
-      imgUrl: string;
-      postType: string;
+      id: number;
+      image1: string;
+      cate: string;
       title: string;
       price: number;
-      likeNumber: number;
-      location: string;
-      date: string;
-      isFavorite: boolean;
+      likeCnt: number;
+      createdAt: string;
+      isLiked: boolean;
     }[]
   >([]);
 
@@ -151,16 +161,15 @@ const MarketScreen = () => {
         {marketPostData.length !== 0 ? (
           marketPostData.map((data) => (
             <MarketPost
-              onPress={() => onPressPost(data.postId)}
-              key={data.postId}
-              imgUrl={data.imgUrl}
-              location={data.location}
-              classification={data.postType}
+              onPress={() => onPressPost(data.id)}
+              key={data.id}
+              imgUrl={data.image1}
+              classification={data.cate}
               title={data.title}
               price={data.price}
-              likeNumber={data.likeNumber}
-              date={data.date}
-              isFavorite={data.isFavorite}
+              likeNumber={data.likeCnt}
+              date={data.createdAt}
+              isFavorite={data.isLiked}
             />
           ))
         ) : (
@@ -173,6 +182,7 @@ const MarketScreen = () => {
         )}
       </ScrollView>
       <FloatingActionButton data={buttonData} />
+      <NotBusinessModal isVisible={popUpVisible} setIsVisible={setPopUpVisible} />
     </Container>
   );
 };
