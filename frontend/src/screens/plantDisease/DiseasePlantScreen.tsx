@@ -1,6 +1,6 @@
 import { ScrollView, View } from 'react-native';
 import styled from 'styled-components/native';
-import Calendar3D from '../../../assets/icons/calendar3D.svg';
+import Camera from '../../../assets/icons/camera_color.svg';
 import Search3D from '../../../assets/icons/search3D.svg';
 import { Spacer } from '../../components/basic/Spacer';
 import { NewsItemCard } from '../../components/card/NewsItemCard';
@@ -11,6 +11,8 @@ import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
+import ImgUploader from '../../components/imgUploader/ImgUploader';
+import React, { useState } from 'react';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -21,6 +23,7 @@ const Container = styled.View`
 
 const DiseasePlantScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const [urls, setUrls] = useState([]);
 
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
@@ -39,8 +42,9 @@ const DiseasePlantScreen = () => {
           </MenuButton>
           <Spacer horizontal={true} space={40} />
           <MenuButton size='big' title='질병 진단' onPressButton={() => navigation.navigate('CameraScreen')}>
-            <Calendar3D width={widthPercent * 40} height={heightPercent * 40} />
+            <Camera width={widthPercent * 40} height={heightPercent * 40} />
           </MenuButton>
+          {/*<ImgUploader data={urls} setData={setUrls}></ImgUploader>*/}
         </View>
         <Spacer space={40} />
         <Container>
