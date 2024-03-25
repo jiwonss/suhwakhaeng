@@ -1,29 +1,21 @@
 package com.suhwakhaeng.common.domain.crops.dto;
 
-import com.suhwakhaeng.common.domain.crops.entity.Crops;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import com.suhwakhaeng.common.domain.crops.enums.CropsCate;
+import lombok.*;
 
 @Getter
+@Setter
 @Builder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class CropsInfo {
 
+    private Long id;
     private String name;
-    private String category;
+    private CropsCate category;
     private String growingCondition;
     private String diseaseType;
     private String pestType;
-
-    public static CropsInfo fromCrops(Crops crops) {
-        return CropsInfo.builder()
-                .name(crops.getName())
-                .category(crops.getCategory().toString())
-                .growingCondition(crops.getGrowingCondition())
-                .diseaseType(crops.getDiseaseType())
-                .pestType(crops.getPestType())
-                .build();
-    }
 
 }

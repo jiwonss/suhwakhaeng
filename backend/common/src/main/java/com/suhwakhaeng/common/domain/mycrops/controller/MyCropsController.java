@@ -15,7 +15,17 @@ public class MyCropsController {
 
     @PostMapping
     public ResponseEntity createMyCrops(@RequestHeader("X-Authorization-Id") Long userId, @RequestBody MyCropsRequest request) {
-        myCropsService.createMyCrops(userId, request.cropsId(), request.toEntity());
+        myCropsService.createMyCrops(userId, request);
         return ResponseEntity.ok().body(Message.success());
+    }
+
+    @GetMapping
+    public ResponseEntity selectMyCrops(@RequestHeader("X-Authorization-Id") Long userId) {
+        return ResponseEntity.ok().body(Message.success(myCropsService.selectMyCrops(userId)));
+    }
+
+    @GetMapping("/simple")
+    public ResponseEntity selectMyCropsSimple(@RequestHeader("X-Authorization-Id") Long userId) {
+        return ResponseEntity.ok().body(Message.success(myCropsService.selectMyCropsSimple(userId)));
     }
 }
