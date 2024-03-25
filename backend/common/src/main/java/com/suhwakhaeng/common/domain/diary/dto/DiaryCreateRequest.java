@@ -11,9 +11,9 @@ public record DiaryCreateRequest(
         String memo,
         String image
 ) {
-    public Diary toEntity() {
+    public Diary toEntity(MyCrops myCrops) {
         return Diary.builder()
-                .myCrops(MyCrops.builder().id(myCropsId).build())
+                .myCrops(myCrops)
                 .memo(memo)
                 .content(content)
                 .image(image)

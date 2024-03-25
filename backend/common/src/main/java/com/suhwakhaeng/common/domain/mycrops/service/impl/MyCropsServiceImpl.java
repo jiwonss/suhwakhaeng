@@ -7,6 +7,8 @@ import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsRequest;
 import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsResponse;
 import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsSimpleResponse;
 import com.suhwakhaeng.common.domain.mycrops.entity.MyCrops;
+import com.suhwakhaeng.common.domain.mycrops.exception.MyCropsErrorCode;
+import com.suhwakhaeng.common.domain.mycrops.exception.MyCropsException;
 import com.suhwakhaeng.common.domain.mycrops.repository.MyCropsRepository;
 import com.suhwakhaeng.common.domain.mycrops.service.MyCropsService;
 import com.suhwakhaeng.common.domain.user.entity.User;
@@ -58,5 +60,10 @@ public class MyCropsServiceImpl implements MyCropsService {
                 .stream()
                 .map((myCrops) -> new MyCropsSimpleResponse(myCrops.getId(), myCrops.getName()))
                 .toList();
+    }
+
+    @Override
+    public MyCrops selectMyCrop(Long myCropsId) {
+        return myCropsRepository.findById(myCropsId).orElseThrow(() -> new MyCropsException(MyCropsErrorCode.NOT_MATCH_MY_CROPS));
     }
 }

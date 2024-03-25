@@ -14,4 +14,5 @@ public interface MyCropsService {
 
     List<MyCropsSimpleResponse> selectMyCropsSimple(Long userId);
 
+    MyCrops selectMyCrop(Long myCropsId);
 }

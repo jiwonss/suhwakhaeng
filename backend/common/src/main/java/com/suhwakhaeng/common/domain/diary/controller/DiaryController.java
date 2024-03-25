@@ -24,4 +24,10 @@ public class DiaryController {
     public ResponseEntity<?> selectDiary(@RequestHeader("X-Authorization-Id") Long userId, @ModelAttribute DiarySelectRequest diarySelectRequest) {
         return ResponseEntity.ok(Message.success(diaryService.selectDiaryList(userId, diarySelectRequest)));
     }
+
+    @DeleteMapping("/{diaryId}")
+    public ResponseEntity<?> deleteDiary(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long diaryId) {
+        diaryService.deleteDiary(diaryId, userId);
+        return ResponseEntity.ok(Message.success());
+    }
 }

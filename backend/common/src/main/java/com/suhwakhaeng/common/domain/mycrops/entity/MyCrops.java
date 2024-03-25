@@ -1,14 +1,10 @@
 package com.suhwakhaeng.common.domain.mycrops.entity;
 
-import com.suhwakhaeng.common.domain.crops.entity.Crops;
 import com.suhwakhaeng.common.domain.crops.entity.CropsVariety;
 import com.suhwakhaeng.common.domain.mycrops.enums.AreaUnit;
 import com.suhwakhaeng.common.domain.user.entity.User;
-import com.suhwakhaeng.common.global.common.entity.Location;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDate;
 
 @Entity
 @Getter
