@@ -44,11 +44,16 @@ const CustomCalendar = ({ setSelectedStartDate, setSelectedFinDate, selectedStar
   const handleDayPress = (day: any) => {
     const selectday = day.dateString;
     if (type === 'START') {
-      setSelectedFinDate(selectday);
-      setSelectedStartDate(selectday);
-      setType('FIN');
+      if (selectday > selectedStartDate) {
+        setSelectedFinDate(selectday);
+        setType('FIN');
+      } else {
+        setSelectedFinDate(selectday);
+        setSelectedStartDate(selectday);
+        setType('START');
+      }
     } else {
-      if (selectday < selectedStartDate) setSelectedStartDate(selectday);
+      setSelectedStartDate(selectday); 
       setSelectedFinDate(selectday);
       setType('START');
     }
