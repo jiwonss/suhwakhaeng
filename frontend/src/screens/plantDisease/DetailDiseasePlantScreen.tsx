@@ -7,8 +7,9 @@ import Header from '../../components/header/Header';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
+import { useRoute } from '@react-navigation/core';
 // import { useRoute } from '@react-navigation/core';
 // import { RouteProp } from '@react-navigation/native';
 // import { RootStackParamList } from '../../stacks/mainStack/MainStack';
@@ -32,23 +33,21 @@ const ImageContainer = styled.View`
 `;
 
 const DetailDiseasePlantScreen = () => {
-  // const route = useRoute<RouteProp<RootStackParamList, 'DetailDiseasePlantScreen'>>();
-  // const { photo } = route.params;
+  const route = useRoute<RouteProp<RootStackParamList, 'DetailDiseasePlantScreen'>>();
+  const { photo } = route.params;
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const handlePressBack = () => {
     navigation.navigate('DiseasePlantScreen');
   };
 
-  const photo =
-    'https://previews.123rf.com/images/virtosmedia/virtosmedia2303/virtosmedia230313583/199713431-%ED%91%B8%EB%A5%B8-%ED%95%98%EB%8A%98-%EB%B0%B0%EA%B2%BD%EC%97%90-%EB%B6%84%ED%99%8D%EC%83%89-%EA%BD%83%EC%9D%B4-%EB%A7%8C%EB%B0%9C%ED%95%9C-%EB%B2%9A%EA%BD%83%EB%82%98%EB%AC%B4-%EA%B0%80%EC%A7%80.jpg';
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }} contentContainerStyle={{ paddingBottom: 50 * heightPercent }}>
         {/*헤더*/}
         <Header type={'default'} firstIcon={'back'} onPressFirstIcon={handlePressBack} />
         <ImageContainer>
-          <Image source={{ uri: photo }} style={{ width: 300, height: 300 }} />
+          <Image source={{ uri: photo.uri }} style={{ width: 300, height: 300 }} />
         </ImageContainer>
         <Container>
           <Typo.BODY1_M>plant - disease</Typo.BODY1_M>

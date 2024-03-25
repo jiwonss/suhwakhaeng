@@ -11,7 +11,6 @@ import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
-import ImgUploader from '../../components/imgUploader/ImgUploader';
 import React, { useState } from 'react';
 
 const Container = styled.View`
@@ -23,7 +22,7 @@ const Container = styled.View`
 
 const DiseasePlantScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const [urls, setUrls] = useState([]);
+  const value: number = 1;
 
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
@@ -41,7 +40,7 @@ const DiseasePlantScreen = () => {
             <Search3D width={widthPercent * 40} height={heightPercent * 40} />
           </MenuButton>
           <Spacer horizontal={true} space={40} />
-          <MenuButton size='big' title='질병 진단' onPressButton={() => navigation.navigate('CameraScreen')}>
+          <MenuButton size='big' title='질병 진단' onPressButton={() => navigation.navigate('CameraScreen', { value })}>
             <Camera width={widthPercent * 40} height={heightPercent * 40} />
           </MenuButton>
           {/*<ImgUploader data={urls} setData={setUrls}></ImgUploader>*/}

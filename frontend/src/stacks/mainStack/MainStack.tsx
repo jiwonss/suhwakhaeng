@@ -63,14 +63,14 @@ export type RootStackParamList = {
   VarietySelectScreen: { plantName: string };
   DetailPlantScreen: { plantName: string; varietyName: string };
   DiseasePlantScreen: undefined;
-  DetailDiseasePlantScreen: { photo: string };
+  DetailDiseasePlantScreen: { photo: { uri: string } };
   PlantResisterScreen: undefined;
   DefaultPlantResisterScreen: undefined;
   KindPlantScreen: { plantName: string };
   EnvironmentPlantScreen: { plantName: string; varietyName?: string; dataList_S?: string; dataList_G?: string; dataList_D?: string };
   BottomNavigation: undefined;
   WeatherScreen: undefined;
-  CameraScreen: undefined;
+  CameraScreen: { value: number };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
