@@ -21,14 +21,12 @@ public class UserController {
 
     @GetMapping("/my-profile")
     public ResponseEntity selectDetailUser(@RequestHeader("X-Authorization-Id") Long userId) {
-        ProfileResponse profileResponse = userService.selectDetailUser(userId);
-        return ResponseEntity.ok().body(Message.success(profileResponse));
+        return ResponseEntity.ok().body(Message.success(userService.selectDetailUser(userId)));
     }
 
     @GetMapping("/{userId}/info")
     public ResponseEntity selectDetailUserInfo(@PathVariable Long userId) {
-        UserInfoResponse userInfoResponse = userService.selectDetailUserInfo(userId);
-        return ResponseEntity.ok().body(Message.success(userInfoResponse));
+        return ResponseEntity.ok().body(Message.success(userService.selectDetailUserInfo(userId)));
     }
 
     @PostMapping("/business")

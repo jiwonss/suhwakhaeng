@@ -6,6 +6,9 @@ import Header from '../components/header/Header';
 import { BasicButton } from '../components/button/Buttons';
 import { heightPercent, widthPercent } from '../config/dimension/Dimension';
 import { DropDown } from '../components/dropdown/DropDown';
+import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../stacks/mainStack/MainStack';
+import { useRoute } from '@react-navigation/core';
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -27,6 +30,9 @@ const ButtonContainer = styled.View`
 `;
 
 const SetLocationScreen = () => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const route = useRoute<RouteProp<RootStackParamList, 'SetLocationScreen'>>();
+  const { value, plantName, varietyName } = route.params;
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const radioData = [
     { content: '작물', event: () => setActiveIndex(0), active: activeIndex === 0 },
@@ -47,7 +53,10 @@ const SetLocationScreen = () => {
   }, [activeIndex]);
 
   const onPressButton = () => {
-    // TODO: 작성 완료 후 상세보기 페이지로 이동?
+    if (value == 1) {
+      navigation.navigate('EnvironmentPlantScreen', { dataList_S, dataList_G, dataList_D, plantName, varietyName });
+    }
+
     console.log('작성 완료');
   };
 
@@ -62,7 +71,7 @@ const SetLocationScreen = () => {
           <Typo.BODY4_M>시/도</Typo.BODY4_M>
           <DropDown
             dataList={See_do} // 드롭다운 목록에 표시할 항목들의 배열
-            onSelect={(selectedItem:any) => setDataList_S(selectedItem)} // 사용자가 항목을 선택했을 때 실행될 콜백 함수
+            onSelect={(selectedItem: any) => setDataList_S(selectedItem)} // 사용자가 항목을 선택했을 때 실행될 콜백 함수
             defaultText='시/도 선택' // 드롭다운 버튼에 표시될 기본 텍스트
           />
         </FormItemContainer>
@@ -70,7 +79,7 @@ const SetLocationScreen = () => {
           <Typo.BODY4_M>군/구</Typo.BODY4_M>
           <DropDown
             dataList={Gun_Gu} // 드롭다운 목록에 표시할 항목들의 배열
-            onSelect={(selectedItem:any) => setDataList_G(selectedItem)} // 사용자가 항목을 선택했을 때 실행될 콜백 함수
+            onSelect={(selectedItem: any) => setDataList_G(selectedItem)} // 사용자가 항목을 선택했을 때 실행될 콜백 함수
             defaultText='군/구 선택' // 드롭다운 버튼에 표시될 기본 텍스트
           />
         </FormItemContainer>
@@ -78,7 +87,7 @@ const SetLocationScreen = () => {
           <Typo.BODY4_M>동</Typo.BODY4_M>
           <DropDown
             dataList={Dong} // 드롭다운 목록에 표시할 항목들의 배열
-            onSelect={(selectedItem:any) => setDataList_D(selectedItem)} // 사용자가 항목을 선택했을 때 실행될 콜백 함수
+            onSelect={(selectedItem: any) => setDataList_D(selectedItem)} // 사용자가 항목을 선택했을 때 실행될 콜백 함수
             defaultText='동 선택' // 드롭다운 버튼에 표시될 기본 텍스트
           />
         </FormItemContainer>
