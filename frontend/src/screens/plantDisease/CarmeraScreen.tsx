@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
-import { launchCamera, CameraOptions } from 'react-native-image-picker';
+// import { launchCamera, CameraOptions } from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProp } from '@react-navigation/core';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';

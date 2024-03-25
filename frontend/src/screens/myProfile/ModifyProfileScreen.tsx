@@ -16,6 +16,7 @@ import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { modifyUserInfo } from '../../apis/services/user/user';
 import * as ImagePicker from 'expo-image-picker';
 import { Platform } from 'react-native';
+import { uploadImagesToFirebaseStorage } from '../../util/BasicUtil';
 
 type RootStackParamList = {
   MyProfileScreen: undefined;
@@ -43,14 +44,13 @@ const ModifyProfileScreen = () => {
 
   const onSubmit = async () => {
     //  파이어베이스에 이미지 전송, 이미지 url 받아오기
+    const imageUrls: string[] = [imgUrl];
+    const newImaggeUrls = await uploadImagesToFirebaseStorage(imageUrls, `프로필//${userInfo.userId}`);
 
     // TODO: 작성한 값 보내기
+    const params = { profileImage: newImaggeUrls[0], nickname: name, role: role, profileContent: profileContent, sido: sido, gugun: gugun, dong: dong, roadNameAddress: address };
 
-    const params = { profileImage: imgUrl, nickname: name, role: role, profileContent: profileContent, sido: sido, gugun: gugun, dong: dong, roadNameAddress: address };
-
-    console.log('수정된 회원 정보', params);
     const response = await modifyUserInfo(params);
-    console.log('응답', response);
     // 페이지 이동
     if (response.dataHeader.successCode === 1) {
       alert('프로필 수정을 실패했습니다.');
@@ -71,16 +71,11 @@ const ModifyProfileScreen = () => {
     if (!result.canceled) {
       // assets 속성이 없는 경우 result.uri 직접 사용
       const newImageUrl = result.assets[0].uri;
-      console.log(newImageUrl);
 
       // 이미지가 선택되었을 경우에만 추가
       setImgUrl(newImageUrl);
     }
   };
-
-  useEffect(() => {
-    console.log(role);
-  }, [role]);
 
   return (
     <Container behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
