@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RefreshScope
 public class TestController {
 
-    @Value("${message.check}")
-    private String msg;
+    @Value("${message}")
+    private String test;
 
     @GetMapping("/test")
     public String test() {
-        return msg;
+        return test;
     }
 
 }

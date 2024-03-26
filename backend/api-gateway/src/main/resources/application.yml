@@ -4,23 +4,51 @@ server:
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-    hostname: 127.0.0.1
+    hostname: 13.209.182.136
     prefer-ip-address: true
+    appname: api-gateway
   client:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://43.201.164.202:8761/eureka
 
 spring:
   application:
     name: api-gateway
   config:
     name: api-gateway
-    import: optional:configserver:http://localhost:8888
+    import: optional:configserver:http://43.202.20.179:8888
+  cloud:
+    gateway:
+      routes:
+        - id: auth
+          uri: lb://common
+          predicates:
+            - Path=/common/oauth/**
+          filters:
+            - RewritePath=/common/(?<segment>.*), /$\{segment}
+
+        - id: common-guest
+          uri: lb://common
+          predicates:
+            - Path=/common/crops, /common/crops/{segment}/variety
+            - Method=GET
+          filters:
+            - RewritePath=/common/(?<segment>.*), /$\{segment}
+
+        - id: common
+          uri: lb://common
+          predicates:
+            - Path=/common/**
+          filters:
+            - RewritePath=/common/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
 
 management:
   endpoints:
     web:
       exposure:
-        include: refresh,health,beans
+        include: refresh, health, beans
+
+message: ${message}
