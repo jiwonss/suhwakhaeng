@@ -1,5 +1,6 @@
 package com.suhwakhaeng.common.domain.mycrops.service;
 
+import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsDetailResponse;
 import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsRequest;
 import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsResponse;
 import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsSimpleResponse;
@@ -15,4 +16,8 @@ public interface MyCropsService {
     List<MyCropsSimpleResponse> selectMyCropsSimple(Long userId);
 
     MyCrops selectMyCrop(Long myCropsId);
+    MyCropsDetailResponse selectMyCropsDetail(Long myCropsId);
+
+    void deleteMyCrops(Long myCropsId);
+
 }

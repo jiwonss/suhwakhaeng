@@ -25,7 +25,7 @@ type RootStackParamList = {
   ModifyProfileScreen: undefined;
   MyPostScreen: undefined;
   FavoriteProductScreen: undefined;
-  FarmDairyScreen: undefined;
+  FarmScreen: undefined;
   SetLocationScreen: undefined;
   WeatherScreen: undefined;
 };
@@ -127,7 +127,7 @@ const MyProfileScreen = () => {
               <Typo.BODY4_M>관심 상품</Typo.BODY4_M>
             </StyledButton>
 
-            <StyledButton onPress={() => navigation.navigate('FarmDairyScreen')}>
+            <StyledButton onPress={() => navigation.navigate('FarmScreen')}>
               <New_Icon width={widthPercent * 16} height={heightPercent * 16}></New_Icon>
               <Spacer space={widthPercent * 8} horizontal></Spacer>
               <Typo.BODY4_M>영농일지/영농장부</Typo.BODY4_M>

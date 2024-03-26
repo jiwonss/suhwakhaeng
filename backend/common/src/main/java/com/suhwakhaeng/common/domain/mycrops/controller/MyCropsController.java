@@ -28,4 +28,15 @@ public class MyCropsController {
     public ResponseEntity selectMyCropsSimple(@RequestHeader("X-Authorization-Id") Long userId) {
         return ResponseEntity.ok().body(Message.success(myCropsService.selectMyCropsSimple(userId)));
     }
+
+    @GetMapping("/{myCropsId}")
+    public ResponseEntity selectMyCropsDetail(@PathVariable Long myCropsId) {
+        return ResponseEntity.ok().body(Message.success(myCropsService.selectMyCropsDetail(myCropsId)));
+    }
+
+    @DeleteMapping("/{myCropsId}")
+    public ResponseEntity deleteMyCrops(@PathVariable Long myCropsId) {
+        myCropsService.deleteMyCrops(myCropsId);
+        return ResponseEntity.ok().body(Message.success());
+    }
 }
