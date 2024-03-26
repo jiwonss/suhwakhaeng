@@ -36,6 +36,17 @@ import FarmLedgerDetailScreen from '../../screens/farmDairy/FramLedgerDetailScre
 import FarmScreen from '../../screens/farmDairy/FarmScreen';
 import BottomNavigation from '../../components/navigation/BottomNavigation';
 
+type DiagnosisResult = {
+  content: string;
+  disease: string;
+  environment: string;
+  isHealty: boolean;
+  plant: string;
+  protect: {
+    basic: string[];
+  };
+};
+
 export type RootStackParamList = {
   BottomTabStackNavigator: undefined;
   MainScreen: undefined;
@@ -66,7 +77,7 @@ export type RootStackParamList = {
   VarietySelectScreen: { plantName: string };
   DetailPlantScreen: { plantName: string; varietyName: string };
   DiseasePlantScreen: undefined;
-  DetailDiseasePlantScreen: { photo: { uri: string } };
+  DetailDiseasePlantScreen: { photo: { uri: string }; diagnosisResult: DiagnosisResult };
   PlantResisterScreen: undefined;
   DefaultPlantResisterScreen: undefined;
   KindPlantScreen: { plantName: string };
