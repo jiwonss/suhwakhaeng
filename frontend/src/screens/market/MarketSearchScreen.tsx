@@ -8,7 +8,7 @@ import { ScrollView, View } from 'react-native';
 import MarketPost from '../../components/marketPost/MarketPost';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { getMarketPostList } from '../../apis/services/market/market';
 import { changeCategoryName } from '../../util/MarketUtil';
 
@@ -30,6 +30,7 @@ const ButtonContainer = styled.View`
 `;
 
 const MarketSearchScreen = () => {
+  const isFocused = useIsFocused();
   //navigation
   const navigation = useNavigation<RootStackNavigationProp>();
 
@@ -113,6 +114,18 @@ const MarketSearchScreen = () => {
       active: activeIndex === 4,
     },
   ];
+
+  useEffect(() => {
+    const getPost = async () => {
+      const params = { tradeId: tradeId, keyword: searchValue, cate: category };
+      const response = await getMarketPostList(params);
+      setPostData(response.dataBody);
+    };
+
+    if (searchValue) {
+      getPost();
+    }
+  }, [isFocused]);
 
   useEffect(() => {
     const getPost = async () => {

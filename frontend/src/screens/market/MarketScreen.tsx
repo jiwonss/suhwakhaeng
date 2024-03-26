@@ -9,7 +9,7 @@ import MarketPost from '../../components/marketPost/MarketPost';
 import { ScrollView } from 'react-native';
 import FloatingActionButton from '../../components/floatingActionButton/FloatingActionButton';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { BasicButton } from '../../components/button/Buttons';
 import { getMarketPostList } from '../../apis/services/market/market';
 import { useRecoilState } from 'recoil';
@@ -28,6 +28,7 @@ type RootStackParamList = {
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 const MarketScreen = () => {
+  const isFocused = useIsFocused();
   // 유저 정보
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
@@ -140,7 +141,7 @@ const MarketScreen = () => {
     };
 
     getPost();
-  }, []);
+  }, [isFocused]);
 
   useEffect(() => {
     // 카테고리 바뀔 때마다 카테고리에 대한 글목록 조회
