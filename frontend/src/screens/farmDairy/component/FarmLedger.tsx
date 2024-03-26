@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Typo from '../../../components/typography/Typography';
 import * as Color from '../../../config/color/Color';
@@ -18,6 +18,7 @@ type FarmLedgerProps = {
 
 type RootStackParamList = {
   FarmLedgerAddScreen: undefined;
+  FarmLedgerDetailScreen: undefined;
 };
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
@@ -47,6 +48,10 @@ const FarmLedger = (props: FarmLedgerProps) => {
     navigation.navigate('FarmLedgerAddScreen');
   };
 
+  const handlePress = () => {
+    navigation.navigate('FarmLedgerDetailScreen');
+  };
+
   const getCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear();
@@ -74,21 +79,22 @@ const FarmLedger = (props: FarmLedgerProps) => {
         </Typo.BODY4_M>
         <Spacer space={heightPercent * 20}></Spacer>
         {props.data.length !== 0 ? (
-          <>
+          <View style={{ flex: 1, alignItems: 'center' }}>
             <StyledContainer>
               <StyledView>
                 <Typo.Detail1_M color={Color.GRAY400}>수입</Typo.Detail1_M>
                 <Typo.BODY3_B>0원</Typo.BODY3_B>
               </StyledView>
+              <Spacer space={heightPercent * 20} horizontal></Spacer>
               <StyledView>
                 <Typo.Detail1_M color={Color.GRAY400}>지출</Typo.Detail1_M>
                 <Typo.BODY3_B>0원</Typo.BODY3_B>
               </StyledView>
+              {/* 여기에 나중에 드롭다운 추가 */}
             </StyledContainer>
-            {/* 여기에 나중에 드롭다운 추가 */}
+            <Spacer space={heightPercent * 20}></Spacer>
             <>
-              <Spacer space={heightPercent * 20}></Spacer>
-              <View style={{ marginLeft: widthPercent * 14, marginRight: widthPercent * 14 }}>
+              <TouchableOpacity onPress={() => handlePress()} style={{ marginLeft: widthPercent * 14, marginRight: widthPercent * 14, width: '100%' }}>
                 <Card borderColor={Color.BLACK}>
                   <View>
                     <Spacer space={heightPercent * 10}></Spacer>
@@ -109,22 +115,21 @@ const FarmLedger = (props: FarmLedgerProps) => {
                     <Spacer space={heightPercent * 10}></Spacer>
                   </View>
                 </Card>
-
-                <Spacer space={heightPercent * 20}></Spacer>
-                <BasicButton
-                  onPress={onPressLedger}
-                  width={widthPercent * 100}
-                  height={heightPercent * 40}
-                  disabled={false}
-                  backgroundColor={Color.GREEN500}
-                  borderColor={Color.WHITE}
-                  borderRadius={10}
-                >
-                  <Typo.BODY4_M color={Color.WHITE}>일지 작성하기</Typo.BODY4_M>
-                </BasicButton>
-              </View>
+              </TouchableOpacity>
+              <Spacer space={heightPercent * 20}></Spacer>
             </>
-          </>
+            <BasicButton
+              onPress={onPressLedger}
+              width={widthPercent * 100}
+              height={heightPercent * 40}
+              disabled={false}
+              backgroundColor={Color.GREEN500}
+              borderColor={Color.WHITE}
+              borderRadius={10}
+            >
+              <Typo.BODY4_M color={Color.WHITE}>일지 작성하기</Typo.BODY4_M>
+            </BasicButton>
+          </View>
         ) : (
           <View style={{ flex: 1, alignItems: 'center' }}>
             <Typo.BODY4_M color={Color.GRAY400}>오늘 지출/수입 내역을 작성해주세요</Typo.BODY4_M>

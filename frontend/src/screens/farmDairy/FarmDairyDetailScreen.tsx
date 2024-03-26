@@ -31,6 +31,16 @@ const FarmDairyDetailScreen = () => {
     console.log('작성 완료');
   };
   
+  const onDelete = () => {
+    const fetchData = async () => {
+      const diaryList = await deleteDiary();
+      //
+      console.log(diaryList);
+    };
+    
+    fetchData();
+  };
+
   return (
     <Container>
       <Header type='default' firstIcon='back' secondIcon='more' onPressMore={onPressButton}/>
@@ -70,7 +80,7 @@ const FarmDairyDetailScreen = () => {
           <LocalImageLoader style={{ width: '100%', height: heightPercent * 150 }} resizeMode='contain' source={require('../../../assets/imgs/favicon.png')} />
         </FormItemContainer>
       </FormContainer>
-      <MoreModal isVisible={isVisible} setIsVisible={setIsVisible} onDelete={()=>{}} onModify={()=>{}} postId={0}>          
+      <MoreModal isVisible={isVisible} setIsVisible={setIsVisible} onDelete={onDelete} onModify={()=>{}} postId={0}>          
       </MoreModal>
     </Container>
   );

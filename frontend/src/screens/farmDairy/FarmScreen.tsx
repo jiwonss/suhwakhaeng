@@ -28,7 +28,7 @@ const FarmScreen = () => {
         <Header type='default' firstIcon='back' title='영농일지/장부'></Header>
         <CustomRadioButton data={Data} />
         {activeIndex === 0 && <FarmDairy data={[1]}></FarmDairy>}
-        {activeIndex === 1 && <FarmLedger data={[]}></FarmLedger>}
+        {activeIndex === 1 && <FarmLedger data={[1]}></FarmLedger>}
       </ScrollView>
     </SafeAreaView>
   );

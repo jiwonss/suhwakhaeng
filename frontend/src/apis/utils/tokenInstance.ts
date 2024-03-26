@@ -10,7 +10,8 @@ export const tokenInstance = axios.create({
 
 const setCommonHeaders = async (config: any) => {
   config.headers['Content-Type'] = 'application/json';
-  config.headers['Authorization'] = `Bearer ${await EncryptedStorage.getItem('accessToken')}`;
+  // config.headers['Authorization'] = `Bearer ${await EncryptedStorage.getItem('accessToken')}`;
+  config.headers['Authorization'] = 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MTEwOTEyMTksImV4cCI6MTcxMzY4MzIxOX0.QxWxagJQhxyJQfyVsFzmof2Kc1Hg1f0poRrpV4AcK31692BaSiUD34HchjgqLLeqqVX_YnfZVX0dyMB49HDpQQ';
   return config;
 };
 
