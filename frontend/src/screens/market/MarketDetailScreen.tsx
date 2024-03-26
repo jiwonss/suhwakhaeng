@@ -15,7 +15,7 @@ import { BasicButton, LikeButton } from '../../components/button/Buttons';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { MoreModal } from '../../modules/marketModules/MarketDetailModules';
-import { deleteMarketPost, getMarketPostDetail } from '../../apis/services/market/market';
+import { deleteIsLiked, deleteMarketPost, getIsLiked, getMarketPostDetail, updateIsLiked } from '../../apis/services/market/market';
 import { changeCategoryName } from '../../util/MarketUtil';
 
 interface MarketDetailProps {
@@ -37,6 +37,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
+  // 게시글 데이터 관련
   const [postUserInfo, setPostUserInfo] = useState<{ userId: number; nickname: string; profileImage: string; sido: string | null; gugun: string | null }>({
     userId: 0,
     nickname: '',
@@ -60,10 +61,13 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
     roadNameAddress: string;
   }>({ postId: null, title: '', price: 0, content: '', cate: '', image1: '', image2: null, image3: null, image4: null, x: null, y: null, roadNameAddress: '' });
 
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+
   useEffect(() => {
     const getPostDetail = async () => {
       const params = { tradeId: props.route.params.id };
       const response = await getMarketPostDetail(params);
+      const isLikedResponse = await getIsLiked(params);
       setPostUserInfo({
         ...postUserInfo,
         userId: response.dataBody.userInfo.userId,
@@ -89,10 +93,24 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
       });
 
       setIsLoaded(true);
+
+      setIsLiked(isLikedResponse.dataBody.isLiked);
     };
 
     getPostDetail();
   }, []);
+
+  // 좋아요 처리 관련
+  const toggleIsLiked = async () => {
+    if (isLiked) {
+      // 좋아요 상태일 때 누른 경우
+      await deleteIsLiked({ tradeId: props.route.params.id });
+      setIsLiked(false);
+    } else {
+      await updateIsLiked({ tradeId: props.route.params.id });
+      setIsLiked(true);
+    }
+  };
 
   const userInfo = useRecoilValue(userInfoState);
 
@@ -105,7 +123,6 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
   };
 
   const deletePost = async (postId: number) => {
-    console.log(`${postId}번 게시글 삭제합니다`);
     // TODO: 삭제 후 목록(MarketScreen)으로 이동
     const response = await deleteMarketPost({ tradeId: props.route.params.id });
 
@@ -116,7 +133,6 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
   };
 
   const modifyPost = (postId: number) => {
-    console.log(`${postId}번 게시글 수정합니다`);
     // TODO: 게시글 수정 화면(MarketModifyScreen)으로 이동
     navigation.navigate('MarketModifyScreen', { id: postId });
   };
@@ -161,7 +177,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
         </PostContainer>
       </ScrollView>
       <ButtonContainer>
-        <LikeButton onPress={() => {}} />
+        <LikeButton isLiked={isLiked} setIsLiked={setIsLiked} onPress={toggleIsLiked} />
         {userInfo.userId === String(postUserInfo.userId) ? (
           <BasicButton
             onPress={() => {

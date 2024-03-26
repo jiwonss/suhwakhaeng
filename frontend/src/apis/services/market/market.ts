@@ -33,3 +33,23 @@ export const deleteMarketPost = async (params: { tradeId: number }) => {
   const response = await tokenInstance.delete(`${marketUrl}/${params.tradeId}`);
   return response.data;
 };
+
+export const modifyMarketPost = async (params: { tradeId: number }) => {
+  const reponse = await tokenInstance.patch(`${marketUrl}/${params.tradeId}`);
+  return reponse.data;
+};
+
+export const getIsLiked = async (params: { tradeId: number }) => {
+  const response = await tokenInstance.get(`${marketUrl}/like/${params.tradeId}`);
+  return response.data;
+};
+
+export const updateIsLiked = async (params: { tradeId: number }) => {
+  const response = await tokenInstance.post(`${marketUrl}/like/${params.tradeId}`);
+  return response.data;
+};
+
+export const deleteIsLiked = async (params: { tradeId: number }) => {
+  const response = await tokenInstance.delete(`${marketUrl}/like/${params.tradeId}`);
+  return response.data;
+};
