@@ -2,6 +2,7 @@ package com.suhwakhaeng.common.domain.trade.dto;
 
 import com.suhwakhaeng.common.domain.trade.entity.TradeBoard;
 import com.suhwakhaeng.common.domain.trade.enums.TradeCate;
+import com.suhwakhaeng.common.domain.trade.enums.TradeStatus;
 import com.suhwakhaeng.common.domain.user.entity.User;
 import com.suhwakhaeng.common.global.common.entity.AxisLocation;
 import lombok.Builder;
@@ -37,6 +38,7 @@ public record TradeCreateRequest(
                         .roadNameAddress(roadNameAddress)
                         .build()
                 )
+                .status(TradeStatus.SALE)
                 .build();
     }
 }
