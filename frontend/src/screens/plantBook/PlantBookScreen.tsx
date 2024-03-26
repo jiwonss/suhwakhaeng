@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import styled from 'styled-components/native';
 import { Spacer } from '../../components/basic/Spacer';
@@ -8,6 +8,7 @@ import { SearchInputBox } from '../../components/inputBox/Input';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
+import { getCropsData } from '../../apis/services/crops/CropsList';
 // 작물 이모지 컴포넌트
 import BellPepper from '../../../assets/icons/bellPepper.svg';
 import Carrot from '../../../assets/icons/carrot.svg';
@@ -62,6 +63,17 @@ const PlantBookScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [searchValue, setSearchValue] = useState<string>('');
   const dummyCount = 3 - (plantData.length % 3 || 3);
+  const [plants, setPlants] = useState<typeof plantData>([]); // 상태 추가
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getCropsData();
+      setPlants(data);
+      console.log(plants);
+    };
+
+    fetchData();
+  }, []);
 
   const onSearch = () => {
     console.log('검색');
