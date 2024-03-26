@@ -14,10 +14,7 @@ import static com.suhwakhaeng.common.domain.diary.entity.QDiary.diary;
 import static com.suhwakhaeng.common.domain.mycrops.entity.QMyCrops.myCrops;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -58,7 +55,7 @@ public class DiarySearchRepositoryImpl implements DiarySearchRepository {
                 .orderBy(diary.date.asc())
                 .fetch();
 
-        Map<LocalDate, List<DiaryListResponse>> diaryMap = new HashMap<>();
+        Map<LocalDate, List<DiaryListResponse>> diaryMap = new TreeMap<>();
         for (DiaryListResponse diaryResponse : result) {
             LocalDate date = diaryResponse.diaryDate();
             diaryMap.putIfAbsent(date, new ArrayList<>());
@@ -66,6 +63,7 @@ public class DiarySearchRepositoryImpl implements DiarySearchRepository {
         }
 
         return diaryMap.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+                .sorted(Map.Entry.comparingByKey())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
     }
 }
