@@ -10,7 +10,7 @@ import { ProfileCard } from '../../components/profileCard/ProfileCard';
 import { BasicTag } from '../../components/classificationTag/ClassificationTag';
 import { addComma } from '../../util/BasicUtil';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { BasicButton, LikeButton } from '../../components/button/Buttons';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
@@ -33,6 +33,7 @@ type RootStackParamList = {
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 const MarketDetailScreen = (props: MarketDetailProps) => {
+  const isFocused = useIsFocused();
   const navigation = useNavigation<RootStackNavigationProp>();
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
@@ -68,6 +69,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
       const params = { tradeId: props.route.params.id };
       const response = await getMarketPostDetail(params);
       const isLikedResponse = await getIsLiked(params);
+
       setPostUserInfo({
         ...postUserInfo,
         userId: response.dataBody.userInfo.userId,
@@ -87,9 +89,9 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
         image2: response.dataBody.tradeDetailInfo.image2,
         image3: response.dataBody.tradeDetailInfo.image3,
         image4: response.dataBody.tradeDetailInfo.image4,
-        x: response.dataBody.tradeDetailInfo.axisLocation.x,
-        y: response.dataBody.tradeDetailInfo.axisLocation.y,
-        roadNameAddress: response.dataBody.tradeDetailInfo.axisLocation.roadNameAddress,
+        x: 0,
+        y: 0,
+        roadNameAddress: '',
       });
 
       setIsLoaded(true);
@@ -98,7 +100,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
     };
 
     getPostDetail();
-  }, []);
+  }, [isFocused]);
 
   // 좋아요 처리 관련
   const toggleIsLiked = async () => {
@@ -178,7 +180,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
       </ScrollView>
       <ButtonContainer>
         <LikeButton isLiked={isLiked} setIsLiked={setIsLiked} onPress={toggleIsLiked} />
-        {userInfo.userId === String(postUserInfo.userId) ? (
+        {userInfo.userId == String(postUserInfo.userId) ? (
           <BasicButton
             onPress={() => {
               console.log('내 대화목록으로 이동');

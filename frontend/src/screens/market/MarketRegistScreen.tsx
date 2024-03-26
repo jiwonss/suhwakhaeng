@@ -54,8 +54,8 @@ const MarketRegistScreen = () => {
   const [imgUrls, setImgUrls] = useState<string[]>([]);
 
   // 주소 보낼 떄 x, y 좌표랑 도로명 주소 보내야함
-  const [x, setX] = useState();
-  const [y, setY] = useState();
+  const [x, setX] = useState<number>(0);
+  const [y, setY] = useState<number>(0);
   const [address, setAddress] = useState<string>('');
 
   const radioData = [
@@ -112,8 +112,8 @@ const MarketRegistScreen = () => {
         image2: newImageUrls[1],
         image3: newImageUrls[2],
         image4: newImageUrls[3],
-        x: '',
-        y: '',
+        x: 0,
+        y: 0,
         roadNameAddress: '',
       };
       const response = await registMarketPost(params);
