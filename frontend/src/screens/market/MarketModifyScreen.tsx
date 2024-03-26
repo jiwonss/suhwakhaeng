@@ -8,6 +8,15 @@ import { MultiLineInputBox, SingleLineInputBox } from '../../components/inputBox
 import Header from '../../components/header/Header';
 import ImgUploader from '../../components/imgUploader/ImgUploader';
 import { BasicButton } from '../../components/button/Buttons';
+import { getMarketPostDetail, modifyMarketPost } from '../../apis/services/market/market';
+import { uploadImagesToFirebaseStorage } from '../../util/BasicUtil';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../recoil/atoms/userInfoState';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../stacks/mainStack/MainStack';
+import { StackNavigationProp } from '@react-navigation/stack';
+
+type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 interface MarketDetailProps {
   route: {
@@ -16,11 +25,30 @@ interface MarketDetailProps {
 }
 
 const MarketModifyScreen = (props: MarketDetailProps) => {
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [title, setTitle] = useState<string>('김농부');
+  const navigation = useNavigation<RootStackNavigationProp>();
+
+  const userInfo = useRecoilValue(userInfoState);
+  const [postDetailInfo, setPostDetailInfo] = useState<{
+    postId: number | null;
+    title: string;
+    price: number;
+    content: string;
+    cate: string;
+    image1: string | null;
+    image2: string | null;
+    image3: string | null;
+    image4: string | null;
+    x: number | null;
+    y: number | null;
+    roadNameAddress: string;
+  }>({ postId: null, title: '', price: 0, content: '', cate: '', image1: '', image2: null, image3: null, image4: null, x: null, y: null, roadNameAddress: '' });
+
+  const [activeIndex, setActiveIndex] = useState<number>();
+  const [title, setTitle] = useState<string>('');
   const [price, setPrice] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [imgUrls, setImgUrls] = useState<string[]>([]);
+  const [category, setCategory] = useState<string>('');
   // 주소 보낼 떄 x, y 좌표랑 도로명 주소 보내야함
   const [x, setX] = useState();
   const [y, setY] = useState();
@@ -37,37 +65,81 @@ const MarketModifyScreen = (props: MarketDetailProps) => {
     { content: '일손', event: onChangeType, active: activeIndex === 3 },
   ];
 
-  useEffect(() => {
-    // console.log(`선택된 분류: ${radioData[activeIndex].content}`);
-  }, [activeIndex]);
-
-  const onPressButton = () => {
+  const onPressButton = async () => {
     // TODO: 작성 완료 후 상세보기 페이지로 이동
-    console.log('작성 완료');
+    // 파이어베이스 업로드
+
+    const newImgUrls = await uploadImagesToFirebaseStorage(imgUrls, `장터//${userInfo.userId}//${props.route.params.id}`);
+    console.log(newImgUrls);
+    const params = { tradeId: props.route.params.id };
+    const data = {
+      cate: category,
+      title: title,
+      price: parseInt(price),
+      content: content,
+      image1: newImgUrls[0],
+      image2: newImgUrls[1],
+      image3: newImgUrls[2],
+      image4: newImgUrls[3],
+      x: 0,
+      y: 0,
+      roadAddressName: address,
+    };
+    const response = await modifyMarketPost(params, data);
+    if (response.dataHeader.successCode === 0) {
+      alert('수정 완료!');
+    }
+    navigation.navigate('MarketScreen');
   };
 
   useEffect(() => {
-    //TODO: postId로 postData 불러오기
-    const postData = {
-      userId: 1,
-      name: '김농민',
-      date: '2024-03-12 11:02:02',
-      classification: '작물',
-      title: '감자 1kg',
-      price: '1000',
-      content: '싱싱한 햇감자 팝니다.. 서구 금호동으로 오세요 \n아아아',
-      x: 37.59523, // 주소 x 좌표
-      y: 127.086, // 주소 y 좌표
-      address: '광주광역시 서구',
-      imgUrl_one: '',
-      imgUrl_two: '',
-      imgUrl_three: '',
-      imgUrl_four: '',
+    const getPostDetail = async () => {
+      const params = { tradeId: props.route.params.id };
+      const response = await getMarketPostDetail(params);
+      setTitle(response.dataBody.tradeDetailInfo.title);
+      setContent(response.dataBody.tradeDetailInfo.content);
+      setPrice(response.dataBody.tradeDetailInfo.price);
+      setX(response.dataBody.tradeDetailInfo.axisLocation.x);
+      setY(response.dataBody.tradeDetailInfo.axisLocation.y);
+      setAddress(response.dataBody.tradeDetailInfo.axisLocation.roadNameAddress);
+      setCategory(response.dataBody.tradeDetailInfo.cate);
+      switch (response.dataBody.tradeDetailInfo.cate) {
+        case 'CROP':
+          setActiveIndex(0);
+          break;
+        case 'MATERIAL':
+          setActiveIndex(1);
+          break;
+        case 'EXPERIENCE':
+          setActiveIndex(2);
+          break;
+        case 'WORK':
+          setActiveIndex(3);
+          break;
+      }
+
+      if (response.dataBody.tradeDetailInfo.image1) {
+        setImgUrls([...imgUrls, response.dataBody.tradeDetailInfo.image1]);
+      }
+      if (response.dataBody.tradeDetailInfo.image2) {
+        setImgUrls([...imgUrls, response.dataBody.tradeDetailInfo.image1, response.dataBody.tradeDetailInfo.image2]);
+      }
+      if (response.dataBody.tradeDetailInfo.image3) {
+        setImgUrls([...imgUrls, response.dataBody.tradeDetailInfo.image1, response.dataBody.tradeDetailInfo.image2, response.dataBody.tradeDetailInfo.image3]);
+      }
+      if (postDetailInfo.image4) {
+        setImgUrls([
+          ...imgUrls,
+          response.dataBody.tradeDetailInfo.image1,
+          response.dataBody.tradeDetailInfo.image2,
+          response.dataBody.tradeDetailInfo.image3,
+          response.dataBody.tradeDetailInfo.image4,
+        ]);
+      }
+      console.log(postDetailInfo);
     };
-    setTitle(postData.title);
-    setPrice(postData.price);
-    setContent(postData.content);
-    setAddress(postData.address);
+
+    getPostDetail();
   }, []);
 
   return (
@@ -84,7 +156,7 @@ const MarketModifyScreen = (props: MarketDetailProps) => {
         </FormItemContainer>
         <FormItemContainer>
           <Typo.BODY4_M>가격 입력</Typo.BODY4_M>
-          <SingleLineInputBox value={price} onChangeText={setPrice} placeholder={'가격을 입력해주세요 (숫자만 입력)'} />
+          <SingleLineInputBox value={String(price)} onChangeText={setPrice} placeholder={'가격을 입력해주세요 (숫자만 입력)'} />
         </FormItemContainer>
         <FormItemContainer>
           <Typo.BODY4_M>내용 입력</Typo.BODY4_M>
