@@ -56,7 +56,7 @@ const handleResponseError = async (error: AxiosError) => {
 };
 
 const handleResponseSuccess = (response: AxiosResponse<any>) => {
-  console.log('Success response: ' + response.config.url);
+  // console.log('Success response: ' + response.config.url);
   return response;
 };
 

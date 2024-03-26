@@ -12,6 +12,9 @@ import { registMarketPost } from '../../apis/services/market/market';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { useNavigation } from '@react-navigation/native';
+import { getKST, uploadImagesToFirebaseStorage } from '../../util/BasicUtil';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../recoil/atoms/userInfoState';
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
@@ -41,6 +44,7 @@ const ButtonContainer = styled.View`
 
 const MarketRegistScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
+  const userInfo = useRecoilValue(userInfoState);
 
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [category, setCategory] = useState<string>('CROP');
@@ -98,14 +102,38 @@ const MarketRegistScreen = () => {
     } else if (!content) {
       alert('내용을 입력해주세요');
     } else {
-      const params = { cate: category, title: title, price: parseInt(price), content: content, image1: '', image2: '', image3: '', image4: '', x: '', y: '', roadNameAddress: '' };
+      const newImageUrls = await uploadImagesToFirebaseStorage(imgUrls, `장터//${userInfo.userId}//${getKST()}`);
+      const params = {
+        cate: category,
+        title: title,
+        price: parseInt(price),
+        content: content,
+        image1: newImageUrls[0],
+        image2: newImageUrls[1],
+        image3: newImageUrls[2],
+        image4: newImageUrls[3],
+        x: '',
+        y: '',
+        roadNameAddress: '',
+      };
       const response = await registMarketPost(params);
+      setActiveIndex(0);
+      setAddress('');
+      setCategory('');
+      setTitle('');
+      setPrice('');
+      setContent('');
+      setImgUrls([]);
       if (response.dataHeader.successCode === 0) {
         alert('등록 완료!');
       }
       navigation.navigate('MarketScreen');
     }
   };
+
+  useEffect(() => {
+    console.log(imgUrls);
+  }, [imgUrls]);
 
   return (
     <Container>

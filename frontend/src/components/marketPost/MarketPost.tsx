@@ -60,9 +60,7 @@ const MarketPost = (props: MarketPostProps) => {
         <Typo.BODY3_M>{props.title}</Typo.BODY3_M>
         <Typo.BODY4_M>{addComma(props.price)}원</Typo.BODY4_M>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Typo.Detail1_M color={Color.GRAY400}>
-            {props.location} · {getTimeSincePost(props.date)}
-          </Typo.Detail1_M>
+          <Typo.Detail1_M color={Color.GRAY400}>{getTimeSincePost(props.date)}</Typo.Detail1_M>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: widthPercent * 5 }}>
             {props.isFavorite ? <Favorite width={widthPercent * 12} height={heightPercent * 12} /> : <FavoriteBorder width={widthPercent * 12} height={heightPercent * 12} />}
             <Typo.Detail1_M color={Color.GRAY400}>{props.likeNumber}</Typo.Detail1_M>
