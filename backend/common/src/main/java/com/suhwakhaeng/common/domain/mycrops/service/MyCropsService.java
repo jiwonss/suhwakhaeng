@@ -20,4 +20,6 @@ public interface MyCropsService {
 
     void deleteMyCrops(Long myCropsId);
 
+    Long updateMyCrops(Long myCropsId, MyCropsRequest request);
+
 }
