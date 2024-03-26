@@ -15,7 +15,7 @@ import { BasicButton, LikeButton } from '../../components/button/Buttons';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { MoreModal } from '../../modules/marketModules/MarketDetailModules';
-import { getMarketPostDetail } from '../../apis/services/market/market';
+import { deleteMarketPost, getMarketPostDetail } from '../../apis/services/market/market';
 import { changeCategoryName } from '../../util/MarketUtil';
 
 interface MarketDetailProps {
@@ -104,9 +104,15 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
     }
   };
 
-  const deletePost = (postId: number) => {
+  const deletePost = async (postId: number) => {
     console.log(`${postId}번 게시글 삭제합니다`);
     // TODO: 삭제 후 목록(MarketScreen)으로 이동
+    const response = await deleteMarketPost({ tradeId: props.route.params.id });
+
+    if (response.dataHeader.successCode === 0) {
+      alert('삭제되었습니다');
+    }
+    navigation.navigate('MarketScreen');
   };
 
   const modifyPost = (postId: number) => {

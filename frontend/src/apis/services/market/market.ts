@@ -28,3 +28,8 @@ export const getMarketPostDetail = async (params: { tradeId: number }) => {
   const response = await tokenInstance.get(`${marketUrl}/${params.tradeId}`);
   return response.data;
 };
+
+export const deleteMarketPost = async (params: { tradeId: number }) => {
+  const response = await tokenInstance.delete(`${marketUrl}/${params.tradeId}`);
+  return response.data;
+};
