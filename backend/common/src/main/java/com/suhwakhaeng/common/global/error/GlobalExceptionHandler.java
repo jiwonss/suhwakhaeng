@@ -4,6 +4,7 @@ import com.suhwakhaeng.common.domain.crops.entity.CropsVariety;
 import com.suhwakhaeng.common.domain.crops.exeption.CropsException;
 import com.suhwakhaeng.common.domain.crops.exeption.CropsVarietyException;
 import com.suhwakhaeng.common.domain.diary.exception.DiaryException;
+import com.suhwakhaeng.common.domain.fcm.exception.FcmException;
 import com.suhwakhaeng.common.domain.mycrops.exception.MyCropsException;
 import com.suhwakhaeng.common.domain.trade.exception.TradeException;
 import com.suhwakhaeng.common.domain.user.exception.UserException;
@@ -41,6 +42,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DiaryException.class)
     public ResponseEntity<?> diaryExceptionHandler(DiaryException e){
+        log.debug(Arrays.toString(e.getStackTrace()));
+        return ResponseEntity.ok(Message.fail(String.valueOf(e.getErrorCode()), e.getMessage()));
+    }
+
+    @ExceptionHandler(FcmException.class)
+    public ResponseEntity<?> fcmExceptionHandler(FcmException e){
         log.debug(Arrays.toString(e.getStackTrace()));
         return ResponseEntity.ok(Message.fail(String.valueOf(e.getErrorCode()), e.getMessage()));
     }
