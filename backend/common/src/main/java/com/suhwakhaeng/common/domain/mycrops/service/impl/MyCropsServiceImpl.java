@@ -1,6 +1,7 @@
 package com.suhwakhaeng.common.domain.mycrops.service.impl;
 
 import com.suhwakhaeng.common.domain.crops.entity.CropsVariety;
+import com.suhwakhaeng.common.domain.crops.exeption.CropsVarietyErrorCode;
 import com.suhwakhaeng.common.domain.crops.exeption.CropsVarietyException;
 import com.suhwakhaeng.common.domain.crops.repository.CropsVarietyRepository;
 import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsDetailResponse;
@@ -23,15 +24,17 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.suhwakhaeng.common.domain.crops.exeption.CropsVarietyErrorCode.*;
+import static com.suhwakhaeng.common.domain.mycrops.exception.MyCropsErrorCode.*;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MyCropsServiceImpl implements MyCropsService {
     private final MyCropsRepository myCropsRepository;
     private final CropsVarietyRepository cropsVarietyRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     @Override
     public Long createMyCrops(Long userId, MyCropsRequest myCropsRequest) {
         CropsVariety cropsVariety = cropsVarietyRepository.findById(myCropsRequest.cropsVarietyId()).orElseThrow(() -> new CropsVarietyException(NO_EXIST_CROPS));
@@ -65,15 +68,29 @@ public class MyCropsServiceImpl implements MyCropsService {
 
     @Override
     public MyCrops selectMyCrop(Long myCropsId) {
-        return myCropsRepository.findById(myCropsId).orElseThrow(() -> new MyCropsException(MyCropsErrorCode.NOT_MATCH_MY_CROPS));
+        return myCropsRepository.findById(myCropsId).orElseThrow(() -> new MyCropsException(NOT_MATCH_MY_CROPS));
     }
 
     public MyCropsDetailResponse selectMyCropsDetail(Long myCropsId) {
         return myCropsRepository.findMyCropsById(myCropsId);
     }
 
+    @Transactional
     @Override
     public void deleteMyCrops(Long myCropsId) {
         myCropsRepository.deleteById(myCropsId);
+    }
+
+    @Transactional
+    @Override
+    public Long updateMyCrops(Long myCropsId, MyCropsRequest request) {
+        CropsVariety cropsVariety = cropsVarietyRepository.findById(request.cropsVarietyId())
+                .orElseThrow(() -> new CropsVarietyException(NO_EXIST_CROPS));
+
+        MyCrops updateMyCrops = request.toEntity();
+        MyCrops myCrops = selectMyCrop(myCropsId);
+
+        myCrops.update(updateMyCrops, cropsVariety);
+        return myCrops.getId();
     }
 }

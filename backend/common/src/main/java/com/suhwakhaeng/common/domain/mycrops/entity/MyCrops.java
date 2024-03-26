@@ -45,4 +45,15 @@ public class MyCrops {
     private String sido;
     private String gugun;
     private String dong;
+
+    public void update(MyCrops myCrops, CropsVariety cropsVariety) {
+        this.sido = myCrops.getSido();
+        this.gugun = myCrops.getGugun();
+        this.dong = myCrops.getDong();
+        this.name = myCrops.getName();
+        this.area = myCrops.getArea();
+        this.areaUnit = myCrops.getAreaUnit();
+        this.yield = myCrops.getYield();
+        this.cropsVariety = cropsVariety;
+    }
 }
