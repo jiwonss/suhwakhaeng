@@ -23,3 +23,8 @@ export const registMarketPost = async (params: {
   const response = await tokenInstance.post(`${marketUrl}`, params);
   return response.data;
 };
+
+export const getMarketPostDetail = async (params: { tradeId: number }) => {
+  const response = await tokenInstance.get(`${marketUrl}/${params.tradeId}`);
+  return response.data;
+};

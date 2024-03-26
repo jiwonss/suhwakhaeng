@@ -15,6 +15,7 @@ import { getMarketPostList } from '../../apis/services/market/market';
 import { useRecoilState } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { NotBusinessModal, RegistBusinessModal } from '../../modules/marketModules/MarketModules';
+import { changeCategoryName } from '../../util/MarketUtil';
 
 type RootStackParamList = {
   ChatListScreen: undefined;
@@ -129,32 +130,11 @@ const MarketScreen = () => {
     }[]
   >([]);
 
-  const changeCategoryName = (category: string) => {
-    let newCategoryName = '';
-    switch (category) {
-      case 'CROP':
-        newCategoryName = '작물';
-        break;
-      case 'MATERIAL':
-        newCategoryName = '농자재';
-        break;
-
-      case 'EXPERIENCE':
-        newCategoryName = '체험';
-        break;
-      case 'WORK':
-        newCategoryName = '일손';
-        break;
-    }
-    return newCategoryName;
-  };
-
   useEffect(() => {
     // TODO: 렌더링시 게시글 데이터 불러오기
     const getPost = async () => {
       const params = { tradeId: tradeId, keyword: '', cate: '' };
       const response = await getMarketPostList(params);
-      console.log(response);
       setMarketPostData(response.dataBody);
       setTradeId(response.dataBody.length);
     };

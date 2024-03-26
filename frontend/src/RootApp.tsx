@@ -32,7 +32,7 @@ export const RootApp = () => {
         const userInfoDataBody = userInfoData.dataBody;
         setUserInfo({
           ...userInfo,
-          userId: userInfoDataBody.userIad,
+          userId: userInfoDataBody.userId,
           nickname: userInfoDataBody.nickname,
           profileImage: userInfoDataBody.profileImage,
           isBusiness: userInfoDataBody.isBuiseness,
