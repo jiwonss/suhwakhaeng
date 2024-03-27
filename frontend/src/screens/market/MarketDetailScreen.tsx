@@ -14,10 +14,12 @@ import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { BasicButton, LikeButton } from '../../components/button/Buttons';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
-import { MoreModal } from '../../modules/marketModules/MarketDetailModules';
+import { KakaoMap, MoreModal } from '../../modules/marketModules/MarketDetailModules';
 import { deleteIsLiked, deleteMarketPost, getIsLiked, getMarketPostDetail, updateIsLiked } from '../../apis/services/market/market';
 import { changeCategoryName } from '../../util/MarketUtil';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
+import { Spacer } from '../../components/basic/Spacer';
+import { Divider } from '../../components/basic/Divider';
 
 interface MarketDetailProps {
   route: {
@@ -64,7 +66,6 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
       const params = { tradeId: props.route.params.id };
       const response = await getMarketPostDetail(params);
       const isLikedResponse = await getIsLiked(params);
-      console.log(response.dataBody.tradeDetailInfo);
 
       setPostUserInfo({
         ...postUserInfo,
@@ -165,16 +166,17 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
         </PostContainer>
         <PostContainer style={{ rowGap: heightPercent * 10 }}>
           <Typo.BODY4_M>{postDetailInfo.content}</Typo.BODY4_M>
-          <Typo.BODY4_M>{postDetailInfo.roadNameAddress}</Typo.BODY4_M>
-          <Typo.BODY4_M>{postDetailInfo.x}</Typo.BODY4_M>
-          <Typo.BODY4_M>{postDetailInfo.y}</Typo.BODY4_M>
+
           {postDetailInfo.image1 && <UriImageLoader uri={postDetailInfo.image1} resizeMode='contain' style={{ width: widthPercent * 300, height: heightPercent * 200 }} />}
           {postDetailInfo.image2 && <UriImageLoader uri={postDetailInfo.image2} resizeMode='contain' style={{ width: widthPercent * 300, height: heightPercent * 200 }} />}
           {postDetailInfo.image3 && <UriImageLoader uri={postDetailInfo.image3} resizeMode='contain' style={{ width: widthPercent * 300, height: heightPercent * 200 }} />}
           {postDetailInfo.image4 && <UriImageLoader uri={postDetailInfo.image4} resizeMode='contain' style={{ width: widthPercent * 300, height: heightPercent * 200 }} />}
 
-          {/* 지도 나중에 추가... */}
-          {postDetailInfo.roadNameAddress && <Typo.BODY3_B color={Color.RED200}>{postDetailInfo.roadNameAddress}</Typo.BODY3_B>}
+          <Spacer space={heightPercent * 60} />
+          <Typo.BODY4_M>[거래 희망 장소]</Typo.BODY4_M>
+          {postDetailInfo.x && postDetailInfo.y && <KakaoMap x={postDetailInfo.x} y={postDetailInfo.y} />}
+
+          {postDetailInfo.roadNameAddress && <Typo.BODY4_M>{postDetailInfo.roadNameAddress}</Typo.BODY4_M>}
         </PostContainer>
       </ScrollView>
       <ButtonContainer>
