@@ -16,14 +16,7 @@ import { useRecoilState } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { NotBusinessModal, RegistBusinessModal } from '../../modules/marketModules/MarketModules';
 import { changeCategoryName } from '../../util/MarketUtil';
-
-type RootStackParamList = {
-  ChatListScreen: undefined;
-  MarketSearchScreen: undefined;
-  MarketDetailScreen: { id: number };
-  MarketRegistScreen: undefined;
-  MarketScreen: undefined;
-};
+import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
@@ -53,7 +46,7 @@ const MarketScreen = () => {
   const onPressRegist = () => {
     // TODO: 사업자인지 아닌지 확인 필요
     if (!userInfo.isBusiness) {
-      navigation.navigate('MarketRegistScreen');
+      navigation.navigate('MarketRegistScreen', { address: '', x: 0, y: 0 });
     } else {
       // 모달 열기
       setPopUpVisible(true);

@@ -17,18 +17,13 @@ import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { MoreModal } from '../../modules/marketModules/MarketDetailModules';
 import { deleteIsLiked, deleteMarketPost, getIsLiked, getMarketPostDetail, updateIsLiked } from '../../apis/services/market/market';
 import { changeCategoryName } from '../../util/MarketUtil';
+import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 
 interface MarketDetailProps {
   route: {
     params: { id: number };
   };
 }
-
-type RootStackParamList = {
-  MarketModifyScreen: { id: number };
-  MarketDetailScreen: { id: number };
-  MarketScreen: undefined;
-};
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
