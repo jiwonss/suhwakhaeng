@@ -3,6 +3,8 @@ import styled from 'styled-components/native';
 import { Spacer } from '../../components/basic/Spacer';
 import Header from '../../components/header/Header';
 import * as Color from '../../config/color/Color';
+import * as Typo from '../../components/typography/Typography';
+
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 // import { useRoute } from '@react-navigation/core';
 // import { RouteProp } from '@react-navigation/native';
@@ -15,8 +17,8 @@ const Container = styled.View`
   row-gap: ${5 * heightPercent}px;
 `;
 
-const DetailPlantScreen = () => {
-  // const route = useRoute<RouteProp<RootStackParamList, 'DetailPlantScreen'>>();
+const CropsDetailScreen = () => {
+  // const route = useRoute<RouteProp<RootStackParamList, 'CropsDetailScreen'>>();
   // const { plantName, varietyName } = route.params;
 
   return (
@@ -24,10 +26,11 @@ const DetailPlantScreen = () => {
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }} contentContainerStyle={{ paddingBottom: 50 * heightPercent }}>
         {/*헤더*/}
         <Header type={'default'} firstIcon={'back'} />
+        <Typo.BODY4_M>작물 상세페이지</Typo.BODY4_M>
         <Spacer space={20} />
       </ScrollView>
     </View>
   );
 };
 
-export default DetailPlantScreen;
+export default CropsDetailScreen;
