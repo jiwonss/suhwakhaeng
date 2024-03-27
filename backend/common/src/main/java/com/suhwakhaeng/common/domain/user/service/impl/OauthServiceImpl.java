@@ -1,5 +1,6 @@
 package com.suhwakhaeng.common.domain.user.service.impl;
 
+import com.suhwakhaeng.common.domain.fcm.service.FcmService;
 import com.suhwakhaeng.common.domain.user.dto.*;
 import com.suhwakhaeng.common.domain.user.entity.User;
 import com.suhwakhaeng.common.domain.user.repository.UserRepository;
@@ -23,9 +24,10 @@ public class OauthServiceImpl implements OauthService {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtProvider jwtProvider;
+    private final FcmService fcmService;
     @Override
-    public LoginResponse login(OauthServerType oauthServerType, String token) {
-        User oauthUser = oauthMemberClientComposite.fetch(oauthServerType, token);
+    public LoginResponse login(OauthServerType oauthServerType, OauthTokenRequest request) {
+        User oauthUser = oauthMemberClientComposite.fetch(oauthServerType, request.oauthToken());
 
         User user = userRepository.findByEmail(oauthUser.getEmail())
                 .orElseGet(
@@ -36,6 +38,7 @@ public class OauthServiceImpl implements OauthService {
         String refreshToken = jwtProvider.issueRefreshToken();
 
         refreshTokenRepository.save(String.valueOf(user.getId()), refreshToken);
+        fcmService.createDeviceToken(user.getId(), request.deviceToken());
 
         return LoginResponse.builder()
                 .tokenInfo(
