@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { ComponentType, useEffect, useState } from 'react';
+import { SvgProps } from 'react-native-svg';
 import { ScrollView, View } from 'react-native';
 import styled from 'styled-components/native';
 import { Spacer } from '../../components/basic/Spacer';
@@ -27,6 +28,17 @@ import Watermelon from '../../../assets/icons/watermelon.svg';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 
+interface Crop {
+  id: number;
+  name: string;
+}
+
+interface Plant {
+  id: number;
+  name: string;
+  Icon?: ComponentType<SvgProps>;
+}
+
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
   margin-right: ${20 * widthPercent}px;
@@ -43,36 +55,44 @@ const PlantContainer = styled.View`
   justify-content: center;
   flex-wrap: wrap;
 `;
-export const plantData = [
-  { name: '가지', Icon: Eggplant },
-  { name: '고구마', Icon: SweetPotato },
-  { name: '고추', Icon: ChiliPepper },
-  { name: '감자', Icon: Potato },
-  { name: '당근', Icon: Carrot },
-  { name: '마늘', Icon: Garlic },
-  { name: '상추', Icon: Lettuce },
-  { name: '수박', Icon: Watermelon },
-  { name: '양파', Icon: Onion },
-  { name: '오이', Icon: Cucumber },
-  { name: '파', Icon: GreenOnion },
-  { name: '파프리카', Icon: BellPepper },
-  { name: '토마토', Icon: Tomato },
-  { name: '호박', Icon: Pumpkin },
+export const iconMapping = [
+  { engName: 'Eggplant', name: '가지', Icon: Eggplant },
+  { engName: 'SweetPotato', name: '고구마', Icon: SweetPotato },
+  { engName: 'ChiliPepper', name: '고추', Icon: ChiliPepper },
+  { engName: 'Potato', name: '감자', Icon: Potato },
+  { engName: 'Carrot', name: '당근', Icon: Carrot },
+  { engName: 'Garlic', name: '마늘', Icon: Garlic },
+  { engName: 'Lettuce', name: '상추', Icon: Lettuce },
+  { engName: 'Watermelon', name: '수박', Icon: Watermelon },
+  { engName: 'Onion', name: '양파', Icon: Onion },
+  { engName: 'Cucumber', name: '오이', Icon: Cucumber },
+  { engName: 'GreenOnion', name: '파', Icon: GreenOnion },
+  { engName: 'BellPepper', name: '파프리카', Icon: BellPepper },
+  { engName: 'Tomato', name: '토마토', Icon: Tomato },
+  { engName: 'Pumpkin', name: '호박', Icon: Pumpkin },
 ];
+
 const PlantBookScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [searchValue, setSearchValue] = useState<string>('');
-  const dummyCount = 3 - (plantData.length % 3 || 3);
-  const [plants, setPlants] = useState<typeof plantData>([]); // 상태 추가
+  const dummyCount = 3 - (iconMapping.length % 3 || 3);
+  const [plants, setPlants] = useState<Plant[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await getCropsData();
-      setPlants(data);
-      console.log(plants);
+    const getData = async () => {
+      const { dataBody } = await getCropsData();
+      const mappedData = dataBody.map((item: Crop) => {
+        const iconItem = iconMapping.find((icon) => icon.engName === item.name); // 영어 이름과 일치하는 아이템 찾기
+        return {
+          ...item,
+          name: iconItem ? iconItem.name : item.name,
+          Icon: iconItem ? iconItem.Icon : null,
+        };
+      });
+      setPlants(mappedData);
     };
 
-    fetchData();
+    getData();
   }, []);
 
   const onSearch = () => {
@@ -94,7 +114,7 @@ const PlantBookScreen = () => {
         </Container>
         {/*작물 리스트 가나다순으로 정렬*/}
         <PlantContainer>
-          {plantData.map((plant, index) => (
+          {plants.map((plant, index) => (
             <View key={index} style={{ alignItems: 'center', width: 100, marginBottom: 20 * heightPercent }}>
               <BasicButton
                 borderColor={Color.GRAY50}
@@ -102,9 +122,11 @@ const PlantBookScreen = () => {
                 borderRadius={50}
                 width={80}
                 height={80}
-                onPress={() => navigation.navigate('VarietySelectScreen', { plantName: plant.name })}
+                onPress={() => {
+                  navigation.navigate('VarietySelectScreen', { plantName: plant.name });
+                }}
               >
-                <plant.Icon width={50} height={50} />
+                {plant.Icon && <plant.Icon width={50} height={50} />}
               </BasicButton>
               <Spacer space={5} />
               <Typo.BODY4_M>{plant.name}</Typo.BODY4_M>
