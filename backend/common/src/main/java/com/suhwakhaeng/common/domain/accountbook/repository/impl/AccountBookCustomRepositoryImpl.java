@@ -34,7 +34,8 @@ public class AccountBookCustomRepositoryImpl implements AccountBookCustomReposit
                         ),
                         accountBook.title,
                         accountBook.amount,
-                        accountBook.finance
+                        accountBook.finance,
+                        accountBook.date
                 ))
                 .from(accountBook)
                 .join(accountBook.myCrops, myCrops)
