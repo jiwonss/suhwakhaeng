@@ -27,4 +27,9 @@ public class AccountBookController {
                                             @RequestBody AccountBookListRequest request) {
         return ResponseEntity.ok().body(Message.success(accountBookService.selectAccountBook(userId, request)));
     }
+
+    @GetMapping("/{accountBookId}")
+    public ResponseEntity selectAccountBookDetail(@PathVariable Long accountBookId) {
+        return ResponseEntity.ok().body(Message.success(accountBookService.selectAccountBookDetail(accountBookId)));
+    }
 }

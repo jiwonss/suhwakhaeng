@@ -1,9 +1,13 @@
 package com.suhwakhaeng.common.domain.accountbook.service.impl;
 
 import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookCreateRequest;
+import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookDetailResponse;
 import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookListRequest;
 import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookResponse;
 import com.suhwakhaeng.common.domain.accountbook.entity.AccountBook;
+import com.suhwakhaeng.common.domain.accountbook.enums.Finance;
+import com.suhwakhaeng.common.domain.accountbook.exception.AccountBookErrorCode;
+import com.suhwakhaeng.common.domain.accountbook.exception.AccountBookException;
 import com.suhwakhaeng.common.domain.accountbook.repository.AccountBookRepository;
 import com.suhwakhaeng.common.domain.accountbook.service.AccountBookService;
 import com.suhwakhaeng.common.domain.mycrops.entity.MyCrops;
@@ -50,5 +54,20 @@ public class AccountBookServiceImpl implements AccountBookService {
         List<AccountBookResponse.Content> contents = accountBookRepository.selectAccountBook(userId, request);
 
         return new AccountBookResponse(contents);
+    }
+
+    @Override
+    public AccountBookDetailResponse selectAccountBookDetail(Long accountBookId) {
+        AccountBook accountBook = accountBookRepository.findById(accountBookId)
+                .orElseThrow(() -> new AccountBookException(AccountBookErrorCode.NOT_EXIST_ACCOUNT_BOOK));
+
+        return AccountBookDetailResponse.builder()
+                .finance(accountBook.getFinance())
+                .myCropsName(accountBook.getMyCrops().getName())
+                .title(accountBook.getTitle())
+                .amount(accountBook.getAmount())
+                .content(accountBook.getContent())
+                .image(accountBook.getImage())
+                .build();
     }
 }
