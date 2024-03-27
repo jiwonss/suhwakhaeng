@@ -131,7 +131,9 @@ const ModifyProfileScreen = (props: ModifyProfileProps) => {
             }}
           >
             <AddressContainer>
-              <Typo.BODY4_M color={Color.GRAY400}>{props.route.params.address ? props.route.params.address : userInfo.address}</Typo.BODY4_M>
+              <Typo.BODY4_M color={Color.GRAY400}>
+                {props.route.params.address ? props.route.params.address : userInfo.address ? userInfo.address : '지역을 입력해주세요'}
+              </Typo.BODY4_M>
             </AddressContainer>
           </TouchableWithoutFeedback>
         </FormItemContainer>
