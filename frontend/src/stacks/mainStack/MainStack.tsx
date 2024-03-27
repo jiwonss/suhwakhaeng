@@ -71,7 +71,7 @@ export type RootStackParamList = {
   FavoriteProductScreen: undefined;
   MyProfileScreen: undefined;
   FcmTestScreen: undefined;
-  ModifyProfileScreen: undefined;
+  ModifyProfileScreen: { sido: string; gugun: string; dong: string; address: string };
   PlantBookScreen: undefined;
   ChatListScreen: undefined;
   ChattingRoomScreen: { id: number };

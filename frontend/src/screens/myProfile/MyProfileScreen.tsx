@@ -18,11 +18,13 @@ import Lucide from '../../../assets/icons/Lucide Icon.svg';
 import { PlantAdd, PlantItem } from '../../components/plantAdd/PlantAdd';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
+import { removeTokens } from '../../util/TokenUtil';
+import { tokenState } from '../../recoil/atoms/tokenState';
 
 type RootStackParamList = {
-  ModifyProfileScreen: undefined;
+  ModifyProfileScreen: { sido: string; gugun: string; dong: string; address: string };
   MyPostScreen: undefined;
   FavoriteProductScreen: undefined;
   FarmScreen: undefined;
@@ -64,6 +66,7 @@ const StyledView = styled.View`
 
 const MyProfileScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
+  const [token, setToken] = useRecoilState(tokenState);
 
   const userInfo = useRecoilValue(userInfoState);
   return (
@@ -76,7 +79,7 @@ const MyProfileScreen = () => {
             <Spacer space={heightPercent * 20}></Spacer>
             <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
               <BasicButton
-                onPress={() => navigation.navigate('ModifyProfileScreen')}
+                onPress={() => navigation.navigate('ModifyProfileScreen', { sido: '', gugun: '', dong: '', address: '' })}
                 width={widthPercent * 150}
                 height={heightPercent * 30}
                 disabled={false}
@@ -106,10 +109,10 @@ const MyProfileScreen = () => {
               <PlantAdd></PlantAdd>
             </StyledView>
             <StyledView>
-              <PlantItem onPress={()=>{}} name='감자' location='광주광역시 서구 금호 2동'></PlantItem>
+              <PlantItem onPress={() => {}} name='감자' location='광주광역시 서구 금호 2동'></PlantItem>
             </StyledView>
             <StyledView>
-              <PlantItem onPress={()=>{}} name='고추' location='광주광역시 서구 금호 2동'></PlantItem>
+              <PlantItem onPress={() => {}} name='고추' location='광주광역시 서구 금호 2동'></PlantItem>
             </StyledView>
           </FormItemContainer>
           <FormItemContainer>
@@ -150,7 +153,15 @@ const MyProfileScreen = () => {
           </FormItemContainer>
 
           <ButtonContainer>
-            <StyledButton onPress={() => {}}>
+            <StyledButton
+              onPress={() => {
+                alert('로그아웃 되었습니다.');
+                removeTokens();
+                setTimeout(() => {
+                  setToken(false);
+                }, 300);
+              }}
+            >
               <Lucide width={widthPercent * 16} height={heightPercent * 16}></Lucide>
               <Spacer space={widthPercent * 8} horizontal></Spacer>
               <Typo.BODY4_M color={Color.GRAY400}>로그아웃</Typo.BODY4_M>

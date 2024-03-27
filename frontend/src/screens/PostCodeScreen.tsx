@@ -32,6 +32,8 @@ const PostCodeScreen = (props: PostCodeProps) => {
           navigation.navigate('MarketRegistScreen', { address: address, x: res.data.documents[0].x, y: res.data.documents[0].y });
         } else if (props.route.params.screenName === 'MarketModify') {
           navigation.navigate('MarketModifyScreen', { id: props.route.params.id, address: address, x: res.data.documents[0].x, y: res.data.documents[0].y });
+        } else if (props.route.params.screenName === 'ModifyProfile') {
+          navigation.navigate('ModifyProfileScreen', { sido: addressData.sido, gugun: addressData.sigungu, dong: addressData.bname, address: addressData.address });
         }
       })
       .catch((err) => console.log('에러', err));
