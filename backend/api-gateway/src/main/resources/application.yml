@@ -4,9 +4,9 @@ server:
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-    hostname: 13.209.182.136
+    hostname: ${API-GATEWAY}
+    ip-address: ${API-GATEWAY}
     prefer-ip-address: true
-    appname: api-gateway
   client:
     fetch-registry: true
     register-with-eureka: true

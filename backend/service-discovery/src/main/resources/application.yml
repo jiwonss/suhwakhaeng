@@ -8,9 +8,9 @@ spring:
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-    hostname: 43.201.164.202
+    hostname: 43.201.164.20
+    ip-address: 43.201.164.202
     prefer-ip-address: true
-    appname: service-discovery
   client:
     register-with-eureka: true
     fetch-registry: false
