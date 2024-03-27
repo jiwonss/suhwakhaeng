@@ -24,7 +24,7 @@ public class AccountBookController {
 
     @GetMapping
     public ResponseEntity selectAccountBook(@RequestHeader("X-Authorization-Id") Long userId,
-                                            @RequestBody AccountBookListRequest request) {
+                                            AccountBookListRequest request) {
         return ResponseEntity.ok().body(Message.success(accountBookService.selectAccountBook(userId, request)));
     }
 
