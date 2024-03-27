@@ -8,7 +8,6 @@ import UpdatePostScreen from '../../screens/post/UpdatePostScreen';
 import SetLocationScreen from '../../screens/SetLocationScreen';
 import MyProfileScreen from '../../screens/myProfile/MyProfileScreen';
 import MarketScreen from '../../screens/market/MarketScreen';
-import MarketResistScreen from '../../screens/market/MarketResistScreen';
 import MarketDetailScreen from '../../screens/market/MarketDetailScreen';
 import MarketModifyScreen from '../../screens/market/MarketModifyScreen';
 import MarketSearchScreen from '../../screens/market/MarketSearchScreen';
@@ -35,6 +34,7 @@ import FarmDairyDetailScreen from '../../screens/farmDairy/FarmDairyDetailScreen
 import FarmLedgerDetailScreen from '../../screens/farmDairy/FramLedgerDetailScreen';
 import FarmScreen from '../../screens/farmDairy/FarmScreen';
 import BottomNavigation from '../../components/navigation/BottomNavigation';
+import MarketRegistScreen from '../../screens/market/MarketRegistScreen';
 
 type DiagnosisResult = {
   content: string;
@@ -51,7 +51,7 @@ export type RootStackParamList = {
   BottomTabStackNavigator: undefined;
   MainScreen: undefined;
   MarketScreen: undefined;
-  MarketResistScreen: undefined;
+  MarketRegistScreen: undefined;
   MarketDetailScreen: { id: number };
   MarketModifyScreen: { id: number };
   MarketSearchScreen: undefined;
@@ -91,18 +91,17 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
   return (
-    <Stack.Navigator initialRouteName='PlantBookScreen'>
-      {/* 페이지 개발이 완료되면 아래 코드 주석을 해제하고 윗줄은 지워야합니다.*/}
-      {/* <Stack.Navigator*/}
-      {/*   screenOptions={{*/}
-      {/*     headerShown: false,*/}
-      {/*   }}*/}
-      {/* >*/}
+    // <Stack.Navigator initialRouteName='MainScreen'>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Stack.Screen name='BottomNavigation' component={BottomNavigation} options={{ headerShown: false }} />
       {/* 장터 페이지 */}
       <Stack.Screen name='MainScreen' component={MainScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketScreen' component={MarketScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='MarketResistScreen' component={MarketResistScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='MarketRegistScreen' component={MarketRegistScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketDetailScreen' component={MarketDetailScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketModifyScreen' component={MarketModifyScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketSearchScreen' component={MarketSearchScreen} options={{ headerShown: false }} />
