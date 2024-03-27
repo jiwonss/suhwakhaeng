@@ -23,14 +23,14 @@ spring:
     gateway:
       routes:
         - id: auth
-          uri: lb://common
+          uri: lb://COMMON
           predicates:
             - Path=/common/oauth/**
           filters:
             - RewritePath=/common/(?<segment>.*), /$\{segment}
 
         - id: common-guest
-          uri: lb://common
+          uri: lb://COMMON
           predicates:
             - Path=/common/crops, /common/crops/{segment}/variety
             - Method=GET
@@ -38,7 +38,7 @@ spring:
             - RewritePath=/common/(?<segment>.*), /$\{segment}
 
         - id: common
-          uri: lb://common
+          uri: lb://COMMON
           predicates:
             - Path=/common/**
           filters:
