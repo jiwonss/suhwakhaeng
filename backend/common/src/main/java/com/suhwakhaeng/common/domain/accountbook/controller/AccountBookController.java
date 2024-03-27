@@ -32,4 +32,10 @@ public class AccountBookController {
     public ResponseEntity selectAccountBookDetail(@PathVariable Long accountBookId) {
         return ResponseEntity.ok().body(Message.success(accountBookService.selectAccountBookDetail(accountBookId)));
     }
+
+    @DeleteMapping("/{accountBookId}")
+    public ResponseEntity deleteAccountBook(@PathVariable Long accountBookId) {
+        accountBookService.deleteAccountBook(accountBookId);
+        return ResponseEntity.ok().body(Message.success());
+    }
 }

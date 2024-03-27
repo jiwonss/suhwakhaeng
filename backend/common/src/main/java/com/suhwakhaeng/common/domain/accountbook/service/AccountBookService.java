@@ -13,4 +13,6 @@ public interface AccountBookService {
     AccountBookResponse selectAccountBook(Long userId, AccountBookListRequest request);
 
     AccountBookDetailResponse selectAccountBookDetail(Long accountBookId);
+
+    void deleteAccountBook(Long accountBookId);
 }

@@ -70,4 +70,9 @@ public class AccountBookServiceImpl implements AccountBookService {
                 .image(accountBook.getImage())
                 .build();
     }
+
+    @Override
+    public void deleteAccountBook(Long accountBookId) {
+        accountBookRepository.deleteById(accountBookId);
+    }
 }
