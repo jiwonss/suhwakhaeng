@@ -4,11 +4,11 @@ import com.suhwakhaeng.common.domain.community.enums.Category;
 import com.suhwakhaeng.common.domain.user.entity.User;
 import com.suhwakhaeng.common.global.common.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
+@Getter
+@Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Community extends BaseEntity {
