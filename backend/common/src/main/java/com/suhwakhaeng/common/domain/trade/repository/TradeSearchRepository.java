@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface TradeSearchRepository {
     List<TradeListResponse> searchTrade(Long userId, TradeSearchRequest tradeSearchRequest);
+    List<TradeListResponse> searchMyTrade(Long userId);
+    List<TradeListResponse> searchMyLikeTrade(Long userId);
 }

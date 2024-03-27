@@ -3,6 +3,7 @@ package com.suhwakhaeng.common.domain.trade.repository.impl;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.suhwakhaeng.common.domain.trade.dto.TradeListResponse;
@@ -65,6 +66,67 @@ public class TradeSearchRepositoryImpl implements TradeSearchRepository {
                 .join(user).on(tradeBoard.user.id.eq(user.id))
                 .leftJoin(tradeLike).on(tradeBoard.id.eq(tradeLike.tradeLikePK.tradeBoard.id))
                 .where(searchOptions)
+                .groupBy(tradeBoard.id, tradeBoard.cate, tradeBoard.image1, tradeBoard.title, tradeBoard.createdAt, tradeBoard.price)
+                .orderBy(tradeBoard.id.asc())
+                .limit(10)
+                .fetch();
+    }
+
+    @Override
+    public List<TradeListResponse> searchMyTrade(Long userId) {
+        return queryFactory
+                .select(
+                        Projections.constructor(TradeListResponse.class, tradeBoard.id.as("id"),
+                                tradeBoard.cate.as("cate"),
+                                tradeBoard.image1.as("image1"),
+                                tradeBoard.title.as("title"),
+                                tradeBoard.createdAt.as("createdAt"),
+                                tradeBoard.price.as("price"),
+                                ExpressionUtils.as(
+                                        JPAExpressions.selectOne()
+                                                .from(tradeLike)
+                                                .where(tradeLike.tradeLikePK.tradeBoard.id.eq(tradeBoard.id)
+                                                        .and(tradeLike.tradeLikePK.user.id.eq(userId)))
+                                                .exists(),
+                                        "isLiked"
+                                ),
+                                tradeLike.count().as("likeCnt"))
+                )
+                .from(tradeBoard)
+                .join(user).on(tradeBoard.user.id.eq(user.id))
+                .leftJoin(tradeLike).on(tradeBoard.id.eq(tradeLike.tradeLikePK.tradeBoard.id))
+                .where(user.id.eq(userId))
+                .groupBy(tradeBoard.id, tradeBoard.cate, tradeBoard.image1, tradeBoard.title, tradeBoard.createdAt, tradeBoard.price)
+                .orderBy(tradeBoard.id.asc())
+                .limit(10)
+                .fetch();
+    }
+
+    @Override
+    public List<TradeListResponse> searchMyLikeTrade(Long userId) {
+        BooleanExpression isLikedExpression = tradeLike.tradeLikePK.user.id.eq(userId)
+                .and(tradeLike.tradeLikePK.tradeBoard.id.eq(tradeBoard.id));
+        BooleanExpression isLiked = JPAExpressions.selectOne()
+                .from(tradeLike)
+                .where(isLikedExpression)
+                .exists();
+
+        return queryFactory
+                .select(
+                        Projections.constructor(TradeListResponse.class,
+                                tradeBoard.id.as("id"),
+                                tradeBoard.cate.as("cate"),
+                                tradeBoard.image1.as("image1"),
+                                tradeBoard.title.as("title"),
+                                tradeBoard.createdAt.as("createdAt"),
+                                tradeBoard.price.as("price"),
+                                ExpressionUtils.as(isLiked, "isLiked"),
+                                tradeLike.count().as("likeCnt"))
+                )
+                .from(tradeBoard)
+                .join(user).on(tradeBoard.user.id.eq(user.id))
+                .leftJoin(tradeLike).on(tradeBoard.id.eq(tradeLike.tradeLikePK.tradeBoard.id))
+                .where(isLiked)
                 .groupBy(tradeBoard.id, tradeBoard.cate, tradeBoard.image1, tradeBoard.title, tradeBoard.createdAt, tradeBoard.price)
                 .orderBy(tradeBoard.id.asc())
                 .limit(10)

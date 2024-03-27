@@ -38,6 +38,16 @@ public class TradeController {
         return ResponseEntity.ok(Message.success(tradeService.selectListTrade(userId, tradeSearchRequest)));
     }
 
+    @GetMapping("/my/list")
+    public ResponseEntity<?> selectMyListTrade(@RequestHeader("X-Authorization-Id") Long userId) {
+        return ResponseEntity.ok(Message.success(tradeService.selectMyListTrade(userId)));
+    }
+
+    @GetMapping("/like/list")
+    public ResponseEntity<?> selectMyLikeListTrade(@RequestHeader("X-Authorization-Id") Long userId) {
+        return ResponseEntity.ok(Message.success(tradeService.selectMyLikeListTrade(userId)));
+    }
+
     @PatchMapping("/{tradeId}")
     public ResponseEntity<?> updateTrade(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long tradeId, @RequestBody TradeUpdateRequest request) {
         tradeService.updateTrade(userId, tradeId, request);
