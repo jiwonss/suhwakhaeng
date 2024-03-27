@@ -1,6 +1,8 @@
 package com.suhwakhaeng.common.domain.accountbook.service.impl;
 
 import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookCreateRequest;
+import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookListRequest;
+import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookResponse;
 import com.suhwakhaeng.common.domain.accountbook.entity.AccountBook;
 import com.suhwakhaeng.common.domain.accountbook.repository.AccountBookRepository;
 import com.suhwakhaeng.common.domain.accountbook.service.AccountBookService;
@@ -14,14 +16,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class AccountBookServiceImpl implements AccountBookService {
     private final AccountBookRepository accountBookRepository;
     private final UserRepository userRepository;
     private final MyCropsService myCropsService;
 
+    @Transactional
     @Override
     public Long createAccountBook(Long userId, AccountBookCreateRequest request) {
         User user = userRepository.findById(userId)
@@ -38,5 +43,12 @@ public class AccountBookServiceImpl implements AccountBookService {
 
         accountBookRepository.save(accountBook);
         return accountBook.getId();
+    }
+
+    @Override
+    public AccountBookResponse selectAccountBook(Long userId, AccountBookListRequest request) {
+        List<AccountBookResponse.Content> contents = accountBookRepository.selectAccountBook(userId, request);
+
+        return new AccountBookResponse(contents);
     }
 }
