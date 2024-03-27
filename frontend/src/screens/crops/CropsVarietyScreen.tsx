@@ -28,7 +28,7 @@ const Container = styled.View`
 const CropsVarietyScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'CropsVarietyScreen'>>();
-  const { plantName, plantId } = route.params;
+  const { plantName, plantId, value } = route.params;
   const [varieties, setVarieties] = useState<Variety[]>([]);
 
   useEffect(() => {
@@ -43,9 +43,24 @@ const CropsVarietyScreen = () => {
 
     fetchCropVarieties();
   }, [plantId]);
+  useEffect(() => {
+    console.log(varieties);
+  }, [varieties]);
 
-  const onSubmit = (varietyName: string) => {
+  const moveCropsDetailScreen = (varietyName: string) => {
     navigation.navigate('CropsDetailScreen', { plantName, varietyName });
+  };
+
+  const moveEnvironmentPlantScreen = (cropsVarietyId: number, varietyName: string) => {
+    navigation.navigate('EnvironmentPlantScreen', { plantName, cropsVarietyId, varietyName });
+  };
+
+  const onPressHandler = (cropsVarietyId: number, varietyName: string) => {
+    if (value === 1) {
+      moveCropsDetailScreen(varietyName);
+    } else if (value === 2) {
+      moveEnvironmentPlantScreen(cropsVarietyId, varietyName);
+    }
   };
 
   return (
@@ -64,7 +79,7 @@ const CropsVarietyScreen = () => {
         <Container>
           {varieties.map((variety, index) => (
             <View key={index}>
-              <TouchableOpacity onPress={() => onSubmit(variety.cropsVarietyName)}>
+              <TouchableOpacity onPress={() => onPressHandler(variety.cropsVarietyId, variety.cropsVarietyName)}>
                 <Spacer space={23} />
                 <Typo.BODY3_M>{variety.cropsVarietyName}</Typo.BODY3_M>
                 <Spacer space={23} />

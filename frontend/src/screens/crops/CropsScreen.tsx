@@ -82,7 +82,7 @@ const CropsScreen = () => {
     const getData = async () => {
       const { dataBody } = await getCropsData();
       const mappedData = dataBody.map((item: Crop) => {
-        const iconItem = iconMapping.find((icon) => icon.engName === item.name); // 영어 이름과 일치하는 아이템 찾기
+        const iconItem = iconMapping.find((icon) => icon.engName === item.name);
         return {
           ...item,
           name: iconItem ? iconItem.name : item.name,
@@ -123,7 +123,7 @@ const CropsScreen = () => {
                 width={80}
                 height={80}
                 onPress={() => {
-                  navigation.navigate('CropsVarietyScreen', { plantName: plant.name, plantId: plant.id });
+                  navigation.navigate('CropsVarietyScreen', { plantName: plant.name, plantId: plant.id, value: 1 });
                 }}
               >
                 {plant.Icon && <plant.Icon width={50} height={50} />}

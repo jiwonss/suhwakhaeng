@@ -15,9 +15,8 @@ import FcmTestScreen from '../../screens/FcmTestScreen';
 import CropsScreen from '../../screens/crops/CropsScreen';
 import CropsVarietyScreen from '../../screens/crops/CropsVarietyScreen';
 import ChattingRoomScreen from '../../screens/chat/ChattingRoomScreen';
-import DefaultPlantResisterScreen from '../../screens/plantResister/DefaultPlantResisterScreen';
-import KindPlantScreen from '../../screens/plantResister/KindPlantScreen';
-import EnvironmentPlantScreen from '../../screens/plantResister/EnvironmentPlantScreen';
+import AddCropsScreen from '../../screens/cropsResister/AddCropsScreen';
+import EnvironmentPlantScreen from '../../screens/cropsResister/EnvironmentPlantScreen';
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
 import SearchResultScreen from '../../screens/post/SearchResultScreen';
@@ -64,7 +63,7 @@ export type RootStackParamList = {
   DetailPostScreen: { postData: PostProps['postData'] };
   UpdatePostScreen: { postData: PostProps['postData'] };
   MyPostScreen: undefined;
-  SetLocationScreen: { value: number; varietyName: string; plantName: string };
+  SetLocationScreen: { value: number; varietyName: string; plantName: string; cropsVarietyId?: number };
   SearchResultScreen: { searchValue: string };
   SearchPostScreen: undefined;
   FavoriteProductScreen: undefined;
@@ -74,14 +73,13 @@ export type RootStackParamList = {
   CropsScreen: undefined;
   ChatListScreen: undefined;
   ChattingRoomScreen: { id: number };
-  CropsVarietyScreen: { plantName: string; plantId: number };
+  CropsVarietyScreen: { plantName: string; plantId: number; value?: number };
   CropsDetailScreen: { plantName: string; varietyName: string };
   DiseasePlantScreen: undefined;
   DetailDiseasePlantScreen: { photo: { uri: string }; diagnosisResult: DiagnosisResult };
   PlantResisterScreen: undefined;
-  DefaultPlantResisterScreen: undefined;
-  KindPlantScreen: { plantName: string };
-  EnvironmentPlantScreen: { plantName: string; varietyName?: string; dataList_S?: string; dataList_G?: string; dataList_D?: string };
+  AddCropsScreen: undefined;
+  EnvironmentPlantScreen: { plantName: string; cropsVarietyId?: number; varietyName?: string; dataList_S?: string; dataList_G?: string; dataList_D?: string };
   BottomNavigation: undefined;
   WeatherScreen: undefined;
   CameraScreen: { value: number };
@@ -137,8 +135,7 @@ const MainStack = () => {
       <Stack.Screen name='CameraScreen' component={CameraScreen} options={{ headerShown: false }} />
       <Stack.Screen name='DetailDiseasePlantScreen' component={DetailDiseasePlantScreen} options={{ headerShown: false }} />
       {/*작물 등록 페이지*/}
-      <Stack.Screen name='DefaultPlantResisterScreen' component={DefaultPlantResisterScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='KindPlantScreen' component={KindPlantScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='AddCropsScreen' component={AddCropsScreen} options={{ headerShown: false }} />
       <Stack.Screen name='EnvironmentPlantScreen' component={EnvironmentPlantScreen} options={{ headerShown: false }} />
       {/* 채팅 페이지 */}
       <Stack.Screen name='ChatListScreen' component={ChatListScreen} options={{ headerShown: false }} />
