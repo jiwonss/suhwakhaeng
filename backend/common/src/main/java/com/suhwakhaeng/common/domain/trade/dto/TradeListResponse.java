@@ -17,4 +17,4 @@ public record TradeListResponse (
     Long price,
     Boolean isLiked,
     Long likeCnt
-) {}
+) { }
