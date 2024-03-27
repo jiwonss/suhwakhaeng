@@ -15,6 +15,7 @@ export const userInfoState = atom({
     sido: '',
     gugun: '',
     dong: '',
+    address: '',
     role: '',
   },
 });

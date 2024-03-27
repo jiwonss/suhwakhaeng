@@ -15,8 +15,15 @@ import { useNavigation } from '@react-navigation/native';
 import { getKST, uploadImagesToFirebaseStorage } from '../../util/BasicUtil';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
+import { TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
+
+interface MarketRegistProps {
+  route: {
+    params: { address: string; x: number; y: number };
+  };
+}
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -42,7 +49,16 @@ const ButtonContainer = styled.View`
   padding: ${heightPercent * 0}px ${widthPercent * 20}px;
 `;
 
-const MarketRegistScreen = () => {
+const AddressContainer = styled.View`
+  height: ${heightPercent * 36}px;
+  border-radius: 10px;
+  border-width: 0.8px;
+  border-color: ${Color.GRAY300};
+  padding: ${widthPercent * 10}px;
+  margin: ${heightPercent * 10}px 0px;
+`;
+
+const MarketRegistScreen = (props: MarketRegistProps) => {
   const navigation = useNavigation<RootStackNavigationProp>();
   const userInfo = useRecoilValue(userInfoState);
 
@@ -112,9 +128,9 @@ const MarketRegistScreen = () => {
         image2: newImageUrls[1],
         image3: newImageUrls[2],
         image4: newImageUrls[3],
-        x: 0,
-        y: 0,
-        roadNameAddress: '',
+        x: props.route.params.x,
+        y: props.route.params.y,
+        roadNameAddress: props.route.params.address,
       };
       const response = await registMarketPost(params);
       setActiveIndex(0);
@@ -131,10 +147,6 @@ const MarketRegistScreen = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(imgUrls);
-  }, [imgUrls]);
-
   return (
     <Container>
       <Header type='default' title='장터글 등록' firstIcon='exit' />
@@ -145,15 +157,15 @@ const MarketRegistScreen = () => {
         </FormItemContainer>
         <FormItemContainer>
           <Typo.BODY4_M>제목 입력</Typo.BODY4_M>
-          <SingleLineInputBox onChangeText={setTitle} placeholder={'제목을 입력해주세요'} />
+          <SingleLineInputBox value={title} onChangeText={setTitle} placeholder={'제목을 입력해주세요'} />
         </FormItemContainer>
         <FormItemContainer>
           <Typo.BODY4_M>가격 입력</Typo.BODY4_M>
-          <SingleLineInputBox onChangeText={setPrice} placeholder={'가격을 입력해주세요 (숫자만 입력)'} />
+          <SingleLineInputBox value={price} onChangeText={setPrice} placeholder={'가격을 입력해주세요 (숫자만 입력)'} />
         </FormItemContainer>
         <FormItemContainer>
           <Typo.BODY4_M>내용 입력</Typo.BODY4_M>
-          <MultiLineInputBox onChangeText={setContent} placeholder={'내용을 입력해주세요'} />
+          <MultiLineInputBox value={content} onChangeText={setContent} placeholder={'내용을 입력해주세요'} />
         </FormItemContainer>
         <ImageFormItemContainer>
           <Typo.BODY4_M>사진 (선택)</Typo.BODY4_M>
@@ -162,7 +174,15 @@ const MarketRegistScreen = () => {
         <FormItemContainer>
           <Typo.BODY4_M>주소 (선택)</Typo.BODY4_M>
           {/* 눌렀을 때 주소 검색 페이지로 연결되어야 하는데 나중에 할게요.. */}
-          <SingleLineInputBox onChangeText={setAddress} placeholder={'주소를 입력해주세요'} />
+          <TouchableWithoutFeedback
+            onPress={() => {
+              navigation.navigate('PostCodeScreen', { id: 0, screenName: 'MarketRegist' });
+            }}
+          >
+            <AddressContainer>
+              <Typo.BODY4_M color={Color.GRAY400}>{props.route.params.address ? props.route.params.address : '주소를 입력해주세요'}</Typo.BODY4_M>
+            </AddressContainer>
+          </TouchableWithoutFeedback>
         </FormItemContainer>
         <ButtonContainer>
           <BasicButton onPress={onPressButton} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
