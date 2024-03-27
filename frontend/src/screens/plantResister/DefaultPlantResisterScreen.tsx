@@ -6,7 +6,7 @@ import Header from '../../components/header/Header';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
-import { plantData } from '../plantBook/PlantBookScreen';
+import { iconMapping } from '../crops/CropsScreen';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 
@@ -30,7 +30,7 @@ const PlantContainer = styled.View`
 const DefaultPlantResisterScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const dummyCount = 3 - (plantData.length % 3 || 3);
+  const dummyCount = 3 - (iconMapping.length % 3 || 3);
 
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
@@ -43,7 +43,7 @@ const DefaultPlantResisterScreen = () => {
         </Container>
         {/*작물 리스트 가나다순으로 정렬*/}
         <PlantContainer>
-          {plantData.map((plant, index) => (
+          {iconMapping.map((plant, index) => (
             <View key={index} style={{ alignItems: 'center', width: 100, marginBottom: 20 * heightPercent }}>
               <BasicButton
                 borderColor={Color.GRAY50}

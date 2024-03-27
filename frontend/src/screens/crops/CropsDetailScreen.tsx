@@ -17,8 +17,8 @@ const Container = styled.View`
   row-gap: ${5 * heightPercent}px;
 `;
 
-const DetailPlantScreen = () => {
-  // const route = useRoute<RouteProp<RootStackParamList, 'DetailPlantScreen'>>();
+const CropsDetailScreen = () => {
+  // const route = useRoute<RouteProp<RootStackParamList, 'CropsDetailScreen'>>();
   // const { plantName, varietyName } = route.params;
 
   return (
@@ -33,4 +33,4 @@ const DetailPlantScreen = () => {
   );
 };
 
-export default DetailPlantScreen;
+export default CropsDetailScreen;

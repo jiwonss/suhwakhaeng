@@ -16,14 +16,14 @@ import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
 import MainScreen from '../../screens/main/MainScreen';
-import PlantBookScreen from '../../screens/plantBook/PlantBookScreen';
+import CropsScreen from '../../screens/crops/CropsScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
 import MarketScreen from '../../screens/market/MarketScreen';
 import MyProfileScreen from '../../screens/myProfile/MyProfileScreen';
 
 type RootTabParamList = {
   MainScreen: undefined;
-  PlantBookScreen: undefined;
+  CropsScreen: undefined;
   DiseasePlantScreen: undefined;
   MarketScreen: undefined;
   MyProfileScreen: undefined;
@@ -90,7 +90,7 @@ const BottomNavigation = () => {
       />
       <Tabs.Screen
         name='PlantBookScreen'
-        component={PlantBookScreen}
+        component={CropsScreen}
         options={{
           title: '작물도감',
           tabBarLabel: ({ focused }) => (focused ? <Typo.BODY4_M color={Color.GREEN600}>작물도감</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY600}>작물도감</Typo.BODY4_M>),

@@ -1,6 +1,7 @@
 import { ComponentType, useEffect, useState } from 'react';
 import { SvgProps } from 'react-native-svg';
 import { ScrollView, View } from 'react-native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import styled from 'styled-components/native';
 import { Spacer } from '../../components/basic/Spacer';
 import { BasicButton } from '../../components/button/Buttons';
@@ -9,7 +10,8 @@ import { SearchInputBox } from '../../components/inputBox/Input';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
-import { getCropsData } from '../../apis/services/crops/CropsList';
+import { getCropsData } from '../../apis/services/crops/Crops';
+import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 // 작물 이모지 컴포넌트
 import BellPepper from '../../../assets/icons/bellPepper.svg';
 import Carrot from '../../../assets/icons/carrot.svg';
@@ -25,8 +27,6 @@ import Pumpkin from '../../../assets/icons/pumpkin.svg';
 import SweetPotato from '../../../assets/icons/sweetPotato.svg';
 import Tomato from '../../../assets/icons/tomato.svg';
 import Watermelon from '../../../assets/icons/watermelon.svg';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
-import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 
 interface Crop {
   id: number;
@@ -72,7 +72,7 @@ export const iconMapping = [
   { engName: 'Pumpkin', name: '호박', Icon: Pumpkin },
 ];
 
-const PlantBookScreen = () => {
+const CropsScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [searchValue, setSearchValue] = useState<string>('');
   const dummyCount = 3 - (iconMapping.length % 3 || 3);
@@ -123,7 +123,7 @@ const PlantBookScreen = () => {
                 width={80}
                 height={80}
                 onPress={() => {
-                  navigation.navigate('VarietySelectScreen', { plantName: plant.name });
+                  navigation.navigate('CropsVarietyScreen', { plantName: plant.name, plantId: plant.id });
                 }}
               >
                 {plant.Icon && <plant.Icon width={50} height={50} />}
@@ -142,4 +142,4 @@ const PlantBookScreen = () => {
   );
 };
 
-export default PlantBookScreen;
+export default CropsScreen;

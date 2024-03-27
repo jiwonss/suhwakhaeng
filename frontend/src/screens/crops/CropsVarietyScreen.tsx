@@ -9,6 +9,14 @@ import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { useRoute } from '@react-navigation/core';
 import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
+import { useEffect, useState } from 'react';
+import { getCropVarieties } from '../../apis/services/crops/Crops';
+
+interface Variety {
+  cropId: number;
+  cropsVarietyId: number;
+  cropsVarietyName: string;
+}
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -17,15 +25,27 @@ const Container = styled.View`
   row-gap: ${5 * heightPercent}px;
 `;
 
-const VarietySelectScreen = () => {
+const CropsVarietyScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const route = useRoute<RouteProp<RootStackParamList, 'VarietySelectScreen'>>();
-  const { plantName } = route.params;
+  const route = useRoute<RouteProp<RootStackParamList, 'CropsVarietyScreen'>>();
+  const { plantName, plantId } = route.params;
+  const [varieties, setVarieties] = useState<Variety[]>([]);
 
-  const Select = [{ content: '품종1' }, { content: '품종2' }, { content: '품종3' }];
+  useEffect(() => {
+    const fetchCropVarieties = async () => {
+      try {
+        const { dataBody } = await getCropVarieties(plantId);
+        setVarieties(dataBody);
+      } catch (error) {
+        console.error('Error fetching crop varieties:', error);
+      }
+    };
+
+    fetchCropVarieties();
+  }, [plantId]);
 
   const onSubmit = (varietyName: string) => {
-    navigation.navigate('DetailPlantScreen', { plantName, varietyName });
+    navigation.navigate('CropsDetailScreen', { plantName, varietyName });
   };
 
   return (
@@ -42,11 +62,11 @@ const VarietySelectScreen = () => {
         </Container>
         {/*품종선택*/}
         <Container>
-          {Select.map((item, index) => (
+          {varieties.map((variety, index) => (
             <View key={index}>
-              <TouchableOpacity onPress={() => onSubmit(item.content)}>
+              <TouchableOpacity onPress={() => onSubmit(variety.cropsVarietyName)}>
                 <Spacer space={23} />
-                <Typo.BODY3_M>{item.content}</Typo.BODY3_M>
+                <Typo.BODY3_M>{variety.cropsVarietyName}</Typo.BODY3_M>
                 <Spacer space={23} />
               </TouchableOpacity>
               <Divider marginHorizontal={1} />
@@ -58,4 +78,4 @@ const VarietySelectScreen = () => {
   );
 };
 
-export default VarietySelectScreen;
+export default CropsVarietyScreen;
