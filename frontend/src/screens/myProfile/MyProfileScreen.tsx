@@ -69,13 +69,14 @@ const MyProfileScreen = () => {
   const [token, setToken] = useRecoilState(tokenState);
 
   const userInfo = useRecoilValue(userInfoState);
+  console.log(userInfo);
   return (
     <>
       <Container>
         <Header type='default' title='프로필' />
         <FormContainer>
           <FormItemContainer>
-            <BussinessProfileCard url={userInfo.profileImage} name={userInfo.nickname} location={`${userInfo.sido} ${userInfo.dong}`} Certified={userInfo.isBusiness} />
+            <BussinessProfileCard url={userInfo.profileImage} name={userInfo.nickname} location={`${userInfo.sido} ${userInfo.gugun}`} Certified={userInfo.isBusiness} />
             <Spacer space={heightPercent * 20}></Spacer>
             <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
               <BasicButton

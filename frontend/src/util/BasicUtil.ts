@@ -87,13 +87,8 @@ export const uploadImagesToFirebaseStorage = async (imageUrls: string[], screen:
       downloadUrls.push(downloadUrl);
     }
 
-    console.log('All images uploaded successfully!');
-    console.log(downloadUrls);
-
     return downloadUrls; // 업로드된 이미지들의 다운로드 URL을 반환
   } catch (error) {
-    console.error('Error uploading images:', error);
     return []; // 오류가 발생한 경우 빈 배열을 반환
   }
 };
-

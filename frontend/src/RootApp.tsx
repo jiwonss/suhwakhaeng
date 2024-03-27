@@ -30,9 +30,11 @@ export const RootApp = () => {
 
         // 회원 정보 조회 성공
         const userInfoDataBody = userInfoData.dataBody;
+
         setUserInfo({
           ...userInfo,
           userId: userInfoDataBody.userId,
+          email: userInfoDataBody.email,
           nickname: userInfoDataBody.nickname,
           profileImage: userInfoDataBody.profileImage,
           isBusiness: userInfoDataBody.isBuiseness,
@@ -45,7 +47,7 @@ export const RootApp = () => {
         setToken(true);
         setTimeout(() => {
           SplashScreen.hide();
-        }, 100);
+        }, 300);
         return;
       }
     };

@@ -53,7 +53,7 @@ const ModifyProfileScreen = (props: ModifyProfileProps) => {
 
     // TODO: 작성한 값 보내기
     const params = {
-      profileImage: newImaggeUrls[0],
+      profileImage: newImaggeUrls[0] ? newImaggeUrls[0] : '',
       nickname: name,
       role: role,
       profileContent: profileContent,
@@ -74,10 +74,10 @@ const ModifyProfileScreen = (props: ModifyProfileProps) => {
         nickname: name,
         profileImage: imgUrl,
         profileContent: profileContent,
-        sido: props.route.params.sido,
-        gugun: props.route.params.gugun,
-        dong: props.route.params.dong,
-        address: props.route.params.address,
+        sido: props.route.params.sido ? props.route.params.sido : userInfo.sido,
+        gugun: props.route.params.gugun ? props.route.params.gugun : userInfo.gugun,
+        dong: props.route.params.dong ? props.route.params.dong : userInfo.dong,
+        address: props.route.params.address ? props.route.params.address : userInfo.address,
       });
       alert('프로필 수정 성공!');
     }
@@ -131,7 +131,7 @@ const ModifyProfileScreen = (props: ModifyProfileProps) => {
             }}
           >
             <AddressContainer>
-              <Typo.BODY4_M color={Color.GRAY400}>{props.route.params.address ? props.route.params.address : '지역을 입력해주세요'}</Typo.BODY4_M>
+              <Typo.BODY4_M color={Color.GRAY400}>{props.route.params.address ? props.route.params.address : userInfo.address}</Typo.BODY4_M>
             </AddressContainer>
           </TouchableWithoutFeedback>
         </FormItemContainer>
