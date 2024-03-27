@@ -9,7 +9,7 @@ services:
       - "6379:6379"
     networks:
       suhwakhaeng:
-          ipv4_address: 172.18.0.1
+        ipv4_address: 172.20.0.2
 
   springboot:
     image: sjs3326/common
@@ -23,11 +23,11 @@ services:
       - "9000:9000"
     networks:
       suhwakhaeng:
-        ipv4_address: 172.18.0.2
+        ipv4_address: 172.20.0.3
 
 networks:
   suhwakhaeng:
     ipam:
       driver: default
       config:
-        - subnet: "172.16.238.0/24"
+        - subnet: "172.20.0.0/16"
