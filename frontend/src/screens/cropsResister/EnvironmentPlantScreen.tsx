@@ -30,6 +30,7 @@ const ButtonContainer = styled.View`
 const EnvironmentPlantScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'EnvironmentPlantScreen'>>();
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { plantName, cropsVarietyId, varietyName, dataList_S, dataList_D, dataList_G } = route.params;
   const dropDownData = ['평방미터', '평', '헥타르'];
   const [selectData, setSelectData] = useState('평방미터');
@@ -69,6 +70,7 @@ const EnvironmentPlantScreen = () => {
     try {
       console.log(cropInfo);
       await postMyCropInfo(cropInfo);
+      updateMyCrops();
       navigation.navigate('MyProfileScreen');
     } catch (error) {
       console.error(error);
