@@ -1,5 +1,6 @@
 package com.suhwakhaeng.common.global.error;
 
+import com.suhwakhaeng.common.domain.accountbook.exception.AccountBookException;
 import com.suhwakhaeng.common.domain.crops.entity.CropsVariety;
 import com.suhwakhaeng.common.domain.crops.exeption.CropsException;
 import com.suhwakhaeng.common.domain.crops.exeption.CropsVarietyException;
@@ -69,4 +70,12 @@ public class GlobalExceptionHandler {
         log.debug(Arrays.toString(e.getStackTrace()));
         return ResponseEntity.ok(Message.fail(String.valueOf(e.getErrorCode()), e.getMessage()));
     }
+
+    @ExceptionHandler(AccountBookException.class)
+    public ResponseEntity<?> accountBookExceptionHandler(AccountBookException e){
+        log.debug(Arrays.toString(e.getStackTrace()));
+        return ResponseEntity.ok(Message.fail(String.valueOf(e.getErrorCode()), e.getMessage()));
+    }
+
+
 }
