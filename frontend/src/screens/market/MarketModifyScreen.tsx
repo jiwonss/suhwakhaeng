@@ -15,12 +15,13 @@ import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { TouchableWithoutFeedback } from 'react-native';
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 interface MarketDetailProps {
   route: {
-    params: { id: number };
+    params: { id: number; address: string; x: number; y: number };
   };
 }
 
@@ -81,9 +82,9 @@ const MarketModifyScreen = (props: MarketDetailProps) => {
       image2: newImgUrls[1],
       image3: newImgUrls[2],
       image4: newImgUrls[3],
-      x: 0,
-      y: 0,
-      roadAddressName: address,
+      x: props.route.params.x ? props.route.params.x : x,
+      y: props.route.params.y ? props.route.params.y : y,
+      roadNameAddress: props.route.params.address ? props.route.params.address : address,
     };
     const response = await modifyMarketPost(params, data);
     if (response.dataHeader.successCode === 0) {
@@ -169,7 +170,15 @@ const MarketModifyScreen = (props: MarketDetailProps) => {
         <FormItemContainer>
           <Typo.BODY4_M>주소 (선택)</Typo.BODY4_M>
           {/* 눌렀을 때 주소 검색 페이지로 연결되어야 하는데 나중에 할게요.. */}
-          <SingleLineInputBox value={address} onChangeText={setAddress} placeholder={'주소를 입력해주세요'} />
+          <TouchableWithoutFeedback
+            onPress={() => {
+              navigation.navigate('PostCodeScreen', { id: props.route.params.id, screenName: 'MarketModify' });
+            }}
+          >
+            <AddressContainer>
+              <Typo.BODY4_M color={Color.GRAY400}>{props.route.params.address ? props.route.params.address : address}</Typo.BODY4_M>
+            </AddressContainer>
+          </TouchableWithoutFeedback>
         </FormItemContainer>
         <ButtonContainer>
           <BasicButton onPress={onPressButton} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
@@ -205,6 +214,15 @@ const ImageFormItemContainer = styled.View`
 
 const ButtonContainer = styled.View`
   padding: ${heightPercent * 0}px ${widthPercent * 20}px;
+`;
+
+const AddressContainer = styled.View`
+  height: ${heightPercent * 36}px;
+  border-radius: 10px;
+  border-width: 0.8px;
+  border-color: ${Color.GRAY300};
+  padding: ${widthPercent * 10}px;
+  margin: ${heightPercent * 10}px 0px;
 `;
 
 export default MarketModifyScreen;

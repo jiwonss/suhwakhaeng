@@ -30,9 +30,11 @@ export const RootApp = () => {
 
         // 회원 정보 조회 성공
         const userInfoDataBody = userInfoData.dataBody;
+        console.log('데이터', userInfoDataBody);
         setUserInfo({
           ...userInfo,
           userId: userInfoDataBody.userId,
+          email: userInfoDataBody.email,
           nickname: userInfoDataBody.nickname,
           profileImage: userInfoDataBody.profileImage,
           isBusiness: userInfoDataBody.isBuiseness,
@@ -40,12 +42,13 @@ export const RootApp = () => {
           sido: userInfoDataBody.sido ? userInfoDataBody.sido : '',
           gugun: userInfoDataBody.gugun ? userInfoDataBody.gugun : '',
           dong: userInfoDataBody.dong ? userInfoDataBody.dong : '',
+          address: userInfoDataBody.address ? userInfoDataBody.address : '',
           role: userInfoData.role,
         });
         setToken(true);
         setTimeout(() => {
           SplashScreen.hide();
-        }, 100);
+        }, 300);
         return;
       }
     };

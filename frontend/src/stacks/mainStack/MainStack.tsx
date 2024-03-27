@@ -35,6 +35,7 @@ import FarmLedgerDetailScreen from '../../screens/farmDairy/FramLedgerDetailScre
 import FarmScreen from '../../screens/farmDairy/FarmScreen';
 import BottomNavigation from '../../components/navigation/BottomNavigation';
 import MarketRegistScreen from '../../screens/market/MarketRegistScreen';
+import PostCodeScreen from '../../screens/PostCodeScreen';
 
 type DiagnosisResult = {
   content: string;
@@ -51,9 +52,9 @@ export type RootStackParamList = {
   BottomTabStackNavigator: undefined;
   MainScreen: undefined;
   MarketScreen: undefined;
-  MarketRegistScreen: undefined;
+  MarketRegistScreen: { address: string; x: number; y: number };
   MarketDetailScreen: { id: number };
-  MarketModifyScreen: { id: number };
+  MarketModifyScreen: { id: number; address: string; x: number; y: number };
   MarketSearchScreen: undefined;
   FarmScreen: { activeIndex: number };
   FarmDairyAddScreen: undefined;
@@ -70,7 +71,7 @@ export type RootStackParamList = {
   FavoriteProductScreen: undefined;
   MyProfileScreen: undefined;
   FcmTestScreen: undefined;
-  ModifyProfileScreen: undefined;
+  ModifyProfileScreen: { sido: string; gugun: string; dong: string; address: string };
   PlantBookScreen: undefined;
   ChatListScreen: undefined;
   ChattingRoomScreen: { id: number };
@@ -85,6 +86,7 @@ export type RootStackParamList = {
   BottomNavigation: undefined;
   WeatherScreen: undefined;
   CameraScreen: { value: number };
+  PostCodeScreen: { id: number; screenName: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -146,6 +148,7 @@ const MainStack = () => {
       <Stack.Screen name='FavoriteProductScreen' component={FavoriteProductScreen} options={{ headerShown: false }} />
       {/*날씨 페이지*/}
       <Stack.Screen name='WeatherScreen' component={WeatherScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='PostCodeScreen' component={PostCodeScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };

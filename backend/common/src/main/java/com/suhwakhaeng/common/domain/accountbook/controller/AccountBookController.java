@@ -1,6 +1,7 @@
 package com.suhwakhaeng.common.domain.accountbook.controller;
 
 import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookCreateRequest;
+import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookListRequest;
 import com.suhwakhaeng.common.domain.accountbook.service.AccountBookService;
 import com.suhwakhaeng.common.global.common.dto.Message;
 import lombok.RequiredArgsConstructor;
@@ -19,5 +20,16 @@ public class AccountBookController {
                                             @Validated @RequestBody AccountBookCreateRequest request) {
         accountBookService.createAccountBook(userId, request);
         return ResponseEntity.ok().body(Message.success());
+    }
+
+    @GetMapping
+    public ResponseEntity selectAccountBook(@RequestHeader("X-Authorization-Id") Long userId,
+                                            @RequestBody AccountBookListRequest request) {
+        return ResponseEntity.ok().body(Message.success(accountBookService.selectAccountBook(userId, request)));
+    }
+
+    @GetMapping("/{accountBookId}")
+    public ResponseEntity selectAccountBookDetail(@PathVariable Long accountBookId) {
+        return ResponseEntity.ok().body(Message.success(accountBookService.selectAccountBookDetail(accountBookId)));
     }
 }

@@ -15,15 +15,19 @@ import { useRecoilState } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { modifyUserInfo } from '../../apis/services/user/user';
 import * as ImagePicker from 'expo-image-picker';
-import { Platform } from 'react-native';
+import { Platform, TouchableWithoutFeedback } from 'react-native';
 import { uploadImagesToFirebaseStorage } from '../../util/BasicUtil';
+import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 
-type RootStackParamList = {
-  MyProfileScreen: undefined;
-};
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
-const ModifyProfileScreen = () => {
+interface ModifyProfileProps {
+  route: {
+    params: { sido: string; gugun: string; dong: string; address: string };
+  };
+}
+
+const ModifyProfileScreen = (props: ModifyProfileProps) => {
   // 네비게이션
   const navigation = useNavigation<RootStackNavigationProp>();
 
@@ -48,14 +52,33 @@ const ModifyProfileScreen = () => {
     const newImaggeUrls = await uploadImagesToFirebaseStorage(imageUrls, `프로필//${userInfo.userId}`);
 
     // TODO: 작성한 값 보내기
-    const params = { profileImage: newImaggeUrls[0], nickname: name, role: role, profileContent: profileContent, sido: sido, gugun: gugun, dong: dong, roadNameAddress: address };
+    const params = {
+      profileImage: newImaggeUrls[0] ? newImaggeUrls[0] : '',
+      nickname: name,
+      role: role,
+      profileContent: profileContent,
+      sido: props.route.params.sido,
+      gugun: props.route.params.gugun,
+      dong: props.route.params.dong,
+      roadNameAddress: props.route.params.address,
+    };
 
     const response = await modifyUserInfo(params);
     // 페이지 이동
     if (response.dataHeader.successCode === 1) {
       alert('프로필 수정을 실패했습니다.');
     } else {
-      setUserInfo({ ...userInfo, role: role, nickname: name, profileImage: imgUrl, profileContent: profileContent, sido: sido, gugun: gugun, dong: dong });
+      setUserInfo({
+        ...userInfo,
+        role: role,
+        nickname: name,
+        profileImage: imgUrl,
+        profileContent: profileContent,
+        sido: props.route.params.sido ? props.route.params.sido : userInfo.sido,
+        gugun: props.route.params.gugun ? props.route.params.gugun : userInfo.gugun,
+        dong: props.route.params.dong ? props.route.params.dong : userInfo.dong,
+        address: props.route.params.address ? props.route.params.address : userInfo.address,
+      });
       alert('프로필 수정 성공!');
     }
     navigation.navigate('MyProfileScreen');
@@ -102,7 +125,17 @@ const ModifyProfileScreen = () => {
         <FormItemContainer>
           {/* 지역 선택 추후 수정 */}
           <Typo.BODY4_M>지역</Typo.BODY4_M>
-          <SingleLineInputBox value={address} onChangeText={setAddress} placeholder={'지역을 입력해주세요'} />
+          <TouchableWithoutFeedback
+            onPress={() => {
+              navigation.navigate('PostCodeScreen', { id: 0, screenName: 'ModifyProfile' });
+            }}
+          >
+            <AddressContainer>
+              <Typo.BODY4_M color={Color.GRAY400}>
+                {props.route.params.address ? props.route.params.address : userInfo.address ? userInfo.address : '지역을 입력해주세요'}
+              </Typo.BODY4_M>
+            </AddressContainer>
+          </TouchableWithoutFeedback>
         </FormItemContainer>
       </FormContainer>
       <ButtonContainer>
@@ -155,6 +188,15 @@ const CameraButtonContainer = styled.TouchableOpacity`
   position: absolute;
   bottom: ${heightPercent * 10}px;
   left: ${widthPercent * 60}px;
+`;
+
+const AddressContainer = styled.View`
+  height: ${heightPercent * 36}px;
+  border-radius: 10px;
+  border-width: 0.8px;
+  border-color: ${Color.GRAY300};
+  padding: ${widthPercent * 10}px;
+  margin: ${heightPercent * 10}px 0px;
 `;
 
 export default ModifyProfileScreen;
