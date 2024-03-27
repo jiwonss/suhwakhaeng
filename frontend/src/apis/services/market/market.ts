@@ -36,7 +36,7 @@ export const deleteMarketPost = async (params: { tradeId: number }) => {
 
 export const modifyMarketPost = async (
   params: { tradeId: number },
-  data: { cate: string; title: string; price: number; image1?: string; image2?: string; image3?: string; image4?: string; x?: number; y?: number; roadAddressName: string }
+  data: { cate: string; title: string; price: number; image1?: string; image2?: string; image3?: string; image4?: string; x?: number; y?: number; roadNameAddress: string }
 ) => {
   const reponse = await tokenInstance.patch(`${marketUrl}/${params.tradeId}`, data);
   return reponse.data;

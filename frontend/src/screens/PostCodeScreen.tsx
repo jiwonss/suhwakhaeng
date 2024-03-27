@@ -8,7 +8,13 @@ import axios from 'axios';
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
-const PostCodeScreen = () => {
+interface PostCodeProps {
+  route: {
+    params: { id: number; screenName: string };
+  };
+}
+
+const PostCodeScreen = (props: PostCodeProps) => {
   const [x, setX] = useState(0);
   const [y, setY] = useState(0);
 
@@ -22,7 +28,11 @@ const PostCodeScreen = () => {
       .then((res) => {
         setX(res.data.documents[0].x);
         setY(res.data.documents[0].y);
-        navigation.navigate('MarketRegistScreen', { address: address, x: res.data.documents[0].x, y: res.data.documents[0].y });
+        if (props.route.params.screenName === 'MarketRegist') {
+          navigation.navigate('MarketRegistScreen', { address: address, x: res.data.documents[0].x, y: res.data.documents[0].y });
+        } else if (props.route.params.screenName === 'MarketModify') {
+          navigation.navigate('MarketModifyScreen', { id: props.route.params.id, address: address, x: res.data.documents[0].x, y: res.data.documents[0].y });
+        }
       })
       .catch((err) => console.log('에러', err));
   };

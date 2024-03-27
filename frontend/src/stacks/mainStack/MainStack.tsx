@@ -54,7 +54,7 @@ export type RootStackParamList = {
   MarketScreen: undefined;
   MarketRegistScreen: { address: string; x: number; y: number };
   MarketDetailScreen: { id: number };
-  MarketModifyScreen: { id: number };
+  MarketModifyScreen: { id: number; address: string; x: number; y: number };
   MarketSearchScreen: undefined;
   FarmScreen: { activeIndex: number };
   FarmDairyAddScreen: undefined;
@@ -86,7 +86,7 @@ export type RootStackParamList = {
   BottomNavigation: undefined;
   WeatherScreen: undefined;
   CameraScreen: { value: number };
-  PostCodeScreen: undefined;
+  PostCodeScreen: { id: number; screenName: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

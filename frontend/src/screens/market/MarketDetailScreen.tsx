@@ -64,6 +64,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
       const params = { tradeId: props.route.params.id };
       const response = await getMarketPostDetail(params);
       const isLikedResponse = await getIsLiked(params);
+      console.log(response.dataBody.tradeDetailInfo);
 
       setPostUserInfo({
         ...postUserInfo,
@@ -84,9 +85,9 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
         image2: response.dataBody.tradeDetailInfo.image2,
         image3: response.dataBody.tradeDetailInfo.image3,
         image4: response.dataBody.tradeDetailInfo.image4,
-        x: 0,
-        y: 0,
-        roadNameAddress: '',
+        x: response.dataBody.tradeDetailInfo.axisLocation.x,
+        y: response.dataBody.tradeDetailInfo.axisLocation.y,
+        roadNameAddress: response.dataBody.tradeDetailInfo.axisLocation.roadNameAddress,
       });
 
       setIsLoaded(true);
@@ -131,7 +132,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
 
   const modifyPost = (postId: number) => {
     // TODO: 게시글 수정 화면(MarketModifyScreen)으로 이동
-    navigation.navigate('MarketModifyScreen', { id: postId });
+    navigation.navigate('MarketModifyScreen', { id: postId, address: '', x: 0, y: 0 });
   };
 
   return (
@@ -164,6 +165,9 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
         </PostContainer>
         <PostContainer style={{ rowGap: heightPercent * 10 }}>
           <Typo.BODY4_M>{postDetailInfo.content}</Typo.BODY4_M>
+          <Typo.BODY4_M>{postDetailInfo.roadNameAddress}</Typo.BODY4_M>
+          <Typo.BODY4_M>{postDetailInfo.x}</Typo.BODY4_M>
+          <Typo.BODY4_M>{postDetailInfo.y}</Typo.BODY4_M>
           {postDetailInfo.image1 && <UriImageLoader uri={postDetailInfo.image1} resizeMode='contain' style={{ width: widthPercent * 300, height: heightPercent * 200 }} />}
           {postDetailInfo.image2 && <UriImageLoader uri={postDetailInfo.image2} resizeMode='contain' style={{ width: widthPercent * 300, height: heightPercent * 200 }} />}
           {postDetailInfo.image3 && <UriImageLoader uri={postDetailInfo.image3} resizeMode='contain' style={{ width: widthPercent * 300, height: heightPercent * 200 }} />}
