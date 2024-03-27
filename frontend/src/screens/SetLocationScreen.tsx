@@ -32,7 +32,7 @@ const ButtonContainer = styled.View`
 const SetLocationScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'SetLocationScreen'>>();
-  const { value, plantName, varietyName } = route.params;
+  const { value, plantName, varietyName, cropsVarietyId } = route.params;
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const radioData = [
     { content: '작물', event: () => setActiveIndex(0), active: activeIndex === 0 },
@@ -54,10 +54,10 @@ const SetLocationScreen = () => {
 
   const onPressButton = () => {
     if (value == 1) {
-      navigation.navigate('EnvironmentPlantScreen', { dataList_S, dataList_G, dataList_D, plantName, varietyName });
+      navigation.navigate('EnvironmentPlantScreen', { dataList_S, dataList_G, dataList_D, plantName, varietyName, cropsVarietyId });
     }
 
-    console.log('작성 완료');
+    console.log('선택 완료');
   };
 
   return (

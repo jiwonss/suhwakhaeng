@@ -7,22 +7,21 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.*;
 
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountBookResponse {
-
     // 수입
     private int income;
     
     // 지출
     private int expenditure;
 
-    List<Content> contents = new ArrayList<>();
+    Map<LocalDate, List<Content>> contents = new TreeMap<>();
 
     @Getter
     @AllArgsConstructor
@@ -32,12 +31,13 @@ public class AccountBookResponse {
         private String title;
         private int amount;
         private Finance finance;
+        private LocalDate date;
     }
 
     public AccountBookResponse(List<Content> contents) {
-        for (int i = 0; i < contents.size(); i++) {
-            Content content = contents.get(i);
-            this.contents.add(content);
+        for (Content content : contents) {
+            this.contents.putIfAbsent(content.date, new ArrayList<>());
+            this.contents.get(content.date).add(content);
 
             if (Finance.INCOME == content.finance) {
                 this.income += content.amount;
@@ -47,5 +47,6 @@ public class AccountBookResponse {
                 this.expenditure += content.amount;
             }
         }
+
     }
 }

@@ -24,12 +24,18 @@ public class AccountBookController {
 
     @GetMapping
     public ResponseEntity selectAccountBook(@RequestHeader("X-Authorization-Id") Long userId,
-                                            @RequestBody AccountBookListRequest request) {
+                                            AccountBookListRequest request) {
         return ResponseEntity.ok().body(Message.success(accountBookService.selectAccountBook(userId, request)));
     }
 
     @GetMapping("/{accountBookId}")
     public ResponseEntity selectAccountBookDetail(@PathVariable Long accountBookId) {
         return ResponseEntity.ok().body(Message.success(accountBookService.selectAccountBookDetail(accountBookId)));
+    }
+
+    @DeleteMapping("/{accountBookId}")
+    public ResponseEntity deleteAccountBook(@PathVariable Long accountBookId) {
+        accountBookService.deleteAccountBook(accountBookId);
+        return ResponseEntity.ok().body(Message.success());
     }
 }
