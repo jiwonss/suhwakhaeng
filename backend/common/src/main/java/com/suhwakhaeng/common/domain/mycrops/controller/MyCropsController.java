@@ -39,4 +39,10 @@ public class MyCropsController {
         myCropsService.deleteMyCrops(myCropsId);
         return ResponseEntity.ok().body(Message.success());
     }
+
+    @PatchMapping("/{myCropsId}")
+    public ResponseEntity updateMyCrops(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long myCropsId, @RequestBody MyCropsRequest request) {
+        myCropsService.updateMyCrops(myCropsId, request);
+        return ResponseEntity.ok().body(Message.success());
+    }
 }

@@ -6,8 +6,19 @@ spring:
     name: service-discovery
 
 eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    hostname: 43.201.164.202
+    prefer-ip-address: true
+    appname: service-discovery
   client:
-    register-with-eureka: false
+    register-with-eureka: true
     fetch-registry: false
     service-url:
-      defaultZone: http://service-discovery:8761/eureka/
+      defaultZone: http://43.201.164.202:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans

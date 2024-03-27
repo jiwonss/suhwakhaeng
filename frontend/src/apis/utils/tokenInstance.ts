@@ -47,7 +47,7 @@ const handleResponseError = async (error: AxiosError) => {
       return await reIssueAccessTokenAndRetry(config);
 
     case 500:
-      alert('시스템 에러, 관리자에게 문의 바랍니다.');
+      alert('관리자에게 문의 바랍니다.');
       break;
     default:
       console.error(error);
@@ -56,7 +56,7 @@ const handleResponseError = async (error: AxiosError) => {
 };
 
 const handleResponseSuccess = (response: AxiosResponse<any>) => {
-  console.log('Success response: ' + response.config.url);
+  // console.log('Success response: ' + response.config.url);
   return response;
 };
 

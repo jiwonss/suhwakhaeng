@@ -97,6 +97,8 @@ type LikeButtonProps = {
   width?: DimensionValue;
   height?: number;
   disabled?: boolean;
+  isLiked: boolean;
+  setIsLiked: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 // 좋아요 버튼 컴포넌트
@@ -123,14 +125,10 @@ type LikeButtonProps = {
  */
 export const LikeButton = (props: LikeButtonProps) => {
   const [disabled, setDisabled] = useState(false);
-  const toggleDisabled = () => {
-    setDisabled(!disabled);
-  };
+
   return (
     <StyledContainer width={props.width || 45} height={props.height || 45}>
-      <TouchableOpacity onPress={toggleDisabled} disabled={props.disabled}>
-        {disabled ? <LikeActive /> : <LikeDefault />}
-      </TouchableOpacity>
+      <TouchableOpacity onPress={props.onPress}>{props.isLiked ? <LikeActive /> : <LikeDefault />}</TouchableOpacity>
     </StyledContainer>
   );
 };

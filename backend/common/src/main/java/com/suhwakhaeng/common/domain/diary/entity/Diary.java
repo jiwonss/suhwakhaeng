@@ -19,7 +19,6 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Builder
 @Getter
 @Entity
-@EntityListeners(AuditingEntityListener.class)
 public class Diary {
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "diary_id")
@@ -30,7 +29,6 @@ public class Diary {
     @JoinColumn(name = "my_crops_id", nullable = false)
     private MyCrops myCrops;
 
-    @CreatedDate
     @Column(name = "diary_date", updatable = false)
     private LocalDate date;
 

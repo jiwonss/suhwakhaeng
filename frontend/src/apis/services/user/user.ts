@@ -35,3 +35,8 @@ export const modifyUserInfo = async (params: {
   const response = await tokenInstance.patch(`${userUrl}/my-profile`, params);
   return response.data;
 };
+
+export const registBusinessCert = async (params: { businessImage: string }) => {
+  const response = await tokenInstance.post(`${userUrl}/business`, params);
+  return response.data;
+};
