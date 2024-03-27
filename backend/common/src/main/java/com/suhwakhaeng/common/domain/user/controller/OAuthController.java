@@ -20,8 +20,8 @@ public class OAuthController {
     private final OauthService oauthService;
 
     @PostMapping("/{oauthServerType}/login")
-    public ResponseEntity login(@PathVariable OauthServerType oauthServerType, @RequestBody OauthTokenRequest oauthTokenRequest) {
-        LoginResponse loginResponse = oauthService.login(oauthServerType, oauthTokenRequest.token());
+    public ResponseEntity login(@PathVariable OauthServerType oauthServerType, @RequestBody OauthTokenRequest request) {
+        LoginResponse loginResponse = oauthService.login(oauthServerType, request);
         return ResponseEntity.ok().body(Message.success(loginResponse));
     }
 
