@@ -60,7 +60,7 @@ export type RootStackParamList = {
   FarmDairyDetailScreen: undefined;
   FarmLedgerDetailScreen: undefined;
   CreatePostScreen: undefined;
-  DetailPostScreen: { postData: PostProps['postData'] };
+  DetailPostScreen: { id: number };
   UpdatePostScreen: { postData: PostProps['postData'] };
   MyPostScreen: undefined;
   SetLocationScreen: { value: number; varietyName: string; plantName: string; cropsVarietyId?: number };
@@ -99,7 +99,7 @@ const MainStack = () => {
   return (
     // <Stack.Navigator initialRouteName='MainScreen'>
     <Stack.Navigator
-      initialRouteName='FarmScreen'
+      initialRouteName='BottomNavigation'
       screenOptions={{
         headerShown: false,
       }}

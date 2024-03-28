@@ -8,6 +8,8 @@ import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import Favorite from '../../../assets/icons/favorite.svg';
 import FavoriteBorder from '../../../assets/icons/favorite_border.svg';
 import Comment from '../../../assets/icons/comment.svg';
+import { BasicTag } from '../classificationTag/ClassificationTag';
+import { UriImageLoader } from '../image/ImageLoader';
 
 export interface PostProps {
   postData: {
@@ -17,6 +19,7 @@ export interface PostProps {
     content: string;
     likeNumber: number;
     commentNumber: number;
+    profileImg: string;
     imgUrl_one?: string;
     imgUrl_two?: string;
     imgUrl_three?: string;
@@ -99,9 +102,11 @@ const Post = (props: PostProps) => {
   return (
     <PostContainer>
       <ProfileContainer>
-        <ProfileCard name={props.postData.name} date={props.postData.date} />
+        <ProfileCard url={props.postData.profileImg} name={props.postData.name} date={props.postData.date} />
         {/* 게시글분류태그 수정해야함 */}
-        <Typo.BODY3_M>{props.postData.classification}</Typo.BODY3_M>
+        <BasicTag>
+          <Typo.Detail1_M color={Color.WHITE}>{props.postData.classification}</Typo.Detail1_M>
+        </BasicTag>
       </ProfileContainer>
       <ContentContainer>
         <TouchableOpacity onPress={props.onPress}>
@@ -112,15 +117,15 @@ const Post = (props: PostProps) => {
             (props.isPreview ? (
               <ImgeContainer>
                 {/* 이미지 부분 수정해야함 */}
-                <Typo.BODY4_M>{props.postData.imgUrl_one}</Typo.BODY4_M>
+                {props.postData.imgUrl_one && <UriImageLoader uri={props.postData.imgUrl_one} style={{ width: '100%', height: heightPercent * 200 }} resizeMode='contain' />}
               </ImgeContainer>
             ) : (
               <ImgeContainer>
                 {/* 이미지 부분 수정해야함 */}
-                <Typo.BODY4_M>{props.postData.imgUrl_one}</Typo.BODY4_M>
-                {props.postData.imgUrl_two && <Typo.BODY4_M>{props.postData.imgUrl_two}</Typo.BODY4_M>}
-                {props.postData.imgUrl_three && <Typo.BODY4_M>{props.postData.imgUrl_three}</Typo.BODY4_M>}
-                {props.postData.imgUrl_four && <Typo.BODY4_M>{props.postData.imgUrl_four}</Typo.BODY4_M>}
+                {props.postData.imgUrl_one && <UriImageLoader uri={props.postData.imgUrl_one} style={{ width: '100%', height: heightPercent * 200 }} resizeMode='contain' />}
+                {props.postData.imgUrl_two && <UriImageLoader uri={props.postData.imgUrl_two} style={{ width: '100%', height: heightPercent * 200 }} resizeMode='contain' />}
+                {props.postData.imgUrl_three && <UriImageLoader uri={props.postData.imgUrl_three} style={{ width: '100%', height: heightPercent * 200 }} resizeMode='contain' />}
+                {props.postData.imgUrl_four && <UriImageLoader uri={props.postData.imgUrl_four} style={{ width: '100%', height: heightPercent * 200 }} resizeMode='contain' />}
               </ImgeContainer>
             ))}
         </TouchableOpacity>
