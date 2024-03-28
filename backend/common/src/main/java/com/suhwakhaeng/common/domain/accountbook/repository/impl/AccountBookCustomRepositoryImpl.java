@@ -2,7 +2,6 @@ package com.suhwakhaeng.common.domain.accountbook.repository.impl;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookListRequest;
 import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookResponse;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.function.Supplier;
 
 import static com.suhwakhaeng.common.domain.accountbook.entity.QAccountBook.*;
 import static com.suhwakhaeng.common.domain.mycrops.entity.QMyCrops.*;
@@ -52,11 +50,11 @@ public class AccountBookCustomRepositoryImpl implements AccountBookCustomReposit
     }
 
     private BooleanBuilder equalsUser(final Long userId) {
-        return nullSafeBuilder(() -> accountBook.user.id.eq(userId));
+        return NullSafeBuilder.build(() -> accountBook.user.id.eq(userId));
     }
 
     private BooleanBuilder betweenDate(final LocalDate startDate, final LocalDate endDate) {
-        return nullSafeBuilder(() -> accountBook.date.between(startDate, endDate));
+        return NullSafeBuilder.build(() -> accountBook.date.between(startDate, endDate));
     }
 
     private BooleanBuilder equalsMyCrops(final Long myCropsId) {
@@ -64,17 +62,7 @@ public class AccountBookCustomRepositoryImpl implements AccountBookCustomReposit
             return new BooleanBuilder();
         }
 
-//        return NullSafeBuilder.build(() -> myCrops.id.eq(myCropsId));
-        return nullSafeBuilder(() -> myCrops.id.eq(myCropsId));
+        return NullSafeBuilder.build(() -> myCrops.id.eq(myCropsId));
     }
 
-    private static BooleanBuilder nullSafeBuilder(Supplier<BooleanExpression> f) {
-        try {
-            return new BooleanBuilder(f.get());
-        } catch (IllegalArgumentException exception) {
-            return new BooleanBuilder();
-        } catch (NullPointerException ex) {
-            return new BooleanBuilder();
-        }
-    }
 }
