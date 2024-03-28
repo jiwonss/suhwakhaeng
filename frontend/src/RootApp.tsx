@@ -14,7 +14,7 @@ export const RootApp = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
   useEffect(() => {
-    // removeTokens();
+    removeTokens();
     const fetchTokens = async () => {
       const { accessToken, refreshToken } = await getTokens();
 
@@ -30,7 +30,6 @@ export const RootApp = () => {
 
         // 회원 정보 조회 성공
         const userInfoDataBody = userInfoData.dataBody;
-        console.log('데이터', userInfoDataBody);
         setUserInfo({
           ...userInfo,
           userId: userInfoDataBody.userId,
