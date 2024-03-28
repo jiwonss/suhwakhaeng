@@ -15,9 +15,9 @@ eureka:
 
 spring:
   application:
-    name: api-gateway
+    name: chat
   config:
-    name: api-gateway
+    name: chat
     import: optional:configserver:http://43.202.20.179:8888
 
 management:
