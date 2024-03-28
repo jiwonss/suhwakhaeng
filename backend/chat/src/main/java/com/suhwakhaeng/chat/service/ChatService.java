@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ChatService {
-    void sendChat(ChatRequest chat, UUID chatRoomId);
-    List<Chat> selectChatMessageList(UUID chatRoomId);
+    void sendChat(ChatRequest chat, String chatRoomId);
+    List<Chat> selectChatMessageList(String chatRoomId);
     ChatRoomResponse selectChatRoomId(Long userId, Long anotherId);
     List<ChatResponse> selectChatUserList(Long userId);
 }

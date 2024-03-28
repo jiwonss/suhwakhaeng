@@ -25,9 +25,8 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @EntityListeners(AuditingEntityListener.class)
 public class ChatRoom {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
     @Column(name = "chat_room_id")
-    private UUID id;
+    private String id;
     private Long userId;
     private Long anotherUserId;
     private String message;
