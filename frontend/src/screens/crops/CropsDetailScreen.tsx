@@ -12,6 +12,14 @@ import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { getCropVarietyInfo } from '../../apis/services/crops/Crops';
 
+interface CropDetails {
+  tableTitle: string[];
+  tableInfo?: {
+    tableTitle: string[];
+    tableBody: string[][];
+  };
+}
+
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
   margin-right: ${20 * widthPercent}px;
@@ -37,7 +45,7 @@ const TableCell = styled.Text`
 const CropsDetailScreen = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'CropsDetailScreen'>>();
   const { cropsId, cropsVarietyId } = route.params;
-  const [cropDetails, setCropDetails] = useState(null);
+  const [cropDetails, setCropDetails] = useState<CropDetails | null>(null);
 
   useEffect(() => {
     const fetchCropVarietyInfo = async () => {
@@ -48,22 +56,26 @@ const CropsDetailScreen = () => {
     fetchCropVarietyInfo();
   }, [cropsId, cropsVarietyId]);
 
-  const renderTable = (tableInfo) => (
-    <Table>
-      <TableRow>
-        {tableInfo.tableTitle.map((head, index) => (
-          <TableCell key={index}>{head}</TableCell>
-        ))}
-      </TableRow>
-      {tableInfo.tableBody.map((row, rowIndex) => (
-        <TableRow key={rowIndex}>
-          {row.map((cell, cellIndex) => (
-            <TableCell key={cellIndex}>{cell}</TableCell>
+  const renderTable = (tableInfo: CropDetails['tableInfo']) => {
+    if (!tableInfo) return null;
+
+    return (
+      <Table>
+        <TableRow>
+          {tableInfo.tableTitle.map((head, index) => (
+            <TableCell key={index}>{head}</TableCell>
           ))}
         </TableRow>
-      ))}
-    </Table>
-  );
+        {tableInfo.tableBody.map((row, rowIndex) => (
+          <TableRow key={rowIndex}>
+            {row.map((cell, cellIndex) => (
+              <TableCell key={cellIndex}>{cell}</TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </Table>
+    );
+  };
 
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
