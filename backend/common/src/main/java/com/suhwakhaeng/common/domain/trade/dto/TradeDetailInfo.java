@@ -2,6 +2,7 @@ package com.suhwakhaeng.common.domain.trade.dto;
 
 import com.suhwakhaeng.common.domain.trade.entity.TradeBoard;
 import com.suhwakhaeng.common.domain.trade.enums.TradeCate;
+import com.suhwakhaeng.common.domain.trade.enums.TradeStatus;
 import com.suhwakhaeng.common.global.common.entity.AxisLocation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,7 @@ public class TradeDetailInfo {
     private String image2;
     private String image3;
     private String image4;
+    private TradeStatus status;
     private Long price;
     private TradeCate cate;
     private AxisLocation axisLocation;
@@ -33,6 +35,7 @@ public class TradeDetailInfo {
                 .image2(tradeBoard.getImage2())
                 .image3(tradeBoard.getImage3())
                 .image4(tradeBoard.getImage4())
+                .status(tradeBoard.getStatus())
                 .price(tradeBoard.getPrice())
                 .cate(tradeBoard.getCate())
                 .axisLocation(tradeBoard.getAxisLocation())

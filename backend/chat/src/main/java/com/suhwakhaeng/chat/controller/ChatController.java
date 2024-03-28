@@ -14,17 +14,17 @@ import java.util.UUID;
 public class ChatController {
     private final ChatService chatService;
 
-    @GetMapping("/{anotherUserId}")
+    @GetMapping("/chat-room-id/{anotherUserId}")
     public ResponseEntity<?> selectChatRoomId(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long anotherUserId) {
         return ResponseEntity.ok().body(Message.success(chatService.selectChatRoomId(userId, anotherUserId)));
     }
 
-    @GetMapping("/{chatRoomId}")
-    public ResponseEntity<?> selectChatMessageList(@PathVariable UUID chatRoomId) {
+    @GetMapping("/list/message/{chatRoomId}")
+    public ResponseEntity<?> selectChatMessageList(@PathVariable String chatRoomId) {
         return ResponseEntity.ok().body(Message.success(chatService.selectChatMessageList(chatRoomId)));
     }
 
-    @GetMapping
+    @GetMapping("/list/log")
     public ResponseEntity<?> selectChatUserList(@RequestHeader("X-Authorization-Id") Long userId) {
         return ResponseEntity.ok().body(Message.success(chatService.selectChatUserList(userId)));
     }

@@ -45,12 +45,13 @@ const PlantContainer = styled.View`
 const AddCropsScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [plants, setPlants] = useState<Plant[]>([]);
+  const dummyCount = 3 - (plants.length % 3 || 3);
 
   useEffect(() => {
     const getData = async () => {
       const { dataBody } = await getCropsData();
       const mappedData = dataBody.map((item: Crop) => {
-        const iconItem = iconMapping.find((icon) => icon.engName === item.name);
+        const iconItem = iconMapping.find((icon) => icon.engName === item.name || icon.name === item.name);
         return {
           ...item,
           name: iconItem ? iconItem.name : item.name,
@@ -86,6 +87,10 @@ const AddCropsScreen = () => {
               <Spacer space={5} />
               <Typo.BODY4_M>{plant.name}</Typo.BODY4_M>
             </View>
+          ))}
+          {/* 더미 버튼 렌더링 */}
+          {Array.from({ length: dummyCount }).map((_, index) => (
+            <View key={`dummy-${index}`} style={{ width: 100, height: 80, opacity: 0 }} />
           ))}
         </PlantContainer>
       </ScrollView>

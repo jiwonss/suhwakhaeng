@@ -76,28 +76,42 @@ type PlantAddProps = {
   borderColor?: string;
   children?: React.ReactNode;
   name?: string;
+  cropsName?: string;
   location?: string;
 };
 
 export const PlantItem = (props: PlantAddProps) => {
   const plantData: { [key: string]: any } = {
     가지: Eggplant,
+    eggplant: Eggplant,
     고구마: SweetPotato,
+    sweetPotato: SweetPotato,
     고추: ChiliPepper,
+    chiliPepper: ChiliPepper,
     감자: Potato,
+    potato: Potato,
     당근: Carrot,
+    carrot: Carrot,
     마늘: Garlic,
+    garlic: Garlic,
     상추: Lettuce,
+    lettuce: Lettuce,
     수박: Watermelon,
+    watermelon: Watermelon,
     양파: Onion,
+    onion: Onion,
     오이: Cucumber,
+    cucumber: Cucumber,
     파: GreenOnion,
+    greenOnion: GreenOnion,
     파프리카: BellPepper,
+    bellPepper: BellPepper,
     토마토: Tomato,
+    tomato: Tomato,
     호박: Pumpkin,
+    pumpkin: Pumpkin,
   };
-
-  const PlantIcon = plantData[props.name || '']; // props로 전달된 작물 이름에 해당하는 아이콘을 가져옴
+  const PlantIcon = plantData[props.cropsName?.toLowerCase() || ''];
 
   return (
     <TouchableOpacity onPress={props.onPress}>

@@ -85,10 +85,10 @@ public class TradeServiceImpl implements TradeService {
 
     @Transactional
     @Override
-    public void updateStatus(Long userId, Long tradeId, TradeStatus status) {
+    public void updateStatus(Long userId, Long tradeId, TradeStatusUpdateRequest status) {
         TradeBoard tradeBoard = tradeRepository.findTradeBoardById(tradeId).orElseThrow(() -> new TradeException(TradeErrorCode.NO_EXIST_TRADE));
         if(!userId.equals(tradeBoard.getUser().getId())) throw new TradeException(TradeErrorCode.NOT_MATCH_USER);
-        tradeBoard.updateStatus(status);
+        tradeBoard.updateStatus(status.status());
     }
 
     @Override

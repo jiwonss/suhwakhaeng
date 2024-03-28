@@ -36,6 +36,7 @@ public class Community extends BaseEntity {
     @Column(name = "community_image4")
     private String image4;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "community_cate")
-    private Category category;
+    private Category cate;
 }

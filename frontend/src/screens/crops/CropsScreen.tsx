@@ -81,19 +81,26 @@ const CropsScreen = () => {
   useEffect(() => {
     const getData = async () => {
       const { dataBody } = await getCropsData();
-      const mappedData = dataBody.map((item: Crop) => {
-        const iconItem = iconMapping.find((icon) => icon.engName === item.name);
-        return {
-          ...item,
-          name: iconItem ? iconItem.name : item.name,
-          Icon: iconItem ? iconItem.Icon : null,
-        };
-      });
+      // 검색어에 따라 iconMapping을 필터링하여 매핑
+      const filteredIconMapping = iconMapping.filter((icon) => icon.name.includes(searchValue) || icon.engName.toLowerCase().includes(searchValue.toLowerCase()));
+
+      const mappedData = dataBody
+        .map((item: Crop) => {
+          const iconItem = filteredIconMapping.find((icon) => icon.engName === item.name || icon.name === item.name);
+          return iconItem
+            ? {
+                ...item,
+                name: iconItem.name,
+                Icon: iconItem.Icon,
+              }
+            : null;
+        })
+        .filter((item: Crop | null): item is Plant => item !== null);
       setPlants(mappedData);
     };
 
     getData();
-  }, []);
+  }, [searchValue]);
 
   const onSearch = () => {
     console.log('검색');

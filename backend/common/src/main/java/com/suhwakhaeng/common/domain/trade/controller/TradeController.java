@@ -2,6 +2,7 @@ package com.suhwakhaeng.common.domain.trade.controller;
 
 import com.suhwakhaeng.common.domain.trade.dto.TradeCreateRequest;
 import com.suhwakhaeng.common.domain.trade.dto.TradeSearchRequest;
+import com.suhwakhaeng.common.domain.trade.dto.TradeStatusUpdateRequest;
 import com.suhwakhaeng.common.domain.trade.dto.TradeUpdateRequest;
 import com.suhwakhaeng.common.domain.trade.enums.TradeStatus;
 import com.suhwakhaeng.common.domain.trade.service.TradeService;
@@ -61,7 +62,7 @@ public class TradeController {
     }
 
     @PatchMapping("/status/{tradeId}")
-    public ResponseEntity<?> updateStatus(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long tradeId, TradeStatus status) {
+    public ResponseEntity<?> updateStatus(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long tradeId, @RequestBody TradeStatusUpdateRequest status) {
         tradeService.updateStatus(userId, tradeId, status);
         return ResponseEntity.ok(Message.success());
     }

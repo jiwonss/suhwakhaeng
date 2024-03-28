@@ -6,6 +6,6 @@ import java.util.UUID;
 
 @Builder
 public record ChatRoomResponse(
-        UUID chatRoomId
+        String chatRoomId
 ) {
 }

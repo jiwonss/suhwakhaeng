@@ -7,6 +7,8 @@ import com.suhwakhaeng.chat.dto.ChatRoomResponse;
 import com.suhwakhaeng.chat.dto.UserInfo;
 import com.suhwakhaeng.chat.entity.Chat;
 import com.suhwakhaeng.chat.entity.ChatRoom;
+import com.suhwakhaeng.chat.exception.ChatErrorCode;
+import com.suhwakhaeng.chat.exception.ChatException;
 import com.suhwakhaeng.chat.repository.ChatRepository;
 import com.suhwakhaeng.chat.repository.ChatRoomRepository;
 import com.suhwakhaeng.chat.service.ChatService;
@@ -17,6 +19,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,9 +33,15 @@ public class ChatServiceImpl implements ChatService {
     private final ChatRoomRepository chatRoomRepository;
     private final UserInfoClient userInfoClient;
 
+    /**
+     * 채팅 보내기
+     * @param chatRequest // 보내는 사람 id, 채팅 내용
+     * @param chatRoomId  // 채팅 룸 id = UUID
+     */
     @Override
-    public void sendChat(ChatRequest chatRequest, UUID chatRoomId) {
+    public void sendChat(ChatRequest chatRequest, String chatRoomId) {
         UserInfo userInfo = userInfoClient.getUserInfo(chatRequest.userId());
+        // 유저 정보 가져와서 mongoDB에 넣을 chat, 상대에게 보내줄 chat 세팅
         Chat chat = Chat.builder()
                 .userId(userInfo.userId())
                 .nickname(userInfo.nickname())
@@ -41,39 +50,51 @@ public class ChatServiceImpl implements ChatService {
                 .chatRoomId(chatRoomId)
                 .build();
 
+        // rabbitMQ로 상대방에게 전송
         rabbitTemplate.convertAndSend(topicExchange.getName(), "room."+chatRoomId, chat);
+        // mongoDB에 chat 저장
         chatRepository.save(chat);
+        // 마지막 chat 수정
+        ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new ChatException(ChatErrorCode.UNKNOWN_ERROR));
+        chatRoom.updateLastChat(chatRequest.message());
     }
 
     @Override
-    public List<Chat> selectChatMessageList(UUID chatRoomId) {
+    public List<Chat> selectChatMessageList(String chatRoomId) {
         return chatRepository.findByChatRoomId(chatRoomId);
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<ChatResponse> selectChatUserList(Long userId) {
-        List<UUID> list = chatRoomRepository.findDistinctByUserIdOrAnotherUserId(userId, userId);
-        return null;
+        List<ChatResponse> resultList = new ArrayList<>();
+        List<ChatRoom> chatRoomList = chatRoomRepository.findByUserIdOrAnotherUserId(userId, userId);
+        for(ChatRoom chatRoom : chatRoomList) {
+            UserInfo userInfo = userInfoClient.getUserInfo(chatRoom.getAnotherUserId());
+            resultList.add(ChatResponse.builder()
+                    .userInfo(userInfo)
+                    .lastMessage(chatRoom.getMessage())
+                    .sendTime(chatRoom.getSendTime())
+                    .build());
+        }
+        return resultList;
     }
 
 
-    @Transactional
     @Override
     public ChatRoomResponse selectChatRoomId(Long userId, Long anotherUserId) {
-        UUID id = chatRoomRepository.findChatRoomIdByUserIdAndAnotherUserId(userId, anotherUserId);
-        if(id == null) id = chatRoomRepository.findChatRoomIdByUserIdAndAnotherUserId(anotherUserId, userId);
-        if(id == null) {
-            id = UUID.randomUUID();
-            chatRoomRepository.save(ChatRoom.builder()
-                    .userId(userId)
-                    .anotherUserId(anotherUserId)
-                    .id(id)
-                    .build());
+        ChatRoom chatRoom = chatRoomRepository.findByUserIdAndAnotherUserId(userId, anotherUserId);
+        if(chatRoom == null) chatRoom = chatRoomRepository.findByUserIdAndAnotherUserId(anotherUserId, userId);
+        if(chatRoom == null) {
+            String id = UUID.randomUUID().toString();
+            chatRoom = chatRoomRepository.save(ChatRoom.builder()
+                        .userId(userId)
+                        .anotherUserId(anotherUserId)
+                        .id(id)
+                        .build());
         }
-
         return ChatRoomResponse.builder()
-                .chatRoomId(id)
+                .chatRoomId(chatRoom.getId())
                 .build();
     }
 }
