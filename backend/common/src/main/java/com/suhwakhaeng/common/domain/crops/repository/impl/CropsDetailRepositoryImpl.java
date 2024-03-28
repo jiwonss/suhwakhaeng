@@ -34,6 +34,44 @@ public class CropsDetailRepositoryImpl implements CropsDetailRepository {
                                         crops.diseaseType.as("crops_diseaseType"),
                                         crops.pestType.as("crops_pestType")
                                 ).as("cropsInfo"),
+                                Projections.constructor(CropsVarietyInfo.class,
+                                        cropsVariety.id.as("cropsVariety_id"),
+                                        cropsVariety.name.as("cropsVariety_name"),
+                                        cropsVariety.category.as("cropsVariety_category"),
+                                        cropsVariety.usage.as("cropsVariety_usage"),
+                                        cropsVariety.function.as("cropsVariety_function"),
+                                        cropsVariety.characteristic.as("cropsVariety_characteristic"),
+                                        cropsVariety.adaptationArea.as("cropsVariety_adaptationArea"),
+                                        cropsVariety.caution.as("cropsVariety_caution"),
+                                        cropsVariety.image.as("cropsVariety_image")
+                                ).as("cropsVarietyInfo"),
+                                Projections.constructor(TableInfo.class,
+                                        shippingTimeTable.id.as("shippingTimeTable_id"),
+                                        shippingTimeTable.tableHead.as("tableHead"),
+                                        shippingTimeTable.tableTitle.as("tableTitle")
+                                ).as("tableInfo")
+                        )
+                )
+                .from(crops)
+                .join(cropsVariety).on(crops.id.eq(cropsVariety.crops.id))
+                .join(shippingTimeTable).on(crops.id.eq(shippingTimeTable.crops.id))
+                .where(crops.id.eq(cropsId), cropsVariety.id.eq(cropsVarietyId))
+                .fetchOne();
+    }
+
+    @Override
+    public CropsDetailResponse selectDetailNotCrops(Long cropsId, Long cropsVarietyId) {
+        return jpaQueryFactory
+                .select(
+                        Projections.fields(CropsDetailResponse.class,
+                                Projections.constructor(CropsInfo.class,
+                                        crops.id.as("crops_id"),
+                                        crops.name.as("crops_name"),
+                                        crops.category.as("crops_category"),
+                                        crops.growingCondition.as("crops_growingCondition"),
+                                        crops.diseaseType.as("crops_diseaseType"),
+                                        crops.pestType.as("crops_pestType")
+                                ).as("cropsInfo"),
                                 Projections.constructor(CultivationCharacteristicInfo.class,
                                         cultivationCharacteristic.id.as("cultivationCharacteristic_id"),
                                         cultivationCharacteristic.scientificName.as("cultivationCharacteristic_scientificName"),
