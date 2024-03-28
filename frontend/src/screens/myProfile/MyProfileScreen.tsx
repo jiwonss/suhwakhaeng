@@ -22,6 +22,7 @@ import { useRecoilValue, useRecoilState } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { removeTokens } from '../../util/TokenUtil';
 import { tokenState } from '../../recoil/atoms/tokenState';
+import { myCropsList } from '../../recoil/atoms/myCrops';
 
 type RootStackParamList = {
   ModifyProfileScreen: { sido: string; gugun: string; dong: string; address: string };
@@ -69,6 +70,8 @@ const MyProfileScreen = () => {
   const [token, setToken] = useRecoilState(tokenState);
 
   const userInfo = useRecoilValue(userInfoState);
+  const myCrops = useRecoilValue(myCropsList);
+
   console.log(userInfo);
   return (
     <>
@@ -109,12 +112,14 @@ const MyProfileScreen = () => {
             <StyledView>
               <PlantAdd></PlantAdd>
             </StyledView>
-            <StyledView>
-              <PlantItem onPress={() => {}} name='감자' location='광주광역시 서구 금호 2동'></PlantItem>
-            </StyledView>
-            <StyledView>
-              <PlantItem onPress={() => {}} name='고추' location='광주광역시 서구 금호 2동'></PlantItem>
-            </StyledView>
+            {myCrops.map(({ location, name, plantName }, index) => {
+              const locationString = `${location.sido ?? ''} ${location.gugun ?? ''} ${location.dong ?? ''}`.trim();
+              return (
+                <StyledView key={index}>
+                  <PlantItem onPress={() => {}} plantName={plantName} name={name} location={locationString}></PlantItem>
+                </StyledView>
+              );
+            })}
           </FormItemContainer>
           <FormItemContainer>
             <Typo.BODY4_B>내 활동</Typo.BODY4_B>

@@ -76,6 +76,7 @@ type PlantAddProps = {
   borderColor?: string;
   children?: React.ReactNode;
   name?: string;
+  plantName?: string;
   location?: string;
 };
 
@@ -97,7 +98,7 @@ export const PlantItem = (props: PlantAddProps) => {
     호박: Pumpkin,
   };
 
-  const PlantIcon = plantData[props.name || '']; // props로 전달된 작물 이름에 해당하는 아이콘을 가져옴
+  const PlantIcon = plantData[props.plantName || '']; // props로 전달된 작물 이름에 해당하는 아이콘을 가져옴
 
   return (
     <TouchableOpacity onPress={props.onPress}>
