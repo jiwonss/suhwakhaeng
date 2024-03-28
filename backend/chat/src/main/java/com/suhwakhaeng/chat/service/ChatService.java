@@ -4,6 +4,7 @@ import com.suhwakhaeng.chat.dto.ChatRequest;
 import com.suhwakhaeng.chat.dto.ChatResponse;
 import com.suhwakhaeng.chat.dto.ChatRoomResponse;
 import com.suhwakhaeng.chat.entity.Chat;
+import com.suhwakhaeng.chat.entity.ChatRoom;
 
 import java.util.List;
 import java.util.UUID;
