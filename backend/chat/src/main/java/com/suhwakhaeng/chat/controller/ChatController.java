@@ -20,7 +20,7 @@ public class ChatController {
     }
 
     @GetMapping("/list/message/{chatRoomId}")
-    public ResponseEntity<?> selectChatMessageList(@PathVariable UUID chatRoomId) {
+    public ResponseEntity<?> selectChatMessageList(@PathVariable String chatRoomId) {
         return ResponseEntity.ok().body(Message.success(chatService.selectChatMessageList(chatRoomId)));
     }
 

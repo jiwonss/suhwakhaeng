@@ -25,7 +25,7 @@ public class Chat {
     @Column(name = "chat_id")
     private String id;
     private Long userId;
-    private UUID chatRoomId;
+    private String chatRoomId;
     private String nickname;
     private String profileImage;
     private String message;

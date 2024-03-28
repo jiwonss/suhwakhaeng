@@ -18,7 +18,7 @@ public class StompController {
 
     @MessageMapping("/room/{chattingRoomId}")
     public void sendChat(
-            @DestinationVariable UUID chattingRoomId,
+            @DestinationVariable String chattingRoomId,
             ChatRequest chatRequest
     ) {
         chatService.sendChat(chatRequest, chattingRoomId);

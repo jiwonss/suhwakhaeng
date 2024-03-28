@@ -7,6 +7,8 @@ import com.suhwakhaeng.chat.dto.ChatRoomResponse;
 import com.suhwakhaeng.chat.dto.UserInfo;
 import com.suhwakhaeng.chat.entity.Chat;
 import com.suhwakhaeng.chat.entity.ChatRoom;
+import com.suhwakhaeng.chat.exception.ChatErrorCode;
+import com.suhwakhaeng.chat.exception.ChatException;
 import com.suhwakhaeng.chat.repository.ChatRepository;
 import com.suhwakhaeng.chat.repository.ChatRoomRepository;
 import com.suhwakhaeng.chat.service.ChatService;
@@ -37,7 +39,7 @@ public class ChatServiceImpl implements ChatService {
      * @param chatRoomId  // 채팅 룸 id = UUID
      */
     @Override
-    public void sendChat(ChatRequest chatRequest, UUID chatRoomId) {
+    public void sendChat(ChatRequest chatRequest, String chatRoomId) {
         UserInfo userInfo = userInfoClient.getUserInfo(chatRequest.userId());
         // 유저 정보 가져와서 mongoDB에 넣을 chat, 상대에게 보내줄 chat 세팅
         Chat chat = Chat.builder()
@@ -53,20 +55,20 @@ public class ChatServiceImpl implements ChatService {
         // mongoDB에 chat 저장
         chatRepository.save(chat);
         // 마지막 chat 수정
-        ChatRoom chatRoom = chatRoomRepository.findById(String.valueOf(chatRoomId)).orElseThrow();
+        ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new ChatException(ChatErrorCode.UNKNOWN_ERROR));
         chatRoom.updateLastChat(chatRequest.message());
     }
 
     @Override
-    public List<Chat> selectChatMessageList(UUID chatRoomId) {
+    public List<Chat> selectChatMessageList(String chatRoomId) {
         return chatRepository.findByChatRoomId(chatRoomId);
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<ChatResponse> selectChatUserList(Long userId) {
-        List<ChatRoom> chatRoomList = chatRoomRepository.findByUserId(userId);
         List<ChatResponse> resultList = new ArrayList<>();
+        List<ChatRoom> chatRoomList = chatRoomRepository.findByUserIdOrAnotherUserId(userId, userId);
         for(ChatRoom chatRoom : chatRoomList) {
             UserInfo userInfo = userInfoClient.getUserInfo(chatRoom.getAnotherUserId());
             resultList.add(ChatResponse.builder()
@@ -79,25 +81,20 @@ public class ChatServiceImpl implements ChatService {
     }
 
 
-    @Transactional
     @Override
     public ChatRoomResponse selectChatRoomId(Long userId, Long anotherUserId) {
-        ChatRoom chatRoom = chatRoomRepository.findChatRoomByUserIdAndAnotherUserId(userId, anotherUserId);
-        UUID id = UUID.randomUUID();
+        ChatRoom chatRoom = chatRoomRepository.findByUserIdAndAnotherUserId(userId, anotherUserId);
+        if(chatRoom == null) chatRoom = chatRoomRepository.findByUserIdAndAnotherUserId(anotherUserId, userId);
         if(chatRoom == null) {
-            chatRoomRepository.save(ChatRoom.builder()
-                    .userId(userId)
-                    .anotherUserId(anotherUserId)
-                    .id(id)
-                    .build());
-            chatRoomRepository.save(ChatRoom.builder()
-                    .userId(anotherUserId)
-                    .anotherUserId(userId)
-                    .id(id)
-                    .build());
-        } else id = chatRoom.getId();
+            String id = UUID.randomUUID().toString();
+            chatRoom = chatRoomRepository.save(ChatRoom.builder()
+                        .userId(userId)
+                        .anotherUserId(anotherUserId)
+                        .id(id)
+                        .build());
+        }
         return ChatRoomResponse.builder()
-                .chatRoomId(id)
+                .chatRoomId(chatRoom.getId())
                 .build();
     }
 }
