@@ -71,6 +71,7 @@ public class AccountBookServiceImpl implements AccountBookService {
                 .build();
     }
 
+    @Transactional
     @Override
     public void deleteAccountBook(Long accountBookId) {
         accountBookRepository.deleteById(accountBookId);
