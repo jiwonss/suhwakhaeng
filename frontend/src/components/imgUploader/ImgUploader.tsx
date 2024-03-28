@@ -38,12 +38,19 @@ const RemoveButton = styled.TouchableOpacity`
 interface ImgUploaderProps {
   data: string[];
   setData: any;
+  maximage?: number;
 }
 
-const ImgUploader = ({ data, setData }: ImgUploaderProps) => {
+const ImgUploader = ({ data, setData, maximage }: ImgUploaderProps) => {
   const handleAddPress = async () => {
-    if (data.length >= 4) {
-      Alert.alert('알림', '이미지는 최대 4개까지만 추가할 수 있습니다.', [{ text: '확인', onPress: () => console.log('확인') }]);
+    const maxAllowedImages = maximage || 4; // maximage가 없으면 기본적으로 4개로 설정
+
+    if (data.length >= maxAllowedImages) {
+      Alert.alert(
+        '알림',
+        `이미지는 최대 ${maxAllowedImages}개까지만 추가할 수 있습니다.`,
+        [{ text: '확인', onPress: () => console.log('확인') }],
+      );
       return;
     }
 

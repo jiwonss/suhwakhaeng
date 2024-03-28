@@ -8,30 +8,28 @@ import CustomCalendar from '../../../components/customCalendar/CustomCalendar';
 import { Card } from '../../../components/card/Card';
 import { Spacer } from '../../../components/basic/Spacer';
 import { BasicButton } from '../../../components/button/Buttons';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { getDiaryList } from '../../../apis/farm/farm';
 
-type FarmDairyProps = {
-  data: any[];
-};
-
 type RootStackParamList = {
   FarmDairyAddScreen: undefined;
-  FarmDairyDetailScreen: undefined;
+  FarmDairyDetailScreen: { diary: any };
 };
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
-const FarmDairy = (props: FarmDairyProps) => {
+const FarmDairy = () => {
+  const isFocused = useIsFocused();
   const navigation = useNavigation<RootStackNavigationProp>();
 
   const onPressDairy = () => {
     navigation.navigate('FarmDairyAddScreen');
   };
 
-  const handlePress = () => {
-    navigation.navigate('FarmDairyDetailScreen');
+  const handlePress = (diary: any) => {
+    console.log(diary);
+    navigation.navigate('FarmDairyDetailScreen', { diary: diary });
   };
 
   const getCurrentDate = () => {
@@ -51,21 +49,28 @@ const FarmDairy = (props: FarmDairyProps) => {
 
   const [selectedStartDate, setSelectedStartDate] = useState(getCurrentDate());
   const [selectedFinDate, setSelectedFinDate] = useState(getCurrentDate());
+  const [myCropId, setMyCropId] = useState(null);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const params = {
-        myCropId: null,
+        myCropId: myCropId,
         startDate: selectedStartDate,
         finDate: selectedFinDate,
       };
-      const diaryList = await getDiaryList(params);
+      const response = await getDiaryList(params);
       //
-      console.log(diaryList);
+      console.log(response.dataBody);
+      console.log(Object.keys(response.dataBody).sort((a, b) => new Date(a) - new Date(b)));
+      const datalist = Object.keys(response.dataBody).sort((a, b) => new Date(a) - new Date(b));
+      const sortedData = datalist.map((date) => [date, response.dataBody[date]]);
+      console.log(sortedData);
+      setData(sortedData);
     };
 
     fetchData();
-  }, [selectedStartDate, selectedFinDate]);
+  }, [isFocused, selectedStartDate, selectedFinDate, myCropId]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -76,40 +81,45 @@ const FarmDairy = (props: FarmDairyProps) => {
         </Typo.BODY4_M>
         {/* 여기에 나중에 드롭다운 추가 */}
         <Spacer space={heightPercent * 20}></Spacer>
-        {props.data.length !== 0 ? (
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            <>
-              <TouchableOpacity onPress={() => handlePress()} style={{ marginLeft: widthPercent * 14, marginRight: widthPercent * 14, width: '100%' }}>
-                <Card borderColor={Color.BLACK}>
-                  <View>
-                    <Spacer space={heightPercent * 10}></Spacer>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                      <Typo.BODY4_M color={Color.GRAY400}>재배 작물</Typo.BODY4_M>
-                      <Typo.BODY4_M>감자(감자 품종1)</Typo.BODY4_M>
-                    </View>
-                    <Spacer space={heightPercent * 30}></Spacer>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                      <Typo.BODY4_M color={Color.GRAY400}>영농 작업</Typo.BODY4_M>
-                      <Typo.BODY4_M>씨뿌림</Typo.BODY4_M>
-                    </View>
-                    <Spacer space={heightPercent * 10}></Spacer>
-                  </View>
-                </Card>
-              </TouchableOpacity>
-              <Spacer space={heightPercent * 20}></Spacer>
-            </>
-
-            <BasicButton
-              onPress={onPressDairy}
-              width={widthPercent * 100}
-              height={heightPercent * 40}
-              disabled={false}
-              backgroundColor={Color.GREEN500}
-              borderColor={Color.WHITE}
-              borderRadius={10}
-            >
-              <Typo.BODY4_M color={Color.WHITE}>일지 작성하기</Typo.BODY4_M>
-            </BasicButton>
+        {data.length !== 0 ? (
+          <View>
+            {data.map((item, index) => (
+              <View key={index} style={{ flex: 1 }}>
+                <Typo.BODY4_M>{item[0]}</Typo.BODY4_M>
+                <Spacer space={heightPercent * 20 }></Spacer>
+                {item[1].map((diary, diaryIndex) => (
+                  <TouchableOpacity key={diaryIndex} onPress={()=> handlePress(diary)} style={{ width: '100%' }}>
+                    <Card borderColor={Color.BLACK}>
+                      <Spacer space={heightPercent * 10} />
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Typo.BODY4_M color={Color.GRAY400}>재배 작물</Typo.BODY4_M>
+                        <Typo.BODY4_M>{diary.myCropsSimpleResponse.myCropsName}</Typo.BODY4_M>
+                      </View>
+                      <Spacer space={heightPercent * 30} />
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Typo.BODY4_M color={Color.GRAY400}>영농 작업</Typo.BODY4_M>
+                        <Typo.BODY4_M>{diary.diaryContent}</Typo.BODY4_M>
+                      </View>
+                      <Spacer space={heightPercent * 10} />
+                    </Card>
+                    <Spacer space={heightPercent * 20} />
+                  </TouchableOpacity>
+                ))}
+              </View>
+            ))}
+            <View style={{ flex: 1, alignItems: 'center' }}>
+              <BasicButton
+                onPress={onPressDairy}
+                width={widthPercent * 100}
+                height={heightPercent * 40}
+                disabled={false}
+                backgroundColor={Color.GREEN500}
+                borderColor={Color.WHITE}
+                borderRadius={10}
+              >
+                <Typo.BODY4_M color={Color.WHITE}>일지 작성하기</Typo.BODY4_M>
+              </BasicButton>
+            </View>
           </View>
         ) : (
           <View style={{ flex: 1, alignItems: 'center' }}>

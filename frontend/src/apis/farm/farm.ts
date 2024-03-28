@@ -1,32 +1,38 @@
 import tokenInstance from '../utils/tokenInstance';
 
-const userUrl = 'diary';
-
 export const getDiaryList = async (params: { myCropId: string | null; startDate: string; finDate: string }) => {
-  const response = await tokenInstance.get(`${userUrl}/list`, { params: params });
+  const response = await tokenInstance.get('common/diary/list', { params: params });
   return response.data;
 };
 
-export const createDiary = async () => {
-  const response = await tokenInstance.post(`${userUrl}`);
+export const getCropsSimple = async () => {
+  const response = await tokenInstance.get('common/my-crops/simple');
   return response.data;
 };
 
-export const deleteDiary = async (id: string) => {
-  const response = await tokenInstance.delete(`${userUrl}/${id}`);
+export const createDiary = async (params: {
+    myCropsId: number;
+    content: string;
+    memo: string;
+    image: string;
+    date: string;
+  }) => {
+  console.log(params);
+  const response = await tokenInstance.post('common/diary', params);
   return response.data;
 };
 
-// export const modifyUserInfo = async (params: {
-//   profileImage: string;
-//   nickname: string;
-//   role: string;
-//   profileContent: string;
-//   sido: string;
-//   gugun: string;
-//   dong: string;
-//   roadNameAddress: string;
-// }) => {
-//   const response = await tokenInstance.patch(`${userUrl}/my-profile`, params);
-//   return response.data;
-// };
+export const getLedgerList = async (params: { myCropId: string | null; startDate: string; endDate: string }) => {
+  const response = await tokenInstance.get('common/account-book', { params: params });
+  return response.data;
+};
+
+export const getLedgerDetail = async (accountBookId: number) => {
+  const response = await tokenInstance.post(`/common/account-book/${accountBookId}`);
+  return response.data;
+};
+
+export const CreateLedger = async () => {
+  const response = await tokenInstance.get('common/account-book');
+  return response.data;
+};

@@ -12,7 +12,6 @@ import { RouteProp } from '@react-navigation/native';
 
 type FarmScreenRouteProp = RouteProp<RootStackParamList, 'FarmScreen'>;
 
-
 const FarmScreen = () => {
   const route = useRoute<FarmScreenRouteProp>();
   const [activeIndex, setActiveIndex] = useState(route.params?.activeIndex ?? 0);
@@ -27,7 +26,7 @@ const FarmScreen = () => {
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
         <Header type='default' firstIcon='back' title='영농일지/장부'></Header>
         <CustomRadioButton data={Data} />
-        {activeIndex === 0 && <FarmDairy data={[1]}></FarmDairy>}
+        {activeIndex === 0 && <FarmDairy></FarmDairy>}
         {activeIndex === 1 && <FarmLedger data={[1]}></FarmLedger>}
       </ScrollView>
     </SafeAreaView>

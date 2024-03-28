@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
@@ -10,9 +10,11 @@ import { SingleLineInputBox } from '../../components/inputBox/Input';
 import ImgUploader from '../../components/imgUploader/ImgUploader';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import { createDiary } from '../../apis/farm/farm';
+import { createDiary, getCropsSimple } from '../../apis/farm/farm';
 import DatePicker from 'react-native-date-picker';
 import { Button, View } from 'react-native';
+import SelectDropdown from 'react-native-select-dropdown';
+import { uploadImagesToFirebaseStorage } from '../../util/BasicUtil';
 
 type RootStackParamList = {
   FarmScreen: undefined;
@@ -55,17 +57,35 @@ const FarmDairyAddScreen = () => {
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [choose, setChoose] = useState(false);
-  const [urls, setUrls] = useState([]);
-  const [dataList, setDataList] = useState('');
-  const crops = ['서울', '경기', '인천', '강원', '충청', '경상', '전라', '제주'];
+  const [crops, setCrops] = useState([]);
+  const [i, setI ] = useState(null);
 
-  const onPressButton = () => {
+  const [postdate, setPostdate] = useState('');
+  const [myCrops, setMyCrops] = useState([]);
+  const [content, setContent] = useState(null);
+  const [memo, setMemo] = useState(null);
+  const [urls, setUrls] = useState([]);
+
+  const onPressButton = async () => {
     const fetchData = async () => {
-      const params = {};
-      await createDiary();
+      let image = null;
+      if (urls && urls.length !== 0) {
+        const test = await uploadImagesToFirebaseStorage(urls, `영농일지//${myCrops[i].myCropsId}`);
+        image = test[0];
+        console.log('이미지 업로드 완료');
+      }
+
+      console.log('포스트 업로드 시작')
+      await console.log(createDiary({
+        myCropsId: myCrops[i].myCropsId,
+        content: content,
+        memo: memo,
+        image: image,
+        date: postdate,
+      }));
     };
 
-    fetchData();
+    await fetchData();
     // TODO: 작성 완료 후 상세보기 페이지로 이동?
     console.log('작성 완료');
     navigation.navigate('FarmScreen');
@@ -75,8 +95,19 @@ const FarmDairyAddScreen = () => {
     const year = date.getFullYear();
     const month = ('0' + (date.getMonth() + 1)).slice(-2);
     const day = ('0' + date.getDate()).slice(-2);
-    return `${year} ${month} ${day}`;
+    return `${year}-${month}-${day}`;
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await getCropsSimple();
+      //작물 드롭다운 설정
+      setCrops(response.dataBody.map((item) => item.myCropsName));
+      setMyCrops(response.dataBody);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <Container>
@@ -84,10 +115,30 @@ const FarmDairyAddScreen = () => {
       <FormContainer>
         <FormItemContainer>
           <Typo.BODY4_M>작물</Typo.BODY4_M>
-          <DropDown
-            dataList={crops} // 드롭다운 목록에 표시할 항목들의 배열
-            onSelect={(selectedItem: any) => setDataList(selectedItem)} // 사용자가 항목을 선택했을 때 실행될 콜백 함수
-            defaultText='작물 선택' // 드롭다운 버튼에 표시될 기본 텍스트
+          <SelectDropdown
+            buttonStyle={{
+              borderRadius: 10,
+              borderWidth: 0.8,
+              borderColor: Color.GRAY300,
+              backgroundColor: Color.WHITE,
+              width: '100%',
+              height: heightPercent * 36,
+              padding: widthPercent * 10,
+              marginVertical: heightPercent * 10,
+            }}
+            buttonTextStyle={{
+              textAlign: 'left', // 텍스트를 왼쪽 정렬
+              fontSize: widthPercent * 12, // 텍스트 크기 설정
+              fontFamily: 'GmarketSansTTFMedium',
+              color: Color.GRAY400, // 텍스트 색상 설정
+            }}
+            data={crops}
+            onSelect={(selectedItem, index) => setI(index)}
+            buttonTextAfterSelection={(selectedItem, index) => selectedItem}
+            rowTextForSelection={(item, index) => item}
+            defaultButtonText={'작물 선택'}
+            dropdownOverlayColor='none'
+            dropdownStyle={{ borderRadius: widthPercent * 5, borderColor: Color.GRAY300, backgroundColor: Color.WHITE }}
           />
         </FormItemContainer>
         <FormItemContainer>
@@ -98,7 +149,7 @@ const FarmDairyAddScreen = () => {
               setOpen(true);
             }}
           >
-            { choose === true ? <Typo.BODY4_M color={Color.GRAY400}>{formatDate(date)}</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY400}>날짜 선택</Typo.BODY4_M> }
+            {choose === true ? <Typo.BODY4_M color={Color.GRAY400}>{formatDate(date)}</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY400}>날짜 선택</Typo.BODY4_M>}
           </StyledButton>
 
           <DatePicker
@@ -110,6 +161,7 @@ const FarmDairyAddScreen = () => {
               setOpen(false);
               setChoose(true);
               setDate(chooseDate);
+              setPostdate(formatDate(chooseDate));
             }}
             onCancel={() => {
               setOpen(false);
@@ -118,15 +170,15 @@ const FarmDairyAddScreen = () => {
         </FormItemContainer>
         <FormItemContainer>
           <Typo.BODY4_M>영농작업</Typo.BODY4_M>
-          <SingleLineInputBox placeholder={'작업내용을 입력해주세요(ex 씨뿌림)'}></SingleLineInputBox>
+          <SingleLineInputBox placeholder={'작업내용을 입력해주세요(ex 씨뿌림)'} onChangeText={(text) => setContent(text)}></SingleLineInputBox>
         </FormItemContainer>
         <FormItemContainer>
           <Typo.BODY4_M>한줄 메모(선택)</Typo.BODY4_M>
-          <SingleLineInputBox placeholder={'내용을 작성해주세요'}></SingleLineInputBox>
+          <SingleLineInputBox placeholder={'내용을 작성해주세요'} onChangeText={(text) => setMemo(text)}></SingleLineInputBox>
         </FormItemContainer>
         <FormItemContainer>
           <Typo.BODY4_M>사진 (선택)</Typo.BODY4_M>
-          <ImgUploader data={urls} setData={setUrls}></ImgUploader>
+          <ImgUploader data={urls} setData={setUrls} maximage={1}></ImgUploader>
         </FormItemContainer>
         <ButtonContainer>
           <BasicButton onPress={onPressButton} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
