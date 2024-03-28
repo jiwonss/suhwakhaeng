@@ -15,7 +15,7 @@ import { BasicButton, LikeButton } from '../../components/button/Buttons';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { KakaoMap, MoreModal } from '../../modules/marketModules/MarketDetailModules';
-import { deleteIsLiked, deleteMarketPost, getIsLiked, getMarketPostDetail, updateIsLiked } from '../../apis/services/market/market';
+import { changePostStatus, deleteIsLiked, deleteMarketPost, getIsLiked, getMarketPostDetail, updateIsLiked } from '../../apis/services/market/market';
 import { changeCategoryName } from '../../util/MarketUtil';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { Spacer } from '../../components/basic/Spacer';
@@ -90,6 +90,8 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
         roadNameAddress: response.dataBody.tradeDetailInfo.axisLocation.roadNameAddress,
       });
 
+      setStatus(response.dataBody.tradeDetailInfo.status === 'COMPLETE' ? true : false);
+
       setIsLoaded(true);
 
       setIsLiked(isLikedResponse.dataBody.isLiked);
@@ -111,6 +113,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
   };
 
   const userInfo = useRecoilValue(userInfoState);
+  const [status, setStatus] = useState(false);
 
   // 모달 관련
   const [moreModalVisible, setMoreModalVisible] = useState<boolean>(false);
@@ -133,6 +136,16 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
   const modifyPost = (postId: number) => {
     // TODO: 게시글 수정 화면(MarketModifyScreen)으로 이동
     navigation.navigate('MarketModifyScreen', { id: postId, address: '', x: 0, y: 0 });
+  };
+
+  const changeStatus = async () => {
+    // 판매 상태 변경
+    setMoreModalVisible(false);
+    setStatus(!status);
+    // status = true면 COMPLETE, false면 SALE
+    const data = { status: status ? 'SALE' : 'COMPLETE' };
+    const response = await changePostStatus({ tradeId: props.route.params.id }, data);
+    console.log(response);
   };
 
   return (
@@ -164,6 +177,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
           <Typo.BODY3_M>{addComma(postDetailInfo.price)}원</Typo.BODY3_M>
         </PostContainer>
         <PostContainer style={{ rowGap: heightPercent * 10 }}>
+          {isLoaded ? !status ? <Typo.BODY3_B>[ 판매 중 ]</Typo.BODY3_B> : <Typo.BODY3_B>[ 판매 완료 ]</Typo.BODY3_B> : <></>}
           <Typo.BODY4_M>{postDetailInfo.content}</Typo.BODY4_M>
 
           {postDetailInfo.image1 && <UriImageLoader uri={postDetailInfo.image1} resizeMode='contain' style={{ width: widthPercent * 300, height: heightPercent * 200 }} />}
@@ -171,7 +185,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
           {postDetailInfo.image3 && <UriImageLoader uri={postDetailInfo.image3} resizeMode='contain' style={{ width: widthPercent * 300, height: heightPercent * 200 }} />}
           {postDetailInfo.image4 && <UriImageLoader uri={postDetailInfo.image4} resizeMode='contain' style={{ width: widthPercent * 300, height: heightPercent * 200 }} />}
 
-          <Spacer space={heightPercent * 60} />
+          <Spacer space={heightPercent * 40} />
           {postDetailInfo.roadNameAddress && <Typo.BODY4_M>[거래 희망 장소]</Typo.BODY4_M>}
           {postDetailInfo.roadNameAddress && <KakaoMap x={postDetailInfo.x} y={postDetailInfo.y} />}
 
@@ -206,7 +220,15 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
           </BasicButton>
         )}
       </ButtonContainer>
-      <MoreModal isVisible={moreModalVisible} setIsVisible={setMoreModalVisible} postId={props.route.params.id} onDelete={deletePost} onModify={modifyPost} />
+      <MoreModal
+        status={status}
+        onChangeStatus={changeStatus}
+        isVisible={moreModalVisible}
+        setIsVisible={setMoreModalVisible}
+        postId={props.route.params.id}
+        onDelete={deletePost}
+        onModify={modifyPost}
+      />
     </Container>
   );
 };

@@ -14,7 +14,7 @@ export const RootApp = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
   useEffect(() => {
-    removeTokens();
+    // removeTokens();
     const fetchTokens = async () => {
       const { accessToken, refreshToken } = await getTokens();
 

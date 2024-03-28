@@ -69,7 +69,13 @@ const OauthScreen = () => {
 
       // TODO: 회원 정보 recoil 세팅
       const userInfoData = await getUserInfo();
-      setUserInfo({ ...userInfo, email: userInfoData.dataBody.email, nickname: userInfoData.dataBody.nickname, profileImage: userInfoData.dataBody.profileImage });
+      setUserInfo({
+        ...userInfo,
+        userId: userInfoData.dataBody.userId,
+        email: userInfoData.dataBody.email,
+        nickname: userInfoData.dataBody.nickname,
+        profileImage: userInfoData.dataBody.profileImage,
+      });
 
       setCurrentToken(true); // tokenState 변경
     } catch (err) {
