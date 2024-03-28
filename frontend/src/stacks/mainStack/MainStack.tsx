@@ -75,7 +75,7 @@ export type RootStackParamList = {
   ChatListScreen: undefined;
   ChattingRoomScreen: { id: number };
   CropsVarietyScreen: { plantName: string; plantId: number; value?: number };
-  CropsDetailScreen: { plantName: string; varietyName: string };
+  CropsDetailScreen: { cropsId: number; plantName: string; varietyName: string; cropsVarietyId: number };
   DiseasePlantScreen: undefined;
   DetailDiseasePlantScreen: { photo: { uri: string }; diagnosisResult: DiagnosisResult };
   PlantResisterScreen: undefined;

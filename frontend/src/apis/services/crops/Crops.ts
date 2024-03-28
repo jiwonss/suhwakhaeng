@@ -32,6 +32,14 @@ export const getCropVarieties = async (cropId: number) => {
   return response.data;
 };
 
+// 품종별 작물 상세 정보 조회
+
+export const getCropVarietyInfo = async (cropsId: number, cropsVarietyId: number) => {
+  console.log('들어왔냐?', cropsId, cropsVarietyId);
+  const response = await tokenInstance.get(`common/crops/${cropsId}/variety/${cropsVarietyId}`);
+  return response.data;
+};
+
 // 내 작물 정보 등록
 export const postMyCropInfo = async (cropInfo: {
   area: number;
