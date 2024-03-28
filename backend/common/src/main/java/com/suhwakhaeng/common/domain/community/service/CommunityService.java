@@ -10,6 +10,7 @@ public interface CommunityService {
     CommunityDetailResponse selectCommunityDetail(Long userId, Long communityId);
     void createCommunityLike(Long userId, Long communityId);
     void deleteCommunityLike(Long userId, Long communityId);
-
     void updateCommunity(Long userId, Long communityId, CommunityUpdateRequest request);
+
+    void deleteCommunity(Long userId, Long communityId);
 }

@@ -7,6 +7,7 @@ import com.suhwakhaeng.common.domain.community.entity.CommunityLikePK;
 import com.suhwakhaeng.common.domain.community.exception.CommunityErrorCode;
 import com.suhwakhaeng.common.domain.community.exception.CommunityException;
 import com.suhwakhaeng.common.domain.community.repository.CommunitiyRepository;
+import com.suhwakhaeng.common.domain.community.repository.CommunityCommentRepository;
 import com.suhwakhaeng.common.domain.community.repository.CommunityLikeRepository;
 import com.suhwakhaeng.common.domain.community.service.CommunityService;
 import com.suhwakhaeng.common.domain.user.entity.User;
@@ -26,7 +27,8 @@ import static com.suhwakhaeng.common.domain.user.exception.UserErrorCode.*;
 @Transactional(readOnly = true)
 public class CommunityServiceImpl implements CommunityService {
     private final CommunitiyRepository communitiyRepository;
-    private final CommunityLikeRepository communityLikeRepository;
+    private final CommunityLikeRepository likeRepository;
+    private final CommunityCommentRepository commentRepository;
     private final UserRepository userRepository;
 
     @Transactional
@@ -60,7 +62,7 @@ public class CommunityServiceImpl implements CommunityService {
         Community community = communitiyRepository.findById(communityId).orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMUNITY));
         User user = userRepository.findById(userId).orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST_USER));
 
-        communityLikeRepository.save(
+        likeRepository.save(
                 CommunityLike.builder()
                         .communityLikePK(new CommunityLikePK(user, community))
                         .build());
@@ -72,7 +74,7 @@ public class CommunityServiceImpl implements CommunityService {
         Community community = communitiyRepository.findById(communityId).orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMUNITY));
         User user = userRepository.findById(userId).orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST_USER));
 
-        communityLikeRepository.delete(
+        likeRepository.delete(
                 CommunityLike.builder()
                         .communityLikePK(new CommunityLikePK(user, community))
                         .build());
@@ -87,5 +89,19 @@ public class CommunityServiceImpl implements CommunityService {
         }
 
         community.update(request.toEntity());
+    }
+
+    @Transactional
+    @Override
+    public void deleteCommunity(Long userId, Long communityId) {
+        Community community = communitiyRepository.findById(communityId)
+                .orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMUNITY));
+        if (!community.getWriter().getId().equals(userId)) {
+            throw new CommunityException(CommunityErrorCode.NOT_MATCH_USER);
+        }
+
+        likeRepository.deleteByCommunityId(communityId);
+        commentRepository.deleteByCommunityId(communityId);
+        communitiyRepository.delete(community);
     }
 }
