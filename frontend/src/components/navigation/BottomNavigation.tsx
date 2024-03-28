@@ -46,7 +46,7 @@ const IconSizeStyle = styled.View`
 const tabBarIcon = ({ route, focused }: TabBarIconProps) => {
   const iconMap: { [key: string]: React.ElementType } = {
     MainScreen: focused ? HomeActive : HomeDefaultIcon,
-    PlantBookScreen: focused ? searchActive : searchDefault,
+    CropsScreen: focused ? searchActive : searchDefault,
     DiseasePlantScreen: focused ? hospitalActive : hospitalDefault,
     MarketScreen: focused ? shopActive : shopDefault,
     MyProfileScreen: focused ? profileActive : profileDefault,
@@ -89,7 +89,7 @@ const BottomNavigation = () => {
         }}
       />
       <Tabs.Screen
-        name='PlantBookScreen'
+        name='CropsScreen'
         component={CropsScreen}
         options={{
           title: '작물도감',
