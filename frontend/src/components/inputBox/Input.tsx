@@ -1,4 +1,6 @@
 import styled from 'styled-components/native';
+import { TextInputProps } from 'react-native';
+
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import * as Color from '../../config/color/Color';
 import SearchGray from '../../../assets/icons/search_gray.svg';
@@ -12,6 +14,7 @@ interface InputBoxProps {
   height?: number;
   children?: React.ReactNode;
   value?: string;
+  keyboardType?: TextInputProps['keyboardType'];
 }
 interface SearchInputProps {
   title?: string;
@@ -145,10 +148,16 @@ export const MultiLineInputBox = (props: InputBoxProps) => {
  * @author 오민상
  */
 export const SearchInputBox = (props: SearchInputProps) => {
+  const handleChangeText = (text: string) => {
+    if (props.setValue) {
+      props.setValue(text);
+    }
+  };
+
   return (
     <InputContainer>
       <SearchGray width={widthPercent * 20} height={heightPercent * 20} />
-      <StyledInput value={props.value} onChangeText={props.setValue} onSubmitEditing={props.onSubmitSearch} placeholder={props.placeHolder} returnKeyType='done' />
+      <StyledInput value={props.value} onChangeText={handleChangeText} onSubmitEditing={props.onSubmitSearch} placeholder={props.placeHolder} returnKeyType='done' />
     </InputContainer>
   );
 };

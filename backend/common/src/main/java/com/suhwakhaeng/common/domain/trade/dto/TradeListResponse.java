@@ -12,9 +12,9 @@ public record TradeListResponse (
     TradeCate cate,
     String image1,
     String title,
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     LocalDateTime createdAt,
     Long price,
     Boolean isLiked,
     Long likeCnt
-) {}
+) { }

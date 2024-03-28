@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 const BASE_URL = 'http://10.0.2.2:8000/';
+// const BASE_URL = 'http://43.202.161.194:9000/';
 
 export const instance = axios.create({
   baseURL: `${BASE_URL}`,

@@ -1,7 +1,7 @@
 package com.suhwakhaeng.common.domain.user.controller;
 
 import com.suhwakhaeng.common.domain.user.dto.LoginResponse;
-import com.suhwakhaeng.common.domain.user.dto.OauthServerToken;
+import com.suhwakhaeng.common.domain.user.dto.OauthTokenRequest;
 import com.suhwakhaeng.common.domain.user.dto.TokenRequest;
 import com.suhwakhaeng.common.domain.user.dto.TokenInfo;
 import com.suhwakhaeng.common.domain.user.service.OauthService;
@@ -20,8 +20,8 @@ public class OAuthController {
     private final OauthService oauthService;
 
     @PostMapping("/{oauthServerType}/login")
-    public ResponseEntity login(@PathVariable OauthServerType oauthServerType, @RequestBody OauthServerToken oauthServerToken) {
-        LoginResponse loginResponse = oauthService.login(oauthServerType, oauthServerToken.token());
+    public ResponseEntity login(@PathVariable OauthServerType oauthServerType, @RequestBody OauthTokenRequest request) {
+        LoginResponse loginResponse = oauthService.login(oauthServerType, request);
         return ResponseEntity.ok().body(Message.success(loginResponse));
     }
 

@@ -21,6 +21,11 @@ import Pumpkin from '../../../assets/icons/pumpkin.svg';
 import SweetPotato from '../../../assets/icons/sweetPotato.svg';
 import Tomato from '../../../assets/icons/tomato.svg';
 import Watermelon from '../../../assets/icons/watermelon.svg';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../stacks/mainStack/MainStack';
+
+type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 const StyledView = styled.View`
   width: ${widthPercent * 24}px;
@@ -38,11 +43,13 @@ const RowView = styled.View`
 `;
 
 export const PlantAdd = () => {
+  const navigation = useNavigation<RootStackNavigationProp>();
+
   return (
     <TouchableOpacity>
       <RowView>
         <BasicButton
-          onPress={() => console.log('Button pressed')}
+          onPress={() => navigation.navigate('AddCropsScreen')}
           width={widthPercent * 24}
           height={widthPercent * 24}
           disabled={false}
@@ -74,32 +81,30 @@ type PlantAddProps = {
 
 export const PlantItem = (props: PlantAddProps) => {
   const plantData: { [key: string]: any } = {
-    '가지': Eggplant,
-    '고구마': SweetPotato,
-    '고추': ChiliPepper,
-    '감자': Potato,
-    '당근': Carrot,
-    '마늘': Garlic,
-    '상추': Lettuce,
-    '수박': Watermelon,
-    '양파': Onion,
-    '오이': Cucumber,
-    '파': GreenOnion,
-    '파프리카': BellPepper,
-    '토마토': Tomato,
-    '호박': Pumpkin,
+    가지: Eggplant,
+    고구마: SweetPotato,
+    고추: ChiliPepper,
+    감자: Potato,
+    당근: Carrot,
+    마늘: Garlic,
+    상추: Lettuce,
+    수박: Watermelon,
+    양파: Onion,
+    오이: Cucumber,
+    파: GreenOnion,
+    파프리카: BellPepper,
+    토마토: Tomato,
+    호박: Pumpkin,
   };
 
-  const PlantIcon = plantData[ props.name || '']; // props로 전달된 작물 이름에 해당하는 아이콘을 가져옴
+  const PlantIcon = plantData[props.name || '']; // props로 전달된 작물 이름에 해당하는 아이콘을 가져옴
 
   return (
     <TouchableOpacity onPress={props.onPress}>
-      <RowView>        
-        <StyledView>
-          {PlantIcon && <PlantIcon width={widthPercent * 16} height={widthPercent * 16} />}
-        </StyledView>
+      <RowView>
+        <StyledView>{PlantIcon && <PlantIcon width={widthPercent * 16} height={widthPercent * 16} />}</StyledView>
         <Spacer space={widthPercent * 10} horizontal />
-        <Typo.BODY4_M >{props.name}</Typo.BODY4_M>
+        <Typo.BODY4_M>{props.name}</Typo.BODY4_M>
         <Spacer space={widthPercent * 10} horizontal />
         <Typo.Detail1_M color={Color.GRAY400}>{props.location}</Typo.Detail1_M>
       </RowView>

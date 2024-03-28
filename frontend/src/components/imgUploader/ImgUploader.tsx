@@ -84,7 +84,7 @@ const ImgUploader = ({ data, setData, maximage }: ImgUploaderProps) => {
       {data.map((url, index) => (
         <>
           <Spacer horizontal space={widthPercent * 10}></Spacer>
-          <Container>
+          <Container key={index}>
             <ImgThumbnail url={url} width={70} height={70}></ImgThumbnail>
             <RemoveButton onPress={() => handleRemovePress(index)}>
               <Xbutton width={widthPercent * 15} height={heightPercent * 15} />
