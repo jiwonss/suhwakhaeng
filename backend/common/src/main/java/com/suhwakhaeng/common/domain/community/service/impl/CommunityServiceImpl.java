@@ -62,10 +62,22 @@ public class CommunityServiceImpl implements CommunityService {
     public void createCommunityLike(Long userId, Long communityId) {
         Community community = communitiyRepository.findById(communityId).orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMUNITY));
         User user = userRepository.findById(userId).orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST_USER));
-        CommunityLike communityLike = CommunityLike.builder()
-                .communityLikePK(new CommunityLikePK(user, community))
-                .build();
 
-        communityLikeRepository.save(communityLike);
+        communityLikeRepository.save(
+                CommunityLike.builder()
+                        .communityLikePK(new CommunityLikePK(user, community))
+                        .build());
+    }
+
+    @Transactional
+    @Override
+    public void deleteCommunityLike(Long userId, Long communityId) {
+        Community community = communitiyRepository.findById(communityId).orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMUNITY));
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST_USER));
+
+        communityLikeRepository.delete(
+                CommunityLike.builder()
+                        .communityLikePK(new CommunityLikePK(user, community))
+                        .build());
     }
 }

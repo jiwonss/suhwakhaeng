@@ -42,4 +42,11 @@ public class CommunityController {
         return ResponseEntity.ok().body(Message.success());
     }
 
+    @DeleteMapping("/like/{communityId}")
+    public ResponseEntity deleteCommunityLike(@RequestHeader("X-Authorization-Id") Long userId,
+                                              @PathVariable Long communityId) {
+        communityService.deleteCommunityLike(userId, communityId);
+        return ResponseEntity.ok().body(Message.success());
+    }
+
 }

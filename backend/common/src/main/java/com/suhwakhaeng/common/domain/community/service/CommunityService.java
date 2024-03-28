@@ -12,5 +12,5 @@ public interface CommunityService {
     List<CommunityListResponse> selectCommunity(Long userId, CommunitySearchRequest request);
     CommunityDetailResponse selectCommunityDetail(Long userId, Long communityId);
     void createCommunityLike(Long userId, Long communityId);
-
+    void deleteCommunityLike(Long userId, Long communityId);
 }
