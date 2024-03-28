@@ -1,9 +1,6 @@
 package com.suhwakhaeng.common.domain.community.service;
 
-import com.suhwakhaeng.common.domain.community.dto.CommunityCreateRequest;
-import com.suhwakhaeng.common.domain.community.dto.CommunityDetailResponse;
-import com.suhwakhaeng.common.domain.community.dto.CommunitySearchRequest;
-import com.suhwakhaeng.common.domain.community.dto.CommunityListResponse;
+import com.suhwakhaeng.common.domain.community.dto.*;
 
 import java.util.List;
 
@@ -13,4 +10,6 @@ public interface CommunityService {
     CommunityDetailResponse selectCommunityDetail(Long userId, Long communityId);
     void createCommunityLike(Long userId, Long communityId);
     void deleteCommunityLike(Long userId, Long communityId);
+
+    void updateCommunity(Long userId, Long communityId, CommunityUpdateRequest request);
 }

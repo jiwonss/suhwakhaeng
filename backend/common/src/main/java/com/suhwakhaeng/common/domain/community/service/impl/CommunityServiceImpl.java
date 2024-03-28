@@ -1,9 +1,6 @@
 package com.suhwakhaeng.common.domain.community.service.impl;
 
-import com.suhwakhaeng.common.domain.community.dto.CommunityCreateRequest;
-import com.suhwakhaeng.common.domain.community.dto.CommunityDetailResponse;
-import com.suhwakhaeng.common.domain.community.dto.CommunitySearchRequest;
-import com.suhwakhaeng.common.domain.community.dto.CommunityListResponse;
+import com.suhwakhaeng.common.domain.community.dto.*;
 import com.suhwakhaeng.common.domain.community.entity.Community;
 import com.suhwakhaeng.common.domain.community.entity.CommunityLike;
 import com.suhwakhaeng.common.domain.community.entity.CommunityLikePK;
@@ -79,5 +76,16 @@ public class CommunityServiceImpl implements CommunityService {
                 CommunityLike.builder()
                         .communityLikePK(new CommunityLikePK(user, community))
                         .build());
+    }
+
+    @Transactional
+    @Override
+    public void updateCommunity(Long userId, Long communityId, CommunityUpdateRequest request) {
+        Community community = communitiyRepository.findById(communityId).orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMUNITY));
+        if (!community.getWriter().getId().equals(userId)) {
+            throw new CommunityException(CommunityErrorCode.NOT_MATCH_USER);
+        }
+
+        community.update(request.toEntity());
     }
 }
