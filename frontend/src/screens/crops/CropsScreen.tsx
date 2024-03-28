@@ -82,7 +82,7 @@ const CropsScreen = () => {
     const getData = async () => {
       const { dataBody } = await getCropsData();
       const mappedData = dataBody.map((item: Crop) => {
-        const iconItem = iconMapping.find((icon) => icon.engName === item.name);
+        const iconItem = iconMapping.find((icon) => icon.engName === item.name || icon.name === item.name);
         return {
           ...item,
           name: iconItem ? iconItem.name : item.name,
