@@ -5,7 +5,7 @@ const authUrl = 'common/oauth';
 const oauthServerType = 'KAKAO';
 
 // 사용 예시
-export const userLogin = async (params: { token: string }) => {
+export const userLogin = async (params: { oauthToken: string; deviceToken: string }) => {
   const response = await instance.post(`${authUrl}/${oauthServerType}/login`, params);
   return response.data;
 };

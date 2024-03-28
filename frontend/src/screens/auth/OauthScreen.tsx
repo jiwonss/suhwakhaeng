@@ -8,10 +8,9 @@ import { login } from '@react-native-seoul/kakao-login';
 import { getUserInfo, userLogin } from '../../apis/services/user/user';
 import { useRecoilState } from 'recoil';
 import { tokenState } from '../../recoil/atoms/tokenState';
-import axios from 'axios';
 import { setTokens, getTokens } from '../../util/TokenUtil';
-import EncryptedStorage from 'react-native-encrypted-storage';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
+import messaging from '@react-native-firebase/messaging';
 
 const Container = styled.View`
   flex: 1;
@@ -43,8 +42,25 @@ const OauthScreen = () => {
       // 카카오 로그인 파트
       const res = await login();
 
+      const requestUserPermission = async () => {
+        const authStatus = await messaging().requestPermission();
+        const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED || authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+        if (enabled) {
+          console.log('Authorization status:', authStatus);
+        }
+      };
+
+      const getFcmToken = async () => {
+        const fcmToken = await messaging().getToken();
+        return fcmToken;
+      };
+
+      const deviceToken = await getFcmToken();
+      // requestUserPermission();
+
       // 로그인 요청 보내기
-      const data = { token: res.accessToken }; // 서버로 보낼 params 세팅
+      const data = { oauthToken: res.accessToken, deviceToken: deviceToken }; // 서버로 보낼 params 세팅
 
       const response = await userLogin(data); // 서버에 로그인 요청
 
