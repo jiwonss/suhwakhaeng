@@ -10,13 +10,19 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommunityListResponse {
-    private WriterInfo user;
-    private Long communityId;
-    private String communityContent;
-    private String thumbnail;
+public class CommunityDetailResponse {
+    WriterInfo user;
 
+    private Long communityId;
     private Category cate;
+    private String communityContent;
+
+    private String image1;
+    private String image2;
+    private String image3;
+    private String image4;
+
+
     private Boolean isLiked;
     private Long likeCount;
     private Long commentCount;

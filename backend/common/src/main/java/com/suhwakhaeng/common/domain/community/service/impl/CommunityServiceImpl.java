@@ -1,6 +1,7 @@
 package com.suhwakhaeng.common.domain.community.service.impl;
 
 import com.suhwakhaeng.common.domain.community.dto.CommunityCreateRequest;
+import com.suhwakhaeng.common.domain.community.dto.CommunityDetailResponse;
 import com.suhwakhaeng.common.domain.community.dto.CommunitySearchRequest;
 import com.suhwakhaeng.common.domain.community.dto.CommunityListResponse;
 import com.suhwakhaeng.common.domain.community.entity.Community;
@@ -42,6 +43,10 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public List<CommunityListResponse> selectCommunity(Long userId, CommunitySearchRequest request) {
         return communitiyRepository.searchCommunity(userId, request);
+    }
 
+    @Override
+    public CommunityDetailResponse selectCommunityDetail(Long userId, Long communityId) {
+        return communitiyRepository.selectCommunity(userId, communityId);
     }
 }
