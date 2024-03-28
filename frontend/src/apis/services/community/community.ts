@@ -16,3 +16,8 @@ export const getPostDetail = async (params: { communityId: number }) => {
   const response = await tokenInstance.get(`${communityUrl}/${params.communityId}`);
   return response.data;
 };
+
+export const getMyPostList = async (params: { lastId: number }) => {
+  const response = await tokenInstance.get(`${communityUrl}/my/list?lastId=${params.lastId}`);
+  return response.data;
+};
