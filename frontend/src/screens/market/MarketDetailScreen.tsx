@@ -19,7 +19,6 @@ import { deleteIsLiked, deleteMarketPost, getIsLiked, getMarketPostDetail, updat
 import { changeCategoryName } from '../../util/MarketUtil';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { Spacer } from '../../components/basic/Spacer';
-import { Divider } from '../../components/basic/Divider';
 
 interface MarketDetailProps {
   route: {
@@ -54,10 +53,10 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
     image2: string | null;
     image3: string | null;
     image4: string | null;
-    x: number | null;
-    y: number | null;
+    x: number;
+    y: number;
     roadNameAddress: string;
-  }>({ postId: null, title: '', price: 0, content: '', cate: '', image1: '', image2: null, image3: null, image4: null, x: null, y: null, roadNameAddress: '' });
+  }>({ postId: null, title: '', price: 0, content: '', cate: '', image1: '', image2: null, image3: null, image4: null, x: 0, y: 0, roadNameAddress: '' });
 
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
@@ -173,8 +172,8 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
           {postDetailInfo.image4 && <UriImageLoader uri={postDetailInfo.image4} resizeMode='contain' style={{ width: widthPercent * 300, height: heightPercent * 200 }} />}
 
           <Spacer space={heightPercent * 60} />
-          <Typo.BODY4_M>[거래 희망 장소]</Typo.BODY4_M>
-          {postDetailInfo.x && postDetailInfo.y && <KakaoMap x={postDetailInfo.x} y={postDetailInfo.y} />}
+          {postDetailInfo.roadNameAddress && <Typo.BODY4_M>[거래 희망 장소]</Typo.BODY4_M>}
+          {postDetailInfo.roadNameAddress && <KakaoMap x={postDetailInfo.x} y={postDetailInfo.y} />}
 
           {postDetailInfo.roadNameAddress && <Typo.BODY4_M>{postDetailInfo.roadNameAddress}</Typo.BODY4_M>}
         </PostContainer>
