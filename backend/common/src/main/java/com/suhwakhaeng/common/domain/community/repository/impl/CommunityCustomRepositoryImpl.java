@@ -5,8 +5,10 @@ import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.suhwakhaeng.common.domain.community.dto.CommunityDetailResponse;
 import com.suhwakhaeng.common.domain.community.dto.CommunitySearchRequest;
 import com.suhwakhaeng.common.domain.community.dto.CommunityListResponse;
+import com.suhwakhaeng.common.domain.community.dto.WriterInfo;
 import com.suhwakhaeng.common.domain.community.enums.Category;
 import com.suhwakhaeng.common.domain.community.repository.CommunityCustomRepository;
 import com.suhwakhaeng.common.global.util.NullSafeBuilder;
@@ -24,11 +26,56 @@ import static com.suhwakhaeng.common.domain.user.entity.QUser.*;
 @RequiredArgsConstructor
 public class CommunityCustomRepositoryImpl implements CommunityCustomRepository {
     private final JPAQueryFactory queryFactory;
+
+    @Override
+    public CommunityDetailResponse selectCommunity(Long userId, Long communityId) {
+        return queryFactory
+                .select(Projections.fields(CommunityDetailResponse.class,
+                        Projections.fields(WriterInfo.class,
+                                user.id.as("userId"),
+                                user.nickname.as("nickname"),
+                                user.profileImage.as("profileImage")
+                        ).as("user"),
+                        community.id.as("communityId"),
+                        community.cate.as("cate"),
+                        community.content.as("communityContent"),
+                        community.image1.as("image1"),
+                        community.image2.as("image2"),
+                        community.image3.as("image3"),
+                        community.image4.as("image4"),
+                        ExpressionUtils.as(
+                                JPAExpressions.selectOne()
+                                        .from(communityLike)
+                                        .where(communityLike.communityLikePK.community.id.eq(community.id)
+                                                .and(communityLike.communityLikePK.user.id.eq(userId)))
+                                        .exists(),
+                                "isLiked"
+                        ),
+                        ExpressionUtils.as(
+                                JPAExpressions.select(communityLike.count())
+                                        .from(communityLike)
+                                        .where(communityLike.communityLikePK.community.eq(community)),
+                                "likeCount"
+                        ),
+                        ExpressionUtils.as(
+                                JPAExpressions.select(communityComment.count())
+                                        .from(communityComment)
+                                        .where(communityComment.community.eq(community)),
+                                "commentCount"
+                        ),
+                        community.createdAt.as("createdAt")
+                ))
+                .from(community)
+                .join(community.writer, user)
+                .where(community.id.eq(communityId))
+                .fetchOne();
+    }
+
     @Override
     public List<CommunityListResponse> searchCommunity(Long userId, CommunitySearchRequest request) {
         return queryFactory
                 .select(Projections.fields(CommunityListResponse.class,
-                        Projections.fields(CommunityListResponse.UserInfo.class,
+                        Projections.fields(WriterInfo.class,
                                 user.id.as("userId"),
                                 user.nickname.as("nickname"),
                                 user.profileImage.as("profileImage")

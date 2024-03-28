@@ -27,4 +27,11 @@ public class CommunityController {
         return ResponseEntity.ok().body(Message.success(communityService.selectCommunity(userId, request)));
     }
 
+    @GetMapping("/{communityId}")
+    public ResponseEntity selectCommunityDetail(@PathVariable Long communityId,
+                                                @RequestHeader("X-Authorization-Id") Long userId) {
+
+        return ResponseEntity.ok().body(Message.success(communityService.selectCommunityDetail(userId, communityId)));
+    }
+
 }
