@@ -10,4 +10,6 @@ public interface CommunityCustomRepository {
 
     CommunityDetailResponse selectCommunity(Long userId, Long communityId);
     List<CommunityListResponse> searchCommunity(Long userId, CommunitySearchRequest request);
+
+    List<CommunityListResponse> selectMyCommunity(Long userId, Long lastId);
 }

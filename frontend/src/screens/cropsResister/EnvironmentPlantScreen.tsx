@@ -29,7 +29,7 @@ const EnvironmentPlantScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'EnvironmentPlantScreen'>>();
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { plantName, cropsVarietyId, varietyName, dataList_S, dataList_D, dataList_G } = route.params;
+  const { plantName, cropsVarietyId, varietyName, sido, gugun, dong } = route.params;
   const dropDownData = ['평방미터', '평', '헥타르'];
   const [selectData, setSelectData] = useState('평방미터');
   const [cropName, setCropName] = useState('');
@@ -48,18 +48,12 @@ const EnvironmentPlantScreen = () => {
       areaUnit: selectData,
       yield: parseFloat(cropYield),
       location: {
-        sido: dataList_S,
-        gugun: dataList_G,
-        dong: dataList_D,
+        sido: sido,
+        gugun: gugun,
+        dong: dong,
       },
     };
     setMyCrops([...myCrops, newCrop]);
-  };
-
-  const moveSetLocation = (value: number) => {
-    if (!varietyName) return;
-    const params = { value, plantName, varietyName, cropsVarietyId };
-    navigation.navigate('SetLocationScreen', params);
   };
 
   const submitCropInfo = async () => {
@@ -70,14 +64,13 @@ const EnvironmentPlantScreen = () => {
       areaUnit: selectData,
       yield: parseFloat(cropYield),
       location: {
-        sido: dataList_S,
-        gugun: dataList_G,
-        dong: dataList_D,
+        sido: sido,
+        gugun: gugun,
+        dong: dong,
       },
     };
 
     try {
-      console.log(cropInfo);
       await postMyCropInfo(cropInfo);
       updateMyCrops();
       navigation.navigate('BottomNavigation');
@@ -110,16 +103,14 @@ const EnvironmentPlantScreen = () => {
           <Typo.BODY4_M>지역</Typo.BODY4_M>
           <BasicButton
             onPress={() => {
-              moveSetLocation(1);
+              navigation.navigate('PostCodeScreen', { id: 0, screenName: 'EnvironmentPlant', plantName: plantName });
             }}
             height={heightPercent * 36}
             borderColor={Color.GRAY300}
             backgroundColor={Color.WHITE}
             borderRadius={10}
           >
-            <Typo.BODY3_M>
-              {dataList_S} {dataList_G} {dataList_D}
-            </Typo.BODY3_M>
+            <Typo.BODY4_M color={Color.GRAY400}>{sido ? `${sido} ${gugun} ${dong}` : '지역 검색'}</Typo.BODY4_M>
           </BasicButton>
           <Spacer space={10} />
         </Container>

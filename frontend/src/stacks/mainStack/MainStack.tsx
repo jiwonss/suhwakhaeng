@@ -5,7 +5,6 @@ import FarmLedgerAddScreen from '../../screens/farmDairy/FarmLedgerAddScreen';
 import CreatePostScreen from '../../screens/post/CreatePostScreen';
 import DetailPostScreen from '../../screens/post/DetailPostScreen';
 import UpdatePostScreen from '../../screens/post/UpdatePostScreen';
-import SetLocationScreen from '../../screens/SetLocationScreen';
 import MyProfileScreen from '../../screens/myProfile/MyProfileScreen';
 import MarketScreen from '../../screens/market/MarketScreen';
 import MarketDetailScreen from '../../screens/market/MarketDetailScreen';
@@ -80,11 +79,18 @@ export type RootStackParamList = {
   DetailDiseasePlantScreen: { photo: { uri: string }; diagnosisResult: DiagnosisResult };
   PlantResisterScreen: undefined;
   AddCropsScreen: undefined;
-  EnvironmentPlantScreen: { plantName: string; cropsVarietyId?: number; varietyName?: string; dataList_S?: string; dataList_G?: string; dataList_D?: string };
+  EnvironmentPlantScreen: {
+    plantName: string;
+    cropsVarietyId?: number;
+    varietyName?: string;
+    sido?: string;
+    gugun?: string;
+    dong?: string;
+  };
   BottomNavigation: undefined;
   WeatherScreen: undefined;
   CameraScreen: { value: number };
-  PostCodeScreen: { id: number; screenName: string };
+  PostCodeScreen: { id: number; screenName: string; plantName?: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -93,6 +99,7 @@ const MainStack = () => {
   return (
     // <Stack.Navigator initialRouteName='MainScreen'>
     <Stack.Navigator
+      initialRouteName='FarmScreen'
       screenOptions={{
         headerShown: false,
       }}
@@ -120,8 +127,6 @@ const MainStack = () => {
       <Stack.Screen name='SearchResultScreen' component={SearchResultScreen} options={{ headerShown: false }} />
       {/*작성한 게시글 조회 페이지*/}
       <Stack.Screen name='MyPostScreen' component={MyPostScreen} options={{ headerShown: false }} />
-      {/*지역 설정 페이지*/}
-      <Stack.Screen name='SetLocationScreen' component={SetLocationScreen} options={{ headerShown: false }} />
       {/* 채팅 페이지 */}
       <Stack.Screen name='ChattingRoomScreen' component={ChattingRoomScreen} options={{ headerShown: false }} />
       {/* 마이 페이지 */}

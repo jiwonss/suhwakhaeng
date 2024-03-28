@@ -4,7 +4,7 @@ import * as Color from '../../config/color/Color';
 
 interface DropDownProps {
   dataList: Array<string>;
-  onSelect: React.Dispatch<React.SetStateAction<string>> | React.Dispatch<React.SetStateAction<number>>;
+  onSelect: React.Dispatch<React.SetStateAction<string | string>> | React.Dispatch<React.SetStateAction<number>>;
   defaultText: string;
   width?: number;
 }
