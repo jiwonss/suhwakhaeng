@@ -59,10 +59,9 @@ const FarmDairyDetailScreen = (props: FarmDiaryDetailProps) => {
     fetchData();
   }, []);
 
-  const onDelete = (id : string) => {
+  const onDelete = (diaryId : number) => {
     const fetchData = async () => {
-      await console.log(deleteDiary(id));
-
+      await console.log(deleteDiary(diaryId));
     };
 
     fetchData();

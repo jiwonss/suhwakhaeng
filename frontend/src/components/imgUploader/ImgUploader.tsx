@@ -1,12 +1,12 @@
 import styled from 'styled-components/native';
-import React from 'react';
+import React, { Fragment } from 'react';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import ImgThumbnail from '../imgThumbnail/ImgThumbnail';
 import { Spacer } from '../basic/Spacer';
 import * as ImagePicker from 'expo-image-picker';
-import { Alert, ScrollView } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
 import Xbutton from '../../../assets/icons/xButton.svg';
 
 const Container = styled.View`
@@ -82,7 +82,7 @@ const ImgUploader = ({ data, setData, maximage }: ImgUploaderProps) => {
         <Typo.BODY0_M color={Color.BLACK}>+</Typo.BODY0_M>
       </StyledView>
       {data.map((url, index) => (
-        <>
+        <Fragment key={index}>
           <Spacer horizontal space={widthPercent * 10}></Spacer>
           <Container key={index}>
             <ImgThumbnail url={url} width={70} height={70}></ImgThumbnail>
@@ -90,7 +90,7 @@ const ImgUploader = ({ data, setData, maximage }: ImgUploaderProps) => {
               <Xbutton width={widthPercent * 15} height={heightPercent * 15} />
             </RemoveButton>
           </Container>
-        </>
+        </Fragment>
       ))}
     </ScrollView>
   );

@@ -72,10 +72,8 @@ const FarmDairyAddScreen = () => {
       if (urls && urls.length !== 0) {
         const test = await uploadImagesToFirebaseStorage(urls, `영농일지//${myCrops[i].myCropsId}`);
         image = test[0];
-        console.log('이미지 업로드 완료');
       }
 
-      console.log('포스트 업로드 시작')
       await console.log(createDiary({
         myCropsId: myCrops[i].myCropsId,
         content: content,
