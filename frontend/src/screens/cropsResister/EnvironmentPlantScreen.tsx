@@ -25,8 +25,6 @@ const ButtonContainer = styled.View`
   padding: ${heightPercent * 8}px ${widthPercent * 20}px;
 `;
 
-// updateMyCrops를 사용해야하는데 지금 어쩌다보니 안쓰게 됨. 이거 처리해야함
-
 const EnvironmentPlantScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'EnvironmentPlantScreen'>>();
@@ -41,9 +39,21 @@ const EnvironmentPlantScreen = () => {
   const [myCrops, setMyCrops] = useRecoilState(myCropsList);
 
   const updateMyCrops = () => {
-    const keyNumber = Object.keys(myCrops).length;
-    const newCrop = { ...myCrops, [keyNumber]: { plantName: plantName, varietyName: varietyName } };
-    setMyCrops(newCrop);
+    const newCrop = {
+      plantName: plantName,
+      varietyName: varietyName,
+      cropsVarietyId: cropsVarietyId,
+      name: cropName,
+      area: parseFloat(area),
+      areaUnit: selectData,
+      yield: parseFloat(cropYield),
+      location: {
+        sido: dataList_S,
+        gugun: dataList_G,
+        dong: dataList_D,
+      },
+    };
+    setMyCrops([...myCrops, newCrop]);
   };
 
   const moveSetLocation = (value: number) => {
@@ -53,7 +63,6 @@ const EnvironmentPlantScreen = () => {
   };
 
   const submitCropInfo = async () => {
-    console.log('작성완료버튼 클릭1');
     const cropInfo = {
       cropsVarietyId: cropsVarietyId,
       name: cropName,
@@ -71,7 +80,7 @@ const EnvironmentPlantScreen = () => {
       console.log(cropInfo);
       await postMyCropInfo(cropInfo);
       updateMyCrops();
-      navigation.navigate('MyProfileScreen');
+      navigation.navigate('BottomNavigation');
     } catch (error) {
       console.error(error);
     }

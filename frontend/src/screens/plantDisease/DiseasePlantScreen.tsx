@@ -11,7 +11,7 @@ import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
-import React, { useState } from 'react';
+import React from 'react';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -36,7 +36,7 @@ const DiseasePlantScreen = () => {
           </Typo.BODY4_M>
         </Container>
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-          <MenuButton size='big' title='작물 검색' borderColor={Color.GREEN50} onPressButton={() => navigation.navigate('PlantBookScreen')}>
+          <MenuButton size='big' title='작물 검색' borderColor={Color.GREEN50} onPressButton={() => navigation.navigate('CropsScreen')}>
             <Search3D width={widthPercent * 40} height={heightPercent * 40} />
           </MenuButton>
           <Spacer horizontal={true} space={40} />
