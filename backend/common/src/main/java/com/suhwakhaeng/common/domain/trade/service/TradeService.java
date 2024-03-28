@@ -13,7 +13,7 @@ public interface TradeService {
     List<TradeListResponse> selectMyLikeListTrade(Long userId);
     void updateTrade(Long userId, Long tradeId, TradeUpdateRequest tradeUpdateRequest);
     void deleteTrade(Long userId, Long tradeId);
-    void updateStatus(Long userId, Long tradeId, TradeStatus status);
+    void updateStatus(Long userId, Long tradeId, TradeStatusUpdateRequest status);
     void createLike(Long userId, Long tradeId);
     void deleteLike(Long userId, Long tradeId);
     TradeLikeResponse selectLike(Long userId, Long tradeId);
