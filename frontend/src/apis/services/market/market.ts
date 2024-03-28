@@ -67,3 +67,8 @@ export const changePostStatus = async (params: { tradeId: number }, data: { stat
   const response = await tokenInstance.patch(`${marketUrl}/status/${params.tradeId}`, data);
   return response.data;
 };
+
+export const getLikedMarketPostList = async () => {
+  const response = await tokenInstance.get(`${marketUrl}/like/list`);
+  return response.data;
+};
