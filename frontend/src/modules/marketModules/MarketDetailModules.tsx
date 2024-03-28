@@ -8,6 +8,8 @@ import { Spacer } from '../../components/basic/Spacer';
 import WebView from 'react-native-webview';
 
 interface MoreModalProps {
+  status: boolean;
+  onChangeStatus: () => void;
   isVisible: boolean;
   setIsVisible: React.Dispatch<React.SetStateAction<boolean>>;
   onDelete: (postId: number) => void;
@@ -19,14 +21,25 @@ export const MoreModal = (props: MoreModalProps) => {
   return (
     <SlideModal isVisible={props.isVisible} setIsVisible={props.setIsVisible}>
       <BasicButton
-        onPress={() => props.onModify(props.postId)}
+        onPress={props.onChangeStatus}
         width={widthPercent * 300}
         height={heightPercent * 45}
         borderColor={Color.GREEN500}
         borderRadius={10}
         backgroundColor={Color.WHITE}
       >
-        <Typo.BODY3_M color={Color.GREEN500}>수정하기</Typo.BODY3_M>
+        <Typo.BODY3_M color={Color.GREEN500}>{props.status ? '판매 중으로 변경' : '판매 완료로 변경'}</Typo.BODY3_M>
+      </BasicButton>
+      <Spacer space={heightPercent * 10} />
+      <BasicButton
+        onPress={() => props.onModify(props.postId)}
+        width={widthPercent * 300}
+        height={heightPercent * 45}
+        borderColor={Color.GREEN200}
+        borderRadius={10}
+        backgroundColor={Color.GREEN200}
+      >
+        <Typo.BODY3_M color={Color.WHITE}>수정하기</Typo.BODY3_M>
       </BasicButton>
       <Spacer space={heightPercent * 10} />
       <BasicButton onPress={() => props.onDelete(props.postId)} width={widthPercent * 300} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
