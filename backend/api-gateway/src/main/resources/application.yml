@@ -29,20 +29,20 @@ spring:
           filters:
             - RewritePath=/common/(?<segment>.*), /$\{segment}
 
-        - id: common-guest
-          uri: lb://COMMON
-          predicates:
-            - Path=/common/crops, /common/crops/{segment}/variety
-            - Method=GET
-          filters:
-            - RewritePath=/common/(?<segment>.*), /$\{segment}
-
         - id: common
           uri: lb://COMMON
           predicates:
             - Path=/common/**
           filters:
             - RewritePath=/common/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+        - id: chat
+          uri: lb://CHAT
+          predicates:
+            - Path=/chat/**
+          filters:
+            - RewritePath=/chat/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
 
 management:
