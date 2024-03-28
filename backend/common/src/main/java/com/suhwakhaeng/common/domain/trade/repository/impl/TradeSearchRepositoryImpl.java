@@ -52,6 +52,7 @@ public class TradeSearchRepositoryImpl implements TradeSearchRepository {
                                 tradeBoard.title.as("title"),
                                 tradeBoard.createdAt.as("createdAt"),
                                 tradeBoard.price.as("price"),
+                                tradeBoard.status.as("status"),
                                 ExpressionUtils.as(
                                         JPAExpressions.selectOne()
                                                 .from(tradeLike)
@@ -82,6 +83,7 @@ public class TradeSearchRepositoryImpl implements TradeSearchRepository {
                                 tradeBoard.title.as("title"),
                                 tradeBoard.createdAt.as("createdAt"),
                                 tradeBoard.price.as("price"),
+                                tradeBoard.status.as("status"),
                                 ExpressionUtils.as(
                                         JPAExpressions.selectOne()
                                                 .from(tradeLike)
@@ -120,6 +122,7 @@ public class TradeSearchRepositoryImpl implements TradeSearchRepository {
                                 tradeBoard.title.as("title"),
                                 tradeBoard.createdAt.as("createdAt"),
                                 tradeBoard.price.as("price"),
+                                tradeBoard.status.as("status"),
                                 ExpressionUtils.as(isLiked, "isLiked"),
                                 tradeLike.count().as("likeCnt"))
                 )
