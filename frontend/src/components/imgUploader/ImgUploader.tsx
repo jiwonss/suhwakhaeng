@@ -1,12 +1,12 @@
 import styled from 'styled-components/native';
-import React from 'react';
+import React, { Fragment } from 'react';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import ImgThumbnail from '../imgThumbnail/ImgThumbnail';
 import { Spacer } from '../basic/Spacer';
 import * as ImagePicker from 'expo-image-picker';
-import { Alert, ScrollView } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
 import Xbutton from '../../../assets/icons/xButton.svg';
 
 const Container = styled.View`
@@ -38,12 +38,19 @@ const RemoveButton = styled.TouchableOpacity`
 interface ImgUploaderProps {
   data: string[];
   setData: any;
+  maximage?: number;
 }
 
-const ImgUploader = ({ data, setData }: ImgUploaderProps) => {
+const ImgUploader = ({ data, setData, maximage }: ImgUploaderProps) => {
   const handleAddPress = async () => {
-    if (data.length >= 4) {
-      Alert.alert('알림', '이미지는 최대 4개까지만 추가할 수 있습니다.', [{ text: '확인', onPress: () => console.log('확인') }]);
+    const maxAllowedImages = maximage || 4; // maximage가 없으면 기본적으로 4개로 설정
+
+    if (data.length >= maxAllowedImages) {
+      Alert.alert(
+        '알림',
+        `이미지는 최대 ${maxAllowedImages}개까지만 추가할 수 있습니다.`,
+        [{ text: '확인', onPress: () => console.log('확인') }],
+      );
       return;
     }
 
@@ -75,7 +82,7 @@ const ImgUploader = ({ data, setData }: ImgUploaderProps) => {
         <Typo.BODY0_M color={Color.BLACK}>+</Typo.BODY0_M>
       </StyledView>
       {data.map((url, index) => (
-        <>
+        <Fragment key={index}>
           <Spacer horizontal space={widthPercent * 10}></Spacer>
           <Container key={index}>
             <ImgThumbnail url={url} width={70} height={70}></ImgThumbnail>
@@ -83,7 +90,7 @@ const ImgUploader = ({ data, setData }: ImgUploaderProps) => {
               <Xbutton width={widthPercent * 15} height={heightPercent * 15} />
             </RemoveButton>
           </Container>
-        </>
+        </Fragment>
       ))}
     </ScrollView>
   );
