@@ -1,19 +1,47 @@
-version: "3.8"
+#version: "3.8"
+#services:
+#  mongodb:
+#    build:
+#      context: ./mongo
+#    container_name: mongodb
+#    ports:
+#      - "27017:27017"
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: root
+#
+#  rabbitmq:
+#    build:
+#      context: ./rabbitmq
+#    container_name: rabbitmq
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"  # rabbitmq
+#      - "61613:61613" # stomp
+#    environment:
+#      RABBITMQ_DEFAULT_USER: ssafy
+#      RABBITMQ_DEFAULT_PASS: ssafy
+
+version: "3"
+
 services:
   mongodb:
-    build:
-      context: ./mongo
-    container_name: mongodb
+    image: mongo
+    container_name: mongo
+    hostname: mongo
     ports:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
+    networks:
+      suhwakhaeng:
+        ipv4_address: 172.20.0.4
 
   rabbitmq:
-    build:
-      context: ./rabbitmq
+    image: rabbitmq
     container_name: rabbitmq
+    hostname: rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"  # rabbitmq
@@ -21,11 +49,28 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: ssafy
       RABBITMQ_DEFAULT_PASS: ssafy
+    networks:
+      suhwakhaeng:
+        ipv4_address: 172.20.0.5
 
-#  redis:
-#    build:
-#      context: ./redis
-#    container_name: redis
-#    ports:
-#      - "6379:6379"
-#    command: ["redis-server", "--requirepass", "example"]
+  springboot:
+    image: sjs3326/chat
+    container_name: chat
+    depends_on:
+      - mongodb
+      - rabbitmq
+    build:
+      context: ../../
+      dockerfile: ./Dockerfile
+    ports:
+      - "9001:9001"
+    networks:
+      suhwakhaeng:
+        ipv4_address: 172.20.0.6
+
+networks:
+  suhwakhaeng:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.20.0.0/16"
