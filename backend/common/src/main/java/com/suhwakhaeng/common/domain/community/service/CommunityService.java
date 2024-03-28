@@ -13,4 +13,5 @@ public interface CommunityService {
     void updateCommunity(Long userId, Long communityId, CommunityUpdateRequest request);
 
     void deleteCommunity(Long userId, Long communityId);
+    List<CommunityListResponse> selectMyCommunity(Long userId, Long lastId);
 }

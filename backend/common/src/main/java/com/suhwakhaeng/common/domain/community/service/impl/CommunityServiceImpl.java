@@ -104,4 +104,9 @@ public class CommunityServiceImpl implements CommunityService {
         commentRepository.deleteByCommunityId(communityId);
         communitiyRepository.delete(community);
     }
+
+    @Override
+    public List<CommunityListResponse> selectMyCommunity(Long userId, Long lastId) {
+        return communitiyRepository.selectMyCommunity(userId, lastId);
+    }
 }

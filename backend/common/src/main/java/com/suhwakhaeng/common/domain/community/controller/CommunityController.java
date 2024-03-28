@@ -65,4 +65,10 @@ public class CommunityController {
         return ResponseEntity.ok().body(Message.success());
     }
 
+    @GetMapping("/my/list")
+    public ResponseEntity selectMyCommunity(@RequestHeader("X-Authorization-Id") Long userId, Long lastId) {
+
+        return ResponseEntity.ok().body(Message.success(communityService.selectMyCommunity(userId, lastId)));
+    }
+
 }
