@@ -1,17 +1,19 @@
 package com.suhwakhaeng.common.domain.community.service.impl;
 
 import com.suhwakhaeng.common.domain.community.dto.CommunityCreateRequest;
+import com.suhwakhaeng.common.domain.community.dto.CommunitySearchRequest;
+import com.suhwakhaeng.common.domain.community.dto.CommunityListResponse;
 import com.suhwakhaeng.common.domain.community.entity.Community;
 import com.suhwakhaeng.common.domain.community.repository.CommunitiyRepository;
 import com.suhwakhaeng.common.domain.community.service.CommunityService;
 import com.suhwakhaeng.common.domain.user.entity.User;
-import com.suhwakhaeng.common.domain.user.exception.UserErrorCode;
 import com.suhwakhaeng.common.domain.user.exception.UserException;
 import com.suhwakhaeng.common.domain.user.repository.UserRepository;
-import com.suhwakhaeng.common.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.suhwakhaeng.common.domain.user.exception.UserErrorCode.*;
 
@@ -35,5 +37,11 @@ public class CommunityServiceImpl implements CommunityService {
 
         communitiyRepository.save(community);
         return community.getId();
+    }
+
+    @Override
+    public List<CommunityListResponse> selectCommunity(Long userId, CommunitySearchRequest request) {
+        return communitiyRepository.searchCommunity(userId, request);
+
     }
 }

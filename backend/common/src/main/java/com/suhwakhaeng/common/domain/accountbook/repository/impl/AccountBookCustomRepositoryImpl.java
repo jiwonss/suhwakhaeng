@@ -8,6 +8,7 @@ import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookListRequest;
 import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookResponse;
 import com.suhwakhaeng.common.domain.accountbook.repository.AccountBookCustomRepository;
 import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsSimpleResponse;
+import com.suhwakhaeng.common.global.util.NullSafeBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -63,6 +64,7 @@ public class AccountBookCustomRepositoryImpl implements AccountBookCustomReposit
             return new BooleanBuilder();
         }
 
+//        return NullSafeBuilder.build(() -> myCrops.id.eq(myCropsId));
         return nullSafeBuilder(() -> myCrops.id.eq(myCropsId));
     }
 
