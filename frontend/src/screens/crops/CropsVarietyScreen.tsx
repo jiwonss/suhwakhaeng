@@ -29,7 +29,7 @@ const CropsVarietyScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'CropsVarietyScreen'>>();
   const { plantName, plantId, value } = route.params;
-  const [varieties, setVarieties] = useState<Variety[]>([]);
+  const [varieties, setVarieties] = useState<Variety[]>([{ cropId: 1, cropsVarietyId: 1, cropsVarietyName: '감순이' }]);
 
   useEffect(() => {
     const fetchCropVarieties = async () => {
@@ -41,7 +41,7 @@ const CropsVarietyScreen = () => {
       }
     };
 
-    fetchCropVarieties();
+    // fetchCropVarieties();
   }, [plantId]);
 
   const moveCropsDetailScreen = (varietyName: string) => {
