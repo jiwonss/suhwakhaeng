@@ -63,7 +63,6 @@ const EnvironmentPlantScreen = () => {
   };
 
   const submitCropInfo = async () => {
-    console.log('작성완료버튼 클릭1');
     const cropInfo = {
       cropsVarietyId: cropsVarietyId,
       name: cropName,
@@ -81,8 +80,7 @@ const EnvironmentPlantScreen = () => {
       console.log(cropInfo);
       await postMyCropInfo(cropInfo);
       updateMyCrops();
-      navigation.navigate('MyProfileScreen');
-      console.log('업데이트된 작물 리스트:', myCrops);
+      navigation.navigate('BottomNavigation');
     } catch (error) {
       console.error(error);
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
@@ -6,7 +6,7 @@ import Header from '../../components/header/Header';
 import { BasicButton } from '../../components/button/Buttons';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { BussinessProfileCard } from '../../components/profileCard/ProfileCard';
-import { View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { Spacer } from '../../components/basic/Spacer';
 import Feather from '../../../assets/icons/Feather Icon.svg';
 import Favorite_border from '../../../assets/icons/favorite_border.svg';
@@ -18,11 +18,12 @@ import Lucide from '../../../assets/icons/Lucide Icon.svg';
 import { PlantAdd, PlantItem } from '../../components/plantAdd/PlantAdd';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { removeTokens } from '../../util/TokenUtil';
 import { tokenState } from '../../recoil/atoms/tokenState';
-import { myCropsList } from '../../recoil/atoms/myCrops';
+import { SlideModal } from '../../components/modal/Modal';
+import { deleteMyCropInfo, getMyCropListInfo } from '../../apis/services/crops/Crops';
 
 type RootStackParamList = {
   ModifyProfileScreen: { sido: string; gugun: string; dong: string; address: string };
@@ -32,7 +33,20 @@ type RootStackParamList = {
   SetLocationScreen: undefined;
   WeatherScreen: undefined;
 };
+
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
+
+interface CropItem {
+  myCropsId: number;
+  myCropsName: string;
+  cropsName: string;
+  cropsVarietyName: string;
+  location: {
+    sido: string;
+    gugun: string;
+    dong: string;
+  };
+}
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -68,11 +82,34 @@ const StyledView = styled.View`
 const MyProfileScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
   const [token, setToken] = useRecoilState(tokenState);
-
+  const [modalVisible, setModalVisible] = useState(false);
   const userInfo = useRecoilValue(userInfoState);
-  const myCrops = useRecoilValue(myCropsList);
+  const [myCrops, setMyCrops] = useState<CropItem[]>([]);
+  const [selectedCropId, setSelectedCropId] = useState<number>(0);
+  // 내 작물 목록 가져오기
+  useEffect(() => {
+    const fetchMyCrops = async () => {
+      try {
+        const { dataBody } = await getMyCropListInfo();
+        setMyCrops(dataBody);
+      } catch (error) {
+        console.error('내가 키우는 작물 목록을 불러오는 중 오류 발생:', error);
+      }
+    };
 
-  console.log(userInfo);
+    fetchMyCrops();
+  }, []);
+
+  // 작물 지우기
+  const deleteMyCrop = async (myCropsId: number) => {
+    try {
+      await deleteMyCropInfo(myCropsId);
+      setMyCrops(myCrops.filter((crop) => crop.myCropsId !== myCropsId));
+    } catch (error) {
+      console.error('내 작물 삭제 중 오류 발생:', error);
+    }
+  };
+
   return (
     <>
       <Container>
@@ -83,7 +120,14 @@ const MyProfileScreen = () => {
             <Spacer space={heightPercent * 20}></Spacer>
             <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
               <BasicButton
-                onPress={() => navigation.navigate('ModifyProfileScreen', { sido: '', gugun: '', dong: '', address: '' })}
+                onPress={() =>
+                  navigation.navigate('ModifyProfileScreen', {
+                    sido: '',
+                    gugun: '',
+                    dong: '',
+                    address: '',
+                  })
+                }
                 width={widthPercent * 150}
                 height={heightPercent * 30}
                 disabled={false}
@@ -112,11 +156,20 @@ const MyProfileScreen = () => {
             <StyledView>
               <PlantAdd></PlantAdd>
             </StyledView>
-            {myCrops.map(({ location, name, plantName }, index) => {
-              const locationString = `${location.sido ?? ''} ${location.gugun ?? ''} ${location.dong ?? ''}`.trim();
+            {myCrops.map(({ location: { dong, gugun, sido }, myCropsName, cropsName, myCropsId }, index) => {
+              // 기존 코드와 동일하게 작물 목록 렌더링
+              const locationString = `${sido ?? ''} ${gugun ?? ''} ${dong ?? ''}`.trim();
               return (
                 <StyledView key={index}>
-                  <PlantItem onPress={() => {}} plantName={plantName} name={name} location={locationString}></PlantItem>
+                  <PlantItem
+                    onPress={() => {
+                      setModalVisible(true);
+                      setSelectedCropId(myCropsId);
+                    }}
+                    cropsName={cropsName}
+                    name={myCropsName}
+                    location={locationString}
+                  ></PlantItem>
                 </StyledView>
               );
             })}
@@ -180,6 +233,48 @@ const MyProfileScreen = () => {
             </StyledButton>
           </ButtonContainer>
         </FormContainer>
+        <SlideModal isVisible={modalVisible} setIsVisible={setModalVisible}>
+          <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+            <BasicButton
+              onPress={() => {
+                console.log('수정 페이지로 이동');
+                // navigation.navigate('UpdatePostScreen', { postData });
+                setModalVisible(false);
+              }}
+              width={300}
+              height={50}
+              backgroundColor={Color.WHITE}
+              borderColor={Color.GRAY500}
+              borderRadius={10}
+            >
+              <Typo.BODY3_M color={Color.GREEN500}>수정하기</Typo.BODY3_M>
+            </BasicButton>
+            <Spacer space={12} />
+            <BasicButton
+              onPress={() => {
+                Alert.alert('삭제', '정말 삭제하시겠습니까?', [
+                  { text: '아니오', onPress: () => setModalVisible(false), style: 'cancel' },
+                  {
+                    text: '예',
+                    onPress: () => {
+                      deleteMyCrop(selectedCropId);
+                      setModalVisible(false);
+                    },
+                    style: 'destructive',
+                  },
+                ]);
+                setModalVisible(false);
+              }}
+              width={300}
+              height={50}
+              backgroundColor={Color.GREEN500}
+              borderColor={Color.GRAY500}
+              borderRadius={10}
+            >
+              <Typo.BODY3_M color={Color.WHITE}>삭제하기</Typo.BODY3_M>
+            </BasicButton>
+          </View>
+        </SlideModal>
       </Container>
     </>
   );

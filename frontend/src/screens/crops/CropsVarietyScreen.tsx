@@ -43,9 +43,6 @@ const CropsVarietyScreen = () => {
 
     fetchCropVarieties();
   }, [plantId]);
-  useEffect(() => {
-    console.log(varieties);
-  }, [varieties]);
 
   const moveCropsDetailScreen = (varietyName: string) => {
     navigation.navigate('CropsDetailScreen', { plantName, varietyName });
