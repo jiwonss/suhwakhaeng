@@ -11,3 +11,8 @@ export const registPost = async (params: { cate: string; content: string; image1
   const response = await tokenInstance.post(`${communityUrl}`, params);
   return response.data;
 };
+
+export const getPostDetail = async (params: { communityId: number }) => {
+  const response = await tokenInstance.get(`${communityUrl}/${params.communityId}`);
+  return response.data;
+};

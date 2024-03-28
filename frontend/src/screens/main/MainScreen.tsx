@@ -115,13 +115,11 @@ const MainScreen = () => {
       createdAt: string;
     }[]
   >([]);
-  const [postCnt, setPostCnt] = useState<number>(0);
 
   useEffect(() => {
     const getPostDataList = async () => {
-      const response = await getPostList({ id: postCnt, keyword: '', cate: category });
+      const response = await getPostList({ id: 0, keyword: '', cate: category });
       setPostData(response.dataBody);
-      setPostCnt(response.dataBody.length);
     };
 
     getPostDataList();
@@ -132,7 +130,7 @@ const MainScreen = () => {
     const getPost = async () => {
       const response = await getPostList({ id: 0, keyword: '', cate: category });
       setPostData(response.dataBody);
-      setPostCnt(response.dataBody.length);
+      // setPostCnt(response.dataBody.length);
     };
 
     getPost();
@@ -176,7 +174,9 @@ const MainScreen = () => {
             <Fragment key={item.communityId}>
               <Spacer horizontal={false} space={19} />
               <Post
-                onPress={() => {}}
+                onPress={() => {
+                  navigation.navigate('DetailPostScreen', { id: item.communityId });
+                }}
                 isPreview={true}
                 postData={{
                   name: item.user.nickname,
