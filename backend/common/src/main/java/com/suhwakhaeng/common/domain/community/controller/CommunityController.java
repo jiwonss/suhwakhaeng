@@ -34,4 +34,12 @@ public class CommunityController {
         return ResponseEntity.ok().body(Message.success(communityService.selectCommunityDetail(userId, communityId)));
     }
 
+    @PostMapping("/like/{communityId}")
+    public ResponseEntity createCommunityLike(@RequestHeader("X-Authorization-Id") Long userId,
+                                              @PathVariable Long communityId) {
+
+        communityService.createCommunityLike(userId, communityId);
+        return ResponseEntity.ok().body(Message.success());
+    }
+
 }
