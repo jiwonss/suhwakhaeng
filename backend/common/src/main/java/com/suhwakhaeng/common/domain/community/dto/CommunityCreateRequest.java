@@ -4,7 +4,7 @@ import com.suhwakhaeng.common.domain.community.entity.Community;
 import com.suhwakhaeng.common.domain.community.enums.Category;
 
 public record CommunityCreateRequest(
-        String category,
+        Category cate,
         String content,
         String image1,
         String image2,
@@ -13,7 +13,7 @@ public record CommunityCreateRequest(
 ) {
     public Community toEntity() {
         return Community.builder()
-                .category(Category.fromName(category))
+                .cate(cate)
                 .content(content)
                 .image1(image1)
                 .image2(image2)
