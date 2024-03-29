@@ -4,7 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookListRequest;
-import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookResponse;
+import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookListResponse;
 import com.suhwakhaeng.common.domain.accountbook.repository.AccountBookCustomRepository;
 import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsSimpleResponse;
 import com.suhwakhaeng.common.global.util.NullSafeBuilder;
@@ -22,9 +22,9 @@ import static com.suhwakhaeng.common.domain.mycrops.entity.QMyCrops.*;
 public class AccountBookCustomRepositoryImpl implements AccountBookCustomRepository {
     private final JPAQueryFactory queryFactory;
     @Override
-    public List<AccountBookResponse.Content> selectAccountBook(Long userId, AccountBookListRequest request) {
+    public List<AccountBookListResponse.Content> selectAccountBook(Long userId, AccountBookListRequest request) {
         return queryFactory.select(Projections.constructor(
-                        AccountBookResponse.Content.class,
+                        AccountBookListResponse.Content.class,
                         accountBook.id,
                         Projections.constructor(
                                 MyCropsSimpleResponse.class,
@@ -45,7 +45,7 @@ public class AccountBookCustomRepositoryImpl implements AccountBookCustomReposit
 
 
                 )
-                .orderBy(accountBook.date.asc())
+                .orderBy(accountBook.date.desc())
                 .fetch();
     }
 
