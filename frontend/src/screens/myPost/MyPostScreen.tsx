@@ -129,6 +129,7 @@ const MyPostScreen = () => {
                   date: item.createdAt,
                   classification: changeCategoryName(item.cate),
                   content: item.communityContent,
+                  isLiked: item.isLiked,
                   likeNumber: item.likeCount,
                   commentNumber: item.commentCount,
                   profileImg: item.user.profileImage,

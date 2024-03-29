@@ -18,7 +18,6 @@ import AddCropsScreen from '../../screens/cropsResister/AddCropsScreen';
 import EnvironmentPlantScreen from '../../screens/cropsResister/EnvironmentPlantScreen';
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
-import SearchResultScreen from '../../screens/post/SearchResultScreen';
 import MyPostScreen from '../../screens/myPost/MyPostScreen';
 import SearchPostScreen from '../../screens/post/SearchPostScreen';
 import CropsDetailScreen from '../../screens/crops/CropsDetailScreen';
@@ -64,7 +63,6 @@ export type RootStackParamList = {
   UpdatePostScreen: { id: number };
   MyPostScreen: undefined;
   SetLocationScreen: { value: number; varietyName: string; plantName: string; cropsVarietyId?: number };
-  SearchResultScreen: { searchValue: string };
   SearchPostScreen: undefined;
   FavoriteProductScreen: undefined;
   MyProfileScreen: undefined;
@@ -124,7 +122,6 @@ const MainStack = () => {
       <Stack.Screen name='UpdatePostScreen' component={UpdatePostScreen} options={{ headerShown: false }} />
       {/*게시글 검색 페이지*/}
       <Stack.Screen name='SearchPostScreen' component={SearchPostScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='SearchResultScreen' component={SearchResultScreen} options={{ headerShown: false }} />
       {/*작성한 게시글 조회 페이지*/}
       <Stack.Screen name='MyPostScreen' component={MyPostScreen} options={{ headerShown: false }} />
       {/* 채팅 페이지 */}
