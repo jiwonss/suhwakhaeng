@@ -31,3 +31,8 @@ export const deleteIsLiked = async (params: { communityId: number }) => {
   const response = await tokenInstance.delete(`${communityUrl}/like/${params.communityId}`);
   return response.data;
 };
+
+export const deletePost = async (params: { communityId: number }) => {
+  const response = await tokenInstance.delete(`${communityUrl}/${params.communityId}`);
+  return response.data;
+};

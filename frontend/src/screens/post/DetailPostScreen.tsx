@@ -9,8 +9,10 @@ import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { SlideModal } from '../../components/modal/Modal';
 import { BasicButton } from '../../components/button/Buttons';
 import { Spacer } from '../../components/basic/Spacer';
-import { deleteIsLiked, getPostDetail, updateIsLiked } from '../../apis/services/community/community';
+import { deleteIsLiked, deletePost, getPostDetail, updateIsLiked } from '../../apis/services/community/community';
 import { changeCategoryName } from '../../util/MarketUtil';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../recoil/atoms/userInfoState';
 
 interface DetaliPostProps {
   route: {
@@ -22,6 +24,7 @@ interface DetaliPostProps {
 
 const DetailPostScreen = (props: DetaliPostProps) => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const userInfo = useRecoilValue(userInfoState);
   const [modalVisible, setModalVisible] = useState(false);
   const [postData, setPostData] = useState<{
     user: {
@@ -79,9 +82,20 @@ const DetailPostScreen = (props: DetaliPostProps) => {
     }
   };
 
+  const onPressMore = () => {
+    if (userInfo.userId == String(postData.user.userId)) {
+      setModalVisible(true);
+    }
+  };
+
+  const onPressDelete = async () => {
+    await deletePost({ communityId: props.route.params.id });
+    navigation.goBack();
+  };
+
   return (
     <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
-      <Header type={'default'} firstIcon='back' secondIcon={'more'} onPressMore={() => setModalVisible(true)} />
+      <Header type={'default'} firstIcon='back' secondIcon={'more'} onPressMore={onPressMore} />
       <Post
         onPress={() => {}}
         onPressLikeButton={toggleIsLike}
@@ -121,7 +135,7 @@ const DetailPostScreen = (props: DetaliPostProps) => {
             onPress={() => {
               Alert.alert('삭제', '정말 삭제하시겠습니까?', [
                 { text: '아니오', onPress: () => setModalVisible(false), style: 'cancel' },
-                { text: '예', onPress: () => console.log('삭제 로직 실행'), style: 'destructive' },
+                { text: '예', onPress: onPressDelete, style: 'destructive' },
               ]);
               setModalVisible(false);
             }}
