@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface CommentService {
     Long createComment(Long userId, Long communityId, CommentCreateRequest request);
-
     List<CommentListResponse> selectComment(Long communityId);
+    void deleteComment(Long userId, Long commentId);
 }

@@ -16,4 +16,7 @@ public interface CommunityCommentRepository extends JpaRepository<CommunityComme
     @Query("select c from CommunityComment c join fetch c.writer where c.community.id = :communityId order by c.createdAt asc")
     List<CommunityComment> findByCommunityId(Long communityId);
 
+    @Modifying(clearAutomatically = true)
+    @Query("DELETE FROM CommunityComment c WHERE c.parent = :parent")
+    void deleteByParent(CommunityComment parent);
 }

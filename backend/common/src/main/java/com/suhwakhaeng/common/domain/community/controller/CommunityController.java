@@ -87,4 +87,13 @@ public class CommunityController {
     public ResponseEntity selectComment(@PathVariable Long communityId) {
         return ResponseEntity.ok().body(Message.success(commentService.selectComment(communityId)));
     }
+
+    @DeleteMapping("/{communityId}/comment/{commentId}")
+    public ResponseEntity deleteComment(@RequestHeader("X-Authorization-Id") Long userId,
+                                        @PathVariable Long commentId) {
+
+        commentService.deleteComment(userId, commentId);
+
+        return ResponseEntity.ok(Message.success());
+    }
 }

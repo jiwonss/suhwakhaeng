@@ -6,6 +6,7 @@ import com.suhwakhaeng.common.domain.community.dto.CommentResponse;
 import com.suhwakhaeng.common.domain.community.dto.WriterInfo;
 import com.suhwakhaeng.common.domain.community.entity.Community;
 import com.suhwakhaeng.common.domain.community.entity.CommunityComment;
+import com.suhwakhaeng.common.domain.community.exception.CommentException;
 import com.suhwakhaeng.common.domain.community.exception.CommunityErrorCode;
 import com.suhwakhaeng.common.domain.community.exception.CommunityException;
 import com.suhwakhaeng.common.domain.community.repository.CommunityCommentRepository;
@@ -18,10 +19,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.suhwakhaeng.common.domain.community.exception.CommentErrorCode.*;
 
 @Service
 @Transactional
@@ -76,7 +78,6 @@ public class CommentServiceImpl implements CommentService {
 
             List<CommunityComment> children = comment.getChildren();
 
-            // recomment 입력
             for (CommunityComment child : children) {
                 WriterInfo childWriter = WriterInfo.fromEntity(child.getWriter());
                 CommentResponse childComment = CommentResponse.builder()
@@ -102,5 +103,18 @@ public class CommentServiceImpl implements CommentService {
         }
 
         return results;
+    }
+
+    @Override
+    public void deleteComment(Long userId, Long commentId) {
+        CommunityComment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new CommentException(NOT_EXIST_COMMENT));
+
+        if (comment.getWriter().getId() != userId) {
+            throw new CommentException(NOT_MATCH_USER);
+        }
+
+        commentRepository.deleteByParent(comment);
+        commentRepository.deleteById(commentId);
     }
 }
