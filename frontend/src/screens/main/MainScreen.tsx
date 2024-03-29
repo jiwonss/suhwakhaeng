@@ -14,7 +14,7 @@ import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
-import { getPostList } from '../../apis/services/community/community';
+import { getPostList, updateIsLiked } from '../../apis/services/community/community';
 import Post from '../../components/post/Post';
 import { BasicButton } from '../../components/button/Buttons';
 import styled from 'styled-components/native';
@@ -136,6 +136,8 @@ const MainScreen = () => {
     getPost();
   }, [activeIndex]);
 
+  const onPressLikeButton = async (communityId: number) => {};
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Color.WHITE }}>
       <Header type={'leftTitle'} onPressSearch={onPressSearch} />
@@ -177,11 +179,13 @@ const MainScreen = () => {
                 onPress={() => {
                   navigation.navigate('DetailPostScreen', { id: item.communityId });
                 }}
+                onPressLikeButton={() => onPressLikeButton(item.communityId)}
                 isPreview={true}
                 postData={{
                   name: item.user.nickname,
                   date: item.createdAt,
                   classification: changeCategoryName(item.cate),
+                  isLiked: item.isLiked,
                   content: item.communityContent,
                   likeNumber: item.likeCount,
                   commentNumber: item.commentCount,
