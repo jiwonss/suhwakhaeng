@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { Image, ScrollView, View } from 'react-native';
 import styled from 'styled-components/native';
 import { Spacer } from '../../components/basic/Spacer';
 import Header from '../../components/header/Header';
@@ -11,13 +11,38 @@ import { useRoute } from '@react-navigation/core';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { getCropVarietyInfo } from '../../apis/services/crops/Crops';
+import { Card } from '../../components/card/Card';
+import { Divider } from '../../components/basic/Divider';
 
+interface RenderConditionsWithBreaksProps {
+  contents: string;
+  WrapperComponent: React.ComponentType<{ key: React.Key; children: React.ReactNode }>;
+}
 interface CropDetails {
   tableTitle: string[];
   tableInfo?: {
     tableHead: string[];
     tableTitle: string[];
     tableBody: string[][];
+  };
+  cropsInfo?: {
+    id: number;
+    name: string;
+    category: string;
+    growingCondition: string;
+    pestType: string;
+    diseaseType: string;
+  };
+  cropsVarietyInfo?: {
+    id: number;
+    name: string;
+    category: string;
+    usage: string;
+    function: string;
+    characteristic: string;
+    adaptationArea: string;
+    caution: string;
+    image: string;
   };
 }
 const TableContainer = styled.View`
@@ -57,8 +82,31 @@ const TableCell = styled.Text`
 const CropsDetailScreen = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'CropsDetailScreen'>>();
   const { cropsId, cropsVarietyId } = route.params;
+
+  //  작물의 품종 데이터 상세 조회 결과값
   const [cropDetails, setCropDetails] = useState<CropDetails | null>(null);
 
+  // 기본정보
+  const cropsName = cropDetails?.cropsInfo?.name;
+  const cropsVarietyName = cropDetails?.cropsVarietyInfo?.name;
+  const cropsVarietyCategory = cropDetails?.cropsVarietyInfo?.category;
+
+  // 품종정보
+  const cropsVarietyUsage = cropDetails?.cropsVarietyInfo?.usage;
+  const cropsVarietyFunction = cropDetails?.cropsVarietyInfo?.function;
+  const cropsVarietyCharacteristic = cropDetails?.cropsVarietyInfo?.characteristic;
+  const cropsVarietyAdaptationArea = cropDetails?.cropsVarietyInfo?.adaptationArea;
+  const cropsVarietyCaution = cropDetails?.cropsVarietyInfo?.caution;
+  const cropsVarietyImage = cropDetails?.cropsVarietyInfo?.image;
+
+  // 재배정보
+  const growingCondition = cropDetails?.cropsInfo?.growingCondition;
+
+  // 병해, 해충
+  const diseaseType = cropDetails?.cropsInfo?.diseaseType;
+  const pestType = cropDetails?.cropsInfo?.pestType;
+
+  // 작물 재배 정보 조회
   useEffect(() => {
     const fetchCropVarietyInfo = async () => {
       const data = await getCropVarietyInfo(cropsId, cropsVarietyId);
@@ -68,11 +116,11 @@ const CropsDetailScreen = () => {
     fetchCropVarietyInfo();
   }, [cropsId, cropsVarietyId]);
 
-  const renderTableRow = (row: string[]) => {
-    return row.map((cell, cellIndex) => <TableCell key={cellIndex}>{cell}</TableCell>);
-  };
-
+  // 테이블 렌더링
   const renderTable = (tableInfo: CropDetails['tableInfo']) => {
+    const renderTableBody = (row: string[]) => {
+      return row.map((cell, cellIndex) => <TableCell key={cellIndex}>{cell}</TableCell>);
+    };
     if (!tableInfo) return null;
 
     return (
@@ -91,20 +139,90 @@ const CropsDetailScreen = () => {
             ))}
           </TableRow>
           {tableInfo.tableBody.map((row, rowIndex) => (
-            <TableRow key={rowIndex}>{renderTableRow(row)}</TableRow>
+            <TableRow key={rowIndex}>{renderTableBody(row)}</TableRow>
           ))}
         </TableBody>
       </TableContainer>
     );
   };
 
+  // "|" 문자열을 기준으로 나누어 줄바꿈하고 렌더링
+  const renderConditionsWithBreaks: React.FC<RenderConditionsWithBreaksProps> = ({ contents, WrapperComponent }) => {
+    return contents.split('|').map((contents, index) => <WrapperComponent key={index}>- {contents}</WrapperComponent>);
+  };
+
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }} contentContainerStyle={{ paddingBottom: 50 * heightPercent }}>
         <Header type={'default'} firstIcon={'back'} />
-        <Typo.BODY4_M>작물 상세페이지</Typo.BODY4_M>
-        <Spacer space={20} />
-        <Container>{cropDetails && cropDetails.tableInfo ? renderTable(cropDetails.tableInfo) : null}</Container>
+        {/* 이미지 */}
+        <Image source={{ uri: cropsVarietyImage }} style={{ width: '100%', height: 'auto', aspectRatio: 1 }} resizeMode='center' />
+        {/* 이름 */}
+        <Card>
+          <Typo.BODY1_B>{cropsName}</Typo.BODY1_B>
+          <Spacer space={10} />
+          <Typo.BODY3_M>
+            <Typo.BODY3_B>{cropsVarietyName}</Typo.BODY3_B> ({cropsVarietyCategory})
+          </Typo.BODY3_M>
+        </Card>
+        <Spacer space={15} />
+        <Divider />
+        <Spacer space={15} />
+
+        {/* 품종 정보 */}
+        <Card>
+          <Typo.BODY3_M color={Color.GREEN600}>용도 </Typo.BODY3_M>
+          <Spacer space={5} />
+          <Typo.BODY4_M>{cropsVarietyUsage}</Typo.BODY4_M>
+          <Spacer space={15} />
+
+          <Typo.BODY3_M color={Color.GREEN600}>기능 </Typo.BODY3_M>
+          <Spacer space={5} />
+          <Typo.BODY4_M>{cropsVarietyFunction}</Typo.BODY4_M>
+          <Spacer space={15} />
+          <Typo.BODY3_M color={Color.GREEN600}>특성 </Typo.BODY3_M>
+          <Spacer space={5} />
+          {cropsVarietyCharacteristic ? renderConditionsWithBreaks({ contents: cropsVarietyCharacteristic, WrapperComponent: Typo.BODY4_M }) : null}
+          <Spacer space={15} />
+          <Typo.BODY3_M color={Color.GREEN600}>적응 지역 </Typo.BODY3_M>
+          <Spacer space={5} />
+          {cropsVarietyAdaptationArea ? renderConditionsWithBreaks({ contents: cropsVarietyAdaptationArea, WrapperComponent: Typo.BODY4_M }) : null}
+          <Spacer space={15} />
+          <Typo.BODY3_M color={Color.GREEN600}>주의 사항 </Typo.BODY3_M>
+          <Spacer space={5} />
+          {cropsVarietyCaution ? renderConditionsWithBreaks({ contents: cropsVarietyCaution, WrapperComponent: Typo.BODY4_M }) : null}
+        </Card>
+        <Spacer space={15} />
+        <Divider />
+        <Spacer space={15} />
+
+        {/* 재배 기간 및 기후 조건 */}
+        <Card>
+          <Typo.BODY3_M color={Color.GREEN600}>추천 재배 기간 </Typo.BODY3_M>
+          <Spacer space={5} />
+          <Container>{cropDetails?.tableInfo ? renderTable(cropDetails.tableInfo) : null}</Container>
+          <Typo.BODY3_M color={Color.GREEN600}>추천 재배 기후 조건 </Typo.BODY3_M>
+          <Spacer space={5} />
+          {growingCondition ? renderConditionsWithBreaks({ contents: growingCondition, WrapperComponent: Typo.BODY4_M }) : null}
+        </Card>
+        <Spacer space={15} />
+        <Divider />
+        <Spacer space={15} />
+
+        {/* 병해충 정보 */}
+        <Card>
+          <Typo.BODY3_M color={Color.GREEN600}>병해 종류 </Typo.BODY3_M>
+          <Spacer space={5} />
+          <Typo.BODY4_M>{diseaseType}</Typo.BODY4_M>
+          <Spacer space={15} />
+          <Typo.BODY3_M color={Color.GREEN600}>해충 종류 </Typo.BODY3_M>
+          <Spacer space={5} />
+          <Typo.BODY4_M>{pestType}</Typo.BODY4_M>
+          <Spacer space={15} />
+        </Card>
+        <Spacer space={15} />
+        <Divider />
+        <Spacer space={15} />
       </ScrollView>
     </View>
   );
@@ -113,69 +231,117 @@ const CropsDetailScreen = () => {
 export default CropsDetailScreen;
 
 // {
-//   "dataHeader": {
-//     "successCode": 0,
-//     "resultCode": null,
-//     "resultMessage": null
-//   },
-//   "dataBody": {
-//     "cropsInfo": {
-//       "id": 2,
-//       "name": "토마토",
-//       "category": "VEGETABLE",
-//       "growingCondition": "생육온도 : 발아적온 25~30℃ 육묘적온 20~25℃ 개화적온 20~25℃ 생육적온 17~27℃ 과비대적온 25~30℃ 저장적온 4℃|재배적지 : 토양산도 pH 6.5~7.0 범위에서 생육양호",
-//       "diseaseType": "검은점뿌리썩음병,겹무늬병,궤양병,균핵병,덤블위축바이러스,모자이크병,반점위조바이러스,뿌리역병,시들음병,잎곰팡이병,잎마름병,잎마름역병,잘록병,잿빛곰팡이병,점무늬병,줄기끝마름병,줄기무름병,줄기속썩음병,탄저병,풋마름병,황화잎말림바이러스,흰가루병,흰무늬병",
-//       "pestType": "꽃노랑총채벌레,담배가루이,담배거세미나방,대만총채벌레,목화진딧물,복숭아혹진딧물,아메리카잎굴파리,온실가루이,왕담배나방,토마토녹응애"
-//     },
-//     "cultivationCharacteristicInfo": {
-//       "id": 1,
-//       "scientificName": "Lycopersicum esculentum MILL.",
-//       "classification": "가지과",
-//       "physiologicalCharacteristic": "호온성 채소이나 고온다습하면 착과불량, 과실비대 부진, 열과, 품질저하 및 병해발생 증가|육묘기 야간온도가 12℃ 이하의 저온에 처하면 기형과 발생증가|일장에 대해서는 중일성 작물이나 꽃눈분화는 16시간 정도의 장일에서 빨라지고, 제 1화방의 착과 절위는 8시간 정도의 단일하에서 낮아짐",
-//       "mainTech": "밀식재배 (90×50cm→90×20cm) : 93%증수|점적관수 재배 (분수관수 대비) : 6~10% 증수|이산화탄소 시비 : 무시용 대비 32% 증수|어린묘 재배 (9~11엽묘→5~6엽묘) : 43% 증수"
-//     },
-//     "tableInfo": {
-//       "tableId": 2,
-//       "tableHead": [
-//         "작형",
-//         "촉성재배",
-//         "반촉성재배",
-//         "조숙재배",
-//         "노지억제재배"
-//       ],
-//       "tableTitle": [
-//         "파종기",
-//         "정식기",
-//         "수확기",
-//         "성출하기"
-//       ],
-//       "tableBody": [
-//         [
-//           "9상~10상",
-//           "10하~11하",
-//           "1중~5상",
-//           "2상~4중"
-//         ],
-//         [
-//           "11중~12하",
-//           "12하~2상",
-//           "3상~6상",
-//           "4상~6중"
-//         ],
-//         [
-//           "2상~3상",
-//           "5상~5하",
-//           "6중~7하",
-//           "6상~7중"
-//         ],
-//         [
-//           "4상~4하",
-//           "5상~5하",
-//           "7하~10상",
-//           "8상~9중"
-//         ]
-//       ]
-//     },
+// 	"name" : "감자",
+// 	"category" : "FOOD_CROPS",
+// 	"growingCondition" : "적배적온 : 14~23℃|덩이줄기 비대 적온 : 주간 23~24℃, 야간 10~14℃|전 생육기간동안 필요한 강수량 : 300~450mm|적정 토양산도 : pH 5.0~6.0",
+// 	"diseaseType" : "검은무늬썩음병,겹둥근무늬병,균핵병,더뎅이병,역병,탄저병",
+// 	"pestType" : "복숭아혹진딧물, 아메리카잎굴파리, 오이총채벌레, 청동방아벌레, 큰이십팔점박이무당벌레, 파밤나방",
+//   "shippingTimeTableInfo": {
+//     "tableHead": "작형,파종기,수확기,출하기,성출하기",
+//     "tableTitle": "겨울재배,봄재배,여름재배,가을재배",
+//     "shippingTimeTableValueInfoList": [
+//       {
+//         "croppingTypeName": "겨울재배",
+//         "rowOrder": 0,
+//         "columnOrder": 0,
+//         "value" : "12중~1중"
+//       },
+//       {
+//         "croppingTypeName": "겨울재배",
+//         "rowOrder": 0,
+//         "columnOrder": 1,
+//         "value" : "4중~5중"
+//       },
+//       {
+//         "croppingTypeName": "겨울재배",
+//         "rowOrder": 0,
+//         "columnOrder": 2,
+//         "value" : "4중~7중"
+//       },
+//       {
+//         "croppingTypeName": "겨울재배",
+//         "rowOrder": 0,
+//         "columnOrder": 3,
+//         "value" : "4하"
+//       },
+//
+//       {
+//         "croppingTypeName": "봄재배",
+//         "rowOrder": 1,
+//         "columnOrder": 0,
+//         "value" : "3상~중"
+//       },
+//       {
+//         "croppingTypeName": "봄재배",
+//         "rowOrder": 1,
+//         "columnOrder": 1,
+//         "value" : "6하~7중"
+//       },
+//       {
+//         "croppingTypeName": "봄재배",
+//         "rowOrder": 1,
+//         "columnOrder": 2,
+//         "value" : "6하~7하"
+//       },
+//       {
+//         "croppingTypeName": "봄재배",
+//         "rowOrder": 1,
+//         "columnOrder": 3,
+//         "value" : "7중"
+//       },
+//
+//       {
+//         "croppingTypeName": "여름재배",
+//         "rowOrder": 2,
+//         "columnOrder": 0,
+//         "value" : "4하~5중"
+//       },
+//       {
+//         "croppingTypeName": "여름재배",
+//         "rowOrder": 2,
+//         "columnOrder": 1,
+//         "value" : "9중~9중"
+//       },
+//       {
+//         "croppingTypeName": "여름재배",
+//         "rowOrder": 2,
+//         "columnOrder": 2,
+//         "value" : "9중~2하"
+//       },
+//       {
+//         "croppingTypeName": "여름재배",
+//         "rowOrder": 2,
+//         "columnOrder": 3,
+//         "value" : "9상~10하"
+//       },
+//
+//       {
+//         "croppingTypeName": "가을재배",
+//         "rowOrder": 3,
+//         "columnOrder": 0,
+//         "value" : "7중~8상"
+//       },
+//       {
+//         "croppingTypeName": "가을재배",
+//         "rowOrder": 3,
+//         "columnOrder": 1,
+//         "value" : "10하~12상"
+//       },
+//       {
+//         "croppingTypeName": "가을재배",
+//         "rowOrder": 3,
+//         "columnOrder": 2,
+//         "value" : "10하~1하"
+//       },
+//       {
+//         "croppingTypeName": "가을재배",
+//         "rowOrder": 3,
+//         "columnOrder": 3,
+//         "value" : "11하"
+//       }
+//     ]
+//   }
+// }
 //     "cropsVarietyInfo": {
 //       "id": 4,
 //       "name": "골든에그",
