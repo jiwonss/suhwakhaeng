@@ -58,6 +58,7 @@ public class ChatServiceImpl implements ChatService {
         // 마지막 chat 수정
         ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new ChatException(ChatErrorCode.UNKNOWN_ERROR));
         chatRoom.updateLastChat(chatRequest.message());
+        chatRoomRepository.save(chatRoom);
     }
 
     @Override
