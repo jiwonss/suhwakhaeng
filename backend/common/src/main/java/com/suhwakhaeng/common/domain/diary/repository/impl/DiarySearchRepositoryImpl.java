@@ -52,18 +52,16 @@ public class DiarySearchRepositoryImpl implements DiarySearchRepository {
                 .from(diary)
                 .leftJoin(myCrops).on(diary.myCrops.id.eq(myCrops.id))
                 .where(searchOptions)
-                .orderBy(diary.date.asc())
+                .orderBy(diary.date.desc(), diary.id.asc())
                 .fetch();
 
-        Map<LocalDate, List<DiaryListResponse>> diaryMap = new TreeMap<>();
+        Map<LocalDate, List<DiaryListResponse>> diaryMap = new HashMap<>();
         for (DiaryListResponse diaryResponse : result) {
             LocalDate date = diaryResponse.diaryDate();
             diaryMap.putIfAbsent(date, new ArrayList<>());
             diaryMap.get(date).add(diaryResponse);
         }
 
-        return diaryMap.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
+        return diaryMap;
     }
 }
