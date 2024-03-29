@@ -21,9 +21,7 @@ public class AccountBookListResponse {
     // 지출
     private int expenditure;
 
-//    Map<LocalDate, List<Content>> contents = new TreeMap<>();
-    Map<LocalDate, List<Content>> contents = new TreeMap<>(Collections.reverseOrder());
-
+    Map<LocalDate, List<Content>> contents = new HashMap<>();
 
     @Getter
     @AllArgsConstructor

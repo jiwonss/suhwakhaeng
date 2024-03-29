@@ -45,7 +45,7 @@ public class AccountBookCustomRepositoryImpl implements AccountBookCustomReposit
 
 
                 )
-                .orderBy(accountBook.date.desc())
+                .orderBy(accountBook.date.desc(), accountBook.id.asc())
                 .fetch();
     }
 
