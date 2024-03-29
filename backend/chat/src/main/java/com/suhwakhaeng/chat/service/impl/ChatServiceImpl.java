@@ -35,12 +35,13 @@ public class ChatServiceImpl implements ChatService {
 
     /**
      * 채팅 보내기
-     * @param chatRequest // 보내는 사람 id, 채팅 내용
+     * @param chatRequest // 채팅 내용
      * @param chatRoomId  // 채팅 룸 id = UUID
+     * @param myUserId
      */
     @Override
-    public void sendChat(ChatRequest chatRequest, String chatRoomId) {
-        UserInfo userInfo = userInfoClient.getUserInfo(chatRequest.userId());
+    public void sendChat(ChatRequest chatRequest, String chatRoomId, Long myUserId) {
+        UserInfo userInfo = userInfoClient.getUserInfo(myUserId);
         // 유저 정보 가져와서 mongoDB에 넣을 chat, 상대에게 보내줄 chat 세팅
         Chat chat = Chat.builder()
                 .userId(userInfo.userId())
@@ -74,6 +75,7 @@ public class ChatServiceImpl implements ChatService {
             resultList.add(ChatResponse.builder()
                     .userInfo(userInfo)
                     .lastMessage(chatRoom.getMessage())
+                    .id(chatRoom.getId())
                     .sendTime(chatRoom.getSendTime())
                     .build());
         }

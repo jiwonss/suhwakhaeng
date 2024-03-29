@@ -1,6 +1,7 @@
-package com.suhwakhaeng.chat.global;
+package com.suhwakhaeng.chat.global.error;
 
 import com.suhwakhaeng.chat.exception.ChatException;
+import com.suhwakhaeng.chat.global.Message;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
