@@ -2,8 +2,8 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import { getTokens, removeTokens, setTokens } from '../../util/TokenUtil';
 
-const BASE_URL = 'http://10.0.2.2:8000/';
-// const BASE_URL = 'http://13.209.182.136:8000/';
+// const BASE_URL = 'http://10.0.2.2:8000/';
+const BASE_URL = 'http://13.209.182.136:8000/';
 
 export const tokenInstance = axios.create({
   baseURL: `${BASE_URL}`,
