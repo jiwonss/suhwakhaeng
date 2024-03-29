@@ -13,6 +13,7 @@ import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { getCropVarietyInfo } from '../../apis/services/crops/Crops';
 import { Card } from '../../components/card/Card';
 import { Divider } from '../../components/basic/Divider';
+import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
 
 interface RenderConditionsWithBreaksProps {
   contents: string;
@@ -165,6 +166,7 @@ const CropsDetailScreen = () => {
         {/* 이미지 */}
         <Image source={{ uri: cropsVarietyImage }} style={{ width: '100%', height: 'auto', aspectRatio: 1 }} resizeMode='center' />
         {/* 이름 */}
+        {/*<LoadingSpinner loading={true} />*/}
         <Card>
           <Typo.BODY1_B>{cropsName}</Typo.BODY1_B>
           <Spacer space={10} />
