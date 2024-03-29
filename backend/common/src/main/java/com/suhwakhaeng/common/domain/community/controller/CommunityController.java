@@ -1,12 +1,15 @@
 package com.suhwakhaeng.common.domain.community.controller;
 
+import com.suhwakhaeng.common.domain.community.dto.CommentCreateRequest;
 import com.suhwakhaeng.common.domain.community.dto.CommunityCreateRequest;
 import com.suhwakhaeng.common.domain.community.dto.CommunitySearchRequest;
 import com.suhwakhaeng.common.domain.community.dto.CommunityUpdateRequest;
+import com.suhwakhaeng.common.domain.community.service.CommentService;
 import com.suhwakhaeng.common.domain.community.service.CommunityService;
 import com.suhwakhaeng.common.global.common.dto.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/community")
 public class CommunityController {
     private final CommunityService communityService;
+    private final CommentService commentService;
 
     @PostMapping
     public ResponseEntity createCommunity(@RequestHeader("X-Authorization-Id") Long userId,
@@ -71,4 +75,16 @@ public class CommunityController {
         return ResponseEntity.ok().body(Message.success(communityService.selectMyCommunity(userId, lastId)));
     }
 
+    @PostMapping("/{communityId}/comment")
+    public ResponseEntity createComment(@RequestHeader("X-Authorization-Id") Long userId,
+                                        @Validated @RequestBody CommentCreateRequest request,
+                                        @PathVariable Long communityId) {
+        commentService.createComment(userId, communityId, request);
+        return ResponseEntity.ok().body(Message.success());
+    }
+
+    @GetMapping("/{communityId}/comment")
+    public ResponseEntity selectComment(@PathVariable Long communityId) {
+        return ResponseEntity.ok().body(Message.success(commentService.selectComment(communityId)));
+    }
 }

@@ -1,6 +1,9 @@
 package com.suhwakhaeng.common.domain.community.service;
 
 import com.suhwakhaeng.common.domain.community.dto.CommentCreateRequest;
+import com.suhwakhaeng.common.domain.community.dto.CommentListResponse;
+import com.suhwakhaeng.common.domain.community.dto.CommentResponse;
+import com.suhwakhaeng.common.domain.community.dto.WriterInfo;
 import com.suhwakhaeng.common.domain.community.entity.Community;
 import com.suhwakhaeng.common.domain.community.entity.CommunityComment;
 import com.suhwakhaeng.common.domain.community.exception.CommunityErrorCode;
@@ -15,6 +18,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,11 +33,11 @@ public class CommentServiceImpl implements CommentService {
 
 
     @Override
-    public Long createComment(Long userId, CommentCreateRequest request) {
+    public Long createComment(Long userId, Long communityId, CommentCreateRequest request) {
         User writer = userRepository.findById(userId)
                 .orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST_USER));
 
-        Community community = communityRepository.findById(request.communityId())
+        Community community = communityRepository.findById(communityId)
                 .orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMUNITY));
 
         CommunityComment comment = CommunityComment.builder()
@@ -50,5 +56,51 @@ public class CommentServiceImpl implements CommentService {
         }
 
         return comment.getId();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<CommentListResponse> selectComment(Long communityId) {
+        List<CommunityComment> comments = commentRepository.findByCommunityId(communityId);
+        List<CommentListResponse> results = new ArrayList<>();
+
+        for (CommunityComment comment : comments) {
+            if (comment.getParent() != null) {
+                continue;
+            }
+
+            List<CommentResponse> recomment = new ArrayList<>();
+
+            User writer = comment.getWriter();
+            WriterInfo writerInfo = WriterInfo.fromEntity(writer);
+
+            List<CommunityComment> children = comment.getChildren();
+
+            // recomment 입력
+            for (CommunityComment child : children) {
+                WriterInfo childWriter = WriterInfo.fromEntity(child.getWriter());
+                CommentResponse childComment = CommentResponse.builder()
+                        .commentId(child.getId())
+                        .createdAt(child.getCreatedAt())
+                        .content(child.getContent())
+                        .user(childWriter)
+                        .build();
+                recomment.add(childComment);
+            }
+
+            CommentResponse parent = CommentResponse.builder()
+                    .commentId(comment.getId())
+                    .createdAt(comment.getCreatedAt())
+                    .content(comment.getContent())
+                    .user(writerInfo)
+                    .build();
+
+            results.add(CommentListResponse.builder()
+                    .comment(parent)
+                    .recomment(recomment)
+                    .build());
+        }
+
+        return results;
     }
 }
