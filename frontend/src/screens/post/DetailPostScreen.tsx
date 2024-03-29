@@ -9,7 +9,7 @@ import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { SlideModal } from '../../components/modal/Modal';
 import { BasicButton } from '../../components/button/Buttons';
 import { Spacer } from '../../components/basic/Spacer';
-import { getPostDetail } from '../../apis/services/community/community';
+import { deleteIsLiked, getPostDetail, updateIsLiked } from '../../apis/services/community/community';
 import { changeCategoryName } from '../../util/MarketUtil';
 
 interface DetaliPostProps {
@@ -68,16 +68,29 @@ const DetailPostScreen = (props: DetaliPostProps) => {
     getDetail();
   }, []);
 
+  // 좋아요 처리
+  const toggleIsLike = async () => {
+    if (!postData.isLiked) {
+      setPostData({ ...postData, isLiked: true, likeCount: postData.likeCount + 1 });
+      await updateIsLiked({ communityId: props.route.params.id });
+    } else {
+      setPostData({ ...postData, isLiked: false, likeCount: postData.likeCount - 1 });
+      await deleteIsLiked({ communityId: props.route.params.id });
+    }
+  };
+
   return (
     <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
       <Header type={'default'} firstIcon='back' secondIcon={'more'} onPressMore={() => setModalVisible(true)} />
       <Post
-        onPress={() => console.log('')}
+        onPress={() => {}}
+        onPressLikeButton={toggleIsLike}
         postData={{
           name: postData.user.nickname,
           date: postData.createdAt,
           classification: changeCategoryName(postData.cate),
           content: postData.communityContent,
+          isLiked: postData.isLiked,
           likeNumber: postData.likeCount,
           commentNumber: postData.commentCount,
           profileImg: postData.user.profileImage,
