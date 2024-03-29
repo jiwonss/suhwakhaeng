@@ -39,4 +39,13 @@ public class Community extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "community_cate")
     private Category cate;
+
+    public void update(Community community) {
+        this.cate = community.getCate();
+        this.content = community.getContent();
+        this.image1 = community.getImage1();
+        this.image2 = community.getImage2();
+        this.image3 = community.getImage3();
+        this.image4 = community.getImage4();
+    }
 }

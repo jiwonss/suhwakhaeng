@@ -14,17 +14,4 @@ import static com.suhwakhaeng.common.domain.community.exception.CommunityErrorCo
 public enum Category {
     // ENUM(질문,나눔,꿀팁,자유)
     QUESTION, SHARE, TIP, FREEDOM,
-
-//    QUESTION("질문"),
-//    SHARE("나눔"),
-//    TIP("꿀팁"),
-//    FREEDOM("자유");
-//
-//    private String name;
-//
-//    public static Category fromName(String name) {
-//        return Arrays.stream(values())
-//                .filter(category -> category.name.equals(name))
-//                .findAny().orElseThrow(() -> new CommunityException(NOT_EXIST_CATEGORY));
-//    }
 }

@@ -76,10 +76,12 @@ public class TradeServiceImpl implements TradeService {
         tradeBoard.updateTrade(tradeUpdateRequest);
     }
 
+    @Transactional
     @Override
     public void deleteTrade(Long userId, Long tradeId) {
         TradeBoard tradeBoard = tradeRepository.findTradeBoardById(tradeId).orElseThrow(() -> new TradeException(TradeErrorCode.NO_EXIST_TRADE));
         if(!userId.equals(tradeBoard.getUser().getId())) throw new TradeException(TradeErrorCode.NOT_MATCH_USER);
+        tradeLikeRepository.deleteByTradeId(tradeId);
         tradeRepository.deleteById(tradeId);
     }
 
