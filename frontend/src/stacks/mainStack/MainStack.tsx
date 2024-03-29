@@ -70,7 +70,7 @@ export type RootStackParamList = {
   ModifyProfileScreen: { sido: string; gugun: string; dong: string; address: string };
   CropsScreen: undefined;
   ChatListScreen: undefined;
-  ChattingRoomScreen: { id: number };
+  ChattingRoomScreen: { id: string };
   CropsVarietyScreen: { plantName: string; plantId: number; value?: number };
   CropsDetailScreen: { plantName: string; varietyName: string };
   DiseasePlantScreen: undefined;

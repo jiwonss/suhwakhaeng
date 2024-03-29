@@ -12,10 +12,11 @@ import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { getKST } from '../../util/BasicUtil';
 import * as StompJs from '@stomp/stompjs';
+import { getChatData } from '../../apis/services/chat/chat';
 
 interface ChattingRoomProps {
   route: {
-    params: { id: number };
+    params: { id: string };
   };
 }
 
@@ -36,13 +37,13 @@ const ButtonContainer = styled.View`
 const ChattingRoomScreen = (props: ChattingRoomProps) => {
   // 보낼 메세지
   const [message, setMessage] = useState<string>('');
-  let [client, changeClient] = useState<StompJs.Client>(new StompJs.Client());
+  const [client, changeClient] = useState<StompJs.Client>(new StompJs.Client());
 
   const onSubmitMessage = () => {
     if (message) {
       // TODO: 메세지 보내기
       // sendMessage(message, 'pub/room/1', 1);
-      setChatData([...chatData, { userId: userInfo.user_id, message: message, date: getKST() }]);
+      setChatData([...chatData, { userId: parseInt(userInfo.userId), message: message, date: getKST() }]);
       setMessage('');
     }
     Keyboard.dismiss();
@@ -52,9 +53,13 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
   const userInfo = useRecoilValue(userInfoState);
   const [chatData, setChatData] = useState<
     {
+      id: string;
       userId: number;
+      chatRoomId: string;
+      nickname: string;
+      profileImage: string;
       message: string;
-      date: string;
+      sendTime: string;
     }[]
   >([]);
 
@@ -95,27 +100,12 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
   };
 
   useEffect(() => {
-    const data: React.SetStateAction<{ userId: number; message: string; date: string }[]> = [
-      { userId: 1, message: '안녕하세요', date: '2023-01-01 11:30:12' },
-      { userId: 2, message: '안녕하세요22', date: '2023-01-01 11:30:13' },
-      { userId: 1, message: '안녕하세요', date: '2023-01-01 11:30:15' },
-      { userId: 2, message: '안녕하세요22', date: '2023-01-01 11:32:12' },
-      { userId: 1, message: '안녕하세요', date: '2023-01-01 11:40:12' },
-      { userId: 2, message: '안녕하세요22', date: '2023-01-01 11:42:12' },
-      { userId: 1, message: '안녕하세요', date: '2023-01-01 11:43:12' },
-      { userId: 2, message: '안녕하세요22', date: '2023-01-01 11:43:15' },
-      { userId: 1, message: '안녕하세요', date: '2023-01-01 11:44:12' },
-      { userId: 2, message: '안녕하세요22', date: '2023-01-01 11:45:12' },
-      { userId: 1, message: '안녕하세요', date: '2023-01-01 11:45:17' },
-      { userId: 2, message: '안녕하세요22', date: '2023-01-01 11:45:18' },
-      { userId: 1, message: '안녕하세요', date: '2023-01-01 11:45:22' },
-      { userId: 2, message: '안녕하세요22', date: '2023-01-01 11:45:24' },
-      { userId: 1, message: '안녕하세요', date: '2023-01-01 11:45:25' },
-      { userId: 2, message: '안녕하세요22', date: '2023-01-01 11:45:26' },
-      { userId: 1, message: '안녕하세요', date: '2023-01-01 11:45:27' },
-      { userId: 2, message: '안녕하세요22', date: '2023-01-01 11:45:28' },
-    ];
-    setChatData(data);
+    const getData = async () => {
+      const response = await getChatData({ chatRoomId: props.route.params.id });
+      setChatData(response.dataBody);
+    };
+
+    getData();
     connect();
     return () => disConnect();
   }, []);
@@ -135,7 +125,7 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
       <Header type='default' title='김농민' firstIcon='back' />
       <ScrollView style={{ padding: widthPercent * 10 }} ref={scrollViewRef} onLayout={scrollToBottom}>
         {chatData.map((item) =>
-          item.userId === userInfo.user_id ? (
+          String(item.userId) == userInfo.userId ? (
             <MyChat timeStamp={item.date} key={item.date}>
               <Typo.BODY4_M color={Color.WHITE}>{item.message}</Typo.BODY4_M>
             </MyChat>
