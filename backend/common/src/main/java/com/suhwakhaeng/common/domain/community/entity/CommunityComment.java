@@ -5,6 +5,9 @@ import com.suhwakhaeng.common.global.common.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Builder(toBuilder = true)
@@ -24,14 +27,19 @@ public class CommunityComment extends BaseEntity {
     @JoinColumn(name = "community_id")
     private Community community;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "community_comment_group")
-    private CommunityComment group;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "community_comment_parent")
+    private CommunityComment parent;
 
-    @Column(name = "community_comment_level")
-    private int level;
+    @Builder.Default
+    @OneToMany(mappedBy = "parent", orphanRemoval = true)
+    private List<CommunityComment> children = new ArrayList<>();
 
     @Column(name = "community_comment_content")
     private String content;
 
+    public void addSubComment(CommunityComment subComment) {
+        this.children.add(subComment);
+        subComment.parent = this;
+    }
 }
