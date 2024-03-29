@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { TextInputProps } from 'react-native';
+import { TextInput, TextInputProps } from 'react-native';
 
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import * as Color from '../../config/color/Color';
@@ -15,6 +15,8 @@ interface InputBoxProps {
   children?: React.ReactNode;
   value?: string;
   keyboardType?: TextInputProps['keyboardType'];
+  refInput?: React.LegacyRef<TextInput>;
+  onBlur?: () => void;
 }
 interface SearchInputProps {
   title?: string;
@@ -96,7 +98,7 @@ const StyledInput = styled.TextInput`
  */
 export const SingleLineInputBox = (props: InputBoxProps) => {
   return (
-    <StyledSingleContainer {...props} multiline={false} value={props.value}>
+    <StyledSingleContainer ref={props.refInput} {...props} multiline={false} value={props.value} onBlur={props.onBlur}>
       {props.children}
     </StyledSingleContainer>
   );
