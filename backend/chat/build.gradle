@@ -45,15 +45,17 @@ dependencies {
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-reactor-netty', version: '2.4.6'
 	implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.12.4'
 
-//	implementation 'org.springframework.cloud:spring-cloud-loadbalancer'
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	implementation 'org.springframework.cloud:spring-cloud-loadbalancer:4.1.0'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.1.0'
 
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
 	implementation 'org.springframework.cloud:spring-cloud-config-client'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-	implementation 'org.springframework.boot:spring-boot-starter-logging'
+
+	implementation 'org.springframework.boot:spring-boot-starter-logging'\
+
 }
 
 dependencyManagement {
@@ -61,6 +63,7 @@ dependencyManagement {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
 }
+
 
 tasks.named('test') {
 	useJUnitPlatform()

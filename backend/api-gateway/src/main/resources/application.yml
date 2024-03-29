@@ -21,6 +21,9 @@ spring:
     import: optional:configserver:http://43.202.20.179:8888
   cloud:
     gateway:
+      httpclient:
+        ssl:
+          useInsecureTrustManager: true
       routes:
         - id: auth
           uri: lb://COMMON
@@ -45,13 +48,6 @@ spring:
             - RewritePath=/chat/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
 
-        - id: chat
-          uri: lb://CHAT
-          predicates:
-            - Path=/ws/**
-          filters:
-            - RewritePath=/chat/(?<segment>.*), /$\{segment}
-            - AuthorizationHeaderFilter
 
 management:
   endpoints:
