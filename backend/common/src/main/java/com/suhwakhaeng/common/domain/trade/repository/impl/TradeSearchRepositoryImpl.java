@@ -68,7 +68,7 @@ public class TradeSearchRepositoryImpl implements TradeSearchRepository {
                 .leftJoin(tradeLike).on(tradeBoard.id.eq(tradeLike.tradeLikePK.tradeBoard.id))
                 .where(searchOptions)
                 .groupBy(tradeBoard.id, tradeBoard.cate, tradeBoard.image1, tradeBoard.title, tradeBoard.createdAt, tradeBoard.price)
-                .orderBy(tradeBoard.id.asc())
+                .orderBy(tradeBoard.createdAt.desc())
                 .limit(10)
                 .fetch();
     }
@@ -99,7 +99,7 @@ public class TradeSearchRepositoryImpl implements TradeSearchRepository {
                 .leftJoin(tradeLike).on(tradeBoard.id.eq(tradeLike.tradeLikePK.tradeBoard.id))
                 .where(user.id.eq(userId))
                 .groupBy(tradeBoard.id, tradeBoard.cate, tradeBoard.image1, tradeBoard.title, tradeBoard.createdAt, tradeBoard.price)
-                .orderBy(tradeBoard.id.asc())
+                .orderBy(tradeBoard.createdAt.desc())
                 .limit(10)
                 .fetch();
     }
@@ -131,7 +131,7 @@ public class TradeSearchRepositoryImpl implements TradeSearchRepository {
                 .leftJoin(tradeLike).on(tradeBoard.id.eq(tradeLike.tradeLikePK.tradeBoard.id))
                 .where(isLiked)
                 .groupBy(tradeBoard.id, tradeBoard.cate, tradeBoard.image1, tradeBoard.title, tradeBoard.createdAt, tradeBoard.price)
-                .orderBy(tradeBoard.id.asc())
+                .orderBy(tradeBoard.createdAt.desc())
                 .limit(10)
                 .fetch();
     }

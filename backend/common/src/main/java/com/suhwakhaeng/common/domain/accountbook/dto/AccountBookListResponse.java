@@ -14,14 +14,14 @@ import java.util.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountBookResponse {
+public class AccountBookListResponse {
     // 수입
     private int income;
     
     // 지출
     private int expenditure;
 
-    Map<LocalDate, List<Content>> contents = new TreeMap<>();
+    Map<LocalDate, List<Content>> contents = new HashMap<>();
 
     @Getter
     @AllArgsConstructor
@@ -34,7 +34,7 @@ public class AccountBookResponse {
         private LocalDate date;
     }
 
-    public AccountBookResponse(List<Content> contents) {
+    public AccountBookListResponse(List<Content> contents) {
         for (Content content : contents) {
             this.contents.putIfAbsent(content.date, new ArrayList<>());
             this.contents.get(content.date).add(content);

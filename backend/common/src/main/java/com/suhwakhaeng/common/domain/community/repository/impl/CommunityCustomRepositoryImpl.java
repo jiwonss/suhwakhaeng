@@ -28,7 +28,7 @@ public class CommunityCustomRepositoryImpl implements CommunityCustomRepository 
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public CommunityDetailResponse selectCommunity(Long userId, Long communityId) {
+    public CommunityDetailResponse selectCommunityDetail(Long userId, Long communityId) {
         return queryFactory
                 .select(Projections.fields(CommunityDetailResponse.class,
                         Projections.fields(WriterInfo.class,
@@ -109,7 +109,7 @@ public class CommunityCustomRepositoryImpl implements CommunityCustomRepository 
                 .from(community)
                 .join(community.writer, user)
                 .where(isGreaterThan(lastId), isEqualsUserId(userId))
-                .orderBy(community.id.asc())
+                .orderBy(community.createdAt.desc())
                 .limit(10)
                 .fetch();
     }
@@ -156,7 +156,7 @@ public class CommunityCustomRepositoryImpl implements CommunityCustomRepository 
                 .from(community)
                 .join(community.writer, user)
                 .where(isGreaterThan(request.id()), contentLikeKeyword(request.keyword()), equalsCate(request.cate()))
-                .orderBy(community.id.asc())
+                .orderBy(community.createdAt.desc())
                 .limit(10)
                 .fetch();
     }

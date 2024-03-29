@@ -3,9 +3,8 @@ package com.suhwakhaeng.common.domain.accountbook.service.impl;
 import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookCreateRequest;
 import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookDetailResponse;
 import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookListRequest;
-import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookResponse;
+import com.suhwakhaeng.common.domain.accountbook.dto.AccountBookListResponse;
 import com.suhwakhaeng.common.domain.accountbook.entity.AccountBook;
-import com.suhwakhaeng.common.domain.accountbook.enums.Finance;
 import com.suhwakhaeng.common.domain.accountbook.exception.AccountBookErrorCode;
 import com.suhwakhaeng.common.domain.accountbook.exception.AccountBookException;
 import com.suhwakhaeng.common.domain.accountbook.repository.AccountBookRepository;
@@ -50,10 +49,10 @@ public class AccountBookServiceImpl implements AccountBookService {
     }
 
     @Override
-    public AccountBookResponse selectAccountBook(Long userId, AccountBookListRequest request) {
-        List<AccountBookResponse.Content> contents = accountBookRepository.selectAccountBook(userId, request);
+    public AccountBookListResponse selectAccountBook(Long userId, AccountBookListRequest request) {
+        List<AccountBookListResponse.Content> contents = accountBookRepository.selectAccountBook(userId, request);
 
-        return new AccountBookResponse(contents);
+        return new AccountBookListResponse(contents);
     }
 
     @Override
