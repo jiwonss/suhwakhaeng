@@ -15,10 +15,22 @@ import { getCropVarietyInfo } from '../../apis/services/crops/Crops';
 interface CropDetails {
   tableTitle: string[];
   tableInfo?: {
+    tableHead: string[];
     tableTitle: string[];
     tableBody: string[][];
   };
 }
+const TableContainer = styled.View`
+  flex-direction: row;
+`;
+
+const TableHead = styled.View`
+  flex-direction: column;
+`;
+
+const TableBody = styled.View`
+  flex: 1;
+`;
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -27,19 +39,19 @@ const Container = styled.View`
   row-gap: ${5 * heightPercent}px;
 `;
 
-const Table = styled.View`
-  margin: 10px 0;
-`;
-
 const TableRow = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  padding: 5px 0;
 `;
 
 const TableCell = styled.Text`
   flex: 1;
   text-align: center;
+  padding-top: ${10 * heightPercent}px;
+  padding-bottom: ${10 * heightPercent}px;
+  padding-right: ${4 * widthPercent}px;
+  padding-left: ${4 * widthPercent}px;
+  font-family: 'GmarketSansTTFMedium';
 `;
 
 const CropsDetailScreen = () => {
@@ -56,24 +68,33 @@ const CropsDetailScreen = () => {
     fetchCropVarietyInfo();
   }, [cropsId, cropsVarietyId]);
 
+  const renderTableRow = (row: string[]) => {
+    return row.map((cell, cellIndex) => <TableCell key={cellIndex}>{cell}</TableCell>);
+  };
+
   const renderTable = (tableInfo: CropDetails['tableInfo']) => {
     if (!tableInfo) return null;
 
     return (
-      <Table>
-        <TableRow>
-          {tableInfo.tableTitle.map((head, index) => (
-            <TableCell key={index}>{head}</TableCell>
+      <TableContainer>
+        <TableHead>
+          {tableInfo.tableHead.map((head, index) => (
+            <TableCell key={`head-${index}`}>
+              <TableCell>{head}</TableCell>
+            </TableCell>
           ))}
-        </TableRow>
-        {tableInfo.tableBody.map((row, rowIndex) => (
-          <TableRow key={rowIndex}>
-            {row.map((cell, cellIndex) => (
-              <TableCell key={cellIndex}>{cell}</TableCell>
+        </TableHead>
+        <TableBody>
+          <TableRow>
+            {tableInfo.tableTitle.map((title, index) => (
+              <TableCell key={index}>{title}</TableCell>
             ))}
           </TableRow>
-        ))}
-      </Table>
+          {tableInfo.tableBody.map((row, rowIndex) => (
+            <TableRow key={rowIndex}>{renderTableRow(row)}</TableRow>
+          ))}
+        </TableBody>
+      </TableContainer>
     );
   };
 
