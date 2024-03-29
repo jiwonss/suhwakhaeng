@@ -16,6 +16,7 @@ import { changeCategoryName } from '../../util/MarketUtil';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
+import { getMyPostList } from '../../apis/services/community/community';
 
 const StyledView = styled.View`
   width: 50%;
@@ -40,6 +41,24 @@ const MyPostScreen = () => {
     { content: '거래', event: () => setActiveIndex(1), active: activeIndex === 1 },
   ];
 
+  const [myPost, setMyPost] = useState<
+    {
+      user: {
+        nickname: string;
+        profileImage: string;
+        userId: number;
+      };
+      communityId: number;
+      communityContent: string;
+      thumbnail: string;
+      cate: string;
+      isLiked: boolean;
+      likeCount: number;
+      commentCount: number;
+      createdAt: string;
+    }[]
+  >([]);
+
   const [myMarketPost, setMyMarketPost] = useState<
     {
       id: number;
@@ -62,10 +81,18 @@ const MyPostScreen = () => {
   };
 
   useEffect(() => {
+    const getMyPost = async () => {
+      const response = await getMyPostList({ lastId: 0 });
+      setMyPost(response.dataBody);
+    };
+
     const getMyMarketPost = async () => {
       const response = await getMyMarketPostList();
       setMyMarketPost(response.dataBody);
     };
+    if (activeIndex === 0) {
+      getMyPost();
+    }
     if (activeIndex === 1) {
       getMyMarketPost();
     }
@@ -90,24 +117,25 @@ const MyPostScreen = () => {
         </StyledView>
         <Spacer space={heightPercent * 10}></Spacer>
         {activeIndex === 0 &&
-          (data.length !== 0 ? (
-            <Post
-              postData={{
-                name: '김농민',
-                date: '11시간전',
-                classification: '자유',
-                content: '부직포 벗긴 밭에 풀이 너무 많아 뽑기를 포기하고 "트리부닐"을 살포했습니다. 멸칭이 있어서 제초가 어려워 두둑배 갈라서 멸칭을 제거했습니다.',
-                likeNumber: 12,
-                commentNumber: 8,
-                imgUrl_one: undefined,
-                imgUrl_two: undefined,
-                imgUrl_three: undefined,
-                imgUrl_four: undefined,
-              }}
-              onPress={function (): void {
-                throw new Error('Function not implemented.');
-              }}
-            ></Post>
+          (myPost.length !== 0 ? (
+            myPost.map((item) => (
+              <Post
+                key={item.communityId}
+                onPress={() => {
+                  navigation.navigate('DetailPostScreen', { id: item.communityId });
+                }}
+                postData={{
+                  name: item.user.nickname,
+                  date: item.createdAt,
+                  classification: changeCategoryName(item.cate),
+                  content: item.communityContent,
+                  likeNumber: item.likeCount,
+                  commentNumber: item.commentCount,
+                  profileImg: item.user.profileImage,
+                  imgUrl_one: item.thumbnail,
+                }}
+              />
+            ))
           ) : (
             <NoPost>
               <Typo.BODY3_B>아직 작성한 글이 없어요</Typo.BODY3_B>

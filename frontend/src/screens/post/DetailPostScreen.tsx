@@ -1,44 +1,98 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, ScrollView, View } from 'react-native';
 import Header from '../../components/header/Header';
 import Post, { PostProps } from '../../components/post/Post';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
-import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { SlideModal } from '../../components/modal/Modal';
 import { BasicButton } from '../../components/button/Buttons';
 import { Spacer } from '../../components/basic/Spacer';
-import { useRoute } from '@react-navigation/core';
+import { getPostDetail } from '../../apis/services/community/community';
+import { changeCategoryName } from '../../util/MarketUtil';
 
-const DetailPostScreen = () => {
-  const route = useRoute();
+interface DetaliPostProps {
+  route: {
+    params: {
+      id: number;
+    };
+  };
+}
+
+const DetailPostScreen = (props: DetaliPostProps) => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [modalVisible, setModalVisible] = useState(false);
-  const { postData } = route.params as { postData: PostProps['postData'] };
+  const [postData, setPostData] = useState<{
+    user: {
+      nickname: string;
+      profileImage: string;
+      userId: number;
+    };
+    communityId: number;
+    communityContent: string;
+    cate: string;
+    isLiked: boolean;
+    likeCount: number;
+    commentCount: number;
+    createdAt: string;
+    image1?: string;
+    image2?: string;
+    image3?: string;
+    image4?: string;
+  }>({
+    user: {
+      nickname: '',
+      profileImage: '',
+      userId: 0,
+    },
+    communityId: 0,
+    communityContent: '',
+    cate: '',
+    isLiked: false,
+    likeCount: 0,
+    commentCount: 0,
+    createdAt: '',
+    image1: '',
+    image2: '',
+    image3: '',
+    image4: '',
+  });
 
-  // const postData: PostProps['postData'] = {
-  //   name: '김농부',
-  //   date: '2024-03-10 9:46:56',
-  //   classification: '자유',
-  //   content: '부직포 벗긴 밭에 풀이 너무 많아 뽑기를 포기하고 ‘트리부닐’을 살포했습니다.',
-  //   likeNumber: 0,
-  //   commentNumber: 0,
-  //   imgUrl_one: require('../../../assets/imgs/favicon.png'),
-  //   imgUrl_two: require('../../../assets/imgs/favicon.png'),
-  //   imgUrl_three: require('../../../assets/imgs/favicon.png'),
-  // };
+  useEffect(() => {
+    const getDetail = async () => {
+      const response = await getPostDetail({ communityId: props.route.params.id });
+      setPostData(response.dataBody);
+    };
+
+    getDetail();
+  }, []);
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
       <Header type={'default'} firstIcon='back' secondIcon={'more'} onPressMore={() => setModalVisible(true)} />
-      <Post postData={postData} onPress={() => console.log('')} />
+      <Post
+        onPress={() => console.log('')}
+        postData={{
+          name: postData.user.nickname,
+          date: postData.createdAt,
+          classification: changeCategoryName(postData.cate),
+          content: postData.communityContent,
+          likeNumber: postData.likeCount,
+          commentNumber: postData.commentCount,
+          profileImg: postData.user.profileImage,
+          imgUrl_one: postData.image1,
+          imgUrl_two: postData.image2,
+          imgUrl_three: postData.image3,
+          imgUrl_four: postData.image4,
+        }}
+      />
       <SlideModal isVisible={modalVisible} setIsVisible={setModalVisible}>
         <View style={{ flexDirection: 'column', alignItems: 'center' }}>
           <BasicButton
             onPress={() => {
               console.log('수정 페이지로 이동');
-              navigation.navigate('UpdatePostScreen', { postData });
+              // navigation.navigate('UpdatePostScreen', { postData });
               setModalVisible(false);
             }}
             width={300}
