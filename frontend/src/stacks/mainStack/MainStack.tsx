@@ -61,7 +61,7 @@ export type RootStackParamList = {
   FarmLedgerDetailScreen: undefined;
   CreatePostScreen: undefined;
   DetailPostScreen: { id: number };
-  UpdatePostScreen: { postData: PostProps['postData'] };
+  UpdatePostScreen: { id: number };
   MyPostScreen: undefined;
   SetLocationScreen: { value: number; varietyName: string; plantName: string; cropsVarietyId?: number };
   SearchResultScreen: { searchValue: string };

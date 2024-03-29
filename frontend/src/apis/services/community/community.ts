@@ -36,3 +36,8 @@ export const deletePost = async (params: { communityId: number }) => {
   const response = await tokenInstance.delete(`${communityUrl}/${params.communityId}`);
   return response.data;
 };
+
+export const updatePost = async (params: { communityId: number }, data: { content: string; cate: string; image1: string; image2: string; image3: string; image4: string }) => {
+  const response = await tokenInstance.patch(`${communityUrl}/${params.communityId}`, data);
+  return response.data;
+};

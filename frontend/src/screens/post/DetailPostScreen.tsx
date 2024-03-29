@@ -82,15 +82,23 @@ const DetailPostScreen = (props: DetaliPostProps) => {
     }
   };
 
+  // 더보기 버튼 눌렀을 때
   const onPressMore = () => {
     if (userInfo.userId == String(postData.user.userId)) {
       setModalVisible(true);
     }
   };
 
+  // 글 삭제 버튼 눌렀을 때
   const onPressDelete = async () => {
     await deletePost({ communityId: props.route.params.id });
     navigation.goBack();
+  };
+
+  // 글 수정 버튼 눌렀을 때
+  const onPressModify = async () => {
+    setModalVisible(false);
+    navigation.navigate('UpdatePostScreen', { id: props.route.params.id });
   };
 
   return (
@@ -116,18 +124,7 @@ const DetailPostScreen = (props: DetaliPostProps) => {
       />
       <SlideModal isVisible={modalVisible} setIsVisible={setModalVisible}>
         <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-          <BasicButton
-            onPress={() => {
-              console.log('수정 페이지로 이동');
-              // navigation.navigate('UpdatePostScreen', { postData });
-              setModalVisible(false);
-            }}
-            width={300}
-            height={50}
-            backgroundColor={Color.WHITE}
-            borderColor={Color.GRAY500}
-            borderRadius={10}
-          >
+          <BasicButton onPress={onPressModify} width={300} height={50} backgroundColor={Color.WHITE} borderColor={Color.GRAY500} borderRadius={10}>
             <Typo.BODY3_M color={Color.GREEN500}>수정하기</Typo.BODY3_M>
           </BasicButton>
           <Spacer space={12} />
