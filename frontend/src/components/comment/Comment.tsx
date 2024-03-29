@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { Card } from '../card/Card';
 import { ProfileCard } from '../profileCard/ProfileCard';
-import More from '../../../assets/icons/more_black.svg';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
+import { Alert, TouchableOpacity, View } from 'react-native';
+import { Icon } from '../icon/Icon';
 
 interface CommentProps {
   data: {
     id: number;
-    user_id: number;
+    userId: number;
     profileImg_url: string;
     name: string;
     date: string;
@@ -20,7 +21,7 @@ interface CommentProps {
     group: number;
     recomment?: {
       id: number;
-      user_id: number;
+      userId: number;
       profileImg_url: string;
       name: string;
       date: string;
@@ -28,11 +29,16 @@ interface CommentProps {
       group: number;
     }[];
   };
+  selectId: number;
+  setSelectId: React.Dispatch<React.SetStateAction<number>>;
+  focusOnInput: () => void;
 }
 
-const CommentContainer = styled.View`
+const CommentContainer = styled.View<{ isSelected: boolean }>`
+  padding: ${widthPercent * 8}px;
+  padding: ${widthPercent * 8}px;
   row-gap: ${heightPercent * 10}px;
-  margin-top: ${heightPercent * 10}px;
+  background-color: ${(props) => (props.isSelected ? Color.GRAY100 : Color.WHITE)};
 `;
 
 const ProfileContainer = styled.View`
@@ -54,21 +60,27 @@ const RecommentContainer = styled.View`
 export const Comment = (props: CommentProps) => {
   const userInfo = useRecoilValue(userInfoState);
 
-  const onPressMore = (userId: number) => {
-    if (userId === userInfo.user_id) {
-      console.log('수정/삭제 포함된 모달 열거야');
-    } else {
-      console.log('답글 달기만 있는 모달 열거야');
-    }
-  };
-
   return (
-    <CommentContainer>
+    <CommentContainer isSelected={props.data.id === props.selectId}>
       <ProfileContainer>
         <ProfileCard url={props.data.profileImg_url} name={props.data.name} date={props.data.date} />
-        <More width={widthPercent * 16} height={heightPercent * 16} onPress={() => onPressMore(props.data.user_id)} />
+        <View style={{ flexDirection: 'row', gap: widthPercent * 10 }}>
+          <TouchableOpacity
+            onPress={() => {
+              props.setSelectId(props.data.id);
+              props.focusOnInput();
+            }}
+          >
+            <Icon name={'chatbox-ellipses'} size={widthPercent * 16} iconColor={Color.GRAY500} />
+          </TouchableOpacity>
+          {userInfo.userId == props.data.userId && (
+            <TouchableOpacity onPress={() => {}}>
+              <Icon name={'trash'} size={widthPercent * 16} iconColor={Color.GRAY500} />
+            </TouchableOpacity>
+          )}
+        </View>
       </ProfileContainer>
-      <Card backgroundColor={Color.GRAY100} width={widthPercent * 280} height={heightPercent * 50}>
+      <Card backgroundColor={Color.GRAY200} width={widthPercent * 280} height={heightPercent * 50}>
         <TextContainer>
           <Typo.BODY4_M>{props.data.content}</Typo.BODY4_M>
         </TextContainer>
@@ -78,9 +90,15 @@ export const Comment = (props: CommentProps) => {
           <RecommentContainer key={item.id}>
             <ProfileContainer>
               <ProfileCard url={props.data.profileImg_url} name={item.name} date={item.date} />
-              <More width={widthPercent * 16} height={heightPercent * 16} onPress={() => onPressMore(item.user_id)} />
+              <View style={{ flexDirection: 'row', gap: widthPercent * 10 }}>
+                {userInfo.userId == item.userId && (
+                  <TouchableOpacity onPress={() => {}}>
+                    <Icon name={'trash'} size={widthPercent * 16} iconColor={Color.GRAY500} />
+                  </TouchableOpacity>
+                )}
+              </View>
             </ProfileContainer>
-            <Card backgroundColor={Color.GRAY100} width={widthPercent * 280} height={heightPercent * 50}>
+            <Card backgroundColor={Color.GRAY200} width={widthPercent * 280} height={heightPercent * 50}>
               <TextContainer>
                 <Typo.BODY4_M>{item.content}</Typo.BODY4_M>
               </TextContainer>
