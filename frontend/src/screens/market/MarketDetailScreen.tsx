@@ -19,6 +19,7 @@ import { changePostStatus, deleteIsLiked, deleteMarketPost, getIsLiked, getMarke
 import { changeCategoryName } from '../../util/MarketUtil';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { Spacer } from '../../components/basic/Spacer';
+import { createChatUUID } from '../../apis/services/chat/chat';
 
 interface MarketDetailProps {
   route: {
@@ -148,6 +149,12 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
     console.log(response);
   };
 
+  const onPressChatRoomButton = async () => {
+    // 다른 사람 글이면 채팅 방 생성
+    const response = await createChatUUID({ anotherUserId: postUserInfo.userId });
+    navigation.navigate('ChattingRoomScreen', { id: response.dataBody.chatRoomId });
+  };
+
   return (
     <Container>
       <Header type='default' firstIcon='back' secondIcon='more' onPressMore={onPressMore} />
@@ -197,7 +204,8 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
         {userInfo.userId == String(postUserInfo.userId) ? (
           <BasicButton
             onPress={() => {
-              console.log('내 대화목록으로 이동');
+              // 내 글이면 채팅 목록으로 이동
+              navigation.navigate('ChatListScreen');
             }}
             width={widthPercent * 260}
             height={heightPercent * 45}
@@ -207,15 +215,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
             <Typo.BODY3_M color={Color.WHITE}>대화 중인 채팅방으로 이동</Typo.BODY3_M>
           </BasicButton>
         ) : (
-          <BasicButton
-            onPress={() => {
-              console.log('채팅방 생성');
-            }}
-            width={widthPercent * 260}
-            height={heightPercent * 45}
-            borderColor={Color.GREEN500}
-            borderRadius={10}
-          >
+          <BasicButton onPress={onPressChatRoomButton} width={widthPercent * 260} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
             <Typo.BODY3_M color={Color.WHITE}>채팅 걸기</Typo.BODY3_M>
           </BasicButton>
         )}
