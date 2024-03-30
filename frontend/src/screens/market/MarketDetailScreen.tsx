@@ -19,6 +19,7 @@ import { changePostStatus, deleteIsLiked, deleteMarketPost, getIsLiked, getMarke
 import { changeCategoryName } from '../../util/MarketUtil';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { Spacer } from '../../components/basic/Spacer';
+import { getChatRoomId } from '../../apis/services/chat/Chat';
 
 interface MarketDetailProps {
   route: {
@@ -208,7 +209,11 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
           </BasicButton>
         ) : (
           <BasicButton
-            onPress={() => {
+            onPress={async () => {
+              const response = await getChatRoomId(postUserInfo.userId);
+              if (response.dataHeader.successCode === 0) {
+                navigation.navigate('ChattingRoomScreen', { id: response.dataBody.chatRoomId });
+              }
               console.log('채팅방 생성');
             }}
             width={widthPercent * 260}
