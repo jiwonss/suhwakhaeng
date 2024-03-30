@@ -13,8 +13,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(value = "common", url = "${common.server.uri}")
 public interface UserInfoClient {
     @GetMapping("/users/{userId}/info")
-    UserInfo getUserInfo(@PathVariable Long userId);
-
-    @GetMapping("/users/{userId}/info")
-    Message<UserInfo> test(@PathVariable Long userId);
+    Message<UserInfo> getUserInfo(@PathVariable Long userId);
 }
