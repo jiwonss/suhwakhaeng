@@ -15,6 +15,7 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,7 @@ public class ChatServiceImpl implements ChatService {
                 .build();
 
         // rabbitMQ로 상대방에게 전송
-        rabbitTemplate.convertAndSend(topicExchange.getName(), "room."+chatRoomId, chat);
+        rabbitTemplate.convertAndSend(topicExchange.getName(), "room." + chatRoomId, chat);
         // mongoDB에 chat 저장
         chatRepository.save(chat);
         // 마지막 chat 수정
@@ -70,7 +71,7 @@ public class ChatServiceImpl implements ChatService {
         List<ChatResponse> resultList = new ArrayList<>();
         List<ChatRoom> chatRoomList = chatRoomRepository.findByUserIdOrAnotherUserId(userId, userId);
         for(ChatRoom chatRoom : chatRoomList) {
-            if(chatRoom.getMessage().equals(null) || chatRoom.getMessage().equals("")) continue;
+            if(chatRoom.getMessage() == null || chatRoom.getMessage() == "") continue;
             Message<UserInfo> response = userInfoClient.getUserInfo(chatRoom.getAnotherUserId());
             UserInfo userInfo = response.getDataBody();
             resultList.add(ChatResponse.builder()
