@@ -59,6 +59,12 @@ export const getMyCropListInfo = async (): Promise<MyCropsResponse> => {
   return response.data;
 };
 
+// 내 특정 작물 상세 조회
+export const getMyCropInfo = async (myCropsId: number) => {
+  const response = await tokenInstance.get(`/common/my-crops/${myCropsId}`);
+  return response.data;
+};
+
 // 내 작물 삭제
 export const deleteMyCropInfo = async (myCropsId: number) => {
   const response = await tokenInstance.delete(`common/my-crops/${myCropsId}`);
