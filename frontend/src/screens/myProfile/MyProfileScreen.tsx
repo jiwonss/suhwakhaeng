@@ -171,11 +171,6 @@ const MyProfileScreen = () => {
                 <StyledView key={index}>
                   <PlantItem
                     onPress={() => {
-                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                      // @ts-expect-error
-                      navigation.navigate('DetailMyCropsScreen', { myCropsId: myCropsId });
-                    }}
-                    onLongPress={() => {
                       setSelectedCropId(myCropsId);
                       setModalVisible(true);
                     }}
@@ -250,8 +245,10 @@ const MyProfileScreen = () => {
           <View style={{ flexDirection: 'column', alignItems: 'center' }}>
             <BasicButton
               onPress={() => {
-                console.log('수정 페이지로 이동');
-                // navigation.navigate('UpdatePostScreen', { postData });
+                console.log('상세조회 페이지로 이동');
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                navigation.navigate('DetailMyCropsScreen', { myCropsId: selectedCropId });
                 setModalVisible(false);
               }}
               width={300}
@@ -260,7 +257,25 @@ const MyProfileScreen = () => {
               borderColor={Color.GRAY500}
               borderRadius={10}
             >
-              <Typo.BODY3_M color={Color.GREEN500}>수정하기</Typo.BODY3_M>
+              <Typo.BODY3_M color={Color.GREEN500}>상세 조회</Typo.BODY3_M>
+            </BasicButton>
+            <Spacer space={12} />
+
+            <BasicButton
+              onPress={() => {
+                console.log('수정 페이지로 이동');
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                navigation.navigate('UpdateMyCropsScreen', { selectedCropId });
+                setModalVisible(false);
+              }}
+              width={300}
+              height={50}
+              backgroundColor={Color.GREEN500}
+              borderColor={Color.GREEN500}
+              borderRadius={10}
+            >
+              <Typo.BODY3_M color={Color.WHITE}>수정하기</Typo.BODY3_M>
             </BasicButton>
             <Spacer space={12} />
             <BasicButton
@@ -280,8 +295,8 @@ const MyProfileScreen = () => {
               }}
               width={300}
               height={50}
-              backgroundColor={Color.GREEN500}
-              borderColor={Color.GRAY500}
+              backgroundColor={Color.RED200}
+              borderColor={Color.RED200}
               borderRadius={10}
             >
               <Typo.BODY3_M color={Color.WHITE}>삭제하기</Typo.BODY3_M>
