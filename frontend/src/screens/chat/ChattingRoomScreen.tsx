@@ -11,14 +11,16 @@ import { MyChat, PartnerChat } from '../../components/chattingMessage/ChattingMe
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import * as StompJs from '@stomp/stompjs';
+// import { getChatData } from '../../apis/services/chat/chat';
 import { Client } from '@stomp/stompjs';
 import { TextEncoder, TextDecoder } from 'text-encoding';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import { getChatList } from '../../apis/services/chat/Chat';
+import { getKST } from '../../util/BasicUtil';
 
 interface ChattingRoomProps {
   route: {
-    params: { id: string };
+    params: { id: string; name: string };
   };
 }
 
@@ -86,7 +88,7 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
 
     const connect = () => {
       client.current = new StompJs.Client({
-        brokerURL: 'ws://13.209.147.164:9001 /ws',
+        brokerURL: 'ws://j10c103.p.ssafy.io:9001/ws',
         reconnectDelay: 5000, // 자동 재 연결
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
@@ -134,7 +136,7 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
 
   return (
     <Container>
-      <Header type='default' title='김농민' firstIcon='back' />
+      <Header type='default' title={props.route.params.name} firstIcon='back' />
       <ScrollView style={{ padding: widthPercent * 10 }} ref={scrollViewRef} onLayout={scrollToBottom}>
         {chatData.map((item) =>
           item.userId === Number(userInfo.userId) ? (

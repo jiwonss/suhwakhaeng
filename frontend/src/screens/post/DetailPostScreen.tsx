@@ -12,8 +12,8 @@ import { Spacer } from '../../components/basic/Spacer';
 import { deleteIsLiked, deletePost, getComment, getPostDetail, registComment, updateIsLiked } from '../../apis/services/community/community';
 import { changeCategoryName } from '../../util/MarketUtil';
 import { Comment } from '../../components/comment/Comment';
-import styled from 'styled-components';
-import { widthPercent } from '../../config/dimension/Dimension';
+import styled from 'styled-components/native';
+import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { SingleLineInputBox } from '../../components/inputBox/Input';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
@@ -205,19 +205,20 @@ const DetailPostScreen = (props: DetaliPostProps) => {
             imgUrl_four: postData.image4,
           }}
         />
-        {commentData !== null &&
-          commentData.map((item) => (
-            <Comment
-              key={item.comment.commentId}
-              commutityId={props.route.params.id}
-              data={item}
-              setSelectId={setSelectId}
-              focusOnInput={focusOnInput}
-              selectId={selectId}
-              getNewComment={getNewComment}
-            />
-          ))}
-
+        <View style={{ paddingHorizontal: widthPercent * 20, paddingVertical: heightPercent * 10 }}>
+          {commentData !== null &&
+            commentData.map((item) => (
+              <Comment
+                key={item.comment.commentId}
+                communityId={props.route.params.id}
+                data={item}
+                setSelectId={setSelectId}
+                focusOnInput={focusOnInput}
+                selectId={selectId}
+                getNewComment={getNewComment}
+              />
+            ))}
+        </View>
         <SlideModal isVisible={modalVisible} setIsVisible={setModalVisible}>
           <View style={{ flexDirection: 'column', alignItems: 'center' }}>
             <BasicButton onPress={onPressModify} width={300} height={50} backgroundColor={Color.WHITE} borderColor={Color.GRAY500} borderRadius={10}>
