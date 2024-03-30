@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+
 import styled from 'styled-components/native';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
@@ -17,7 +19,6 @@ import Location from '../../../assets/icons/location.svg';
 import Lucide from '../../../assets/icons/Lucide Icon.svg';
 import { PlantAdd, PlantItem } from '../../components/plantAdd/PlantAdd';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { removeTokens } from '../../util/TokenUtil';
@@ -47,6 +48,10 @@ interface CropItem {
     dong: string;
   };
 }
+
+type BottomTabParamList = {
+  MyProfileScreen: { reloadProfile?: boolean };
+};
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -86,19 +91,24 @@ const MyProfileScreen = () => {
   const userInfo = useRecoilValue(userInfoState);
   const [myCrops, setMyCrops] = useState<CropItem[]>([]);
   const [selectedCropId, setSelectedCropId] = useState<number>(0);
-  // 내 작물 목록 가져오기
-  useEffect(() => {
-    const fetchMyCrops = async () => {
-      try {
-        const { dataBody } = await getMyCropListInfo();
-        setMyCrops(dataBody);
-      } catch (error) {
-        console.error('내가 키우는 작물 목록을 불러오는 중 오류 발생:', error);
-      }
-    };
 
-    fetchMyCrops();
-  }, []);
+  // 작물 목록 가져오기
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchMyCrops = async () => {
+        try {
+          const response = await getMyCropListInfo();
+          if (response.dataBody) {
+            setMyCrops(response.dataBody);
+          }
+        } catch (error) {
+          console.error('내가 키우는 작물 목록을 불러오는 중 오류 발생:', error);
+        }
+      };
+
+      fetchMyCrops();
+    }, [])
+  );
 
   // 작물 지우기
   const deleteMyCrop = async (myCropsId: number) => {

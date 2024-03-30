@@ -87,7 +87,7 @@ export type RootStackParamList = {
     gugun?: string;
     dong?: string;
   };
-  BottomNavigation: undefined;
+  BottomNavigation: { screen?: string };
   WeatherScreen: undefined;
   CameraScreen: { value: number };
   PostCodeScreen: { id: number; screenName: string; plantName?: string };
