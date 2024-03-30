@@ -15,8 +15,8 @@ import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -37,6 +37,7 @@ public class ChatServiceImpl implements ChatService {
      * @param chatRoomId  // 채팅 룸 id = UUID
      * @param myUserId
      */
+    @Transactional
     @Override
     public void sendChat(ChatRequest chatRequest, String chatRoomId, Long myUserId) {
         Message<UserInfo> response = userInfoClient.getUserInfo(myUserId);
@@ -48,6 +49,7 @@ public class ChatServiceImpl implements ChatService {
                 .profileImage(userInfo.profileImage())
                 .message(chatRequest.message())
                 .chatRoomId(chatRoomId)
+                .sendTime(LocalDateTime.now())
                 .build();
 
         // rabbitMQ로 상대방에게 전송
@@ -83,7 +85,6 @@ public class ChatServiceImpl implements ChatService {
         }
         return resultList;
     }
-
 
     @Override
     public ChatRoomResponse selectChatRoomId(Long userId, Long anotherUserId) {

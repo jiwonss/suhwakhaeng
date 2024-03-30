@@ -4,12 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -29,8 +27,6 @@ public class Chat {
     private String nickname;
     private String profileImage;
     private String message;
-    @CreatedDate
-    @Column(updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime sendTime;
 }
