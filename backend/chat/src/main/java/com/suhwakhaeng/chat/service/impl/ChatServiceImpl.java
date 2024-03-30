@@ -102,4 +102,11 @@ public class ChatServiceImpl implements ChatService {
                 .chatRoomId(chatRoom.getId())
                 .build();
     }
+
+    public UserInfo getUserInfo(Long userId) {
+        log.info("openFeign 테스트 input - userId : {}", userId);
+        log.info("openFeign 테스트 output - userId : {}", userInfoClient.getUserInfo(userId));
+        return userInfoClient.getUserInfo(userId).getDataBody();
+    }
+
 }
