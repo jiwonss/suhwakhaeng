@@ -1,6 +1,19 @@
 // import instance from '../../utils/basicInstance';
 import tokenInstance from '../../utils/tokenInstance';
 
+interface PatchMyCropInfoType {
+  cropsVarietyId: number;
+  area: number;
+  name: string;
+  areaUnit: string;
+  yield: number;
+  location?: {
+    sido?: string;
+    gugun?: string;
+    dong?: string;
+  };
+}
+
 interface MyCropsResponse {
   dataHeader: {
     successCode: number;
@@ -33,7 +46,6 @@ export const getCropVarieties = async (cropId: number) => {
 };
 
 // 품종별 작물 상세 정보 조회
-
 export const getCropVarietyInfo = async (cropsId: number, cropsVarietyId: number) => {
   console.log('들어왔냐?', cropsId, cropsVarietyId);
   const response = await tokenInstance.get(`common/crops/${cropsId}/variety/${cropsVarietyId}`);
@@ -62,6 +74,12 @@ export const getMyCropListInfo = async (): Promise<MyCropsResponse> => {
 // 내 특정 작물 상세 조회
 export const getMyCropInfo = async (myCropsId: number) => {
   const response = await tokenInstance.get(`/common/my-crops/${myCropsId}`);
+  return response.data;
+};
+
+// 내 특정 작물 수정
+export const patchMyCropInfo = async (myCropsId: number, updateData: PatchMyCropInfoType) => {
+  const response = await tokenInstance.patch(`/common/my-crops/${myCropsId}`, updateData);
   return response.data;
 };
 

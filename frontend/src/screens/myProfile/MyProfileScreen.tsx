@@ -106,9 +106,6 @@ const MyProfileScreen = () => {
     }, [])
   );
 
-  // 작물 수정하기
-  // const updateMyCrop = (newCropInfo: CropItem) => {};
-
   // 작물 지우기
   const deleteMyCrop = async (myCropsId: number) => {
     try {
@@ -266,7 +263,7 @@ const MyProfileScreen = () => {
                 console.log('수정 페이지로 이동');
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-expect-error
-                navigation.navigate('UpdateMyCropsScreen', { selectedCropId });
+                navigation.navigate('UpdateMyCropsScreen', { myCropsId: selectedCropId });
                 setModalVisible(false);
               }}
               width={300}

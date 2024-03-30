@@ -94,7 +94,7 @@ export type RootStackParamList = {
   CameraScreen: { value: number };
   PostCodeScreen: { id: number; screenName: string; plantName?: string };
   DetailMyCropsScreen: { myCropsId: number };
-  UpdateMyCropsScreen: { myCropsId: number };
+  UpdateMyCropsScreen: { myCropsId: number; sido?: string; gugun?: string; dong?: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
