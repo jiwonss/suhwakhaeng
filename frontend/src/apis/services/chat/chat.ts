@@ -9,3 +9,8 @@ export const getChatList = async (chatRoomId: string) => {
   const response = await tokenInstance.get(`/chat/list/message/${chatRoomId}`);
   return response.data;
 };
+
+export const getChatLogList = async () => {
+  const response = await tokenInstance.get(`/chat/list/log`);
+  return response.data;
+};

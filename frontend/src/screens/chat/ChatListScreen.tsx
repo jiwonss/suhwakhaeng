@@ -5,14 +5,13 @@ import * as Typo from '../../components/typography/Typography';
 import Header from '../../components/header/Header';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { ChattingListItem } from '../../components/profileCard/ProfileCard';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { Spacer } from '../../components/basic/Spacer';
 import { BasicButton } from '../../components/button/Buttons';
-import BottomNavigation from '../../components/navigation/BottomNavigation';
-import { getChatList } from '../../apis/services/chat/chat';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
+import { getChatLogList } from '../../apis/services/chat/Chat';
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
@@ -33,9 +32,10 @@ const ChatListScreen = () => {
   // 네비게이션
   const navigation = useNavigation<RootStackNavigationProp>();
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const isFocused = useIsFocused();
 
-  const onPressChatItem = (chatId: string) => {
-    navigation.navigate('ChattingRoomScreen', { id: chatId });
+  const onPressChatItem = (chatId: string, userName: string) => {
+    navigation.navigate('ChattingRoomScreen', { id: chatId, name: userName });
   };
 
   // 채팅 목록
@@ -57,14 +57,13 @@ const ChatListScreen = () => {
   useEffect(() => {
     // TODO: 렌더링 시 채팅 목록 불러오기
     const getList = async () => {
-      const response = await getChatList();
-      console.log(response.dataBody);
+      const response = await getChatLogList();
       setChatData(response.dataBody);
       setIsLoaded(true);
     };
 
     getList();
-  }, []);
+  }, [isFocused]);
 
   return (
     <Container>
@@ -74,11 +73,12 @@ const ChatListScreen = () => {
           chatData.length !== 0 ? (
             chatData.map((elem) => (
               <ChattingListItem
-                key={elem.userInfo.userId}
-                onPress={() => onPressChatItem(elem.id)}
+                url={elem.userInfo.profileImage}
+                key={elem.id}
+                onPress={() => onPressChatItem(elem.id, elem.userInfo.nickname)}
                 name={elem.userInfo.nickname}
                 date={elem.sendTime}
-                location={`${elem.userInfo.sido} ${elem.userInfo.gugun}`}
+                location={elem.userInfo.sido ? `${elem.userInfo.sido} ${elem.userInfo.gugun}` : '지역 등록 전'}
                 certification={false}
               >
                 <Typo.BODY4_M numberOfLines={1}>{elem.lastMessage}</Typo.BODY4_M>

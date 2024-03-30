@@ -11,18 +11,16 @@ import { MyChat, PartnerChat } from '../../components/chattingMessage/ChattingMe
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import * as StompJs from '@stomp/stompjs';
-<<<<<<< HEAD
-import { getChatData } from '../../apis/services/chat/chat';
-=======
+// import { getChatData } from '../../apis/services/chat/chat';
 import { Client } from '@stomp/stompjs';
 import { TextEncoder, TextDecoder } from 'text-encoding';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import { getChatList } from '../../apis/services/chat/Chat';
->>>>>>> 1c5e1f539fde057eb1a912fb8da074abbc8bd1ae
+import { getKST } from '../../util/BasicUtil';
 
 interface ChattingRoomProps {
   route: {
-    params: { id: string };
+    params: { id: string; name: string };
   };
 }
 
@@ -59,15 +57,6 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
 
   // 보낼 메세지
   const [message, setMessage] = useState<string>('');
-<<<<<<< HEAD
-  const [client, changeClient] = useState<StompJs.Client>(new StompJs.Client());
-
-  const onSubmitMessage = () => {
-    if (message) {
-      // TODO: 메세지 보내기
-      // sendMessage(message, 'pub/room/1', 1);
-      setChatData([...chatData, { userId: parseInt(userInfo.userId), message: message, date: getKST() }]);
-=======
 
   // 채팅 데이터
   const userInfo = useRecoilValue(userInfoState);
@@ -84,27 +73,11 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
           message: message,
         }),
       });
->>>>>>> 1c5e1f539fde057eb1a912fb8da074abbc8bd1ae
       setMessage('');
     }
     Keyboard.dismiss();
   };
 
-<<<<<<< HEAD
-  // 채팅 데이터
-  const userInfo = useRecoilValue(userInfoState);
-  const [chatData, setChatData] = useState<
-    {
-      id: string;
-      userId: number;
-      chatRoomId: string;
-      nickname: string;
-      profileImage: string;
-      message: string;
-      sendTime: string;
-    }[]
-  >([]);
-=======
   useEffect(() => {
     const callback = function (text: any) {
       if (text.body) {
@@ -112,11 +85,10 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
         setChatData([...chatData, data]);
       }
     };
->>>>>>> 1c5e1f539fde057eb1a912fb8da074abbc8bd1ae
 
     const connect = () => {
       client.current = new StompJs.Client({
-        brokerURL: 'ws://13.209.147.164:9001 /ws',
+        brokerURL: 'ws://j10c103.p.ssafy.io:9001/ws',
         reconnectDelay: 5000, // 자동 재 연결
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
@@ -145,24 +117,12 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
   }, [chatData, props.route.params.id]);
 
   useEffect(() => {
-<<<<<<< HEAD
-    const getData = async () => {
-      const response = await getChatData({ chatRoomId: props.route.params.id });
-      setChatData(response.dataBody);
-    };
-
-    getData();
-    connect();
-    return () => disConnect();
-  }, []);
-=======
     const getChatListResponse = async () => {
       const response = await getChatList(props.route.params.id);
       setChatData(response.dataBody);
     };
     getChatListResponse();
   }, [props.route.params.id]);
->>>>>>> 1c5e1f539fde057eb1a912fb8da074abbc8bd1ae
 
   // 스크롤 하단으로
   const scrollViewRef = useRef<ScrollView | null>(null);
@@ -176,16 +136,11 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
 
   return (
     <Container>
-      <Header type='default' title='김농민' firstIcon='back' />
+      <Header type='default' title={props.route.params.name} firstIcon='back' />
       <ScrollView style={{ padding: widthPercent * 10 }} ref={scrollViewRef} onLayout={scrollToBottom}>
         {chatData.map((item) =>
-<<<<<<< HEAD
-          String(item.userId) == userInfo.userId ? (
-            <MyChat timeStamp={item.date} key={item.date}>
-=======
           item.userId === Number(userInfo.userId) ? (
             <MyChat timeStamp={item.sendTime} key={item.sendTime}>
->>>>>>> 1c5e1f539fde057eb1a912fb8da074abbc8bd1ae
               <Typo.BODY4_M color={Color.WHITE}>{item.message}</Typo.BODY4_M>
             </MyChat>
           ) : (

@@ -64,6 +64,7 @@ const TextContainer = styled.View`
 `;
 
 const RecommentContainer = styled.View`
+  margin-top: ${heightPercent * 10}px;
   margin-left: ${widthPercent * 20}px;
   row-gap: ${heightPercent * 10}px;
 `;

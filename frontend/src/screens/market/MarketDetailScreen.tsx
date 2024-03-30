@@ -27,11 +27,9 @@ interface MarketDetailProps {
   };
 }
 
-type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
-
 const MarketDetailScreen = (props: MarketDetailProps) => {
   const isFocused = useIsFocused();
-  const navigation = useNavigation<RootStackNavigationProp>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
@@ -151,8 +149,8 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
 
   const onPressChatRoomButton = async () => {
     // 다른 사람 글이면 채팅 방 생성
-    const response = await createChatUUID({ anotherUserId: postUserInfo.userId });
-    navigation.navigate('ChattingRoomScreen', { id: response.dataBody.chatRoomId });
+    // const response = await createChatUUID({ anotherUserId: postUserInfo.userId });
+    // navigation.navigate('ChattingRoomScreen', { id: response.dataBody.chatRoomId, name: postUserInfo.nickname });
   };
 
   return (
@@ -203,10 +201,11 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
         <LikeButton isLiked={isLiked} setIsLiked={setIsLiked} onPress={toggleIsLiked} />
         {userInfo.userId == String(postUserInfo.userId) ? (
           <BasicButton
-            onPress={() => {
-              // 내 글이면 채팅 목록으로 이동
-              navigation.navigate('ChatListScreen');
-            }}
+            // onPress={() => {
+            // 내 글이면 채팅 목록으로 이동
+            // navigation.navigate('ChatListScreen');
+            // }}
+            onPress={onPressChatRoomButton}
             width={widthPercent * 260}
             height={heightPercent * 45}
             borderColor={Color.GREEN500}
@@ -219,7 +218,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
             onPress={async () => {
               const response = await getChatRoomId(postUserInfo.userId);
               if (response.dataHeader.successCode === 0) {
-                navigation.navigate('ChattingRoomScreen', { id: response.dataBody.chatRoomId });
+                navigation.navigate('ChattingRoomScreen', { id: response.dataBody.chatRoomId, name: postUserInfo.nickname });
               }
               console.log('채팅방 생성');
             }}
