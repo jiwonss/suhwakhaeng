@@ -137,7 +137,6 @@ const MarketModifyScreen = (props: MarketDetailProps) => {
           response.dataBody.tradeDetailInfo.image4,
         ]);
       }
-      console.log(postDetailInfo);
     };
 
     getPostDetail();

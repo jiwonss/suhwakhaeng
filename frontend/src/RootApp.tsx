@@ -49,7 +49,6 @@ export const RootApp = () => {
         setTimeout(() => {
           SplashScreen.hide();
         }, 300);
-        return;
       }
     };
 

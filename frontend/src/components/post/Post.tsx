@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
 import styled from 'styled-components/native';
@@ -17,6 +17,7 @@ export interface PostProps {
     date: string;
     classification: string;
     content: string;
+    isLiked: boolean;
     likeNumber: number;
     commentNumber: number;
     profileImg: string;
@@ -27,6 +28,7 @@ export interface PostProps {
   };
   isPreview?: boolean;
   onPress: () => void;
+  onPressLikeButton?: () => void;
 }
 
 /// ************ styled component 영역 ************
@@ -87,27 +89,17 @@ const ReactionElemContainer = styled.View`
  * @returns
  */
 const Post = (props: PostProps) => {
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
-
-  const toggleLike = () => {
-    if (!isFavorite) {
-      setIsFavorite(true);
-      // 좋아요 1 증가
-    } else {
-      setIsFavorite(false);
-      // 좋아요 1 감소
-    }
-  };
-
   return (
     <PostContainer>
-      <ProfileContainer>
-        <ProfileCard url={props.postData.profileImg} name={props.postData.name} date={props.postData.date} />
-        {/* 게시글분류태그 수정해야함 */}
-        <BasicTag>
-          <Typo.Detail1_M color={Color.WHITE}>{props.postData.classification}</Typo.Detail1_M>
-        </BasicTag>
-      </ProfileContainer>
+      <TouchableOpacity onPress={props.onPress}>
+        <ProfileContainer>
+          <ProfileCard url={props.postData.profileImg} name={props.postData.name} date={props.postData.date} />
+          {/* 게시글분류태그 수정해야함 */}
+          <BasicTag>
+            <Typo.Detail1_M color={Color.WHITE}>{props.postData.classification}</Typo.Detail1_M>
+          </BasicTag>
+        </ProfileContainer>
+      </TouchableOpacity>
       <ContentContainer>
         <TouchableOpacity onPress={props.onPress}>
           <TextContainer>
@@ -116,12 +108,10 @@ const Post = (props: PostProps) => {
           {props.postData.imgUrl_one &&
             (props.isPreview ? (
               <ImgeContainer>
-                {/* 이미지 부분 수정해야함 */}
                 {props.postData.imgUrl_one && <UriImageLoader uri={props.postData.imgUrl_one} style={{ width: '100%', height: heightPercent * 200 }} resizeMode='contain' />}
               </ImgeContainer>
             ) : (
               <ImgeContainer>
-                {/* 이미지 부분 수정해야함 */}
                 {props.postData.imgUrl_one && <UriImageLoader uri={props.postData.imgUrl_one} style={{ width: '100%', height: heightPercent * 200 }} resizeMode='contain' />}
                 {props.postData.imgUrl_two && <UriImageLoader uri={props.postData.imgUrl_two} style={{ width: '100%', height: heightPercent * 200 }} resizeMode='contain' />}
                 {props.postData.imgUrl_three && <UriImageLoader uri={props.postData.imgUrl_three} style={{ width: '100%', height: heightPercent * 200 }} resizeMode='contain' />}
@@ -131,10 +121,10 @@ const Post = (props: PostProps) => {
         </TouchableOpacity>
         <ReactionContainer>
           <ReactionElemContainer>
-            {isFavorite ? (
-              <Favorite width={widthPercent * 20} height={heightPercent * 20} onPress={toggleLike} />
+            {props.postData.isLiked ? (
+              <Favorite width={widthPercent * 20} height={heightPercent * 20} onPress={props.onPressLikeButton} />
             ) : (
-              <FavoriteBorder width={widthPercent * 20} height={heightPercent * 20} onPress={toggleLike} />
+              <FavoriteBorder width={widthPercent * 20} height={heightPercent * 20} onPress={props.onPressLikeButton} />
             )}
             <Typo.BODY4_M color={Color.GRAY400}>{props.postData.likeNumber}</Typo.BODY4_M>
           </ReactionElemContainer>

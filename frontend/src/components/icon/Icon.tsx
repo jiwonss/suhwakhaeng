@@ -31,3 +31,22 @@
 // };
 
 // export default Icon;
+import { Feather } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+
+type IconProps = {
+  name: any;
+  size: number;
+  iconColor?: string;
+};
+
+/**
+ * - Icon의 기본은 vector icons의 Feater로 사용됩니다.
+ * - 더 필요한 사항이 생긴다면 이후에 다른 컴포넌트로 빼게될 것입니다.
+ * @param props
+ * @returns
+ * @author 김수린
+ */
+export const Icon = (props: IconProps) => {
+  return <Ionicons name={props.name} size={props.size} style={{ color: props.iconColor }} />;
+};
