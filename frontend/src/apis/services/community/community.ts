@@ -41,3 +41,18 @@ export const updatePost = async (params: { communityId: number }, data: { conten
   const response = await tokenInstance.patch(`${communityUrl}/${params.communityId}`, data);
   return response.data;
 };
+
+export const registComment = async (communityId: number, params: { parentId: number; content: string }) => {
+  const response = await tokenInstance.post(`${communityUrl}/${communityId}/comment`, params);
+  return response.data;
+};
+
+export const getComment = async (params: { communityId: number }) => {
+  const response = await tokenInstance.get(`${communityUrl}/${params.communityId}/comment`);
+  return response.data;
+};
+
+export const deleteComment = async (commentId: number, communityId: number) => {
+  const response = await tokenInstance.delete(`${communityUrl}/${communityId}/comment/${commentId}`);
+  return response.data;
+};

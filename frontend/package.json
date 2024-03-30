@@ -48,12 +48,14 @@
     "sockjs": "^0.3.24",
     "sockjs-client": "^1.6.1",
     "stomp": "^0.1.1",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "text-encoding": "^0.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.45",
     "@types/sockjs-client": "^1.5.4",
+    "@types/text-encoding": "^0.0.39",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
     "@typescript-eslint/parser": "^7.2.0",
     "eslint": "^8.57.0",

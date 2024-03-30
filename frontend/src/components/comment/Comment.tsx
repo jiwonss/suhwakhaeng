@@ -5,34 +5,51 @@ import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { Card } from '../card/Card';
 import { ProfileCard } from '../profileCard/ProfileCard';
-import More from '../../../assets/icons/more_black.svg';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
+import { TouchableOpacity, View } from 'react-native';
+import { Icon } from '../icon/Icon';
+import { deleteComment } from '../../apis/services/community/community';
 
-interface CommentProps {
-  data: {
-    id: number;
-    user_id: number;
-    profileImg_url: string;
-    name: string;
-    date: string;
+interface CommentType {
+  comment: {
+    user: {
+      userId: number;
+      nickname: string;
+      profileImage: string;
+    };
+    commentId: number;
+    createdAt: string;
     content: string;
-    group: number;
-    recomment?: {
-      id: number;
-      user_id: number;
-      profileImg_url: string;
-      name: string;
-      date: string;
-      content: string;
-      group: number;
-    }[];
   };
+  recomment: [
+    {
+      user: {
+        userId: number;
+        nickname: string;
+        profileImage: string;
+      };
+      commentId: number;
+      createdAt: string;
+      content: string;
+    },
+  ];
 }
 
-const CommentContainer = styled.View`
+interface CommentProps {
+  data: CommentType;
+  communityId: number;
+  selectId: number;
+  setSelectId: React.Dispatch<React.SetStateAction<number>>;
+  focusOnInput: () => void;
+  getNewComment: () => Promise<void>;
+}
+
+const CommentContainer = styled.View<{ isSelected: boolean }>`
+  padding: ${widthPercent * 8}px;
+  padding: ${widthPercent * 8}px;
   row-gap: ${heightPercent * 10}px;
-  margin-top: ${heightPercent * 10}px;
+  background-color: ${(props) => (props.isSelected ? Color.GRAY100 : Color.WHITE)};
 `;
 
 const ProfileContainer = styled.View`
@@ -54,33 +71,51 @@ const RecommentContainer = styled.View`
 export const Comment = (props: CommentProps) => {
   const userInfo = useRecoilValue(userInfoState);
 
-  const onPressMore = (userId: number) => {
-    if (userId === userInfo.user_id) {
-      console.log('수정/삭제 포함된 모달 열거야');
-    } else {
-      console.log('답글 달기만 있는 모달 열거야');
-    }
+  // 댓글 삭제 눌렀을 때
+  const onPressDelete = async (commentId: number) => {
+    await deleteComment(commentId, props.communityId);
+    await props.getNewComment();
   };
 
   return (
-    <CommentContainer>
+    <CommentContainer isSelected={props.data.comment.commentId === props.selectId}>
       <ProfileContainer>
-        <ProfileCard url={props.data.profileImg_url} name={props.data.name} date={props.data.date} />
-        <More width={widthPercent * 16} height={heightPercent * 16} onPress={() => onPressMore(props.data.user_id)} />
+        <ProfileCard url={props.data.comment.user.profileImage} name={props.data.comment.user.nickname} date={props.data.comment.createdAt} />
+        <View style={{ flexDirection: 'row', gap: widthPercent * 10 }}>
+          <TouchableOpacity
+            onPress={() => {
+              props.setSelectId(props.data.comment.commentId);
+              props.focusOnInput();
+            }}
+          >
+            <Icon name={'chatbox-ellipses'} size={widthPercent * 16} iconColor={Color.GRAY500} />
+          </TouchableOpacity>
+          {Number(userInfo.userId) == props.data.comment.user.userId && (
+            <TouchableOpacity onPress={() => onPressDelete(props.data.comment.commentId)}>
+              <Icon name={'trash'} size={widthPercent * 16} iconColor={Color.GRAY500} />
+            </TouchableOpacity>
+          )}
+        </View>
       </ProfileContainer>
-      <Card backgroundColor={Color.GRAY100} width={widthPercent * 280} height={heightPercent * 50}>
+      <Card backgroundColor={Color.GRAY200} width={widthPercent * 280} height={heightPercent * 50}>
         <TextContainer>
-          <Typo.BODY4_M>{props.data.content}</Typo.BODY4_M>
+          <Typo.BODY4_M>{props.data.comment.content}</Typo.BODY4_M>
         </TextContainer>
       </Card>
       {props.data.recomment &&
         props.data.recomment.map((item) => (
-          <RecommentContainer key={item.id}>
+          <RecommentContainer key={item.commentId}>
             <ProfileContainer>
-              <ProfileCard url={props.data.profileImg_url} name={item.name} date={item.date} />
-              <More width={widthPercent * 16} height={heightPercent * 16} onPress={() => onPressMore(item.user_id)} />
+              <ProfileCard url={item.user.profileImage} name={item.user.nickname} date={item.createdAt} />
+              <View style={{ flexDirection: 'row', gap: widthPercent * 10 }}>
+                {Number(userInfo.userId) == item.user.userId && (
+                  <TouchableOpacity onPress={() => onPressDelete(item.commentId)}>
+                    <Icon name={'trash'} size={widthPercent * 16} iconColor={Color.GRAY500} />
+                  </TouchableOpacity>
+                )}
+              </View>
             </ProfileContainer>
-            <Card backgroundColor={Color.GRAY100} width={widthPercent * 280} height={heightPercent * 50}>
+            <Card backgroundColor={Color.GRAY200} width={widthPercent * 280} height={heightPercent * 50}>
               <TextContainer>
                 <Typo.BODY4_M>{item.content}</Typo.BODY4_M>
               </TextContainer>

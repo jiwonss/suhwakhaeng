@@ -1,4 +1,4 @@
-package com.suhwakhaeng.chat.global;
+package com.suhwakhaeng.chat.global.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

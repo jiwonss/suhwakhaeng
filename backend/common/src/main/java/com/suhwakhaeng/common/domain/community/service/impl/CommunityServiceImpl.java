@@ -6,7 +6,7 @@ import com.suhwakhaeng.common.domain.community.entity.CommunityLike;
 import com.suhwakhaeng.common.domain.community.entity.CommunityLikePK;
 import com.suhwakhaeng.common.domain.community.exception.CommunityErrorCode;
 import com.suhwakhaeng.common.domain.community.exception.CommunityException;
-import com.suhwakhaeng.common.domain.community.repository.CommunitiyRepository;
+import com.suhwakhaeng.common.domain.community.repository.CommunityRepository;
 import com.suhwakhaeng.common.domain.community.repository.CommunityCommentRepository;
 import com.suhwakhaeng.common.domain.community.repository.CommunityLikeRepository;
 import com.suhwakhaeng.common.domain.community.service.CommunityService;
@@ -26,7 +26,7 @@ import static com.suhwakhaeng.common.domain.user.exception.UserErrorCode.*;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class CommunityServiceImpl implements CommunityService {
-    private final CommunitiyRepository communitiyRepository;
+    private final CommunityRepository communityRepository;
     private final CommunityLikeRepository likeRepository;
     private final CommunityCommentRepository commentRepository;
     private final UserRepository userRepository;
@@ -42,24 +42,24 @@ public class CommunityServiceImpl implements CommunityService {
                 .writer(writer)
                 .build();
 
-        communitiyRepository.save(community);
+        communityRepository.save(community);
         return community.getId();
     }
 
     @Override
     public List<CommunityListResponse> selectCommunity(Long userId, CommunitySearchRequest request) {
-        return communitiyRepository.searchCommunity(userId, request);
+        return communityRepository.searchCommunity(userId, request);
     }
 
     @Override
     public CommunityDetailResponse selectCommunityDetail(Long userId, Long communityId) {
-        return communitiyRepository.selectCommunity(userId, communityId);
+        return communityRepository.selectCommunityDetail(userId, communityId);
     }
 
     @Transactional
     @Override
     public void createCommunityLike(Long userId, Long communityId) {
-        Community community = communitiyRepository.findById(communityId).orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMUNITY));
+        Community community = communityRepository.findById(communityId).orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMUNITY));
         User user = userRepository.findById(userId).orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST_USER));
 
         likeRepository.save(
@@ -71,7 +71,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Transactional
     @Override
     public void deleteCommunityLike(Long userId, Long communityId) {
-        Community community = communitiyRepository.findById(communityId).orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMUNITY));
+        Community community = communityRepository.findById(communityId).orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMUNITY));
         User user = userRepository.findById(userId).orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST_USER));
 
         likeRepository.delete(
@@ -83,7 +83,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Transactional
     @Override
     public void updateCommunity(Long userId, Long communityId, CommunityUpdateRequest request) {
-        Community community = communitiyRepository.findById(communityId).orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMUNITY));
+        Community community = communityRepository.findById(communityId).orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMUNITY));
         if (!community.getWriter().getId().equals(userId)) {
             throw new CommunityException(CommunityErrorCode.NOT_MATCH_USER);
         }
@@ -94,7 +94,7 @@ public class CommunityServiceImpl implements CommunityService {
     @Transactional
     @Override
     public void deleteCommunity(Long userId, Long communityId) {
-        Community community = communitiyRepository.findById(communityId)
+        Community community = communityRepository.findById(communityId)
                 .orElseThrow(() -> new CommunityException(CommunityErrorCode.NOT_EXIST_COMMUNITY));
         if (!community.getWriter().getId().equals(userId)) {
             throw new CommunityException(CommunityErrorCode.NOT_MATCH_USER);
@@ -102,11 +102,11 @@ public class CommunityServiceImpl implements CommunityService {
 
         likeRepository.deleteByCommunityId(communityId);
         commentRepository.deleteByCommunityId(communityId);
-        communitiyRepository.delete(community);
+        communityRepository.delete(community);
     }
 
     @Override
     public List<CommunityListResponse> selectMyCommunity(Long userId, Long lastId) {
-        return communitiyRepository.selectMyCommunity(userId, lastId);
+        return communityRepository.selectMyCommunity(userId, lastId);
     }
 }

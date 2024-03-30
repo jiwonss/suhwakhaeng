@@ -19,7 +19,7 @@ import { changePostStatus, deleteIsLiked, deleteMarketPost, getIsLiked, getMarke
 import { changeCategoryName } from '../../util/MarketUtil';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { Spacer } from '../../components/basic/Spacer';
-import { createChatUUID } from '../../apis/services/chat/chat';
+import { getChatRoomId } from '../../apis/services/chat/Chat';
 
 interface MarketDetailProps {
   route: {
@@ -215,7 +215,19 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
             <Typo.BODY3_M color={Color.WHITE}>대화 중인 채팅방으로 이동</Typo.BODY3_M>
           </BasicButton>
         ) : (
-          <BasicButton onPress={onPressChatRoomButton} width={widthPercent * 260} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
+          <BasicButton
+            onPress={async () => {
+              const response = await getChatRoomId(postUserInfo.userId);
+              if (response.dataHeader.successCode === 0) {
+                navigation.navigate('ChattingRoomScreen', { id: response.dataBody.chatRoomId });
+              }
+              console.log('채팅방 생성');
+            }}
+            width={widthPercent * 260}
+            height={heightPercent * 45}
+            borderColor={Color.GREEN500}
+            borderRadius={10}
+          >
             <Typo.BODY3_M color={Color.WHITE}>채팅 걸기</Typo.BODY3_M>
           </BasicButton>
         )}
