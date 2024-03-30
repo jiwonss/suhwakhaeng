@@ -26,6 +26,31 @@ interface DetaliPostProps {
   };
 }
 
+interface CommentType {
+  comment: {
+    user: {
+      userId: number;
+      nickname: string;
+      profileImage: string;
+    };
+    commentId: number;
+    createdAt: string;
+    content: string;
+  };
+  recomment: [
+    {
+      user: {
+        userId: number;
+        nickname: string;
+        profileImage: string;
+      };
+      commentId: number;
+      createdAt: string;
+      content: string;
+    },
+  ];
+}
+
 const Container = styled.View`
   flex: 1;
   background-color: ${Color.WHITE};
@@ -44,7 +69,7 @@ const DetailPostScreen = (props: DetaliPostProps) => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const userInfo = useRecoilValue(userInfoState);
   const [modalVisible, setModalVisible] = useState(false);
-  const [commentData, setCommentData] = useState<Array<any>>([]);
+  const [commentData, setCommentData] = useState<Array<CommentType> | null>(null);
   const [selectId, setSelectId] = useState(0);
   const [commentContent, setCommentContent] = useState<string>('');
 
@@ -93,9 +118,9 @@ const DetailPostScreen = (props: DetaliPostProps) => {
 
   const onSubmitComment = async () => {
     if (postData.communityId != 0 && commentContent != '') {
-      console.log(postData.communityId, selectId, commentContent);
-      const response = await registComment(props.route.params.id, { parentId: selectId, content: commentContent });
-      console.log(response);
+      await registComment(props.route.params.id, { parentId: selectId, content: commentContent });
+      const response = await getComment({ communityId: props.route.params.id });
+      setCommentData(response.dataBody);
       setSelectId(0);
       Keyboard.dismiss();
     } else {
@@ -110,18 +135,17 @@ const DetailPostScreen = (props: DetaliPostProps) => {
     };
 
     getDetail();
-  }, []);
+  }, [props.route.params.id]);
 
   useEffect(() => {
     const getCommentList = async () => {
-      if (postData.communityId != 0) {
+      if (postData.communityId != 0 && props.route.params.id != 0) {
         const response = await getComment({ communityId: props.route.params.id });
-        console.log(response);
-        setCommentData([]);
+        setCommentData(response.dataBody);
       }
     };
     getCommentList();
-  }, [postData]);
+  }, [postData.communityId, props.route.params.id]);
 
   // 좋아요 처리
   const toggleIsLike = async () => {
@@ -153,6 +177,12 @@ const DetailPostScreen = (props: DetaliPostProps) => {
     navigation.navigate('UpdatePostScreen', { id: props.route.params.id });
   };
 
+  // 댓글 목록 가져오기
+  const getNewComment = async () => {
+    const response = await getComment({ communityId: props.route.params.id });
+    setCommentData(response.dataBody);
+  };
+
   return (
     <Container>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
@@ -175,8 +205,18 @@ const DetailPostScreen = (props: DetaliPostProps) => {
             imgUrl_four: postData.image4,
           }}
         />
-        {commentData.length !== 0 &&
-          commentData.map((item) => <Comment key={item.commentId} data={item} setSelectId={setSelectId} focusOnInput={focusOnInput} selectId={selectId} />)}
+        {commentData !== null &&
+          commentData.map((item) => (
+            <Comment
+              key={item.comment.commentId}
+              commutityId={props.route.params.id}
+              data={item}
+              setSelectId={setSelectId}
+              focusOnInput={focusOnInput}
+              selectId={selectId}
+              getNewComment={getNewComment}
+            />
+          ))}
 
         <SlideModal isVisible={modalVisible} setIsVisible={setModalVisible}>
           <View style={{ flexDirection: 'column', alignItems: 'center' }}>
