@@ -3,6 +3,9 @@ package com.suhwakhaeng.crawling.domain.government.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Builder
@@ -22,4 +25,7 @@ public class Government {
 
     @Column(name = "government_area")
     private String area;
+
+    @Column(name = "government_created_at")
+    private LocalDate date;
 }

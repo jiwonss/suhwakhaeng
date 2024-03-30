@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
@@ -17,10 +18,12 @@ import java.io.IOException;
 public class WebDriverConfig {
     private final ResourceLoader resourceLoader;
 
-    private static String WEB_DRIVER_ID = "webdriver.chrome.driver";    //property 키
+    private static final String WEB_DRIVER_ID = "webdriver.chrome.driver";    //property 키
 
     // yml 파일로 빼기
-    private static String WEB_DRIVER_PATH = "chromedriver-win64/chromedriver.exe";
+
+    @Value("${chrome-driver.path}")
+    private String WEB_DRIVER_PATH;
 
     @Bean
     public WebDriver webDriver() {

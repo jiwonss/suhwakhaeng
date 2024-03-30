@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -51,6 +53,13 @@ public class CrawlingService {
                 for (WebElement element : elements) {
                     WebElement subjectElement = element.findElement(By.className("p-subject"));
                     WebElement aElement = subjectElement.findElement(By.tagName("a"));
+                    WebElement dateElement = element.findElement(By.className("date"));
+                    String dateString = dateElement.getText();
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+
+                    LocalDate date = LocalDate.parse(dateString, formatter);
+
                     String detailUrl = aElement.getAttribute("href");
                     String title = aElement.getText();
 
@@ -63,6 +72,7 @@ public class CrawlingService {
                             .title(title)
                             .url(detailUrl)
                             .area("원주")
+                            .date(date)
                             .build();
 
                     list.add(government);
@@ -111,6 +121,12 @@ public class CrawlingService {
                 List<WebElement> elements = centerElement.findElements(By.tagName("tr"));
 
                 for (WebElement element : elements) {
+                    WebElement dateElement = element.findElement(By.className("skinTb-date"));
+                    String dateString = dateElement.getText();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+                    LocalDate date = LocalDate.parse(dateString, formatter);
+
                     WebElement sbjElement = element.findElement(By.className("skinTb-sbj"));
 
                     WebElement aElement = sbjElement.findElement(By.tagName("a"));
@@ -140,6 +156,7 @@ public class CrawlingService {
                             .title(title)
                             .url(detailUrl)
                             .area("양양")
+                            .date(date)
                             .build();
 
                     list.add(government);
@@ -189,7 +206,15 @@ public class CrawlingService {
                 List<WebElement> elements = bodyElement.findElements(By.tagName("tr"));
 
                 for (WebElement element : elements) {
-                    System.out.println(element.getText());
+                    // XPath를 사용하여 해당하는 td 요소를 찾음
+                    WebElement dateElement = element.findElement(By.xpath(".//td[contains(text(), 'yyyy-mm-dd')]"));
+
+                    // 찾은 요소의 텍스트 출력
+                    String dateString = dateElement.getText();
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    LocalDate date = LocalDate.parse(dateString, formatter);
+
                     WebElement basicElement = element.findElement(By.className("basic_cont"));
                     String detailUrl = basicElement.getAttribute("href");
                     String title = basicElement.getAttribute("title");
@@ -203,6 +228,7 @@ public class CrawlingService {
                             .title(title)
                             .url(detailUrl)
                             .area("나주")
+                            .date(date)
                             .build();
 
                     list.add(government);
@@ -255,6 +281,12 @@ public class CrawlingService {
                         continue;
                     }
 
+                    WebElement dateElement = element.findElement(By.className("date"));
+                    String dateString = dateElement.getText();
+
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+                    LocalDate date = LocalDate.parse(dateString, formatter);
+
                     WebElement subject = element.findElement(By.className("subject"));
                     WebElement aTag = subject.findElement(By.tagName("a"));
 
@@ -282,6 +314,7 @@ public class CrawlingService {
                                 .title(title)
                                 .url(detailUrl)
                                 .area("고양")
+                                .date(date)
                                 .build();
 
                         list.add(government);
