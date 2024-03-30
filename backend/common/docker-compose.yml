@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  redis:
+    image: redis
+    container_name: redis
+    hostname: redis
+    ports:
+      - "6379:6379"
+    networks:
+      suhwakhaeng:
+        ipv4_address: 172.20.0.2
+
+  springboot:
+    image: sjs3326/common
+    container_name: common
+    depends_on:
+      - redis
+    build:
+      context: ../../
+      dockerfile: ./Dockerfile
+    ports:
+      - "9000:9000"
+    networks:
+      suhwakhaeng:
+        ipv4_address: 172.20.0.3
+
+networks:
+  suhwakhaeng:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.20.0.0/16"

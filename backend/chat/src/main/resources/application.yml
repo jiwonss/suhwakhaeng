@@ -1,24 +1,29 @@
 server:
-  port: 8761
-
-spring:
-  application:
-    name: service-discovery
+  port: 9001
 
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
-    hostname: 43.201.164.20
-    ip-address: 43.201.164.202
+    hostname: ${CHAT}
+    ip-address: ${CHAT}
     prefer-ip-address: true
   client:
+    fetch-registry: true
     register-with-eureka: true
-    fetch-registry: false
     service-url:
       defaultZone: http://43.201.164.202:8761/eureka
+
+spring:
+  application:
+    name: chat
+  config:
+    name: chat
+    import: optional:configserver:http://43.202.20.179:8888
 
 management:
   endpoints:
     web:
       exposure:
         include: refresh, health, beans
+
+message: ${message}
