@@ -34,6 +34,7 @@ import FarmScreen from '../../screens/farmDairy/FarmScreen';
 import BottomNavigation from '../../components/navigation/BottomNavigation';
 import MarketRegistScreen from '../../screens/market/MarketRegistScreen';
 import PostCodeScreen from '../../screens/PostCodeScreen';
+import DetailMyCropsScreen from '../../screens/cropsResister/DetailMyCropsScreen';
 
 type DiagnosisResult = {
   content: string;
@@ -91,6 +92,7 @@ export type RootStackParamList = {
   WeatherScreen: undefined;
   CameraScreen: { value: number };
   PostCodeScreen: { id: number; screenName: string; plantName?: string };
+  DetailMyCropsScreen: { myCropsId: number };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -144,6 +146,8 @@ const MainStack = () => {
       {/*작물 등록 페이지*/}
       <Stack.Screen name='AddCropsScreen' component={AddCropsScreen} options={{ headerShown: false }} />
       <Stack.Screen name='EnvironmentPlantScreen' component={EnvironmentPlantScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='DetailMyCropsScreen' component={DetailMyCropsScreen} options={{ headerShown: false }} />
+
       {/* 채팅 페이지 */}
       <Stack.Screen name='ChatListScreen' component={ChatListScreen} options={{ headerShown: false }} />
       {/* 관심상품 페이지 */}

@@ -49,10 +49,6 @@ interface CropItem {
   };
 }
 
-type BottomTabParamList = {
-  MyProfileScreen: { reloadProfile?: boolean };
-};
-
 const Container = styled.ScrollView`
   flex: 1;
   background-color: ${Color.WHITE};
@@ -89,7 +85,7 @@ const MyProfileScreen = () => {
   const [token, setToken] = useRecoilState(tokenState);
   const [modalVisible, setModalVisible] = useState(false);
   const userInfo = useRecoilValue(userInfoState);
-  const [myCrops, setMyCrops] = useState<CropItem[]>([]);
+  const [myCropsList, setMyCropsList] = useState<CropItem[]>([]);
   const [selectedCropId, setSelectedCropId] = useState<number>(0);
 
   // 작물 목록 가져오기
@@ -99,7 +95,7 @@ const MyProfileScreen = () => {
         try {
           const response = await getMyCropListInfo();
           if (response.dataBody) {
-            setMyCrops(response.dataBody);
+            setMyCropsList(response.dataBody);
           }
         } catch (error) {
           console.error('내가 키우는 작물 목록을 불러오는 중 오류 발생:', error);
@@ -110,11 +106,14 @@ const MyProfileScreen = () => {
     }, [])
   );
 
+  // 작물 수정하기
+  // const updateMyCrop = (newCropInfo: CropItem) => {};
+
   // 작물 지우기
   const deleteMyCrop = async (myCropsId: number) => {
     try {
       await deleteMyCropInfo(myCropsId);
-      setMyCrops(myCrops.filter((crop) => crop.myCropsId !== myCropsId));
+      setMyCropsList(myCropsList.filter((crop) => crop.myCropsId !== myCropsId));
     } catch (error) {
       console.error('내 작물 삭제 중 오류 발생:', error);
     }
@@ -166,15 +165,19 @@ const MyProfileScreen = () => {
             <StyledView>
               <PlantAdd></PlantAdd>
             </StyledView>
-            {myCrops.map(({ location: { dong, gugun, sido }, myCropsName, cropsName, myCropsId }, index) => {
-              // 기존 코드와 동일하게 작물 목록 렌더링
+            {myCropsList.map(({ location: { dong, gugun, sido }, myCropsName, cropsName, myCropsId }, index) => {
               const locationString = `${sido ?? ''} ${gugun ?? ''} ${dong ?? ''}`.trim();
               return (
                 <StyledView key={index}>
                   <PlantItem
                     onPress={() => {
-                      setModalVisible(true);
+                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      // @ts-expect-error
+                      navigation.navigate('DetailMyCropsScreen', { myCropsId: myCropsId });
+                    }}
+                    onLongPress={() => {
                       setSelectedCropId(myCropsId);
+                      setModalVisible(true);
                     }}
                     cropsName={cropsName}
                     name={myCropsName}
