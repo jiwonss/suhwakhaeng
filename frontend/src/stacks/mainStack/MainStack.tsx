@@ -33,6 +33,8 @@ import FarmScreen from '../../screens/farmDairy/FarmScreen';
 import BottomNavigation from '../../components/navigation/BottomNavigation';
 import MarketRegistScreen from '../../screens/market/MarketRegistScreen';
 import PostCodeScreen from '../../screens/PostCodeScreen';
+import DetailMyCropsScreen from '../../screens/cropsResister/DetailMyCropsScreen';
+import UpdateMyCropsScreen from '../../screens/cropsResister/UpdateMyCropsScreen';
 
 type DiagnosisResult = {
   content: string;
@@ -72,7 +74,7 @@ export type RootStackParamList = {
   ChatListScreen: undefined;
   ChattingRoomScreen: { id: string; name: string };
   CropsVarietyScreen: { plantName: string; plantId: number; value?: number };
-  CropsDetailScreen: { plantName: string; varietyName: string };
+  CropsDetailScreen: { cropsId: number; plantName: string; varietyName: string; cropsVarietyId: number };
   DiseasePlantScreen: undefined;
   DetailDiseasePlantScreen: { photo: { uri: string }; diagnosisResult: DiagnosisResult };
   PlantResisterScreen: undefined;
@@ -85,10 +87,12 @@ export type RootStackParamList = {
     gugun?: string;
     dong?: string;
   };
-  BottomNavigation: undefined;
+  BottomNavigation: { screen?: string };
   WeatherScreen: undefined;
   CameraScreen: { value: number };
   PostCodeScreen: { id: number; screenName: string; plantName?: string };
+  DetailMyCropsScreen: { myCropsId: number };
+  UpdateMyCropsScreen: { myCropsId: number; sido?: string; gugun?: string; dong?: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -141,6 +145,8 @@ const MainStack = () => {
       {/*작물 등록 페이지*/}
       <Stack.Screen name='AddCropsScreen' component={AddCropsScreen} options={{ headerShown: false }} />
       <Stack.Screen name='EnvironmentPlantScreen' component={EnvironmentPlantScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='DetailMyCropsScreen' component={DetailMyCropsScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='UpdateMyCropsScreen' component={UpdateMyCropsScreen} options={{ headerShown: false }} />
       {/* 채팅 페이지 */}
       <Stack.Screen name='ChatListScreen' component={ChatListScreen} options={{ headerShown: false }} />
       {/* 관심상품 페이지 */}

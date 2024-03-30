@@ -35,25 +35,27 @@ const EnvironmentPlantScreen = () => {
   const [cropName, setCropName] = useState('');
   const [area, setArea] = useState('');
   const [cropYield, setCropYield] = useState('');
-
   const [myCrops, setMyCrops] = useRecoilState(myCropsList);
 
-  const updateMyCrops = () => {
-    const newCrop = {
-      plantName: plantName,
-      varietyName: varietyName,
-      cropsVarietyId: cropsVarietyId,
-      name: cropName,
-      area: parseFloat(area),
-      areaUnit: selectData,
-      yield: parseFloat(cropYield),
-      location: {
-        sido: sido,
-        gugun: gugun,
-        dong: dong,
-      },
-    };
-    setMyCrops([...myCrops, newCrop]);
+  interface CropLocation {
+    sido: string;
+    gugun: string;
+    dong: string;
+  }
+
+  interface NewCropInfo {
+    plantName: string;
+    varietyName: string;
+    cropsVarietyId: number;
+    name: string;
+    area: number;
+    areaUnit: string;
+    yield: number;
+    location: CropLocation;
+  }
+
+  const updateMyCrops = (newCropInfo: NewCropInfo) => {
+    setMyCrops([...myCrops, newCropInfo]);
   };
 
   const submitCropInfo = async () => {
@@ -71,9 +73,9 @@ const EnvironmentPlantScreen = () => {
     };
 
     try {
-      await postMyCropInfo(cropInfo);
-      updateMyCrops();
-      navigation.navigate('BottomNavigation');
+      const response = await postMyCropInfo(cropInfo);
+      updateMyCrops(response.data);
+      navigation.navigate('BottomNavigation', { screen: 'MyProfileScreen' });
     } catch (error) {
       console.error(error);
     }

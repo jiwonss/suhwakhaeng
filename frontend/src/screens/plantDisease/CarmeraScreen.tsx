@@ -36,8 +36,10 @@ const CameraScreen = () => {
           const screenName = 'diseasePlant';
           const imageUri = response.assets[0].uri;
           const imageUrls = [imageUri]; // 파이어베이스에 업로드할 이미지 URI 배열
+          setPhoto({ uri: imageUri }); // 여기서 setPhoto를 사용하여 photo 상태를 업데이트
 
-          // 이미지를 파이어베이스 스토리지에 업로드하고 다운로드 URL을 얻습니다.
+
+          // 이미지를 파이어베이스 스토리지에 업로드하고 다운로드 URL get
           const downloadUrls = await uploadImagesToFirebaseStorage(imageUrls, screenName);
           if (downloadUrls.length > 0) {
             const firebaseUrl = downloadUrls[0];
@@ -58,7 +60,8 @@ const CameraScreen = () => {
     });
   }, [navigation, value]);
 
-  return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>{photo && <Image source={photo} style={{ width: 300, height: 300 }} />}</View>;
+  return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>{photo &&
+    <Image source={photo} style={{ width: 300, height: 300 }} />}</View>;
 };
 
 export default CameraScreen;

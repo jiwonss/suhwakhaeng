@@ -68,6 +68,7 @@ export const PlantAdd = () => {
 
 type PlantAddProps = {
   onPress: () => void;
+  onLongPress?: () => void;
   width?: number;
   height?: number;
   svgWidth?: number;

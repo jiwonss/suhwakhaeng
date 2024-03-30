@@ -3,9 +3,6 @@ import numpy as np
 import requests
 from PIL import Image
 from rembg import remove
-
-import torch.nn as nn
-import torch.nn.functional as F
 import pickle
 import io
 import json
