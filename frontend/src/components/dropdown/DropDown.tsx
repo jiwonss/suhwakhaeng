@@ -7,6 +7,7 @@ interface DropDownProps {
   onSelect: React.Dispatch<React.SetStateAction<string | string>> | React.Dispatch<React.SetStateAction<number>>;
   defaultText: string;
   width?: number;
+  height?: number;
 }
 
 export const DropDown = (props: DropDownProps) => {
@@ -18,11 +19,11 @@ export const DropDown = (props: DropDownProps) => {
         borderColor: Color.GRAY300,
         backgroundColor: Color.WHITE,
         width: props.width ? props.width * widthPercent : '100%',
-        height: heightPercent * 36,
+        height: props.height ? props.height * heightPercent : heightPercent * 36,
         padding: widthPercent * 10,
-        marginVertical: heightPercent * 10, 
+        marginVertical: heightPercent * 10,
       }}
-      buttonTextStyle={{ 
+      buttonTextStyle={{
         textAlign: 'left', // 텍스트를 왼쪽 정렬
         fontSize: widthPercent * 12, // 텍스트 크기 설정
         fontFamily: 'GmarketSansTTFMedium',
