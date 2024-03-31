@@ -2,7 +2,6 @@
 import tokenInstance from '../../utils/tokenInstance';
 
 interface PatchMyCropInfoType {
-  cropsVarietyId: number;
   area: number;
   name: string;
   areaUnit: string;

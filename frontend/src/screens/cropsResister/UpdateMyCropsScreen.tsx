@@ -35,7 +35,6 @@ interface MyCropInfoType {
 }
 
 interface PatchMyCropInfoType {
-  cropsVarietyId: number;
   area: number;
   name: string;
   areaUnit: string;
@@ -65,7 +64,6 @@ const UpdateMyCropsScreen = () => {
   const [area, setArea] = useState<string>('0');
   const [cropYield, setCropYield] = useState<string>('0');
   const [myCrops, setMyCrops] = useRecoilState(myCropsList);
-  const [myCropInfo, setMyCropInfo] = useState<MyCropInfoType>();
 
   // 작물 정보 조회
   useEffect(() => {
@@ -88,8 +86,8 @@ const UpdateMyCropsScreen = () => {
   }, [myCropsId]);
 
   // 작물 수정 정보 전역상태에 반영
-  const RecoilPatchMyCrop = (myCropInfo: MyCropInfoType) => {
-    setMyCrops([...myCrops, myCropInfo]);
+  const RecoilPatchMyCrop = (updatedCropInfo: MyCropInfoType) => {
+    setMyCrops(myCrops.map((crop) => (crop.myCropsId === updatedCropInfo.myCropsId ? updatedCropInfo : crop)));
   };
 
   // 서버에 전송할 작물 정보를 구성합니다.
@@ -99,10 +97,8 @@ const UpdateMyCropsScreen = () => {
       return;
     }
     const cropInfo: PatchMyCropInfoType = {
-      // 내 작물 상세조회에서 작물에 대한 품종id값 넘어오거나, 내 작물 수정 API에서 빠져야 돌아감. 수정 필요
-      cropsVarietyId: 1,
       area: parseFloat(area),
-      name: cropsVarietyName,
+      name: Name,
       areaUnit: selectData,
       yield: parseFloat(cropYield),
       location: {
@@ -155,7 +151,7 @@ const UpdateMyCropsScreen = () => {
           <Typo.BODY4_M>지역</Typo.BODY4_M>
           <BasicButton
             onPress={() => {
-              navigation.navigate('PostCodeScreen', { id: 0, screenName: 'UpdateMyCrops', plantName: myCropInfo?.cropsName });
+              navigation.navigate('PostCodeScreen', { id: 0, screenName: 'UpdateMyCrops', plantName: cropsName });
             }}
             height={heightPercent * 36}
             borderColor={Color.GRAY300}
