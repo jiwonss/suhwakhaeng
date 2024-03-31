@@ -36,6 +36,7 @@ import PostCodeScreen from '../../screens/PostCodeScreen';
 import DetailMyCropsScreen from '../../screens/cropsResister/DetailMyCropsScreen';
 import UpdateMyCropsScreen from '../../screens/cropsResister/UpdateMyCropsScreen';
 import AdminScreen from '../../screens/admin/AdminScreen';
+import AdminDetailScreen from '../../screens/admin/AdminDetailScreen';
 
 type DiagnosisResult = {
   content: string;
@@ -95,6 +96,7 @@ export type RootStackParamList = {
   DetailMyCropsScreen: { myCropsId: number };
   UpdateMyCropsScreen: { myCropsId: number; sido?: string; gugun?: string; dong?: string };
   AdminScreen: undefined;
+  AdminDetailScreen: { id: number };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -103,7 +105,7 @@ const MainStack = () => {
   return (
     // <Stack.Navigator initialRouteName='MainScreen'>
     <Stack.Navigator
-      initialRouteName='DiseasePlantScreen'
+      initialRouteName='AdminDetailScreen'
       screenOptions={{
         headerShown: false,
       }}
@@ -111,6 +113,7 @@ const MainStack = () => {
       <Stack.Screen name='BottomNavigation' component={BottomNavigation} options={{ headerShown: false }} />
       {/* 관리자 페이지 */}
       <Stack.Screen name='AdminScreen' component={AdminScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='AdminDetailScreen' component={AdminDetailScreen} options={{ headerShown: false }} />
       {/* 장터 페이지 */}
       <Stack.Screen name='MainScreen' component={MainScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketScreen' component={MarketScreen} options={{ headerShown: false }} />
