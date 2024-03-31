@@ -64,6 +64,7 @@ const UpdateMyCropsScreen = () => {
   const [area, setArea] = useState<string>('0');
   const [cropYield, setCropYield] = useState<string>('0');
   const [myCrops, setMyCrops] = useRecoilState(myCropsList);
+  const [headerName, setHeaderName] = useState('');
 
   // 작물 정보 조회
   useEffect(() => {
@@ -72,6 +73,7 @@ const UpdateMyCropsScreen = () => {
         try {
           const data = await getMyCropInfo(myCropsId);
           console.log(data); // 데이터 구조 확인
+          setHeaderName(data.dataBody.myCropsName ?? '');
           setName(data.dataBody.myCropsName ?? '');
           setCropsName(data.dataBody.cropsName ?? '');
           setCropsVarietyName(data.dataBody.cropsVarietyName ?? '');
@@ -131,7 +133,7 @@ const UpdateMyCropsScreen = () => {
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
         {/*헤더*/}
-        <Header type={'default'} firstIcon={'back'} title={Name} />
+        <Header type={'default'} firstIcon={'back'} title={headerName} />
         <Spacer space={20} />
         <Container>
           <Typo.BODY2_M>

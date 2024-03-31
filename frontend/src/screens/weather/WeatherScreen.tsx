@@ -62,16 +62,6 @@ const WeatherScreen = () => {
     return { date: `${year}${month}${day}`, pastdate: `${year}${month}${pastday}`, hours: `${hours}00` };
   };
 
-  const weatherData: { [key: string]: any } = {
-    '맑음': Sun,
-    '구름많음': Cloud,
-    '흐림': Fog,
-    '비': Rain,
-    '눈': Snowman,
-    '소나기': RainMany,
-    '비/눈': Snoww,
-  };
-
   const dateData = getCurrentDateTime();
   useEffect(() => {
     const fetchData = async () => {
