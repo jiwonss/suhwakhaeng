@@ -97,8 +97,8 @@ type LikeButtonProps = {
   width?: DimensionValue;
   height?: number;
   disabled?: boolean;
-  isLiked: boolean;
-  setIsLiked: React.Dispatch<React.SetStateAction<boolean>>;
+  isLiked?: boolean;
+  setIsLiked?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 // 좋아요 버튼 컴포넌트

@@ -53,7 +53,7 @@ export const PlantAdd = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
 
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={() => navigation.navigate('AddCropsScreen')}>
       <RowView>
         <BasicButton
           onPress={() => navigation.navigate('AddCropsScreen')}
@@ -75,6 +75,7 @@ export const PlantAdd = () => {
 
 type PlantAddProps = {
   onPress: () => void;
+  onLongPress?: () => void;
   width?: number;
   height?: number;
   svgWidth?: number;

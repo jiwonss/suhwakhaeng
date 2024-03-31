@@ -17,6 +17,7 @@ export const RootApp = () => {
     // removeTokens();
     const fetchTokens = async () => {
       const { accessToken, refreshToken } = await getTokens();
+      console.log(accessToken);
 
       if (!accessToken) {
         // storage에 토큰 없으면 로그인 페이지로 이동
@@ -48,7 +49,6 @@ export const RootApp = () => {
         setTimeout(() => {
           SplashScreen.hide();
         }, 300);
-        return;
       }
     };
 

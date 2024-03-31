@@ -29,37 +29,33 @@ const EnvironmentPlantScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<RootStackParamList, 'EnvironmentPlantScreen'>>();
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { plantName, cropsVarietyId, varietyName, dataList_S, dataList_D, dataList_G } = route.params;
+  const { plantName, cropsVarietyId, varietyName, sido, gugun, dong } = route.params;
   const dropDownData = ['평방미터', '평', '헥타르'];
   const [selectData, setSelectData] = useState('평방미터');
   const [cropName, setCropName] = useState('');
   const [area, setArea] = useState('');
   const [cropYield, setCropYield] = useState('');
-
   const [myCrops, setMyCrops] = useRecoilState(myCropsList);
 
-  const updateMyCrops = () => {
-    const newCrop = {
-      plantName: plantName,
-      varietyName: varietyName,
-      cropsVarietyId: cropsVarietyId,
-      name: cropName,
-      area: parseFloat(area),
-      areaUnit: selectData,
-      yield: parseFloat(cropYield),
-      location: {
-        sido: dataList_S,
-        gugun: dataList_G,
-        dong: dataList_D,
-      },
-    };
-    setMyCrops([...myCrops, newCrop]);
-  };
+  interface CropLocation {
+    sido: string;
+    gugun: string;
+    dong: string;
+  }
 
-  const moveSetLocation = (value: number) => {
-    if (!varietyName) return;
-    const params = { value, plantName, varietyName, cropsVarietyId };
-    navigation.navigate('SetLocationScreen', params);
+  interface NewCropInfo {
+    plantName: string;
+    varietyName: string;
+    cropsVarietyId: number;
+    name: string;
+    area: number;
+    areaUnit: string;
+    yield: number;
+    location: CropLocation;
+  }
+
+  const updateMyCrops = (newCropInfo: NewCropInfo) => {
+    setMyCrops([...myCrops, newCropInfo]);
   };
 
   const submitCropInfo = async () => {
@@ -70,17 +66,16 @@ const EnvironmentPlantScreen = () => {
       areaUnit: selectData,
       yield: parseFloat(cropYield),
       location: {
-        sido: dataList_S,
-        gugun: dataList_G,
-        dong: dataList_D,
+        sido: sido,
+        gugun: gugun,
+        dong: dong,
       },
     };
 
     try {
-      console.log(cropInfo);
-      await postMyCropInfo(cropInfo);
-      updateMyCrops();
-      navigation.navigate('BottomNavigation');
+      const response = await postMyCropInfo(cropInfo);
+      updateMyCrops(response.data);
+      navigation.navigate('BottomNavigation', { screen: 'MyProfileScreen' });
     } catch (error) {
       console.error(error);
     }
@@ -110,16 +105,14 @@ const EnvironmentPlantScreen = () => {
           <Typo.BODY4_M>지역</Typo.BODY4_M>
           <BasicButton
             onPress={() => {
-              moveSetLocation(1);
+              navigation.navigate('PostCodeScreen', { id: 0, screenName: 'EnvironmentPlant', plantName: plantName });
             }}
             height={heightPercent * 36}
             borderColor={Color.GRAY300}
             backgroundColor={Color.WHITE}
             borderRadius={10}
           >
-            <Typo.BODY3_M>
-              {dataList_S} {dataList_G} {dataList_D}
-            </Typo.BODY3_M>
+            <Typo.BODY4_M color={Color.GRAY400}>{sido ? `${sido} ${gugun} ${dong}` : '지역 검색'}</Typo.BODY4_M>
           </BasicButton>
           <Spacer space={10} />
         </Container>

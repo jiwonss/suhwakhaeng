@@ -1,15 +1,10 @@
 package com.suhwakhaeng.common.domain.mycrops.service.impl;
 
 import com.suhwakhaeng.common.domain.crops.entity.CropsVariety;
-import com.suhwakhaeng.common.domain.crops.exeption.CropsVarietyErrorCode;
 import com.suhwakhaeng.common.domain.crops.exeption.CropsVarietyException;
 import com.suhwakhaeng.common.domain.crops.repository.CropsVarietyRepository;
-import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsDetailResponse;
-import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsRequest;
-import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsResponse;
-import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsSimpleResponse;
+import com.suhwakhaeng.common.domain.mycrops.dto.*;
 import com.suhwakhaeng.common.domain.mycrops.entity.MyCrops;
-import com.suhwakhaeng.common.domain.mycrops.exception.MyCropsErrorCode;
 import com.suhwakhaeng.common.domain.mycrops.exception.MyCropsException;
 import com.suhwakhaeng.common.domain.mycrops.repository.MyCropsRepository;
 import com.suhwakhaeng.common.domain.mycrops.service.MyCropsService;
@@ -36,11 +31,11 @@ public class MyCropsServiceImpl implements MyCropsService {
 
     @Transactional
     @Override
-    public Long createMyCrops(Long userId, MyCropsRequest myCropsRequest) {
-        CropsVariety cropsVariety = cropsVarietyRepository.findById(myCropsRequest.cropsVarietyId()).orElseThrow(() -> new CropsVarietyException(NO_EXIST_CROPS));
+    public Long createMyCrops(Long userId, MyCropsCreateRequest myCropsCreateRequest) {
+        CropsVariety cropsVariety = cropsVarietyRepository.findById(myCropsCreateRequest.cropsVarietyId()).orElseThrow(() -> new CropsVarietyException(NO_EXIST_CROPS));
 
         User user = userRepository.findById(userId).orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST_USER));
-        MyCrops myCrops = myCropsRequest.toEntity();
+        MyCrops myCrops = myCropsCreateRequest.toEntity();
         myCrops = myCrops.toBuilder().user(user).cropsVariety(cropsVariety).build();
 
         return myCropsRepository.save(myCrops).getId();
@@ -83,14 +78,11 @@ public class MyCropsServiceImpl implements MyCropsService {
 
     @Transactional
     @Override
-    public Long updateMyCrops(Long myCropsId, MyCropsRequest request) {
-        CropsVariety cropsVariety = cropsVarietyRepository.findById(request.cropsVarietyId())
-                .orElseThrow(() -> new CropsVarietyException(NO_EXIST_CROPS));
-
+    public Long updateMyCrops(Long myCropsId, MyCropsUpdateRequest request) {
         MyCrops updateMyCrops = request.toEntity();
         MyCrops myCrops = selectMyCrop(myCropsId);
 
-        myCrops.update(updateMyCrops, cropsVariety);
+        myCrops.update(updateMyCrops);
         return myCrops.getId();
     }
 }

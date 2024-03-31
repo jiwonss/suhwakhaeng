@@ -61,7 +61,7 @@ export const ProfileCard = (props: ProfileCardProps) => {
         </ColumContainer>
       ) : (
         <ColumContainer>
-          <Typo.BODY3_M color={Color.BLACK}>{props.name}</Typo.BODY3_M>
+          <Typo.BODY4_M color={Color.BLACK}>{props.name}</Typo.BODY4_M>
           <Typo.Detail1_M color={Color.GRAY400}>{getTimeSincePost(props.date)}</Typo.Detail1_M>
         </ColumContainer>
       )}

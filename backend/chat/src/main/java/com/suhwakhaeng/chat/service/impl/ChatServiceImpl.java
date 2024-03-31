@@ -1,10 +1,7 @@
 package com.suhwakhaeng.chat.service.impl;
 
 import com.suhwakhaeng.chat.client.UserInfoClient;
-import com.suhwakhaeng.chat.dto.ChatRequest;
-import com.suhwakhaeng.chat.dto.ChatResponse;
-import com.suhwakhaeng.chat.dto.ChatRoomResponse;
-import com.suhwakhaeng.chat.dto.UserInfo;
+import com.suhwakhaeng.chat.dto.*;
 import com.suhwakhaeng.chat.entity.Chat;
 import com.suhwakhaeng.chat.entity.ChatRoom;
 import com.suhwakhaeng.chat.exception.ChatErrorCode;
@@ -19,6 +16,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -35,12 +33,15 @@ public class ChatServiceImpl implements ChatService {
 
     /**
      * 채팅 보내기
-     * @param chatRequest // 보내는 사람 id, 채팅 내용
+     * @param chatRequest // 채팅 내용
      * @param chatRoomId  // 채팅 룸 id = UUID
+     * @param myUserId
      */
+    @Transactional
     @Override
-    public void sendChat(ChatRequest chatRequest, String chatRoomId) {
-        UserInfo userInfo = userInfoClient.getUserInfo(chatRequest.userId());
+    public void sendChat(ChatRequest chatRequest, String chatRoomId, Long myUserId) {
+        Message<UserInfo> response = userInfoClient.getUserInfo(myUserId);
+        UserInfo userInfo = response.getDataBody();
         // 유저 정보 가져와서 mongoDB에 넣을 chat, 상대에게 보내줄 chat 세팅
         Chat chat = Chat.builder()
                 .userId(userInfo.userId())
@@ -48,15 +49,17 @@ public class ChatServiceImpl implements ChatService {
                 .profileImage(userInfo.profileImage())
                 .message(chatRequest.message())
                 .chatRoomId(chatRoomId)
+                .sendTime(LocalDateTime.now())
                 .build();
 
         // rabbitMQ로 상대방에게 전송
-        rabbitTemplate.convertAndSend(topicExchange.getName(), "room."+chatRoomId, chat);
+        rabbitTemplate.convertAndSend(topicExchange.getName(), "room." + chatRoomId, chat);
         // mongoDB에 chat 저장
         chatRepository.save(chat);
         // 마지막 chat 수정
         ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new ChatException(ChatErrorCode.UNKNOWN_ERROR));
-        chatRoom.updateLastChat(chatRequest.message());
+        chatRoom.updateLastChat(chatRequest.message(), chat.getSendTime());
+        chatRoomRepository.save(chatRoom);
     }
 
     @Override
@@ -70,19 +73,23 @@ public class ChatServiceImpl implements ChatService {
         List<ChatResponse> resultList = new ArrayList<>();
         List<ChatRoom> chatRoomList = chatRoomRepository.findByUserIdOrAnotherUserId(userId, userId);
         for(ChatRoom chatRoom : chatRoomList) {
-            UserInfo userInfo = userInfoClient.getUserInfo(chatRoom.getAnotherUserId());
+            if(chatRoom.getMessage() == null || chatRoom.getMessage() == "") continue;
+            Long anotherUserId = chatRoom.getUserId() == userId ? chatRoom.getAnotherUserId() : chatRoom.getUserId();
+            Message<UserInfo> response = userInfoClient.getUserInfo(anotherUserId);
+            UserInfo userInfo = response.getDataBody();
             resultList.add(ChatResponse.builder()
                     .userInfo(userInfo)
                     .lastMessage(chatRoom.getMessage())
+                    .id(chatRoom.getId())
                     .sendTime(chatRoom.getSendTime())
                     .build());
         }
         return resultList;
     }
 
-
     @Override
     public ChatRoomResponse selectChatRoomId(Long userId, Long anotherUserId) {
+        if(userId == anotherUserId) throw new ChatException(ChatErrorCode.CANT_SEND_MESSAGE_MYSELF);
         ChatRoom chatRoom = chatRoomRepository.findByUserIdAndAnotherUserId(userId, anotherUserId);
         if(chatRoom == null) chatRoom = chatRoomRepository.findByUserIdAndAnotherUserId(anotherUserId, userId);
         if(chatRoom == null) {
@@ -97,4 +104,11 @@ public class ChatServiceImpl implements ChatService {
                 .chatRoomId(chatRoom.getId())
                 .build();
     }
+
+    public UserInfo getUserInfo(Long userId) {
+        log.info("openFeign 테스트 input - userId : {}", userId);
+        log.info("openFeign 테스트 output - userId : {}", userInfoClient.getUserInfo(userId));
+        return userInfoClient.getUserInfo(userId).getDataBody();
+    }
+
 }
