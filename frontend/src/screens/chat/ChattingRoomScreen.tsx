@@ -88,7 +88,7 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
 
     const connect = () => {
       client.current = new StompJs.Client({
-        brokerURL: 'ws://j10c103.p.ssafy.io:9001/ws',
+        brokerURL: 'ws://13.209.147.164:9001/ws',
         reconnectDelay: 5000, // 자동 재 연결
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
