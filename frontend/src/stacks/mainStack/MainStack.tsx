@@ -93,7 +93,7 @@ const MainStack = () => {
   return (
     // <Stack.Navigator initialRouteName='MainScreen'>
     <Stack.Navigator
-      initialRouteName='FarmScreen'
+      initialRouteName='WeatherScreen'
       screenOptions={{
         headerShown: false,
       }}
