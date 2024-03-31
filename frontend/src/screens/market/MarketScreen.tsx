@@ -175,6 +175,7 @@ const MarketScreen = () => {
             <BasicButton onPress={onPressRegist} width={widthPercent * 90} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
               <Typo.BODY4_M color={Color.WHITE}>글 쓰러 가기</Typo.BODY4_M>
             </BasicButton>
+            
           </ContentContainer>
         )}
       </ScrollView>

@@ -11,7 +11,8 @@ import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getNews } from '../../apis/services/news/news';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -23,6 +24,18 @@ const Container = styled.View`
 const DiseasePlantScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const value: number = 1;
+
+  const [news, setNews] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      // 로그인 하기//
+      const { dataBody } = await getNews();
+      setNews(dataBody);
+    };
+
+    getData();
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
@@ -51,7 +64,17 @@ const DiseasePlantScreen = () => {
             최근 농업에선 <Typo.BODY4_M color={Color.GREEN500}>어떤 일</Typo.BODY4_M>들이 있었을까요?
           </Typo.BODY4_M>
         </Container>
-        <NewsItemCard company={'회사'} content={'컨텐츠'} date={'날짜'} href={'하이퍼링크'} title={'제목'} uri={'유알아이'} />
+        {news && news.map((item, index) => (
+          <NewsItemCard
+            key={index}
+            company={item.publisher.name} // 회사 정보
+            content={item.content} // 컨텐츠 내용
+            date={item.publisher.date} // 날짜 정보
+            href={item.url} // 하이퍼링크 정보
+            title={item.title} // 제목 정보
+            uri={item.thumbnail} // 이미지 URI 정보
+          />
+        ))}
       </ScrollView>
     </View>
   );
