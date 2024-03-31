@@ -7,11 +7,27 @@ import { useEffect, useState } from 'react';
 import { getTokens, removeTokens } from './util/TokenUtil';
 import { getUserInfo, reIssueToken } from './apis/services/user/user';
 import { userInfoState } from './recoil/atoms/userInfoState';
+import messaging from '@react-native-firebase/messaging';
 
 export const RootApp = () => {
   const [tokens, setTokens] = useState<{ accessToken: string | null; refreshToken: string | null }>({ accessToken: null, refreshToken: null });
   const [token, setToken] = useRecoilState(tokenState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+ 
+  const requestUserPermission = async () => {
+    const authStatus = await messaging().requestPermission();
+    const enabled = authStatus === messaging.AuthorizationStatus.AUTHORIZED || authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+    }
+  };
+
+  const getFcmToken = async () => {
+    const fcmToken = await messaging().getToken();
+    console.log('[FCM Token] ', fcmToken);
+  };
+
 
   useEffect(() => {
     // removeTokens();
@@ -53,6 +69,14 @@ export const RootApp = () => {
     };
 
     fetchTokens();
+    
+    getFcmToken();
+    requestUserPermission();
+    const unsubscribe = messaging().onMessage(async (remoteMessage) => {
+      console.log('[Remote Message] ', JSON.stringify(remoteMessage));
+    });
+    return unsubscribe;
+
   }, []);
 
   if (!token) {
@@ -61,3 +85,4 @@ export const RootApp = () => {
     return <MainStack />;
   }
 };
+

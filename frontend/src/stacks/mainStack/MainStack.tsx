@@ -107,7 +107,7 @@ const MainStack = () => {
   return (
     // <Stack.Navigator initialRouteName='MainScreen'>
     <Stack.Navigator
-      initialRouteName='BottomNavigation'
+      initialRouteName='FcmTestScreen'
       screenOptions={{
         headerShown: false,
       }}
