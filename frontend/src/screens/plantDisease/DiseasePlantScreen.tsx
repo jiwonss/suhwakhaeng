@@ -13,6 +13,8 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import React, { useEffect, useState } from 'react';
 import { getNews } from '../../apis/services/news/news';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../recoil/atoms/userInfoState';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -23,7 +25,7 @@ const Container = styled.View`
 
 const DiseasePlantScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const value: number = 1;
+  const userInfo = useRecoilValue(userInfoState);
 
   const [news, setNews] = useState([]);
 
@@ -45,7 +47,7 @@ const DiseasePlantScreen = () => {
         <Spacer space={20} />
         <Container>
           <Typo.BODY4_M>
-            user.name님, 작물의 <Typo.BODY4_M color={Color.GREEN500}>상태</Typo.BODY4_M>를 확인해볼까요?
+            {userInfo.nickname}, 작물의 <Typo.BODY4_M color={Color.GREEN500}>상태</Typo.BODY4_M>를 확인해볼까요?
           </Typo.BODY4_M>
         </Container>
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
@@ -53,7 +55,7 @@ const DiseasePlantScreen = () => {
             <Search3D width={widthPercent * 40} height={heightPercent * 40} />
           </MenuButton>
           <Spacer horizontal={true} space={40} />
-          <MenuButton size='big' title='질병 진단' onPressButton={() => navigation.navigate('CameraScreen', { value })}>
+          <MenuButton size='big' title='질병 진단' onPressButton={() => navigation.navigate('CameraScreen')}>
             <Camera width={widthPercent * 40} height={heightPercent * 40} />
           </MenuButton>
           {/*<ImgUploader data={urls} setData={setUrls}></ImgUploader>*/}

@@ -105,13 +105,13 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
   return (
-    // <Stack.Navigator initialRouteName='MainScreen'>
-    <Stack.Navigator
-      initialRouteName='FcmTestScreen'
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
+    <Stack.Navigator initialRouteName='BottomNavigation'>
+    {/*<Stack.Navigator*/}
+    {/*  initialRouteName='FcmTestScreen'*/}
+    {/*  screenOptions={{*/}
+    {/*    headerShown: false,*/}
+    {/*  }}*/}
+    {/*>*/}
       <Stack.Screen name='BottomNavigation' component={BottomNavigation} options={{ headerShown: false }} />
       {/* 관리자 페이지 */}
       <Stack.Screen name='AdminScreen' component={AdminScreen} options={{ headerShown: false }} />
