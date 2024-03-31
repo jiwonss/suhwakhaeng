@@ -48,7 +48,8 @@
     "sockjs": "^0.3.24",
     "sockjs-client": "^1.6.1",
     "stomp": "^0.1.1",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
