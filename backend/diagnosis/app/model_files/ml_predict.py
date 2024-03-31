@@ -28,16 +28,14 @@ def predict_plant(imgdata):
     # Converting Base64 string to Image
     response = requests.get(imgdata)
     new_image = Image.open(io.BytesIO(response.content))
+    new_image = new_image.resize((256, 256))
 
-    # <PIL.Image.Image image mode=RGBA size=300x400 at 0x1C1908D6350>
-    output = remove(new_image, bgcolor=(0, 0, 0, 255))
-    output = output.resize((256, 256))
-    output = output.convert("RGB")
-    output.save('output.jpg', format="JPEG")
-    output_image = Image.open('output.jpg')
-    
-    # Resizing Image
-    new_image = output_image
+    # output = remove(new_image, bgcolor=(0, 0, 0, 255))
+    # output = output.resize((256, 256))
+    # output = output.convert("RGB")
+    # output.save('output.jpg', format="JPEG")
+    # output_image = Image.open('output.jpg')
+    # new_image = output_image
 
     # Convert image to numpy array
     # image_array = np.array(image)
