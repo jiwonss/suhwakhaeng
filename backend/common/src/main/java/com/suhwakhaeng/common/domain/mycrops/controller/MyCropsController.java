@@ -1,6 +1,7 @@
 package com.suhwakhaeng.common.domain.mycrops.controller;
 
-import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsRequest;
+import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsCreateRequest;
+import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsUpdateRequest;
 import com.suhwakhaeng.common.domain.mycrops.service.MyCropsService;
 import com.suhwakhaeng.common.global.common.dto.Message;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ public class MyCropsController {
     private final MyCropsService myCropsService;
 
     @PostMapping
-    public ResponseEntity createMyCrops(@RequestHeader("X-Authorization-Id") Long userId, @RequestBody MyCropsRequest request) {
+    public ResponseEntity createMyCrops(@RequestHeader("X-Authorization-Id") Long userId, @RequestBody MyCropsCreateRequest request) {
         myCropsService.createMyCrops(userId, request);
         return ResponseEntity.ok().body(Message.success());
     }
@@ -41,7 +42,7 @@ public class MyCropsController {
     }
 
     @PatchMapping("/{myCropsId}")
-    public ResponseEntity updateMyCrops(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long myCropsId, @RequestBody MyCropsRequest request) {
+    public ResponseEntity updateMyCrops(@RequestHeader("X-Authorization-Id") Long userId, @PathVariable Long myCropsId, @RequestBody MyCropsUpdateRequest request) {
         myCropsService.updateMyCrops(myCropsId, request);
         return ResponseEntity.ok().body(Message.success());
     }

@@ -1,15 +1,12 @@
 package com.suhwakhaeng.common.domain.mycrops.service;
 
-import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsDetailResponse;
-import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsRequest;
-import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsResponse;
-import com.suhwakhaeng.common.domain.mycrops.dto.MyCropsSimpleResponse;
+import com.suhwakhaeng.common.domain.mycrops.dto.*;
 import com.suhwakhaeng.common.domain.mycrops.entity.MyCrops;
 
 import java.util.List;
 
 public interface MyCropsService {
-    Long createMyCrops(Long userId, MyCropsRequest myCropsRequest);
+    Long createMyCrops(Long userId, MyCropsCreateRequest myCropsCreateRequest);
 
     List<MyCropsResponse> selectMyCrops(Long userId);
 
@@ -20,6 +17,6 @@ public interface MyCropsService {
 
     void deleteMyCrops(Long myCropsId);
 
-    Long updateMyCrops(Long myCropsId, MyCropsRequest request);
+    Long updateMyCrops(Long myCropsId, MyCropsUpdateRequest request);
 
 }

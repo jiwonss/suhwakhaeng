@@ -3,7 +3,7 @@ package com.suhwakhaeng.common.domain.mycrops.dto;
 import com.suhwakhaeng.common.domain.mycrops.entity.MyCrops;
 import com.suhwakhaeng.common.domain.mycrops.enums.AreaUnit;
 
-public record MyCropsRequest(
+public record MyCropsCreateRequest(
         Long cropsVarietyId,
         LocationInfo location,
         String name,
