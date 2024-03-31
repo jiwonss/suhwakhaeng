@@ -27,6 +27,7 @@ interface SearchInputProps {
   onPressMore?: () => void;
   onPressChat?: () => void;
   placeHolder: string;
+  width?: number;
 }
 
 const StyledSingleContainer = styled.TextInput.attrs({
@@ -157,7 +158,7 @@ export const SearchInputBox = (props: SearchInputProps) => {
   };
 
   return (
-    <InputContainer>
+    <InputContainer style={{ width: props.width ? props.width : widthPercent * 300 }}>
       <SearchGray width={widthPercent * 20} height={heightPercent * 20} />
       <StyledInput value={props.value} onChangeText={handleChangeText} onSubmitEditing={props.onSubmitSearch} placeholder={props.placeHolder} returnKeyType='done' />
     </InputContainer>

@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from model_files.ml_predict import predict_plant
 from pydantic import BaseModel
-import uvicorn
 
 
 class Image(BaseModel):

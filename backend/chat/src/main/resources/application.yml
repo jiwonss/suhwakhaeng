@@ -1,6 +1,15 @@
 server:
   port: 9001
 
+spring:
+  application:
+    name: chat
+  config:
+    name: chat
+
+  profiles:
+    active: prod
+
 eureka:
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
@@ -11,19 +20,20 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://43.201.164.202:8761/eureka
+      defaultZone: http://${SERVICE-DISCOVERY}:8761/eureka
+
+---
 
 spring:
-  application:
-    name: chat
   config:
-    name: chat
     import: optional:configserver:http://43.202.20.179:8888
+    activate:
+      on-profile: prod
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: refresh, health, beans
+---
 
-message: ${message}
+spring:
+  config:
+    import: optional:configserver:http://localhost:8888
+    activate:
+      on-profile: local
