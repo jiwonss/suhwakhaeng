@@ -14,5 +14,8 @@ RUN apt-get update && \
 # Set Chrome Driver executable permissions
 RUN chmod +x /usr/local/bin/chromedriver
 
+# Set environment variable for Chrome Driver path (if needed)
+ENV CHROME_DRIVER_PATH=/usr/local/bin/chromedriver
+
 COPY build/libs/crawling-0.0.1-SNAPSHOT.jar Crawling.jar
 ENTRYPOINT ["java","-jar","Crawling.jar"]
