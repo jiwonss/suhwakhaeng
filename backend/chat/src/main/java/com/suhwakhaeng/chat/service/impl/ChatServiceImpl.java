@@ -74,7 +74,8 @@ public class ChatServiceImpl implements ChatService {
         List<ChatRoom> chatRoomList = chatRoomRepository.findByUserIdOrAnotherUserId(userId, userId);
         for(ChatRoom chatRoom : chatRoomList) {
             if(chatRoom.getMessage() == null || chatRoom.getMessage() == "") continue;
-            Message<UserInfo> response = userInfoClient.getUserInfo(chatRoom.getAnotherUserId());
+            Long anotherUserId = chatRoom.getUserId() == userId ? chatRoom.getAnotherUserId() : chatRoom.getUserId();
+            Message<UserInfo> response = userInfoClient.getUserInfo(anotherUserId);
             UserInfo userInfo = response.getDataBody();
             resultList.add(ChatResponse.builder()
                     .userInfo(userInfo)
