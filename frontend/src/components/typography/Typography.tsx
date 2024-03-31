@@ -132,7 +132,7 @@ export const BODY4_M = (props: TypographyProps) => {
 
 export const Detail0_M = (props: TypographyProps) => {
   return (
-    <StyledTypography numberOfLines={props.numberOfLines} ellipsizeMode='tail' fontFamily={FontStyle.F_PRIMARY_B} fontSize={FontStyle.F_SIZE_XXXS} color={props.color}>
+    <StyledTypography numberOfLines={props.numberOfLines} ellipsizeMode='tail' fontFamily={FontStyle.F_PRIMARY_M} fontSize={FontStyle.F_SIZE_XXXS} color={props.color}>
       {props.children}
     </StyledTypography>
   );

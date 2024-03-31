@@ -35,6 +35,7 @@ import MarketRegistScreen from '../../screens/market/MarketRegistScreen';
 import PostCodeScreen from '../../screens/PostCodeScreen';
 import DetailMyCropsScreen from '../../screens/cropsResister/DetailMyCropsScreen';
 import UpdateMyCropsScreen from '../../screens/cropsResister/UpdateMyCropsScreen';
+import GovernmentScreen from '../../screens/government/GovernmentScreen';
 import AdminScreen from '../../screens/admin/AdminScreen';
 import AdminDetailScreen from '../../screens/admin/AdminDetailScreen';
 
@@ -95,6 +96,7 @@ export type RootStackParamList = {
   PostCodeScreen: { id: number; screenName: string; plantName?: string };
   DetailMyCropsScreen: { myCropsId: number };
   UpdateMyCropsScreen: { myCropsId: number; sido?: string; gugun?: string; dong?: string };
+  GovernmentScreen: undefined;
   AdminScreen: undefined;
   AdminDetailScreen: { id: number };
 };
@@ -105,7 +107,7 @@ const MainStack = () => {
   return (
     // <Stack.Navigator initialRouteName='MainScreen'>
     <Stack.Navigator
-      initialRouteName='AdminDetailScreen'
+      initialRouteName='BottomNavigation'
       screenOptions={{
         headerShown: false,
       }}
@@ -161,6 +163,8 @@ const MainStack = () => {
       {/*날씨 페이지*/}
       <Stack.Screen name='WeatherScreen' component={WeatherScreen} options={{ headerShown: false }} />
       <Stack.Screen name='PostCodeScreen' component={PostCodeScreen} options={{ headerShown: false }} />
+      {/* 정부지원금 페이지 */}
+      <Stack.Screen name='GovernmentScreen' component={GovernmentScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
