@@ -165,7 +165,7 @@ const MainScreen = () => {
             <Bag3D width={widthPercent * 36} height={heightPercent * 36} />
           </MenuButton>
           <Spacer horizontal={true} space={20} />
-          <MenuButton size='small' title='정부 보조금' onPressButton={() => console.log('보조금조회 페이지이동')}>
+          <MenuButton size='small' title='정부 보조금' onPressButton={() => navigation.navigate('GovernmentScreen')}>
             <Coin3D width={widthPercent * 36} height={heightPercent * 36} />
           </MenuButton>
         </View>

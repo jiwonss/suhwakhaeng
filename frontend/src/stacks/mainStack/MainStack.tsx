@@ -35,6 +35,7 @@ import MarketRegistScreen from '../../screens/market/MarketRegistScreen';
 import PostCodeScreen from '../../screens/PostCodeScreen';
 import DetailMyCropsScreen from '../../screens/cropsResister/DetailMyCropsScreen';
 import UpdateMyCropsScreen from '../../screens/cropsResister/UpdateMyCropsScreen';
+import GovernmentScreen from '../../screens/government/GovernmentScreen';
 
 type DiagnosisResult = {
   content: string;
@@ -93,6 +94,7 @@ export type RootStackParamList = {
   PostCodeScreen: { id: number; screenName: string; plantName?: string };
   DetailMyCropsScreen: { myCropsId: number };
   UpdateMyCropsScreen: { myCropsId: number; sido?: string; gugun?: string; dong?: string };
+  GovernmentScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -154,6 +156,8 @@ const MainStack = () => {
       {/*날씨 페이지*/}
       <Stack.Screen name='WeatherScreen' component={WeatherScreen} options={{ headerShown: false }} />
       <Stack.Screen name='PostCodeScreen' component={PostCodeScreen} options={{ headerShown: false }} />
+      {/* 정부지원금 페이지 */}
+      <Stack.Screen name='GovernmentScreen' component={GovernmentScreen} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 };
