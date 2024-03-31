@@ -1,17 +1,17 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import {ActivityIndicator} from 'react-native';
+import { ActivityIndicator } from 'react-native';
 
 interface SpinnerProps {
-    size: number | 'small' | 'large';
-    color: string;
-    children: React.ReactNode
+  size: number | 'small' | 'large';
+  color: string;
+  children: React.ReactNode;
 }
 
 const Container = styled.View`
-    flex: 1;
-    justify-content: center;
-    align-items: center;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
 `;
 /**
  * 로딩 상태를 나타내는 스피너 컴포넌트입니다.
@@ -34,12 +34,12 @@ const Container = styled.View`
  */
 
 const Spinner = (props: SpinnerProps) => {
-    return (
-        <Container>
-            <ActivityIndicator size={props.size} color={props.color}/>
-            {props.children}
-        </Container>
-    );
+  return (
+    <Container>
+      <ActivityIndicator size={props.size} color={props.color} />
+      {props.children}
+    </Container>
+  );
 };
 
 export default Spinner;
