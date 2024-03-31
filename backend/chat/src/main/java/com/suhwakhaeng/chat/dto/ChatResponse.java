@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public record ChatResponse (
         UserInfo userInfo,
         String lastMessage,
+        String id,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
         LocalDateTime sendTime
 ) { }

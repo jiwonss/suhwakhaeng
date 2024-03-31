@@ -14,6 +14,18 @@ export const changeCategoryName = (category: string) => {
     case 'WORK':
       newCategoryName = '일손';
       break;
+    case 'FREEDOM':
+      newCategoryName = '자유';
+      break;
+    case 'SHARE':
+      newCategoryName = '나눔';
+      break;
+    case 'TIP':
+      newCategoryName = '꿀팁';
+      break;
+    case 'QUESTION':
+      newCategoryName = '질문';
+      break;
   }
   return newCategoryName;
 };

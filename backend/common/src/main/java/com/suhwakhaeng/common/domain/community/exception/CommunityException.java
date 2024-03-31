@@ -1,6 +1,5 @@
 package com.suhwakhaeng.common.domain.community.exception;
 
-import com.suhwakhaeng.common.domain.accountbook.exception.AccountBookErrorCode;
 import lombok.Getter;
 
 @Getter

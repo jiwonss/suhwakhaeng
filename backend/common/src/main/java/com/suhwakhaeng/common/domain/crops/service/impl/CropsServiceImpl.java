@@ -69,7 +69,14 @@ public class CropsServiceImpl implements CropsService {
 
     @Override
     public CropsDetailResponse selectDetailCrops(Long cropsId, Long cropsVarietyId) {
-        CropsDetailResponse cropsDetailResponse = cropsDetailRepository.selectDetailCrops(cropsId, cropsVarietyId);
+        Crops crops = cropsRepository.findById(cropsId).orElseThrow(() -> new CropsException(CropsErrorCode.NO_EXIST_CROPS));
+
+        CropsDetailResponse cropsDetailResponse;
+        if (crops.getCategory().equals(CropsCate.FOOD_CROPS)) {
+            cropsDetailResponse = cropsDetailRepository.selectDetailCrops(cropsId, cropsVarietyId);
+        } else {
+            cropsDetailResponse = cropsDetailRepository.selectDetailNotCrops(cropsId, cropsVarietyId);
+        }
 
         TableInfo tableInfo = cropsDetailResponse.getTableInfo();
         int rowSize = tableInfo.getTableHead().size() - 1;

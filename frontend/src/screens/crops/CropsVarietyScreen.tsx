@@ -44,17 +44,20 @@ const CropsVarietyScreen = () => {
     fetchCropVarieties();
   }, [plantId]);
 
-  const moveCropsDetailScreen = (varietyName: string) => {
-    navigation.navigate('CropsDetailScreen', { plantName, varietyName });
+  // 작물 상세 정보로 이동
+  const moveCropsDetailScreen = (cropsId: number, varietyName: string, cropsVarietyId: number) => {
+    navigation.navigate('CropsDetailScreen', { cropsId, plantName, varietyName, cropsVarietyId });
   };
 
+  // 재배환경 등록으로 이동
   const moveEnvironmentPlantScreen = (cropsVarietyId: number, varietyName: string) => {
     navigation.navigate('EnvironmentPlantScreen', { plantName, cropsVarietyId, varietyName });
   };
 
-  const onPressHandler = (cropsVarietyId: number, varietyName: string) => {
+  const onPressHandler = (cropsId: number, cropsVarietyId: number, varietyName: string) => {
+    // value 1: 작물 상세정보, 2: 재배환경 등록
     if (value === 1) {
-      moveCropsDetailScreen(varietyName);
+      moveCropsDetailScreen(cropsId, varietyName, cropsVarietyId);
     } else if (value === 2) {
       moveEnvironmentPlantScreen(cropsVarietyId, varietyName);
     }
@@ -76,7 +79,7 @@ const CropsVarietyScreen = () => {
         <Container>
           {varieties.map((variety, index) => (
             <View key={index}>
-              <TouchableOpacity onPress={() => onPressHandler(variety.cropsVarietyId, variety.cropsVarietyName)}>
+              <TouchableOpacity onPress={() => onPressHandler(variety.cropId, variety.cropsVarietyId, variety.cropsVarietyName)}>
                 <Spacer space={23} />
                 <Typo.BODY3_M>{variety.cropsVarietyName}</Typo.BODY3_M>
                 <Spacer space={23} />

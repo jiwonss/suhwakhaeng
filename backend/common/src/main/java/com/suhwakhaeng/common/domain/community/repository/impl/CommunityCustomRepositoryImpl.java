@@ -28,7 +28,7 @@ public class CommunityCustomRepositoryImpl implements CommunityCustomRepository 
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public CommunityDetailResponse selectCommunity(Long userId, Long communityId) {
+    public CommunityDetailResponse selectCommunityDetail(Long userId, Long communityId) {
         return queryFactory
                 .select(Projections.fields(CommunityDetailResponse.class,
                         Projections.fields(WriterInfo.class,
@@ -72,6 +72,53 @@ public class CommunityCustomRepositoryImpl implements CommunityCustomRepository 
     }
 
     @Override
+    public List<CommunityListResponse> selectMyCommunity(Long userId, Long lastId) {
+        return queryFactory
+                .select(Projections.fields(CommunityListResponse.class,
+                        Projections.fields(WriterInfo.class,
+                                user.id.as("userId"),
+                                user.nickname.as("nickname"),
+                                user.profileImage.as("profileImage")
+                        ).as("user"),
+                        community.id.as("communityId"),
+                        community.content.as("communityContent"),
+                        community.image1.as("thumbnail"),
+                        community.cate.as("cate"),
+                        ExpressionUtils.as(
+                                JPAExpressions.selectOne()
+                                        .from(communityLike)
+                                        .where(communityLike.communityLikePK.community.id.eq(community.id)
+                                                .and(communityLike.communityLikePK.user.id.eq(userId)))
+                                        .exists(),
+                                "isLiked"
+                        ),
+                        ExpressionUtils.as(
+                                JPAExpressions.select(communityLike.count())
+                                        .from(communityLike)
+                                        .where(communityLike.communityLikePK.community.eq(community)),
+                                "likeCount"
+                        ),
+                        ExpressionUtils.as(
+                                JPAExpressions.select(communityComment.count())
+                                        .from(communityComment)
+                                        .where(communityComment.community.eq(community)),
+                                "commentCount"
+                        ),
+                        community.createdAt.as("createdAt")
+                ))
+                .from(community)
+                .join(community.writer, user)
+                .where(isGreaterThan(lastId), isEqualsUserId(userId))
+                .orderBy(community.createdAt.desc())
+                .limit(10)
+                .fetch();
+    }
+
+    private BooleanBuilder isEqualsUserId(final Long userId) {
+        return NullSafeBuilder.build(() -> user.id.eq(userId));
+    }
+
+    @Override
     public List<CommunityListResponse> searchCommunity(Long userId, CommunitySearchRequest request) {
         return queryFactory
                 .select(Projections.fields(CommunityListResponse.class,
@@ -109,7 +156,7 @@ public class CommunityCustomRepositoryImpl implements CommunityCustomRepository 
                 .from(community)
                 .join(community.writer, user)
                 .where(isGreaterThan(request.id()), contentLikeKeyword(request.keyword()), equalsCate(request.cate()))
-                .orderBy(community.id.asc())
+                .orderBy(community.createdAt.desc())
                 .limit(10)
                 .fetch();
     }

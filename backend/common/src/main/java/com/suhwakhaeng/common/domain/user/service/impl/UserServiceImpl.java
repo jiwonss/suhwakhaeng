@@ -14,25 +14,24 @@ import org.springframework.transaction.annotation.Transactional;
 import static com.suhwakhaeng.common.domain.user.exception.UserErrorCode.*;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
-    @Transactional(readOnly = true)
     @Override
     public ProfileResponse selectDetailUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserException(NOT_EXIST_USER));
         return ProfileResponse.fromUser(user);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public UserInfoResponse selectDetailUserInfo(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserException(NOT_EXIST_USER));
         return UserInfoResponse.fromUser(user);
     }
 
+    @Transactional
     @Override
     public Long updateUser(Long userId, User user) {
         User targetUser = userRepository.findById(userId).orElseThrow(() -> new UserException(NOT_EXIST_USER));

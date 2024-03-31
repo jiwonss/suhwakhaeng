@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+
 import styled from 'styled-components/native';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
@@ -17,7 +19,6 @@ import Location from '../../../assets/icons/location.svg';
 import Lucide from '../../../assets/icons/Lucide Icon.svg';
 import { PlantAdd, PlantItem } from '../../components/plantAdd/PlantAdd';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { removeTokens } from '../../util/TokenUtil';
@@ -84,27 +85,32 @@ const MyProfileScreen = () => {
   const [token, setToken] = useRecoilState(tokenState);
   const [modalVisible, setModalVisible] = useState(false);
   const userInfo = useRecoilValue(userInfoState);
-  const [myCrops, setMyCrops] = useState<CropItem[]>([]);
+  const [myCropsList, setMyCropsList] = useState<CropItem[]>([]);
   const [selectedCropId, setSelectedCropId] = useState<number>(0);
-  // 내 작물 목록 가져오기
-  useEffect(() => {
-    const fetchMyCrops = async () => {
-      try {
-        const { dataBody } = await getMyCropListInfo();
-        setMyCrops(dataBody);
-      } catch (error) {
-        console.error('내가 키우는 작물 목록을 불러오는 중 오류 발생:', error);
-      }
-    };
 
-    fetchMyCrops();
-  }, []);
+  // 작물 목록 가져오기
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchMyCrops = async () => {
+        try {
+          const response = await getMyCropListInfo();
+          if (response.dataBody) {
+            setMyCropsList(response.dataBody);
+          }
+        } catch (error) {
+          console.error('내가 키우는 작물 목록을 불러오는 중 오류 발생:', error);
+        }
+      };
+
+      fetchMyCrops();
+    }, [])
+  );
 
   // 작물 지우기
   const deleteMyCrop = async (myCropsId: number) => {
     try {
       await deleteMyCropInfo(myCropsId);
-      setMyCrops(myCrops.filter((crop) => crop.myCropsId !== myCropsId));
+      setMyCropsList(myCropsList.filter((crop) => crop.myCropsId !== myCropsId));
     } catch (error) {
       console.error('내 작물 삭제 중 오류 발생:', error);
     }
@@ -156,15 +162,14 @@ const MyProfileScreen = () => {
             <StyledView>
               <PlantAdd></PlantAdd>
             </StyledView>
-            {myCrops.map(({ location: { dong, gugun, sido }, myCropsName, cropsName, myCropsId }, index) => {
-              // 기존 코드와 동일하게 작물 목록 렌더링
+            {myCropsList.map(({ location: { dong, gugun, sido }, myCropsName, cropsName, myCropsId }, index) => {
               const locationString = `${sido ?? ''} ${gugun ?? ''} ${dong ?? ''}`.trim();
               return (
                 <StyledView key={index}>
                   <PlantItem
                     onPress={() => {
-                      setModalVisible(true);
                       setSelectedCropId(myCropsId);
+                      setModalVisible(true);
                     }}
                     cropsName={cropsName}
                     name={myCropsName}
@@ -237,8 +242,10 @@ const MyProfileScreen = () => {
           <View style={{ flexDirection: 'column', alignItems: 'center' }}>
             <BasicButton
               onPress={() => {
-                console.log('수정 페이지로 이동');
-                // navigation.navigate('UpdatePostScreen', { postData });
+                console.log('상세조회 페이지로 이동');
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                navigation.navigate('DetailMyCropsScreen', { myCropsId: selectedCropId });
                 setModalVisible(false);
               }}
               width={300}
@@ -247,7 +254,25 @@ const MyProfileScreen = () => {
               borderColor={Color.GRAY500}
               borderRadius={10}
             >
-              <Typo.BODY3_M color={Color.GREEN500}>수정하기</Typo.BODY3_M>
+              <Typo.BODY3_M color={Color.GREEN500}>상세 조회</Typo.BODY3_M>
+            </BasicButton>
+            <Spacer space={12} />
+
+            <BasicButton
+              onPress={() => {
+                console.log('수정 페이지로 이동');
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                navigation.navigate('UpdateMyCropsScreen', { myCropsId: selectedCropId });
+                setModalVisible(false);
+              }}
+              width={300}
+              height={50}
+              backgroundColor={Color.GREEN500}
+              borderColor={Color.GREEN500}
+              borderRadius={10}
+            >
+              <Typo.BODY3_M color={Color.WHITE}>수정하기</Typo.BODY3_M>
             </BasicButton>
             <Spacer space={12} />
             <BasicButton
@@ -267,8 +292,8 @@ const MyProfileScreen = () => {
               }}
               width={300}
               height={50}
-              backgroundColor={Color.GREEN500}
-              borderColor={Color.GRAY500}
+              backgroundColor={Color.RED200}
+              borderColor={Color.RED200}
               borderRadius={10}
             >
               <Typo.BODY3_M color={Color.WHITE}>삭제하기</Typo.BODY3_M>

@@ -5,7 +5,6 @@ import FarmLedgerAddScreen from '../../screens/farmDairy/FarmLedgerAddScreen';
 import CreatePostScreen from '../../screens/post/CreatePostScreen';
 import DetailPostScreen from '../../screens/post/DetailPostScreen';
 import UpdatePostScreen from '../../screens/post/UpdatePostScreen';
-import SetLocationScreen from '../../screens/SetLocationScreen';
 import MyProfileScreen from '../../screens/myProfile/MyProfileScreen';
 import MarketScreen from '../../screens/market/MarketScreen';
 import MarketDetailScreen from '../../screens/market/MarketDetailScreen';
@@ -19,7 +18,6 @@ import AddCropsScreen from '../../screens/cropsResister/AddCropsScreen';
 import EnvironmentPlantScreen from '../../screens/cropsResister/EnvironmentPlantScreen';
 import ModifyProfileScreen from '../../screens/myProfile/ModifyProfileScreen';
 import DiseasePlantScreen from '../../screens/plantDisease/DiseasePlantScreen';
-import SearchResultScreen from '../../screens/post/SearchResultScreen';
 import MyPostScreen from '../../screens/myPost/MyPostScreen';
 import SearchPostScreen from '../../screens/post/SearchPostScreen';
 import CropsDetailScreen from '../../screens/crops/CropsDetailScreen';
@@ -35,6 +33,8 @@ import FarmScreen from '../../screens/farmDairy/FarmScreen';
 import BottomNavigation from '../../components/navigation/BottomNavigation';
 import MarketRegistScreen from '../../screens/market/MarketRegistScreen';
 import PostCodeScreen from '../../screens/PostCodeScreen';
+import DetailMyCropsScreen from '../../screens/cropsResister/DetailMyCropsScreen';
+import UpdateMyCropsScreen from '../../screens/cropsResister/UpdateMyCropsScreen';
 
 type DiagnosisResult = {
   content: string;
@@ -61,11 +61,10 @@ export type RootStackParamList = {
   FarmDairyDetailScreen: undefined;
   FarmLedgerDetailScreen: undefined;
   CreatePostScreen: undefined;
-  DetailPostScreen: { postData: PostProps['postData'] };
-  UpdatePostScreen: { postData: PostProps['postData'] };
+  DetailPostScreen: { id: number };
+  UpdatePostScreen: { id: number };
   MyPostScreen: undefined;
   SetLocationScreen: { value: number; varietyName: string; plantName: string; cropsVarietyId?: number };
-  SearchResultScreen: { searchValue: string };
   SearchPostScreen: undefined;
   FavoriteProductScreen: undefined;
   MyProfileScreen: undefined;
@@ -73,18 +72,27 @@ export type RootStackParamList = {
   ModifyProfileScreen: { sido: string; gugun: string; dong: string; address: string };
   CropsScreen: undefined;
   ChatListScreen: undefined;
-  ChattingRoomScreen: { id: number };
+  ChattingRoomScreen: { id: string; name: string };
   CropsVarietyScreen: { plantName: string; plantId: number; value?: number };
-  CropsDetailScreen: { plantName: string; varietyName: string };
+  CropsDetailScreen: { cropsId: number; plantName: string; varietyName: string; cropsVarietyId: number };
   DiseasePlantScreen: undefined;
   DetailDiseasePlantScreen: { photo: { uri: string }; diagnosisResult: DiagnosisResult };
   PlantResisterScreen: undefined;
   AddCropsScreen: undefined;
-  EnvironmentPlantScreen: { plantName: string; cropsVarietyId?: number; varietyName?: string; dataList_S?: string; dataList_G?: string; dataList_D?: string };
-  BottomNavigation: undefined;
+  EnvironmentPlantScreen: {
+    plantName: string;
+    cropsVarietyId?: number;
+    varietyName?: string;
+    sido?: string;
+    gugun?: string;
+    dong?: string;
+  };
+  BottomNavigation: { screen?: string };
   WeatherScreen: undefined;
   CameraScreen: { value: number };
-  PostCodeScreen: { id: number; screenName: string };
+  PostCodeScreen: { id: number; screenName: string; plantName?: string };
+  DetailMyCropsScreen: { myCropsId: number };
+  UpdateMyCropsScreen: { myCropsId: number; sido?: string; gugun?: string; dong?: string };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -93,7 +101,7 @@ const MainStack = () => {
   return (
     // <Stack.Navigator initialRouteName='MainScreen'>
     <Stack.Navigator
-      initialRouteName='FarmScreen'
+      initialRouteName='BottomNavigation'
       screenOptions={{
         headerShown: false,
       }}
@@ -118,11 +126,8 @@ const MainStack = () => {
       <Stack.Screen name='UpdatePostScreen' component={UpdatePostScreen} options={{ headerShown: false }} />
       {/*게시글 검색 페이지*/}
       <Stack.Screen name='SearchPostScreen' component={SearchPostScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='SearchResultScreen' component={SearchResultScreen} options={{ headerShown: false }} />
       {/*작성한 게시글 조회 페이지*/}
       <Stack.Screen name='MyPostScreen' component={MyPostScreen} options={{ headerShown: false }} />
-      {/*지역 설정 페이지*/}
-      <Stack.Screen name='SetLocationScreen' component={SetLocationScreen} options={{ headerShown: false }} />
       {/* 채팅 페이지 */}
       <Stack.Screen name='ChattingRoomScreen' component={ChattingRoomScreen} options={{ headerShown: false }} />
       {/* 마이 페이지 */}
@@ -140,6 +145,8 @@ const MainStack = () => {
       {/*작물 등록 페이지*/}
       <Stack.Screen name='AddCropsScreen' component={AddCropsScreen} options={{ headerShown: false }} />
       <Stack.Screen name='EnvironmentPlantScreen' component={EnvironmentPlantScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='DetailMyCropsScreen' component={DetailMyCropsScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='UpdateMyCropsScreen' component={UpdateMyCropsScreen} options={{ headerShown: false }} />
       {/* 채팅 페이지 */}
       <Stack.Screen name='ChatListScreen' component={ChatListScreen} options={{ headerShown: false }} />
       {/* 관심상품 페이지 */}

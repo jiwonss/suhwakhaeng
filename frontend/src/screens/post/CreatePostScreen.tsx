@@ -12,6 +12,10 @@ import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
+import { getKST, uploadImagesToFirebaseStorage } from '../../util/BasicUtil';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../recoil/atoms/userInfoState';
+import { registPost } from '../../apis/services/community/community';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -22,18 +26,74 @@ const Container = styled.View`
 
 const CreatePostScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const [activeIndex, setActiveIndex] = useState(0);
-  const Data = [
-    { content: '자유', event: () => setActiveIndex(0), active: activeIndex === 0 },
-    { content: '꿀팁', event: () => setActiveIndex(1), active: activeIndex === 1 },
-    { content: '나눔', event: () => setActiveIndex(2), active: activeIndex === 2 },
-    { content: '질문', event: () => setActiveIndex(3), active: activeIndex === 3 },
-  ];
-  const [Urls, setUrls] = useState<string[]>([]);
+  const userInfo = useRecoilValue(userInfoState);
 
-  const onSubmit = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [category, setCategory] = useState<string>('FREEDOM');
+  const [content, setContent] = useState<string>('');
+  const [imgUrls, setImgeUrls] = useState<string[]>([]);
+  const radioData = [
+    {
+      content: '자유',
+      event: () => {
+        setActiveIndex(0);
+        setCategory('FREEDOM');
+      },
+      active: activeIndex === 0,
+    },
+    {
+      content: '꿀팁',
+      event: () => {
+        setActiveIndex(1);
+        setCategory('TIP');
+      },
+      active: activeIndex === 1,
+    },
+    {
+      content: '나눔',
+      event: () => {
+        setActiveIndex(2);
+        setCategory('SHARE');
+      },
+      active: activeIndex === 2,
+    },
+    {
+      content: '질문',
+      event: () => {
+        setActiveIndex(3);
+        setCategory('QUESTION');
+      },
+      active: activeIndex === 3,
+    },
+  ];
+
+  const onSubmit = async () => {
     // back으로 보내는 API 코드 작성
     // try시 navigation.goBack()
+    if (!content) {
+      alert('내용을 입력해주세요');
+    }
+    const newImageUrls = await uploadImagesToFirebaseStorage(imgUrls, `커뮤니티//${userInfo.userId}//${getKST()}`);
+
+    const params = {
+      cate: category,
+      content: content,
+      image1: newImageUrls[0],
+      image2: newImageUrls[1],
+      image3: newImageUrls[2],
+      image4: newImageUrls[3],
+    };
+
+    const response = await registPost(params);
+    setActiveIndex(0);
+    setCategory('');
+    setContent('');
+    setImgeUrls([]);
+
+    if (response.dataHeader.successCode === 0) {
+      alert('등록 완료!');
+    }
+
     navigation.goBack();
   };
 
@@ -45,16 +105,16 @@ const CreatePostScreen = () => {
         <Container>
           <Typo.BODY4_M>분류 선택</Typo.BODY4_M>
           <View style={{ alignItems: 'center' }}>
-            <CustomRadioButton data={Data} width={60} />
+            <CustomRadioButton data={radioData} width={60} />
           </View>
         </Container>
         <Container>
           <Typo.BODY4_M>내용</Typo.BODY4_M>
-          <MultiLineInputBox placeholder={'내용을 작성하세요'} />
+          <MultiLineInputBox value={content} onChangeText={setContent} placeholder={'내용을 작성하세요'} />
         </Container>
         <Container>
           <Typo.BODY4_M>사진</Typo.BODY4_M>
-          <ImgUploader data={Urls} setData={setUrls}></ImgUploader>
+          <ImgUploader data={imgUrls} setData={setImgeUrls}></ImgUploader>
         </Container>
       </ScrollView>
       <Container>

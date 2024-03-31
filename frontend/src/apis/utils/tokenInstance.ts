@@ -2,8 +2,8 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import { getTokens, removeTokens, setTokens } from '../../util/TokenUtil';
 
-// const BASE_URL = 'http://10.0.2.2:8000/';
-const BASE_URL = 'http://13.209.182.136:8000/';
+const BASE_URL = 'http://10.0.2.2:8000/';
+// const BASE_URL = 'http://43.202.161.194:9000/';
 
 export const tokenInstance = axios.create({
   baseURL: `${BASE_URL}`,
@@ -12,6 +12,8 @@ export const tokenInstance = axios.create({
 const setCommonHeaders = async (config: any) => {
   config.headers['Content-Type'] = 'application/json';
   config.headers['Authorization'] = `Bearer ${await EncryptedStorage.getItem('accessToken')}`;
+  // config.headers['Authorization'] =
+  //   `Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MTE2NzY2OTQsImV4cCI6MTcxNDI2ODY5NH0.VD8eH7ZmfDRoyxAlXcrK9kJCU_uSuJRLyeZDVk5JQOsYFNiAZgW39ioCfgjNUiKst1KOJiybLtZPX4nPIOP_xQ`;
   return config;
 };
 
@@ -57,7 +59,7 @@ const handleResponseError = async (error: AxiosError) => {
 };
 
 const handleResponseSuccess = (response: AxiosResponse<any>) => {
-  console.log('Success response: ' + response.config.url);
+  // console.log('Success response: ' + response.config.url);
   return response;
 };
 
