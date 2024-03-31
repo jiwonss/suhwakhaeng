@@ -35,6 +35,7 @@ import MarketRegistScreen from '../../screens/market/MarketRegistScreen';
 import PostCodeScreen from '../../screens/PostCodeScreen';
 import DetailMyCropsScreen from '../../screens/cropsResister/DetailMyCropsScreen';
 import UpdateMyCropsScreen from '../../screens/cropsResister/UpdateMyCropsScreen';
+import AdminScreen from '../../screens/admin/AdminScreen';
 
 type DiagnosisResult = {
   content: string;
@@ -93,6 +94,7 @@ export type RootStackParamList = {
   PostCodeScreen: { id: number; screenName: string; plantName?: string };
   DetailMyCropsScreen: { myCropsId: number };
   UpdateMyCropsScreen: { myCropsId: number; sido?: string; gugun?: string; dong?: string };
+  AdminScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -101,12 +103,14 @@ const MainStack = () => {
   return (
     // <Stack.Navigator initialRouteName='MainScreen'>
     <Stack.Navigator
-      initialRouteName='BottomNavigation'
+      initialRouteName='DiseasePlantScreen'
       screenOptions={{
         headerShown: false,
       }}
     >
       <Stack.Screen name='BottomNavigation' component={BottomNavigation} options={{ headerShown: false }} />
+      {/* 관리자 페이지 */}
+      <Stack.Screen name='AdminScreen' component={AdminScreen} options={{ headerShown: false }} />
       {/* 장터 페이지 */}
       <Stack.Screen name='MainScreen' component={MainScreen} options={{ headerShown: false }} />
       <Stack.Screen name='MarketScreen' component={MarketScreen} options={{ headerShown: false }} />
@@ -118,8 +122,8 @@ const MainStack = () => {
       <Stack.Screen name='FarmScreen' component={FarmScreen} options={{ headerShown: false }} />
       <Stack.Screen name='FarmDairyAddScreen' component={FarmDairyAddScreen} options={{ headerShown: false }} />
       <Stack.Screen name='FarmLedgerAddScreen' component={FarmLedgerAddScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='FarmDairyDetailScreen' component={FarmDairyDetailScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='FarmLedgerDetailScreen' component={FarmLedgerDetailScreen} options={{ headerShown: false }} />
+      {/* <Stack.Screen name='FarmDairyDetailScreen' component={FarmDairyDetailScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='FarmLedgerDetailScreen' component={FarmLedgerDetailScreen} options={{ headerShown: false }} /> */}
       {/*게시글 CRU 페이지*/}
       <Stack.Screen name='CreatePostScreen' component={CreatePostScreen} options={{ headerShown: false }} />
       <Stack.Screen name='DetailPostScreen' component={DetailPostScreen} options={{ headerShown: false }} />
