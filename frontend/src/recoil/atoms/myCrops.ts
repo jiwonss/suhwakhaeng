@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
 
 interface CropInfo {
+  myCropsId?: number;
   plantName?: string;
   varietyName?: string;
   cropsVarietyId?: number;
