@@ -10,13 +10,16 @@ import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { useRoute } from '@react-navigation/core';
+import Spinner from '../../components/spinner/Spinner';
 
 interface ProtectDataBasic {
   basic: string[];
 }
+
 interface ProtectDataOther {
   [key: string]: string[];
 }
+
 type ProtectData = ProtectDataBasic | ProtectDataOther;
 
 const Container = styled.View`
@@ -41,6 +44,20 @@ const DetailDiseasePlantScreen = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'DetailDiseasePlantScreen'>>();
   const { diagnosisResult, photo } = route.params;
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+
+  // 작물 진단 결과 넘어오기전에 보여주는 스피너
+  if (!diagnosisResult) {
+    return (
+      <Spinner size='large' color={Color.GREEN600}>
+        <Spacer space={20} />
+        <Typo.BODY2_M color={Color.ONYX}>
+          우리의 친구, <Typo.BODY2_M color={Color.GREEN400}>작물</Typo.BODY2_M>의 건강을 체크 중입니다.
+        </Typo.BODY2_M>
+        <Spacer space={30} />
+        <Typo.BODY1_M> 잠시 후 결과를 알려드릴게요!</Typo.BODY1_M>
+      </Spinner>
+    );
+  }
 
   const handlePressBack = () => {
     navigation.navigate('DiseasePlantScreen');
