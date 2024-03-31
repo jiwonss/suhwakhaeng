@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../typography/Typography';
 import styled from 'styled-components/native';
@@ -24,6 +24,13 @@ import Watermelon from '../../../assets/icons/watermelon.svg';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
+import Sun from '../../../assets/icons/Sun.svg';
+import Cloud from '../../../assets/icons/Cloud.svg';
+import Fog from '../../../assets/icons/Fog.svg';
+import Rain from '../../../assets/icons/rain.svg';
+import Snoww from '../../../assets/icons/snow.svg';
+import Snowman from '../../../assets/icons/Snowman.svg';
+import RainMany from '../../../assets/icons/rainmany.svg';
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
@@ -124,5 +131,26 @@ export const PlantItem = (props: PlantAddProps) => {
         <Typo.Detail1_M color={Color.GRAY400}>{props.location}</Typo.Detail1_M>
       </RowView>
     </TouchableOpacity>
+  );
+};
+
+
+
+export const WatherItem = ({ name }: { name: string }) => {
+  const weatherData: { [key: string]: any } = {
+    '맑음': Sun,
+    '구름많음': Cloud,
+    '흐림': Fog,
+    '비': Rain,
+    '눈': Snowman,
+    '소나기': RainMany,
+    '비/눈': Snoww,
+  };
+  const WeatherIcon = weatherData[name?.toLowerCase() || ''];
+
+  return (
+    <View>
+      {WeatherIcon && <WeatherIcon width={widthPercent * 16} height={widthPercent * 16} />}
+    </View>
   );
 };

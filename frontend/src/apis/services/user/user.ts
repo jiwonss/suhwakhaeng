@@ -14,6 +14,7 @@ const userUrl = 'common/users';
 
 export const getUserInfo = async () => {
   const response = await tokenInstance.get(`${userUrl}/my-profile`);
+  console.log(response);
   return response.data;
 };
 
