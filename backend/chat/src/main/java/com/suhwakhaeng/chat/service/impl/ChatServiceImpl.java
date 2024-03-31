@@ -1,6 +1,6 @@
 package com.suhwakhaeng.chat.service.impl;
 
-import com.suhwakhaeng.chat.client.UserInfoClient;
+import com.suhwakhaeng.chat.client.CommonClient;
 import com.suhwakhaeng.chat.dto.*;
 import com.suhwakhaeng.chat.entity.Chat;
 import com.suhwakhaeng.chat.entity.ChatRoom;
@@ -29,7 +29,7 @@ public class ChatServiceImpl implements ChatService {
     private final TopicExchange topicExchange;
     private final ChatRepository chatRepository;
     private final ChatRoomRepository chatRoomRepository;
-    private final UserInfoClient userInfoClient;
+    private final CommonClient commonClient;
 
     /**
      * 채팅 보내기
@@ -40,7 +40,7 @@ public class ChatServiceImpl implements ChatService {
     @Transactional
     @Override
     public void sendChat(ChatRequest chatRequest, String chatRoomId, Long myUserId) {
-        Message<UserInfo> response = userInfoClient.getUserInfo(myUserId);
+        Message<UserInfo> response = commonClient.getUserInfo(myUserId);
         UserInfo userInfo = response.getDataBody();
         // 유저 정보 가져와서 mongoDB에 넣을 chat, 상대에게 보내줄 chat 세팅
         Chat chat = Chat.builder()
@@ -59,6 +59,12 @@ public class ChatServiceImpl implements ChatService {
         // 마지막 chat 수정
         ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).orElseThrow(() -> new ChatException(ChatErrorCode.UNKNOWN_ERROR));
         chatRoom.updateLastChat(chatRequest.message(), chat.getSendTime());
+        Long anotherUserId = chatRoom.getUserId() == myUserId ? chatRoom.getAnotherUserId() : chatRoom.getUserId();
+        commonClient.sendMessageToken(FcmTokenRequest.builder()
+                .userId(anotherUserId)
+                .body(chatRequest.message())
+                .title(userInfo.nickname())
+                .build());
         chatRoomRepository.save(chatRoom);
     }
 
@@ -75,7 +81,7 @@ public class ChatServiceImpl implements ChatService {
         for(ChatRoom chatRoom : chatRoomList) {
             if(chatRoom.getMessage() == null || chatRoom.getMessage() == "") continue;
             Long anotherUserId = chatRoom.getUserId() == userId ? chatRoom.getAnotherUserId() : chatRoom.getUserId();
-            Message<UserInfo> response = userInfoClient.getUserInfo(anotherUserId);
+            Message<UserInfo> response = commonClient.getUserInfo(anotherUserId);
             UserInfo userInfo = response.getDataBody();
             resultList.add(ChatResponse.builder()
                     .userInfo(userInfo)
@@ -107,8 +113,8 @@ public class ChatServiceImpl implements ChatService {
 
     public UserInfo getUserInfo(Long userId) {
         log.info("openFeign 테스트 input - userId : {}", userId);
-        log.info("openFeign 테스트 output - userId : {}", userInfoClient.getUserInfo(userId));
-        return userInfoClient.getUserInfo(userId).getDataBody();
+        log.info("openFeign 테스트 output - userId : {}", commonClient.getUserInfo(userId));
+        return commonClient.getUserInfo(userId).getDataBody();
     }
 
 }
