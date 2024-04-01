@@ -16,10 +16,7 @@ const CardContainer = styled.View<CardProps>`
   min-height: ${heightPercent * 30}px;
   border: ${(props) => (props.borderColor ? `1px solid ${props.borderColor}` : 'none')};
   border-radius: 10px;
-  padding-left: ${widthPercent * 12}px;
-  padding-right: ${widthPercent * 12}px;
-  padding-bottom: ${heightPercent * 5}px;
-  padding-top: ${heightPercent * 5}px;
+  padding: ${heightPercent * 14}px ${widthPercent * 12}px;
   display: flex;
   justify-content: center;
   background-color: ${(props) => (props.backgroundColor ? props.backgroundColor : `${Color.WHITE}`)};

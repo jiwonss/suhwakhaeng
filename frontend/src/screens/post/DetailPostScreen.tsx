@@ -22,6 +22,7 @@ interface DetaliPostProps {
   route: {
     params: {
       id: number;
+      previousScreen: string;
     };
   };
 }
@@ -171,7 +172,7 @@ const DetailPostScreen = (props: DetaliPostProps) => {
   // 글 삭제 버튼 눌렀을 때
   const onPressDelete = async () => {
     await deletePost({ communityId: props.route.params.id });
-    navigation.goBack();
+    navigation.reset({ routes: [{ name: 'BottomNavigation' }] });
   };
 
   // 글 수정 버튼 눌렀을 때
@@ -191,7 +192,15 @@ const DetailPostScreen = (props: DetaliPostProps) => {
   return (
     <Container>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
-        <Header type={'default'} firstIcon='back' secondIcon={userInfo.userId == String(postData.user.userId) ? 'more' : ''} onPressMore={onPressMore} />
+        <Header
+          type={'default'}
+          firstIcon='back'
+          onPressFirstIcon={() => {
+            props.route.params.previousScreen === 'MainScreen' ? navigation.reset({ routes: [{ name: 'BottomNavigation' }] }) : navigation.goBack();
+          }}
+          secondIcon={userInfo.userId == String(postData.user.userId) ? 'more' : ''}
+          onPressMore={onPressMore}
+        />
         <Post
           onPress={() => {}}
           onPressLikeButton={toggleIsLike}

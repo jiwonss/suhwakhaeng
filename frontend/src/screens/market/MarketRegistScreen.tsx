@@ -15,13 +15,13 @@ import { useNavigation } from '@react-navigation/native';
 import { getKST, uploadImagesToFirebaseStorage } from '../../util/BasicUtil';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
-import { TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Alert, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 interface MarketRegistProps {
   route: {
-    params: { address: string; x: number; y: number };
+    params: { address: string; x: number; y: number; cate: string };
   };
 }
 
@@ -63,7 +63,7 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
   const userInfo = useRecoilValue(userInfoState);
 
   const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [category, setCategory] = useState<string>('CROP');
+  const [category, setCategory] = useState<string>(props.route.params.cate ? props.route.params.cate : 'CROP');
   const [title, setTitle] = useState<string>('');
   const [price, setPrice] = useState<string>('');
   const [content, setContent] = useState<string>('');
@@ -112,11 +112,11 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
   const onPressButton = async () => {
     // TODO: 작성 완료 후 상세보기 페이지로 이동?
     if (!title) {
-      alert('제목을 입력해주세요');
+      Alert.alert('수확행', '제목을 입력해주세요');
     } else if (!price) {
-      alert('가격을 입력해주세요');
+      Alert.alert('수확행', '가격을 입력해주세요');
     } else if (!content) {
-      alert('내용을 입력해주세요');
+      Alert.alert('수확행', '내용을 입력해주세요');
     } else {
       const newImageUrls = await uploadImagesToFirebaseStorage(imgUrls, `장터//${userInfo.userId}//${getKST()}`);
       const params = {
@@ -141,11 +141,24 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
       setContent('');
       setImgUrls([]);
       if (response.dataHeader.successCode === 0) {
-        alert('등록 완료!');
+        Alert.alert('수확행', '등록 완료!');
       }
-      navigation.goBack();
+      navigation.reset({ routes: [{ name: 'BottomNavigation' }] });
     }
   };
+
+  useEffect(() => {
+    setCategory(props.route.params.cate ? props.route.params.cate : '');
+    if (props.route.params.cate === 'CROP' || '') {
+      setActiveIndex(0);
+    } else if (props.route.params.cate === 'MATERIAL') {
+      setActiveIndex(1);
+    } else if (props.route.params.cate === 'EXPERIENCE') {
+      setActiveIndex(2);
+    } else if (props.route.params.cate === 'WORK') {
+      setActiveIndex(3);
+    }
+  }, []);
 
   return (
     <Container>

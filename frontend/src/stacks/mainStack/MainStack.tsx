@@ -62,10 +62,10 @@ export type RootStackParamList = {
   CropsDetailScreen: { cropsId: number; plantName: string; varietyName: string; cropsVarietyId: number };
   CropsScreen: undefined;
   CropsVarietyScreen: { plantName: string; plantId: number; value?: number };
-  CreatePostScreen: {cate?: string};
+  CreatePostScreen: { cate?: string };
   DetailDiseasePlantScreen: { photo: { uri: string }; diagnosisResult: DiagnosisResult };
   DetailMyCropsScreen: { myCropsId: number };
-  DetailPostScreen: { id: number };
+  DetailPostScreen: { id: number; previousScreen: string };
   DiseasePlantScreen: undefined;
   EnvironmentPlantScreen: {
     plantName: string;
@@ -84,16 +84,16 @@ export type RootStackParamList = {
   FcmTestScreen: undefined;
   GovernmentScreen: undefined;
   MainScreen: undefined;
-  MarketDetailScreen: { id: number };
+  MarketDetailScreen: { id: number; previousScreen: string };
   MarketModifyScreen: { id: number; address: string; x: number; y: number };
-  MarketRegistScreen: { address: string; x: number; y: number };
+  MarketRegistScreen: { address: string; x: number; y: number; cate: string };
   MarketScreen: undefined;
   MarketSearchScreen: undefined;
   ModifyProfileScreen: { sido: string; gugun: string; dong: string; address: string };
   MyPostScreen: undefined;
   MyProfileScreen: undefined;
   PlantResisterScreen: undefined;
-  PostCodeScreen: { id: number; screenName: string; plantName?: string, cropsVarietyId?: number };
+  PostCodeScreen: { id: number; screenName: string; plantName?: string; cropsVarietyId?: number };
   SearchPostScreen: undefined;
   SetLocationScreen: { value: number; varietyName: string; plantName: string; cropsVarietyId?: number };
   UpdateMyCropsScreen: { myCropsId: number; sido?: string; gugun?: string; dong?: string };
