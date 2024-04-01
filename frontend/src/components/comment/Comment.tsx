@@ -98,7 +98,7 @@ export const Comment = (props: CommentProps) => {
           )}
         </View>
       </ProfileContainer>
-      <Card backgroundColor={Color.GRAY200} width={widthPercent * 280} height={heightPercent * 50}>
+      <Card backgroundColor={Color.GRAY200} width={widthPercent * 280}>
         <TextContainer>
           <Typo.BODY4_M>{props.data.comment.content}</Typo.BODY4_M>
         </TextContainer>
@@ -116,7 +116,7 @@ export const Comment = (props: CommentProps) => {
                 )}
               </View>
             </ProfileContainer>
-            <Card backgroundColor={Color.GRAY200} width={widthPercent * 280} height={heightPercent * 50}>
+            <Card backgroundColor={Color.GRAY200} width={widthPercent * 280}>
               <TextContainer>
                 <Typo.BODY4_M>{item.content}</Typo.BODY4_M>
               </TextContainer>
