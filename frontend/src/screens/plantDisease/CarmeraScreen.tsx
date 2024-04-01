@@ -49,6 +49,9 @@ const CameraScreen = () => {
 
       // 권한이 허용되지 않았다면, 사용자에게 권한 요청 대화상자를 표시합니다.
       if (cameraPermissionStatus !== RESULTS.GRANTED || storagePermissionStatus !== RESULTS.GRANTED) {
+        Alert.alert('권한 요청', '이 앱에서 제공하는 기능을 사용하기 위해서는 카메라 및 저장소 접근 권한이 필요합니다.', [{
+          text: '취소', onPress: () => navigation.goBack(), style: 'cancel',
+        }, { text: '허용', onPress: () => requestPermissions() }], { cancelable: false });
       }
     })();
   }, []);
