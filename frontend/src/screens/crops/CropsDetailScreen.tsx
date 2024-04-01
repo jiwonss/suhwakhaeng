@@ -164,7 +164,7 @@ const CropsDetailScreen = () => {
         <Header type={'default'} firstIcon={'back'} title={`${cropsName} - ${cropsVarietyName}`} />
         {/* 이미지 */}
         <Image source={{ uri: cropsVarietyImage }} style={{ width: '100%', height: 'auto', aspectRatio: 1 }}
-               resizeMode="center" />v
+               resizeMode="center" />
         {/* 이름 */}
         {/*<LoadingSpinner loading={true} />*/}
         <Card>
