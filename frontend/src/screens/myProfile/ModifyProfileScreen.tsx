@@ -116,7 +116,7 @@ const ModifyProfileScreen = (props: ModifyProfileProps) => {
         </FormItemContainer>
         <FormItemContainer>
           <Typo.BODY4_M>유형</Typo.BODY4_M>
-          <DropDown dataList={userTypeList} onSelect={setRole} defaultText={role} />
+          <DropDown dataList={userTypeList} onSelect={setRole} defaultText={userInfo.role ? role : '유형 선택'} />
         </FormItemContainer>
         <FormItemContainer>
           <Typo.BODY4_M>한줄 프로필</Typo.BODY4_M>
