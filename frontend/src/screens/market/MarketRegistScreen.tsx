@@ -143,7 +143,7 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
       if (response.dataHeader.successCode === 0) {
         alert('등록 완료!');
       }
-      navigation.navigate('MarketScreen');
+      navigation.goBack();
     }
   };
 
