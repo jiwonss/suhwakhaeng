@@ -36,4 +36,7 @@ public class Business {
 
     private boolean isAccepted;
 
+    public void accept() {
+        this.isAccepted = true;
+    }
 }

@@ -11,5 +11,4 @@ public interface UserService {
     ProfileResponse selectDetailUser(Long userId);
     UserInfoResponse selectDetailUserInfo(Long userId);
     Long updateUser(Long userId, User user);
-    List<BusinessResponse> selectBusiness(Long lastId);
 }

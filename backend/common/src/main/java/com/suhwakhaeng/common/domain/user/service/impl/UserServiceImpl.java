@@ -44,8 +44,4 @@ public class UserServiceImpl implements UserService {
         return targetUser.getId();
     }
 
-    @Override
-    public List<BusinessResponse> selectBusiness(Long lastId) {
-        return businessRepository.selectBusiness(lastId);
-    }
 }
