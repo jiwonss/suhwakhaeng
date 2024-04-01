@@ -63,7 +63,7 @@ export type RootStackParamList = {
   FarmLedgerAddScreen: undefined;
   FarmDairyDetailScreen: undefined;
   FarmLedgerDetailScreen: undefined;
-  CreatePostScreen: undefined;
+  CreatePostScreen: { cate?: string };
   DetailPostScreen: { id: number };
   UpdatePostScreen: { id: number };
   MyPostScreen: undefined;
@@ -106,12 +106,12 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const MainStack = () => {
   return (
     <Stack.Navigator initialRouteName='BottomNavigation'>
-    {/*<Stack.Navigator*/}
-    {/*  initialRouteName='FcmTestScreen'*/}
-    {/*  screenOptions={{*/}
-    {/*    headerShown: false,*/}
-    {/*  }}*/}
-    {/*>*/}
+      {/*<Stack.Navigator*/}
+      {/*  initialRouteName='FcmTestScreen'*/}
+      {/*  screenOptions={{*/}
+      {/*    headerShown: false,*/}
+      {/*  }}*/}
+      {/*>*/}
       <Stack.Screen name='BottomNavigation' component={BottomNavigation} options={{ headerShown: false }} />
       {/* 관리자 페이지 */}
       <Stack.Screen name='AdminScreen' component={AdminScreen} options={{ headerShown: false }} />

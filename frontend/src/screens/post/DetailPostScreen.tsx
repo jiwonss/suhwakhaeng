@@ -186,7 +186,7 @@ const DetailPostScreen = (props: DetaliPostProps) => {
   return (
     <Container>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
-        <Header type={'default'} firstIcon='back' secondIcon={'more'} onPressMore={onPressMore} />
+        <Header type={'default'} firstIcon='back' secondIcon={userInfo.userId == String(postData.user.userId) ? 'more' : ''} onPressMore={onPressMore} />
         <Post
           onPress={() => {}}
           onPressLikeButton={toggleIsLike}

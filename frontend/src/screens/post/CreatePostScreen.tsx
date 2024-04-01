@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Alert, ScrollView, View } from 'react-native';
 import styled from 'styled-components/native';
 import { Spacer } from '../../components/basic/Spacer';
 import { BasicButton } from '../../components/button/Buttons';
@@ -24,12 +24,20 @@ const Container = styled.View`
   row-gap: ${5 * heightPercent}px;
 `;
 
-const CreatePostScreen = () => {
+interface CreatePostProps {
+  route: {
+    params: {
+      cate: string;
+    };
+  };
+}
+
+const CreatePostScreen = (props: CreatePostProps) => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const userInfo = useRecoilValue(userInfoState);
 
   const [activeIndex, setActiveIndex] = useState(0);
-  const [category, setCategory] = useState<string>('FREEDOM');
+  const [category, setCategory] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [imgUrls, setImgeUrls] = useState<string[]>([]);
   const radioData = [
@@ -67,11 +75,24 @@ const CreatePostScreen = () => {
     },
   ];
 
+  useEffect(() => {
+    setCategory(props.route.params.cate);
+    if (props.route.params.cate === 'FREEDOM' || '') {
+      setActiveIndex(0);
+    } else if (props.route.params.cate === 'TIP') {
+      setActiveIndex(1);
+    } else if (props.route.params.cate === 'SHARE') {
+      setActiveIndex(2);
+    } else if (props.route.params.cate === 'QUESTION') {
+      setActiveIndex(3);
+    }
+  }, []);
+
   const onSubmit = async () => {
     // back으로 보내는 API 코드 작성
     // try시 navigation.goBack()
     if (!content) {
-      alert('내용을 입력해주세요');
+      Alert.alert('수확행', '내용을 입력해주세요');
     }
     const newImageUrls = await uploadImagesToFirebaseStorage(imgUrls, `커뮤니티//${userInfo.userId}//${getKST()}`);
 
@@ -91,7 +112,7 @@ const CreatePostScreen = () => {
     setImgeUrls([]);
 
     if (response.dataHeader.successCode === 0) {
-      alert('등록 완료!');
+      Alert.alert('수확행', '등록 완료!');
     }
 
     navigation.goBack();
