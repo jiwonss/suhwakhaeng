@@ -29,6 +29,6 @@ public class StompController {
             ChatRequest chatRequest
     ) {
         TokenInfo tokenInfo = jwtUtils.parseToken(token);
-        chatService.sendChat(chatRequest, chattingRoomId, Long.valueOf(tokenInfo.getUserId()));
+        chatService.sendChat(chatRequest, chattingRoomId, Long.valueOf(tokenInfo.getUserId()), tokenInfo.getRole());
     }
 }

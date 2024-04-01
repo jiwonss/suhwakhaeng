@@ -6,6 +6,7 @@ import java.util.UUID;
 
 @Builder
 public record ChatRoomResponse(
-        String chatRoomId
+        String chatRoomId,
+        String nickname
 ) {
 }
