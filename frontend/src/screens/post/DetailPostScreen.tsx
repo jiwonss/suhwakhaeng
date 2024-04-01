@@ -4,7 +4,7 @@ import Header from '../../components/header/Header';
 import Post from '../../components/post/Post';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
-import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { NavigationProp, useIsFocused, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { SlideModal } from '../../components/modal/Modal';
 import { BasicButton, SendButton } from '../../components/button/Buttons';
@@ -72,6 +72,7 @@ const DetailPostScreen = (props: DetaliPostProps) => {
   const [commentData, setCommentData] = useState<Array<CommentType> | null>(null);
   const [selectId, setSelectId] = useState(0);
   const [commentContent, setCommentContent] = useState<string>('');
+  const isFocused = useIsFocused();
 
   const textInputRef = useRef<any>(null);
   const focusOnInput = () => {
@@ -135,7 +136,7 @@ const DetailPostScreen = (props: DetaliPostProps) => {
     };
 
     getDetail();
-  }, [props.route.params.id]);
+  }, [props.route.params.id, isFocused]);
 
   useEffect(() => {
     const getCommentList = async () => {
@@ -186,7 +187,7 @@ const DetailPostScreen = (props: DetaliPostProps) => {
   return (
     <Container>
       <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
-        <Header type={'default'} firstIcon='back' secondIcon={'more'} onPressMore={onPressMore} />
+        <Header type={'default'} firstIcon='back' secondIcon={userInfo.userId == String(postData.user.userId) ? 'more' : ''} onPressMore={onPressMore} />
         <Post
           onPress={() => {}}
           onPressLikeButton={toggleIsLike}

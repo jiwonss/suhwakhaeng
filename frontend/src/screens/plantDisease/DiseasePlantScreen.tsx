@@ -32,8 +32,8 @@ const DiseasePlantScreen = () => {
   useEffect(() => {
     const getData = async () => {
       // 로그인 하기//
-      const { dataBody } = await getNews();
-      setNews(dataBody);
+      // const { dataBody } = await getNews();
+      // setNews(dataBody);
     };
 
     getData();
@@ -66,17 +66,18 @@ const DiseasePlantScreen = () => {
             최근 농업에선 <Typo.BODY4_M color={Color.GREEN500}>어떤 일</Typo.BODY4_M>들이 있었을까요?
           </Typo.BODY4_M>
         </Container>
-        {news && news.map((item, index) => (
-          <NewsItemCard
-            key={index}
-            company={item.publisher.name} // 회사 정보
-            content={item.content} // 컨텐츠 내용
-            date={item.publisher.date} // 날짜 정보
-            href={item.url} // 하이퍼링크 정보
-            title={item.title} // 제목 정보
-            uri={item.thumbnail} // 이미지 URI 정보
-          />
-        ))}
+        {news &&
+          news.map((item, index) => (
+            <NewsItemCard
+              key={index}
+              company={item.publisher.name} // 회사 정보
+              content={item.content} // 컨텐츠 내용
+              date={item.publisher.date} // 날짜 정보
+              href={item.url} // 하이퍼링크 정보
+              title={item.title} // 제목 정보
+              uri={item.thumbnail} // 이미지 URI 정보
+            />
+          ))}
       </ScrollView>
     </View>
   );
