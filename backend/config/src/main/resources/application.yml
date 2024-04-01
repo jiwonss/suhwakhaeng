@@ -6,7 +6,7 @@ spring:
     name: config
 
   profiles:
-    active: local
+    active: prod
 
   cloud:
     config:

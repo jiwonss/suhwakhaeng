@@ -8,7 +8,7 @@ spring:
     name: api-gateway
 
   profiles:
-    active: local
+    active: prod
 
   cloud:
     gateway:
