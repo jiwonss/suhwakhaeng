@@ -51,37 +51,22 @@ type DiagnosisResult = {
 };
 
 export type RootStackParamList = {
+  AddCropsScreen: undefined;
+  AdminDetailScreen: { id: number };
+  AdminScreen: undefined;
+  BottomNavigation: { screen?: string };
   BottomTabStackNavigator: undefined;
-  MainScreen: undefined;
-  MarketScreen: undefined;
-  MarketRegistScreen: { address: string; x: number; y: number };
-  MarketDetailScreen: { id: number };
-  MarketModifyScreen: { id: number; address: string; x: number; y: number };
-  MarketSearchScreen: undefined;
-  FarmScreen: { activeIndex: number };
-  FarmDairyAddScreen: undefined;
-  FarmLedgerAddScreen: undefined;
-  FarmDairyDetailScreen: undefined;
-  FarmLedgerDetailScreen: undefined;
-  CreatePostScreen: { cate?: string };
-  DetailPostScreen: { id: number };
-  UpdatePostScreen: { id: number };
-  MyPostScreen: undefined;
-  SetLocationScreen: { value: number; varietyName: string; plantName: string; cropsVarietyId?: number };
-  SearchPostScreen: undefined;
-  FavoriteProductScreen: undefined;
-  MyProfileScreen: undefined;
-  FcmTestScreen: undefined;
-  ModifyProfileScreen: { sido: string; gugun: string; dong: string; address: string };
-  CropsScreen: undefined;
+  CameraScreen: { value: number };
   ChatListScreen: undefined;
   ChattingRoomScreen: { id: string; name: string };
-  CropsVarietyScreen: { plantName: string; plantId: number; value?: number };
   CropsDetailScreen: { cropsId: number; plantName: string; varietyName: string; cropsVarietyId: number };
-  DiseasePlantScreen: undefined;
+  CropsScreen: undefined;
+  CropsVarietyScreen: { plantName: string; plantId: number; value?: number };
+  CreatePostScreen: {cate?: string};
   DetailDiseasePlantScreen: { photo: { uri: string }; diagnosisResult: DiagnosisResult };
-  PlantResisterScreen: undefined;
-  AddCropsScreen: undefined;
+  DetailMyCropsScreen: { myCropsId: number };
+  DetailPostScreen: { id: number };
+  DiseasePlantScreen: undefined;
   EnvironmentPlantScreen: {
     plantName: string;
     cropsVarietyId?: number;
@@ -90,15 +75,30 @@ export type RootStackParamList = {
     gugun?: string;
     dong?: string;
   };
-  BottomNavigation: { screen?: string };
-  WeatherScreen: undefined;
-  CameraScreen: { value: number };
-  PostCodeScreen: { id: number; screenName: string; plantName?: string };
-  DetailMyCropsScreen: { myCropsId: number };
-  UpdateMyCropsScreen: { myCropsId: number; sido?: string; gugun?: string; dong?: string };
+  FarmDairyAddScreen: undefined;
+  FarmDairyDetailScreen: undefined;
+  FarmLedgerAddScreen: undefined;
+  FarmLedgerDetailScreen: undefined;
+  FarmScreen: { activeIndex: number };
+  FavoriteProductScreen: undefined;
+  FcmTestScreen: undefined;
   GovernmentScreen: undefined;
-  AdminScreen: undefined;
-  AdminDetailScreen: { id: number };
+  MainScreen: undefined;
+  MarketDetailScreen: { id: number };
+  MarketModifyScreen: { id: number; address: string; x: number; y: number };
+  MarketRegistScreen: { address: string; x: number; y: number };
+  MarketScreen: undefined;
+  MarketSearchScreen: undefined;
+  ModifyProfileScreen: { sido: string; gugun: string; dong: string; address: string };
+  MyPostScreen: undefined;
+  MyProfileScreen: undefined;
+  PlantResisterScreen: undefined;
+  PostCodeScreen: { id: number; screenName: string; plantName?: string, cropsVarietyId?: number };
+  SearchPostScreen: undefined;
+  SetLocationScreen: { value: number; varietyName: string; plantName: string; cropsVarietyId?: number };
+  UpdateMyCropsScreen: { myCropsId: number; sido?: string; gugun?: string; dong?: string };
+  UpdatePostScreen: { id: number };
+  WeatherScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -127,8 +127,8 @@ const MainStack = () => {
       <Stack.Screen name='FarmScreen' component={FarmScreen} options={{ headerShown: false }} />
       <Stack.Screen name='FarmDairyAddScreen' component={FarmDairyAddScreen} options={{ headerShown: false }} />
       <Stack.Screen name='FarmLedgerAddScreen' component={FarmLedgerAddScreen} options={{ headerShown: false }} />
-      {/* <Stack.Screen name='FarmDairyDetailScreen' component={FarmDairyDetailScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='FarmLedgerDetailScreen' component={FarmLedgerDetailScreen} options={{ headerShown: false }} /> */}
+      <Stack.Screen name='FarmDairyDetailScreen' component={FarmDairyDetailScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='FarmLedgerDetailScreen' component={FarmLedgerDetailScreen} options={{ headerShown: false }} />
       {/*게시글 CRU 페이지*/}
       <Stack.Screen name='CreatePostScreen' component={CreatePostScreen} options={{ headerShown: false }} />
       <Stack.Screen name='DetailPostScreen' component={DetailPostScreen} options={{ headerShown: false }} />

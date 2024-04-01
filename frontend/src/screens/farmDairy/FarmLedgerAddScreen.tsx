@@ -88,7 +88,7 @@ const FarmLedgerAddScreen = () => {
       }
       // console.log(finance,title,content,amount,image,postdate)
 
-      await console.log(CreateLedger({
+      await CreateLedger({
         myCropsId: myCrops[i].myCropsId,
         finance: finance,
         title: title,
@@ -96,13 +96,15 @@ const FarmLedgerAddScreen = () => {
         amount: parseInt(amount),
         image: image,
         date: postdate,
-      }));
+      });
+
+      console.log('글 생성 완료..')
     };
 
     await fetchData();
     // TODO: 작성 완료 후 상세보기 페이지로 이동?
-    console.log('작성 완료');
     navigation.navigate('FarmScreen');
+    console.log('이동')
   };
 
   const handleTextChange = (text) => {

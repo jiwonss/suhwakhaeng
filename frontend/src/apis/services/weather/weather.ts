@@ -61,16 +61,18 @@ export const getVilageFcst = async (pastdate: string, date: string, hour: string
 };
 // location 가져오기
 export const getLocation = async () => {
-  // const response = await tokenInstance.get('common/users/my-profile');
-  // console.log(response);
+  const response = await tokenInstance.get('common/users/my-profile');
+  console.log(response);
 
-  // const sido = response.data.dataBody.sido;
-  // const gugun = response.data.dataBody.gugun;
-  // const dong = response.data.dataBody.dong;
+  const sido = response.data.dataBody.sido;
+  const gugun = response.data.dataBody.gugun;
+  const dong = response.data.dataBody.dong;
 
-  const sido = '광주';
-  const gugun = '광산구';
-  const dong = '장덕동';
+  // console.log(sido, gugun, dong)
+
+  // const sido = '광주';
+  // const gugun = '광산구';
+  // const dong = '장덕동';
 
   const data = locationData.filter((item) => {
     if (sido.includes('세종')) {

@@ -1,4 +1,4 @@
-package com.suhwakhaeng.common.global.error.exception;
+package com.suhwakhaeng.crawling.global.error.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

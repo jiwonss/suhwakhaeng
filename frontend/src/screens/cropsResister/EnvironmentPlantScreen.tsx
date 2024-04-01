@@ -77,7 +77,7 @@ const EnvironmentPlantScreen = () => {
       updateMyCrops(response.data);
       navigation.navigate('BottomNavigation', { screen: 'MyProfileScreen' });
     } catch (error) {
-      console.error(error);
+      console.error('에러', error);
     }
   };
 
@@ -105,7 +105,7 @@ const EnvironmentPlantScreen = () => {
           <Typo.BODY4_M>지역</Typo.BODY4_M>
           <BasicButton
             onPress={() => {
-              navigation.navigate('PostCodeScreen', { id: 0, screenName: 'EnvironmentPlant', plantName: plantName });
+              navigation.navigate('PostCodeScreen', { id: 0, screenName: 'EnvironmentPlant', plantName: plantName, cropsVarietyId: cropsVarietyId });
             }}
             height={heightPercent * 36}
             borderColor={Color.GRAY300}
