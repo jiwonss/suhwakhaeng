@@ -61,8 +61,8 @@ export type RootStackParamList = {
   FarmScreen: { activeIndex: number };
   FarmDairyAddScreen: undefined;
   FarmLedgerAddScreen: undefined;
-  FarmDairyDetailScreen: undefined;
-  FarmLedgerDetailScreen: undefined;
+  FarmDairyDetailScreen: { diary: any };
+  FarmLedgerDetailScreen: { accountBookId: number };
   CreatePostScreen: undefined;
   DetailPostScreen: { id: number };
   UpdatePostScreen: { id: number };
@@ -106,12 +106,12 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const MainStack = () => {
   return (
     <Stack.Navigator initialRouteName='BottomNavigation'>
-    {/*<Stack.Navigator*/}
-    {/*  initialRouteName='FcmTestScreen'*/}
-    {/*  screenOptions={{*/}
-    {/*    headerShown: false,*/}
-    {/*  }}*/}
-    {/*>*/}
+      {/*<Stack.Navigator*/}
+      {/*  initialRouteName='FcmTestScreen'*/}
+      {/*  screenOptions={{*/}
+      {/*    headerShown: false,*/}
+      {/*  }}*/}
+      {/*>*/}
       <Stack.Screen name='BottomNavigation' component={BottomNavigation} options={{ headerShown: false }} />
       {/* 관리자 페이지 */}
       <Stack.Screen name='AdminScreen' component={AdminScreen} options={{ headerShown: false }} />
@@ -127,8 +127,8 @@ const MainStack = () => {
       <Stack.Screen name='FarmScreen' component={FarmScreen} options={{ headerShown: false }} />
       <Stack.Screen name='FarmDairyAddScreen' component={FarmDairyAddScreen} options={{ headerShown: false }} />
       <Stack.Screen name='FarmLedgerAddScreen' component={FarmLedgerAddScreen} options={{ headerShown: false }} />
-      {/* <Stack.Screen name='FarmDairyDetailScreen' component={FarmDairyDetailScreen} options={{ headerShown: false }} />
-      <Stack.Screen name='FarmLedgerDetailScreen' component={FarmLedgerDetailScreen} options={{ headerShown: false }} /> */}
+      <Stack.Screen name='FarmDairyDetailScreen' component={FarmDairyDetailScreen} options={{ headerShown: false }} />
+      <Stack.Screen name='FarmLedgerDetailScreen' component={FarmLedgerDetailScreen} options={{ headerShown: false }} />
       {/*게시글 CRU 페이지*/}
       <Stack.Screen name='CreatePostScreen' component={CreatePostScreen} options={{ headerShown: false }} />
       <Stack.Screen name='DetailPostScreen' component={DetailPostScreen} options={{ headerShown: false }} />
