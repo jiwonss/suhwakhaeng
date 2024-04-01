@@ -39,9 +39,10 @@ public class ChatServiceImpl implements ChatService {
      */
     @Transactional
     @Override
-    public void sendChat(ChatRequest chatRequest, String chatRoomId, Long myUserId) {
-        Message<UserInfo> response = commonClient.getUserInfo(myUserId);
+    public void sendChat(ChatRequest chatRequest, String chatRoomId, Long myUserId, String role) {
+        Message<UserInfo> response = commonClient.getUserInfo(myUserId, role);
         UserInfo userInfo = response.getDataBody();
+        if(userInfo == null) throw new ChatException(ChatErrorCode.CANT_FIND_USER);
         // 유저 정보 가져와서 mongoDB에 넣을 chat, 상대에게 보내줄 chat 세팅
         Chat chat = Chat.builder()
                 .userId(userInfo.userId())
@@ -75,14 +76,15 @@ public class ChatServiceImpl implements ChatService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<ChatResponse> selectChatUserList(Long userId) {
+    public List<ChatResponse> selectChatUserList(Long userId, String role) {
         List<ChatResponse> resultList = new ArrayList<>();
         List<ChatRoom> chatRoomList = chatRoomRepository.findByUserIdOrAnotherUserId(userId, userId);
         for(ChatRoom chatRoom : chatRoomList) {
             if(chatRoom.getMessage() == null || chatRoom.getMessage() == "") continue;
             Long anotherUserId = chatRoom.getUserId() == userId ? chatRoom.getAnotherUserId() : chatRoom.getUserId();
-            Message<UserInfo> response = commonClient.getUserInfo(anotherUserId);
+            Message<UserInfo> response = commonClient.getUserInfo(anotherUserId, role);
             UserInfo userInfo = response.getDataBody();
+            if(userInfo == null) throw new ChatException(ChatErrorCode.CANT_FIND_USER);
             resultList.add(ChatResponse.builder()
                     .userInfo(userInfo)
                     .lastMessage(chatRoom.getMessage())
@@ -94,27 +96,24 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public ChatRoomResponse selectChatRoomId(Long userId, Long anotherUserId) {
+    public ChatRoomResponse selectChatRoomId(Long userId, Long anotherUserId, String role) {
         if(userId == anotherUserId) throw new ChatException(ChatErrorCode.CANT_SEND_MESSAGE_MYSELF);
         ChatRoom chatRoom = chatRoomRepository.findByUserIdAndAnotherUserId(userId, anotherUserId);
         if(chatRoom == null) chatRoom = chatRoomRepository.findByUserIdAndAnotherUserId(anotherUserId, userId);
         if(chatRoom == null) {
             String id = UUID.randomUUID().toString();
             chatRoom = chatRoomRepository.save(ChatRoom.builder()
-                        .userId(userId)
-                        .anotherUserId(anotherUserId)
-                        .id(id)
-                        .build());
+                    .userId(userId)
+                    .anotherUserId(anotherUserId)
+                    .id(id)
+                    .build());
         }
+        Message<UserInfo> response = commonClient.getUserInfo(anotherUserId, role);
+        UserInfo userInfo = response.getDataBody();
+        if(userInfo == null) throw new ChatException(ChatErrorCode.CANT_FIND_USER);
         return ChatRoomResponse.builder()
                 .chatRoomId(chatRoom.getId())
+                .nickname(userInfo.nickname())
                 .build();
     }
-
-    public UserInfo getUserInfo(Long userId) {
-        log.info("openFeign 테스트 input - userId : {}", userId);
-        log.info("openFeign 테스트 output - userId : {}", commonClient.getUserInfo(userId));
-        return commonClient.getUserInfo(userId).getDataBody();
-    }
-
 }

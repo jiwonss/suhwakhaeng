@@ -2,7 +2,6 @@ from keras.preprocessing import image
 import numpy as np
 import requests
 from PIL import Image
-from rembg import remove
 import pickle
 import io
 import json
@@ -30,13 +29,6 @@ def predict_plant(imgdata):
     new_image = Image.open(io.BytesIO(response.content))
     new_image = new_image.resize((256, 256))
 
-    # output = remove(new_image, bgcolor=(0, 0, 0, 255))
-    # output = output.resize((256, 256))
-    # output = output.convert("RGB")
-    # output.save('output.jpg', format="JPEG")
-    # output_image = Image.open('output.jpg')
-    # new_image = output_image
-
     # Convert image to numpy array
     # image_array = np.array(image)
     image_array = image.img_to_array(new_image)
@@ -47,6 +39,8 @@ def predict_plant(imgdata):
     # Getting prediction from model
     y_result = loaded_model.predict(image_array)
     result_idx = np.argmax(y_result)
+    print(y_result, result_idx)
+    print(labels)
     
     # Getting Plant disease from result
     for key, value in labels.items():

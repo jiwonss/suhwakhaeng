@@ -2,18 +2,26 @@ package com.suhwakhaeng.common.domain.user.service.impl;
 
 import com.suhwakhaeng.common.domain.fcm.service.FcmService;
 import com.suhwakhaeng.common.domain.user.dto.*;
+import com.suhwakhaeng.common.domain.user.entity.RefreshToken;
 import com.suhwakhaeng.common.domain.user.entity.User;
+import com.suhwakhaeng.common.domain.user.enums.Status;
+import com.suhwakhaeng.common.domain.user.exception.UserErrorCode;
+import com.suhwakhaeng.common.domain.user.exception.UserException;
+import com.suhwakhaeng.common.domain.user.repository.RefreshTokenRepository;
 import com.suhwakhaeng.common.domain.user.repository.UserRepository;
 import com.suhwakhaeng.common.domain.user.service.OauthService;
 import com.suhwakhaeng.common.global.common.dto.UserInfo;
+import com.suhwakhaeng.common.global.component.jwt.JwtProps;
 import com.suhwakhaeng.common.global.component.jwt.JwtProvider;
-import com.suhwakhaeng.common.global.component.jwt.repository.RefreshTokenRepository;
+import com.suhwakhaeng.common.global.component.jwt.exception.JwtException;
 import com.suhwakhaeng.common.global.component.oauth.OauthMemberClientComposite;
 import com.suhwakhaeng.common.global.component.oauth.vendor.enums.OauthServerType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.suhwakhaeng.common.global.component.jwt.exception.JwtErrorCode.INVALID_TOKEN;
 
 @Slf4j
 @Service
@@ -25,6 +33,8 @@ public class OauthServiceImpl implements OauthService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtProvider jwtProvider;
     private final FcmService fcmService;
+    private final JwtProps jwtProps;
+
     @Override
     public LoginResponse login(OauthServerType oauthServerType, OauthTokenRequest request) {
         User oauthUser = oauthMemberClientComposite.fetch(oauthServerType, request.oauthToken());
@@ -34,11 +44,14 @@ public class OauthServiceImpl implements OauthService {
                         () -> userRepository.save(oauthUser)
                 );
 
+        if (Status.RUN != user.getStatus()) {
+            user.rejoin();
+        }
+
         String accessToken = jwtProvider.issueAccessToken(user.getId(), user.getRole().name());
         String refreshToken = jwtProvider.issueRefreshToken();
 
-        refreshTokenRepository.save(String.valueOf(user.getId()), refreshToken);
-
+        refreshTokenRepository.save(RefreshToken.createRefreshToken(refreshToken, user, jwtProps.accessExpiration()));
 
         fcmService.createDeviceToken(user.getId(), request.deviceToken());
 
@@ -59,10 +72,19 @@ public class OauthServiceImpl implements OauthService {
     @Override
     public TokenInfo reissue(String accessToken, String refreshToken) {
         UserInfo userInfo = jwtProvider.parseAccessTokenByBase64(accessToken);
+
+        RefreshToken storedRefreshToken = refreshTokenRepository.findById(refreshToken)
+                .orElseThrow(() -> new JwtException(INVALID_TOKEN));
+
         String newAccessToken = jwtProvider.issueAccessToken(userInfo.getUserId(), userInfo.getRole());
         String newRefreshToken = jwtProvider.issueRefreshToken();
 
-        refreshTokenRepository.save(String.valueOf(userInfo.getUserId()), newRefreshToken);
+        refreshTokenRepository.delete(storedRefreshToken);
+
+        User user = userRepository.findById(userInfo.getUserId())
+                .orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST_USER));
+
+        refreshTokenRepository.save(RefreshToken.createRefreshToken(newRefreshToken, user, jwtProps.accessExpiration()));
 
         return TokenInfo.builder()
                 .accessToken(newAccessToken)

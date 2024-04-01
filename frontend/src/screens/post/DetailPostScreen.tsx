@@ -122,7 +122,9 @@ const DetailPostScreen = (props: DetaliPostProps) => {
     if (postData.communityId != 0 && commentContent != '') {
       await registComment(props.route.params.id, { parentId: selectId, content: commentContent });
       const response = await getComment({ communityId: props.route.params.id });
+      const postResponse = await getPostDetail({ communityId: postData.communityId });
       setCommentData(response.dataBody);
+      setPostData(postResponse.dataBody);
       setSelectId(0);
       Keyboard.dismiss();
     } else {
@@ -182,7 +184,9 @@ const DetailPostScreen = (props: DetaliPostProps) => {
   // 댓글 목록 가져오기
   const getNewComment = async () => {
     const response = await getComment({ communityId: props.route.params.id });
+    const postResponse = await getPostDetail({ communityId: props.route.params.id });
     setCommentData(response.dataBody);
+    setPostData(postResponse.dataBody);
   };
 
   return (

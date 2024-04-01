@@ -45,7 +45,7 @@ const DetailDiseasePlantScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const handlePressBack = () => {
-    navigation.navigate('DiseasePlantScreen');
+    navigation.navigate('BottomNavigation', {screen: 'DiseasePlantScreen'});
   };
 
   const renderProtectContent = (protectData: ProtectData) => {

@@ -12,6 +12,7 @@ import com.suhwakhaeng.common.domain.mycrops.exception.MyCropsException;
 import com.suhwakhaeng.common.domain.trade.exception.TradeException;
 import com.suhwakhaeng.common.domain.user.exception.UserException;
 import com.suhwakhaeng.common.global.common.dto.Message;
+import com.suhwakhaeng.common.global.component.jwt.exception.JwtException;
 import com.suhwakhaeng.common.global.error.exception.AccessDeniedException;
 import com.suhwakhaeng.common.global.error.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
@@ -94,6 +95,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<?> accessDeniedExceptionHandler(AccessDeniedException e) {
+        log.debug(Arrays.toString(e.getStackTrace()));
+        return ResponseEntity.ok(Message.fail(String.valueOf(e.getErrorCode()), e.getMessage()));
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<?> jwtExceptionHandler(JwtException e) {
         log.debug(Arrays.toString(e.getStackTrace()));
         return ResponseEntity.ok(Message.fail(String.valueOf(e.getErrorCode()), e.getMessage()));
     }
