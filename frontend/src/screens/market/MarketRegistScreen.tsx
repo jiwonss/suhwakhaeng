@@ -161,7 +161,7 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
         </FormItemContainer>
         <FormItemContainer>
           <Typo.BODY4_M>가격 입력</Typo.BODY4_M>
-          <SingleLineInputBox value={price} onChangeText={setPrice} placeholder={'가격을 입력해주세요 (숫자만 입력)'} />
+          <SingleLineInputBox keyboardType='decimal-pad' value={price} onChangeText={setPrice} placeholder={'가격을 입력해주세요 (숫자만 입력)'} />
         </FormItemContainer>
         <FormItemContainer>
           <Typo.BODY4_M>내용 입력</Typo.BODY4_M>
