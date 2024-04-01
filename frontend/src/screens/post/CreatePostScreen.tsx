@@ -111,10 +111,6 @@ const CreatePostScreen = (props: CreatePostProps) => {
     setContent('');
     setImgeUrls([]);
 
-    if (response.dataHeader.successCode === 0) {
-      Alert.alert('수확행', '등록 완료!');
-    }
-
     navigation.goBack();
   };
 
