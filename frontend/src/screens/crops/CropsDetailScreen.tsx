@@ -13,7 +13,6 @@ import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { getCropVarietyInfo } from '../../apis/services/crops/Crops';
 import { Card } from '../../components/card/Card';
 import { Divider } from '../../components/basic/Divider';
-import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
 
 interface RenderConditionsWithBreaksProps {
   contents: string;
