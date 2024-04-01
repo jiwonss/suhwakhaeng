@@ -38,6 +38,8 @@ public class OauthServiceImpl implements OauthService {
         String refreshToken = jwtProvider.issueRefreshToken();
 
         refreshTokenRepository.save(String.valueOf(user.getId()), refreshToken);
+
+
         fcmService.createDeviceToken(user.getId(), request.deviceToken());
 
         return LoginResponse.builder()

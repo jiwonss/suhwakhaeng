@@ -44,6 +44,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
                 TokenInfo token = jwtUtils.parseToken(accessToken);
 
                 addAuthorizationHeaders(exchange.getRequest(), token);
+
             } catch (ExpiredJwtException ex) {
                 throw new AuthenticationException("토큰이 만료되었습니다.");
             } catch (MalformedJwtException | SignatureException | IllegalArgumentException |
@@ -59,7 +60,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
         log.info("key, {}", jwtKey);
         request.mutate()
                 .header("X-Authorization-Id", token.getUserId())
-//                .header("X-Authorization-Role", token.getRole())
+                .header("X-Authorization-Role", token.getRole())
                 .build();
     }
 
