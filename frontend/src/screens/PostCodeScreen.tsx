@@ -23,18 +23,31 @@ const PostCodeScreen = (props: PostCodeProps) => {
     const address = addressData.address;
 
     axios
-      .get(`https://dapi.kakao.com/v2/local/search/address?query=${address}/analyze_type=exact`, { headers: { Authorization: `KakaoAK ${process.env.KAKAO_RESTAPI_KEY}` } })
+      .get(`https://dapi.kakao.com/v2/local/search/address.json?query=${address}`, {
+        headers: { Authorization: `KakaoAK ${process.env.KAKAO_RESTAPI_KEY}` },
+      })
       .then((res) => {
         setX(res.data.documents[0].x);
         setY(res.data.documents[0].y);
         if (props.route.params.screenName === 'MarketRegist') {
-          navigation.navigate('MarketRegistScreen', { address: address, x: res.data.documents[0].x, y: res.data.documents[0].y });
+          navigation.navigate('MarketRegistScreen', {
+            address: address, x: res.data.documents[0].x, y: res.data.documents[0].y,
+          });
         } else if (props.route.params.screenName === 'MarketModify') {
-          navigation.navigate('MarketModifyScreen', { id: props.route.params.id, address: address, x: res.data.documents[0].x, y: res.data.documents[0].y });
+          navigation.navigate('MarketModifyScreen', {
+            id: props.route.params.id, address: address, x: res.data.documents[0].x, y: res.data.documents[0].y,
+          });
         } else if (props.route.params.screenName === 'ModifyProfile') {
-          navigation.navigate('ModifyProfileScreen', { sido: addressData.sido, gugun: addressData.sigungu, dong: addressData.bname, address: addressData.address });
+          navigation.navigate('ModifyProfileScreen', {
+            sido: addressData.sido, gugun: addressData.sigungu, dong: addressData.bname, address: addressData.address,
+          });
         } else if (props.route.params.screenName === 'EnvironmentPlant' && props.route.params.plantName) {
-          navigation.navigate('EnvironmentPlantScreen', { plantName: props.route.params.plantName, sido: addressData.sido, gugun: addressData.sigungu, dong: addressData.bname });
+          navigation.navigate('EnvironmentPlantScreen', {
+            plantName: props.route.params.plantName,
+            sido: addressData.sido,
+            gugun: addressData.sigungu,
+            dong: addressData.bname,
+          });
         }
       })
       .catch((err) => console.log('에러', err));
@@ -42,7 +55,8 @@ const PostCodeScreen = (props: PostCodeProps) => {
   const onAddressError = (error: unknown) => {
     console.log('주소에러', error);
   };
-  return <Postcode style={{ width: '100%', height: '100%' }} onSelected={onAddressSelected} onError={onAddressError} jsOptions={{ animation: true }} />;
+  return <Postcode style={{ width: '100%', height: '100%' }} onSelected={onAddressSelected} onError={onAddressError}
+                   jsOptions={{ animation: true }} />;
 };
 
 export default PostCodeScreen;
