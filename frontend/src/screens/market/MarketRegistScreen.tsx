@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getKST, uploadImagesToFirebaseStorage } from '../../util/BasicUtil';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
-import { TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Alert, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
@@ -112,11 +112,11 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
   const onPressButton = async () => {
     // TODO: 작성 완료 후 상세보기 페이지로 이동?
     if (!title) {
-      alert('제목을 입력해주세요');
+      Alert.alert('수확행', '제목을 입력해주세요');
     } else if (!price) {
-      alert('가격을 입력해주세요');
+      Alert.alert('수확행', '가격을 입력해주세요');
     } else if (!content) {
-      alert('내용을 입력해주세요');
+      Alert.alert('수확행', '내용을 입력해주세요');
     } else {
       const newImageUrls = await uploadImagesToFirebaseStorage(imgUrls, `장터//${userInfo.userId}//${getKST()}`);
       const params = {
@@ -141,9 +141,9 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
       setContent('');
       setImgUrls([]);
       if (response.dataHeader.successCode === 0) {
-        alert('등록 완료!');
+        Alert.alert('수확행', '등록 완료!');
       }
-      navigation.navigate('MarketScreen');
+      navigation.reset({ routes: [{ name: 'BottomNavigation' }] });
     }
   };
 

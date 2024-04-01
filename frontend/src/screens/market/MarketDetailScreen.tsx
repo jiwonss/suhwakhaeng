@@ -23,7 +23,7 @@ import { getChatRoomId } from '../../apis/services/chat/Chat';
 
 interface MarketDetailProps {
   route: {
-    params: { id: number };
+    params: { id: number; previousScreen: string };
   };
 }
 
@@ -129,7 +129,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
     if (response.dataHeader.successCode === 0) {
       alert('삭제되었습니다');
     }
-    navigation.navigate('MarketScreen');
+    navigation.reset({ routes: [{ name: 'BottomNavigation' }] });
   };
 
   const modifyPost = (postId: number) => {
@@ -155,7 +155,15 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
 
   return (
     <Container>
-      <Header type='default' firstIcon='back' secondIcon='more' onPressMore={onPressMore} />
+      <Header
+        type='default'
+        firstIcon='back'
+        onPressFirstIcon={() => {
+          props.route.params.previousScreen === 'MarketScreen' ? navigation.reset({ routes: [{ name: 'BottomNavigation' }] }) : navigation.goBack();
+        }}
+        secondIcon='more'
+        onPressMore={onPressMore}
+      />
       <ScrollView style={{ marginBottom: heightPercent * 60 }}>
         {isLoaded ? (
           postDetailInfo.image1 ? (

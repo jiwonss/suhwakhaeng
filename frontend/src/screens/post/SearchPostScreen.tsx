@@ -90,7 +90,7 @@ const SearchPostScreen = () => {
   >([]);
 
   const onPressPost = (postId: number) => {
-    navigation.navigate('DetailPostScreen', { id: postId });
+    navigation.navigate('DetailPostScreen', { id: postId, previousScreen: 'SearchScreen' });
   };
 
   const onSubmitSearch = async () => {

@@ -1,6 +1,6 @@
 import { NavigationProp, useIsFocused, useNavigation } from '@react-navigation/native';
 import { Fragment, useEffect, useId, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { FlatList, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Bag3D from '../../../assets/icons/bag3D.svg';
 import Calendar3D from '../../../assets/icons/calendar3D.svg';
@@ -31,15 +31,17 @@ const ContentContainer = styled.View`
 `;
 
 const MainScreen = () => {
-  const isFocused = useIsFocused();
   const [activeIndex, setActiveIndex] = useState(0);
   const [category, setCategory] = useState<string>('');
+  const [postCnt, setPostCnt] = useState<number>(0);
+
   const radioData = [
     {
       content: '전체',
       event: () => {
         setActiveIndex(0);
         setCategory('');
+        setPostCnt(0);
       },
       active: activeIndex === 0,
     },
@@ -48,6 +50,7 @@ const MainScreen = () => {
       event: () => {
         setActiveIndex(1);
         setCategory('FREEDOM');
+        setPostCnt(0);
       },
       active: activeIndex === 1,
     },
@@ -56,6 +59,7 @@ const MainScreen = () => {
       event: () => {
         setActiveIndex(2);
         setCategory('TIP');
+        setPostCnt(0);
       },
       active: activeIndex === 2,
     },
@@ -64,6 +68,7 @@ const MainScreen = () => {
       event: () => {
         setActiveIndex(3);
         setCategory('SHARE');
+        setPostCnt(0);
       },
       active: activeIndex === 3,
     },
@@ -72,6 +77,7 @@ const MainScreen = () => {
       event: () => {
         setActiveIndex(4);
         setCategory('QUESTION');
+        setPostCnt(0);
       },
       active: activeIndex === 4,
     },
@@ -118,94 +124,104 @@ const MainScreen = () => {
     }[]
   >([]);
 
+  const getPost = async () => {
+    const response = await getPostList({ id: postCnt, keyword: '', cate: category });
+    setPostData(response.dataBody);
+    setPostCnt(response.dataBody[response.dataBody.length - 1].communityId);
+  };
+
+  const getMorePost = async () => {
+    if (postCnt <= 1) {
+    } else {
+      const params = { id: postCnt, keyword: '', cate: category };
+      const response = await getPostList(params);
+      setPostData((prevData) => [...prevData, ...response.dataBody]);
+      setPostCnt(response.dataBody[response.dataBody.length - 1].communityId);
+    }
+  };
+
   useEffect(() => {
-    const getPostDataList = async () => {
-      const response = await getPostList({ id: 0, keyword: '', cate: category });
-      setPostData(response.dataBody);
-    };
-
-    getPostDataList();
-  }, [isFocused]);
-
-  useEffect(() => {
-    // 카테고리 바뀔 때마다 카테고리에 대한 글목록 조회
-    const getPost = async () => {
-      const response = await getPostList({ id: 0, keyword: '', cate: category });
-      setPostData(response.dataBody);
-      // setPostCnt(response.dataBody.length);
-    };
-
     getPost();
   }, [activeIndex]);
 
-  const onPressLikeButton = async (communityId: number) => {};
+  const renderItem = ({ item }) => {
+    return (
+      <Fragment key={item.communityId}>
+        <Spacer horizontal={false} space={10} />
+        <Post
+          onPress={() => {
+            navigation.navigate('DetailPostScreen', { id: item.communityId, previousScreen: 'MainScreen' });
+          }}
+          onPressLikeButton={() => {}}
+          isPreview={true}
+          postData={{
+            name: item.user.nickname,
+            date: item.createdAt,
+            classification: changeCategoryName(item.cate),
+            isLiked: item.isLiked,
+            content: item.communityContent,
+            likeNumber: item.likeCount,
+            commentNumber: item.commentCount,
+            profileImg: item.user.profileImage,
+            imgUrl_one: item.thumbnail,
+          }}
+        />
+      </Fragment>
+    );
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Color.WHITE }}>
       <Header type={'leftTitle'} onPressSearch={onPressSearch} />
-      <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
-        <Spacer horizontal={false} space={19} />
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <Spacer horizontal={true} space={20} />
-          <Typo.BODY4_M color={Color.BLACK}>
-            내가 키우는 농작물, <Typo.BODY4_M color={Color.GREEN600}>수확행</Typo.BODY4_M>에서 관리 해보세요!
-          </Typo.BODY4_M>
-        </View>
-        <Spacer horizontal={false} space={19} />
+      <FlatList
+        ListHeaderComponent={
+          <>
+            <Spacer horizontal={false} space={19} />
+            <View style={{ flex: 1, flexDirection: 'row' }}>
+              <Spacer horizontal={true} space={20} />
+              <Typo.BODY4_M color={Color.BLACK}>
+                내가 키우는 농작물, <Typo.BODY4_M color={Color.GREEN600}>수확행</Typo.BODY4_M>에서 관리 해보세요!
+              </Typo.BODY4_M>
+            </View>
+            <Spacer horizontal={false} space={19} />
 
-        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-          {/*바로 카메라 촬영으로 들어간 뒤에 촬영되면 진단결과로 넘어가게 수정하기*/}
-          <MenuButton size='small' title='병해 진단' borderColor={Color.GREEN50} onPressButton={() => navigation.navigate('DiseasePlantScreen')}>
-            <Leaf3D width={widthPercent * 36} height={heightPercent * 36} />
-          </MenuButton>
-          <Spacer horizontal={true} space={20} />
-          <MenuButton size='small' title='영농일지' onPressButton={() => navigation.navigate('FarmScreen', { activeIndex: 0 })}>
-            <Calendar3D width={widthPercent * 36} height={heightPercent * 36} />
-          </MenuButton>
-          <Spacer horizontal={true} space={20} />
-          <MenuButton size='small' title='영농장부' onPressButton={() => navigation.navigate('FarmScreen', { activeIndex: 1 })}>
-            <Bag3D width={widthPercent * 36} height={heightPercent * 36} />
-          </MenuButton>
-          <Spacer horizontal={true} space={20} />
-          <MenuButton size='small' title='정부 보조금' onPressButton={() => navigation.navigate('GovernmentScreen')}>
-            <Coin3D width={widthPercent * 36} height={heightPercent * 36} />
-          </MenuButton>
-        </View>
-        <Spacer horizontal={false} space={10} />
-        <CustomRadioButton data={radioData} />
-        {postData.length !== 0 ? (
-          postData.map((item) => (
-            <Fragment key={item.communityId}>
-              <Spacer horizontal={false} space={19} />
-              <Post
-                onPress={() => {
-                  navigation.navigate('DetailPostScreen', { id: item.communityId });
-                }}
-                onPressLikeButton={() => onPressLikeButton(item.communityId)}
-                isPreview={true}
-                postData={{
-                  name: item.user.nickname,
-                  date: item.createdAt,
-                  classification: changeCategoryName(item.cate),
-                  isLiked: item.isLiked,
-                  content: item.communityContent,
-                  likeNumber: item.likeCount,
-                  commentNumber: item.commentCount,
-                  profileImg: item.user.profileImage,
-                  imgUrl_one: item.thumbnail,
-                }}
-              />
-            </Fragment>
-          ))
-        ) : (
+            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
+              {/* 바로 카메라 촬영으로 들어간 뒤에 촬영되면 진단결과로 넘어가게 수정하기 */}
+              <MenuButton size='small' title='병해 진단' borderColor={Color.GREEN50} onPressButton={() => navigation.navigate('DiseasePlantScreen')}>
+                <Leaf3D width={widthPercent * 36} height={heightPercent * 36} />
+              </MenuButton>
+              <Spacer horizontal={true} space={20} />
+              <MenuButton size='small' title='영농일지' onPressButton={() => navigation.navigate('FarmScreen', { activeIndex: 0 })}>
+                <Calendar3D width={widthPercent * 36} height={heightPercent * 36} />
+              </MenuButton>
+              <Spacer horizontal={true} space={20} />
+              <MenuButton size='small' title='영농장부' onPressButton={() => navigation.navigate('FarmScreen', { activeIndex: 1 })}>
+                <Bag3D width={widthPercent * 36} height={heightPercent * 36} />
+              </MenuButton>
+              <Spacer horizontal={true} space={20} />
+              <MenuButton size='small' title='정부 보조금' onPressButton={() => navigation.navigate('GovernmentScreen')}>
+                <Coin3D width={widthPercent * 36} height={heightPercent * 36} />
+              </MenuButton>
+            </View>
+            <Spacer horizontal={false} space={10} />
+            <CustomRadioButton data={radioData} />
+          </>
+        }
+        ListEmptyComponent={
           <ContentContainer>
             <Typo.BODY2_M>아직 등록된 글이 없습니다.</Typo.BODY2_M>
             <BasicButton onPress={onPressRegist} width={widthPercent * 90} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
               <Typo.BODY4_M color={Color.WHITE}>글 쓰러 가기</Typo.BODY4_M>
             </BasicButton>
           </ContentContainer>
-        )}
-      </ScrollView>
+        }
+        data={postData}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.communityId.toString()}
+        onEndReached={getMorePost}
+        // onRefresh={onRefresh}
+        // refreshing={refreshing}
+      />
       <FloatingActionButton data={buttonData} />
     </SafeAreaView>
   );

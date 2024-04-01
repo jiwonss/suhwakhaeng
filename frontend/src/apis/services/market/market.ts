@@ -30,7 +30,6 @@ export const getMarketPostDetail = async (params: { tradeId: number }) => {
 };
 
 export const deleteMarketPost = async (params: { tradeId: number }) => {
-  console.log(params.tradeId);
   const response = await tokenInstance.delete(`${marketUrl}/${params.tradeId}`);
   return response.data;
 };

@@ -65,7 +65,7 @@ export type RootStackParamList = {
   CreatePostScreen: { cate?: string };
   DetailDiseasePlantScreen: { photo: { uri: string }; diagnosisResult: DiagnosisResult };
   DetailMyCropsScreen: { myCropsId: number };
-  DetailPostScreen: { id: number };
+  DetailPostScreen: { id: number; previousScreen: string };
   DiseasePlantScreen: undefined;
   EnvironmentPlantScreen: {
     plantName: string;
@@ -84,7 +84,7 @@ export type RootStackParamList = {
   FcmTestScreen: undefined;
   GovernmentScreen: undefined;
   MainScreen: undefined;
-  MarketDetailScreen: { id: number };
+  MarketDetailScreen: { id: number; previousScreen: string };
   MarketModifyScreen: { id: number; address: string; x: number; y: number };
   MarketRegistScreen: { address: string; x: number; y: number; cate: string };
   MarketScreen: undefined;

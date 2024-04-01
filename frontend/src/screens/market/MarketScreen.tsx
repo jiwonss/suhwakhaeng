@@ -37,7 +37,7 @@ const MarketScreen = () => {
   };
 
   const onPressPost = (postId: number) => {
-    navigation.navigate('MarketDetailScreen', { id: postId });
+    navigation.navigate('MarketDetailScreen', { id: postId, previousScreen: 'MarketScreen' });
   };
 
   // 사업자 등록, 게시글 등록 관련
@@ -51,6 +51,7 @@ const MarketScreen = () => {
     } else {
       // 모달 열기
       setPopUpVisible(true);
+      setActiveIndex(0);
     }
   };
 
@@ -136,7 +137,6 @@ const MarketScreen = () => {
       const params = { id: tradeId, keyword: '', cate: category };
       const response = await getMarketPostList(params);
       setMarketPostData((prevData) => [...prevData, ...response.dataBody]);
-
       setTradeId(response.dataBody[response.dataBody.length - 1].id);
     }
   };

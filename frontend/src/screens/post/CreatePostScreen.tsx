@@ -76,8 +76,8 @@ const CreatePostScreen = (props: CreatePostProps) => {
   ];
 
   useEffect(() => {
-    setCategory(props.route.params.cate ? props.route.params.cate : '');
-    if (props.route.params.cate === 'FREEDOM' || '') {
+    setCategory(props.route.params.cate ? props.route.params.cate : 'FREEDOM');
+    if (props.route.params.cate === 'FREEDOM') {
       setActiveIndex(0);
     } else if (props.route.params.cate === 'TIP') {
       setActiveIndex(1);
@@ -86,7 +86,7 @@ const CreatePostScreen = (props: CreatePostProps) => {
     } else if (props.route.params.cate === 'QUESTION') {
       setActiveIndex(3);
     }
-  }, []);
+  }, [props.route.params.cate]);
 
   const onSubmit = async () => {
     // back으로 보내는 API 코드 작성
@@ -106,12 +106,13 @@ const CreatePostScreen = (props: CreatePostProps) => {
     };
 
     const response = await registPost(params);
-    setActiveIndex(0);
-    setCategory('');
-    setContent('');
-    setImgeUrls([]);
-
-    navigation.goBack();
+    if (response.dataHeader && response.dataHeader.successCode === 0) {
+      setActiveIndex(0);
+      setCategory('');
+      setContent('');
+      setImgeUrls([]);
+      navigation.reset({ routes: [{ name: 'BottomNavigation' }] });
+    }
   };
 
   return (

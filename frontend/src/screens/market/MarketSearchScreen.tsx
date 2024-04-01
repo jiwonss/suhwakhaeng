@@ -11,14 +11,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { getMarketPostList } from '../../apis/services/market/market';
 import { changeCategoryName } from '../../util/MarketUtil';
-
-type RootStackParamList = {
-  MarketSearchScreen: undefined;
-  MarketDetailScreen: { id: number };
-  MarketRegistScreen: undefined;
-  MarketScreen: undefined;
-};
-type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
+import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 
 const Container = styled.View`
   flex: 1;
@@ -32,10 +25,10 @@ const ButtonContainer = styled.View`
 const MarketSearchScreen = () => {
   const isFocused = useIsFocused();
   //navigation
-  const navigation = useNavigation<RootStackNavigationProp>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const onPressPost = (postId: number) => {
-    navigation.navigate('MarketDetailScreen', { id: postId });
+    navigation.navigate('MarketDetailScreen', { id: postId, previousScreen: 'SearchScreen' });
   };
 
   // 검색 관련
