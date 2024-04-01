@@ -48,37 +48,37 @@ interface CropDetails {
 }
 
 const TableContainer = styled.View`
-  flex-direction: row;
+    flex-direction: row;
 `;
 
 const TableHead = styled.View`
-  flex-direction: column;
+    flex-direction: column;
 `;
 
 const TableBody = styled.View`
-  flex: 1;
+    flex: 1;
 `;
 
 const Container = styled.View`
-  margin-left: ${20 * widthPercent}px;
-  margin-right: ${20 * widthPercent}px;
-  margin-bottom: ${20 * heightPercent}px;
-  row-gap: ${5 * heightPercent}px;
+    margin-left: ${20 * widthPercent}px;
+    margin-right: ${20 * widthPercent}px;
+    margin-bottom: ${20 * heightPercent}px;
+    row-gap: ${5 * heightPercent}px;
 `;
 
 const TableRow = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
+    flex-direction: row;
+    justify-content: space-between;
 `;
 
 const TableCell = styled.Text`
-  flex: 1;
-  text-align: center;
-  padding-top: ${10 * heightPercent}px;
-  padding-bottom: ${10 * heightPercent}px;
-  padding-right: ${4 * widthPercent}px;
-  padding-left: ${4 * widthPercent}px;
-  font-family: 'GmarketSansTTFMedium';
+    flex: 1;
+    text-align: center;
+    padding-top: ${10 * heightPercent}px;
+    padding-bottom: ${10 * heightPercent}px;
+    padding-right: ${4 * widthPercent}px;
+    padding-left: ${4 * widthPercent}px;
+    font-family: 'GmarketSansTTFMedium';
 `;
 
 const CropsDetailScreen = () => {
@@ -157,13 +157,14 @@ const CropsDetailScreen = () => {
       </>
     ));
   };
-
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
-      <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }} contentContainerStyle={{ paddingBottom: 50 * heightPercent }}>
-        <Header type={'default'} firstIcon={'back'} />
+      <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}
+                  contentContainerStyle={{ paddingBottom: 50 * heightPercent }}>
+        <Header type={'default'} firstIcon={'back'} title={`${cropsName} - ${cropsVarietyName}`} />
         {/* 이미지 */}
-        <Image source={{ uri: cropsVarietyImage }} style={{ width: '100%', height: 'auto', aspectRatio: 1 }} resizeMode='center' />
+        <Image source={{ uri: cropsVarietyImage }} style={{ width: '100%', height: 'auto', aspectRatio: 1 }}
+               resizeMode="center" />v
         {/* 이름 */}
         {/*<LoadingSpinner loading={true} />*/}
         <Card>
@@ -192,27 +193,27 @@ const CropsDetailScreen = () => {
           <Spacer space={5} />
           {cropsVarietyCharacteristic
             ? renderConditionsWithBreaks({
-                contents: cropsVarietyCharacteristic,
-                WrapperComponent: Typo.BODY4_M,
-              })
+              contents: cropsVarietyCharacteristic,
+              WrapperComponent: Typo.BODY4_M,
+            })
             : null}
           <Spacer space={15} />
           <Typo.BODY3_M color={Color.GREEN600}>적응 지역 </Typo.BODY3_M>
           <Spacer space={5} />
           {cropsVarietyAdaptationArea
             ? renderConditionsWithBreaks({
-                contents: cropsVarietyAdaptationArea,
-                WrapperComponent: Typo.BODY4_M,
-              })
+              contents: cropsVarietyAdaptationArea,
+              WrapperComponent: Typo.BODY4_M,
+            })
             : null}
           <Spacer space={15} />
           <Typo.BODY3_M color={Color.GREEN600}>주의 사항 </Typo.BODY3_M>
           <Spacer space={5} />
           {cropsVarietyCaution
             ? renderConditionsWithBreaks({
-                contents: cropsVarietyCaution,
-                WrapperComponent: Typo.BODY4_M,
-              })
+              contents: cropsVarietyCaution,
+              WrapperComponent: Typo.BODY4_M,
+            })
             : null}
         </Card>
         <Spacer space={15} />
@@ -228,9 +229,9 @@ const CropsDetailScreen = () => {
           <Spacer space={5} />
           {growingCondition
             ? renderConditionsWithBreaks({
-                contents: growingCondition,
-                WrapperComponent: Typo.BODY4_M,
-              })
+              contents: growingCondition,
+              WrapperComponent: Typo.BODY4_M,
+            })
             : null}
         </Card>
         <Spacer space={15} />
