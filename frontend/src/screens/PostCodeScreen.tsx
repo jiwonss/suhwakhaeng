@@ -10,7 +10,7 @@ type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 interface PostCodeProps {
   route: {
-    params: { id: number; screenName: string; plantName?: string };
+    params: { id: number; screenName: string; plantName?: string, cropsVarietyId?: number };
   };
 }
 
@@ -47,6 +47,7 @@ const PostCodeScreen = (props: PostCodeProps) => {
             sido: addressData.sido,
             gugun: addressData.sigungu,
             dong: addressData.bname,
+            cropsVarietyId: props.route.params.cropsVarietyId
           });
         }
       })
