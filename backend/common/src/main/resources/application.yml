@@ -8,7 +8,7 @@ spring:
     name: common
 
   profiles:
-    active: prod
+    active: local
 
 eureka:
   instance:

@@ -6,7 +6,7 @@ spring:
     name: service-discovery
 
   profiles:
-    active: prod
+    active: local
 
 management:
   endpoints:

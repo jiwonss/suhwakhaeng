@@ -1,6 +1,7 @@
 package com.suhwakhaeng.common.domain.user.controller;
 
 import com.suhwakhaeng.common.domain.user.dto.BusinessRequest;
+import com.suhwakhaeng.common.domain.user.dto.LogoutRequest;
 import com.suhwakhaeng.common.domain.user.dto.ProfileRequest;
 import com.suhwakhaeng.common.domain.user.service.BusinessService;
 import com.suhwakhaeng.common.domain.user.service.UserService;
@@ -43,6 +44,21 @@ public class UserController {
     public ResponseEntity updateUser(@RequestHeader("X-Authorization-Id") Long userId, @Validated @RequestBody ProfileRequest profileRequest) {
 
         userService.updateUser(userId, profileRequest.toEntity());
+        return ResponseEntity.ok().body(Message.success());
+    }
+
+    @CustomPreAuthorize({"USER", "ADMIN", "BUISNESS", "FARMER"})
+    @PostMapping("/logout")
+    public ResponseEntity logout(@RequestHeader("X-Authorization-Id") Long userId,
+                                 @RequestBody LogoutRequest request) {
+        userService.logout(userId, request);
+        return ResponseEntity.ok().body(Message.success());
+    }
+
+    @CustomPreAuthorize({"USER", "ADMIN", "BUISNESS", "FARMER"})
+    @PostMapping("/withdraw")
+    public ResponseEntity witdhdraw(@RequestHeader("X-Authorization-Id") Long userId) {
+        userService.withdraw(userId);
         return ResponseEntity.ok().body(Message.success());
     }
 }
