@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+  springboot:
+    image: sjs3326/crawling
+    container_name: crawling
+    build:
+      context: ../../
+      dockerfile: ./Dockerfile
+    ports:
+      - "9003:9003"
+    networks:
+      suhwakhaeng:
+        ipv4_address: 172.20.0.7
+    restart: always
+
+networks:
+  suhwakhaeng:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.20.0.0/16"

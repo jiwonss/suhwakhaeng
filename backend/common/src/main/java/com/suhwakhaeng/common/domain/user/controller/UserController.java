@@ -2,10 +2,9 @@ package com.suhwakhaeng.common.domain.user.controller;
 
 import com.suhwakhaeng.common.domain.user.dto.BusinessRequest;
 import com.suhwakhaeng.common.domain.user.dto.ProfileRequest;
-import com.suhwakhaeng.common.domain.user.dto.ProfileResponse;
-import com.suhwakhaeng.common.domain.user.dto.UserInfoResponse;
 import com.suhwakhaeng.common.domain.user.service.BusinessService;
 import com.suhwakhaeng.common.domain.user.service.UserService;
+import com.suhwakhaeng.common.global.common.annotation.CustomPreAuthorize;
 import com.suhwakhaeng.common.global.common.dto.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,22 +18,27 @@ public class UserController {
     private final UserService userService;
     private final BusinessService businessService;
 
+    @CustomPreAuthorize({"USER","ADMIN","BUISNESS","FARMER"})
     @GetMapping("/my-profile")
-    public ResponseEntity selectDetailUser(@RequestHeader("X-Authorization-Id") Long userId) {
+    public ResponseEntity selectDetailUser(@RequestHeader("X-Authorization-Id") Long userId,
+                                           @RequestHeader("X-Authorization-Role") String role) {
         return ResponseEntity.ok().body(Message.success(userService.selectDetailUser(userId)));
     }
 
+    @CustomPreAuthorize({"USER","ADMIN","BUISNESS","FARMER"})
     @GetMapping("/{userId}/info")
     public ResponseEntity selectDetailUserInfo(@PathVariable Long userId) {
         return ResponseEntity.ok().body(Message.success(userService.selectDetailUserInfo(userId)));
     }
 
+    @CustomPreAuthorize({"USER","FARMER"})
     @PostMapping("/business")
     public ResponseEntity createBusiness(@RequestHeader("X-Authorization-Id") Long userId, @RequestBody BusinessRequest businessRequest) {
         businessService.createBusiness(userId, businessRequest.businessImage());
         return ResponseEntity.ok().body(Message.success());
     }
 
+    @CustomPreAuthorize({"USER","ADMIN","BUISNESS","FARMER"})
     @PatchMapping("/my-profile")
     public ResponseEntity updateUser(@RequestHeader("X-Authorization-Id") Long userId, @Validated @RequestBody ProfileRequest profileRequest) {
 
