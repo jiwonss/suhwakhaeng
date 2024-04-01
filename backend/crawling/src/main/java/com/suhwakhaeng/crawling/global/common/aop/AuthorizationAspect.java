@@ -1,6 +1,8 @@
 package com.suhwakhaeng.crawling.global.common.aop;
 
 import com.suhwakhaeng.crawling.global.common.annotation.CustomPreAuthorize;
+import com.suhwakhaeng.crawling.global.error.exception.AccessDeniedException;
+import com.suhwakhaeng.crawling.global.error.exception.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,7 +26,6 @@ public class AuthorizationAspect {
             }
         }
 
-//        throw new AccessDeniedException("Access is denied");
-        throw new RuntimeException("Access is denied");
+        throw new AccessDeniedException(ErrorCode.ACCESS_DENIED);
     }
 }
