@@ -27,7 +27,7 @@ const Container = styled.View`
 interface CreatePostProps {
   route: {
     params: {
-      cate: string;
+      cate?: string;
     };
   };
 }
@@ -76,7 +76,7 @@ const CreatePostScreen = (props: CreatePostProps) => {
   ];
 
   useEffect(() => {
-    setCategory(props.route.params.cate);
+    setCategory(props.route.params.cate ? props.route.params.cate : '');
     if (props.route.params.cate === 'FREEDOM' || '') {
       setActiveIndex(0);
     } else if (props.route.params.cate === 'TIP') {
