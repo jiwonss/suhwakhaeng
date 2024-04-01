@@ -108,7 +108,7 @@ public class CommunityCustomRepositoryImpl implements CommunityCustomRepository 
                 ))
                 .from(community)
                 .join(community.writer, user)
-                .where(isGreaterThan(lastId), isEqualsUserId(userId))
+                .where(isLowerThan(lastId), isEqualsUserId(userId))
                 .orderBy(community.createdAt.desc())
                 .limit(10)
                 .fetch();
@@ -155,14 +155,18 @@ public class CommunityCustomRepositoryImpl implements CommunityCustomRepository 
                 ))
                 .from(community)
                 .join(community.writer, user)
-                .where(isGreaterThan(request.id()), contentLikeKeyword(request.keyword()), equalsCate(request.cate()))
+                .where(isLowerThan(request.id()), contentLikeKeyword(request.keyword()), equalsCate(request.cate()))
                 .orderBy(community.createdAt.desc())
                 .limit(10)
                 .fetch();
     }
 
-    private BooleanBuilder isGreaterThan(final Long communityId) {
-        return NullSafeBuilder.build(() -> community.id.gt(communityId));
+    private BooleanBuilder isLowerThan(final Long communityId) {
+        BooleanBuilder builder = new BooleanBuilder();
+        if (communityId != null && communityId > 0) {
+            builder.and(community.id.lt(communityId));
+        }
+        return builder;
     }
 
     private BooleanBuilder contentLikeKeyword(final String keyword) {

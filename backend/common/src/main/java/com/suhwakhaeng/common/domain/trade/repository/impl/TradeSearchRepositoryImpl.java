@@ -27,7 +27,7 @@ public class TradeSearchRepositoryImpl implements TradeSearchRepository {
     private BooleanBuilder getSearchOption(TradeSearchRequest request){
         BooleanBuilder searchOptions = new BooleanBuilder();
         searchOptions.and(tradeBoard.status.eq(TradeStatus.SALE));
-        if(request.id() != null){
+        if(request.id() != null && request.id() != 0){
             searchOptions.and(tradeBoard.id.lt(request.id()));
         }
 
