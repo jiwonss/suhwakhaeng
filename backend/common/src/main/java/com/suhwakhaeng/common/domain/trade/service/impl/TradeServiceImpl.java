@@ -58,14 +58,14 @@ public class TradeServiceImpl implements TradeService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<TradeListResponse> selectMyListTrade(Long userId) {
-        return tradeSearchRepository.searchMyTrade(userId);
+    public List<TradeListResponse> selectMyListTrade(Long userId, TradeMyListRequest request) {
+        return tradeSearchRepository.searchMyTrade(userId, request);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<TradeListResponse> selectMyLikeListTrade(Long userId) {
-        return tradeSearchRepository.searchMyLikeTrade(userId);
+    public List<TradeListResponse> selectMyLikeListTrade(Long userId, TradeMyListRequest request) {
+        return tradeSearchRepository.searchMyLikeTrade(userId, request);
     }
 
     @Transactional
