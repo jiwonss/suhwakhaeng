@@ -1,15 +1,19 @@
 package com.suhwakhaeng.common.domain.user.service.impl;
 
+import com.suhwakhaeng.common.domain.user.dto.BusinessResponse;
 import com.suhwakhaeng.common.domain.user.dto.ProfileResponse;
 import com.suhwakhaeng.common.domain.user.dto.UserInfoResponse;
 import com.suhwakhaeng.common.domain.user.entity.User;
 import com.suhwakhaeng.common.domain.user.exception.UserErrorCode;
 import com.suhwakhaeng.common.domain.user.exception.UserException;
+import com.suhwakhaeng.common.domain.user.repository.BusinessRepository;
 import com.suhwakhaeng.common.domain.user.repository.UserRepository;
 import com.suhwakhaeng.common.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static com.suhwakhaeng.common.domain.user.exception.UserErrorCode.*;
 
@@ -18,6 +22,7 @@ import static com.suhwakhaeng.common.domain.user.exception.UserErrorCode.*;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final BusinessRepository businessRepository;
 
     @Override
     public ProfileResponse selectDetailUser(Long userId) {
@@ -38,4 +43,5 @@ public class UserServiceImpl implements UserService {
         targetUser.updateProfile(user);
         return targetUser.getId();
     }
+
 }
