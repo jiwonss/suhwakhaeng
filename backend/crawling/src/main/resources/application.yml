@@ -1,0 +1,52 @@
+server:
+  port: 9003
+
+spring:
+  application:
+    name: crawling
+  config:
+    name: crawling
+
+  profiles:
+    active: prod
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    hostname: ${API-GATEWAY}
+    ip-address: ${API-GATEWAY}
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://${SERVICE-DISCOVERY}:8761/eureka
+
+---
+
+spring:
+  config:
+    import: optional:configserver:http://43.202.20.179:8888
+    activate:
+      on-profile: prod
+
+
+---
+
+spring:
+  config:
+    import: optional:configserver:http://localhost:8888
+    activate:
+      on-profile: local
+
+---
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://suhwakhaeng-db.c5qq4q0c0fbz.ap-northeast-2.rds.amazonaws.com:3306/suhwakhaeng?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
+    username: "{cipher}AQAMW5exlBO+4MXnUyDZ1yHUYqRZVBSP8zuzcAm8wQRrtd+k8g0oAhTwpUDMa69hVG5TLhXQY7n7iXbztoxpDOVWUyQgkFl9fUDwmXr/kks/o11D6DIXr/wOdkH1SBb7O9WAxMmijpUFHtL4tPbRbqd59ZuTkiqcsvXMOVY4AtDAC9FIfGdRdm5KN/RTYImbJwvEn4MZMh4PAuch8K8MwgqI+pCYQG3QtNmYPQNUA8a75zjQMskrZHqGpIjef1Ep1RTa9/8rLC6ugRRAnTkbKzdraAcdwPaJasYSdZYs/Sz3IMz6JjP3V+BSmeRnQCXtKNGfP5oK8YXeEvMyOcbonjxFWrdr2Kpob6QZ9W3PVaz5jhFIPvGEqypcoRrtbUIWsd0="
+    password: "{cipher}AQCCD5j8wciLmjWgYhxGfqaKLgscvcWQZD268Cy1ON5dSGSBdoSnq0K7u06xyzQRr5z6CNKdbrO+dxz1frUR3LxGInZlMK281fHmIbJufweRAuVo62BW8AqjGrgupYU5K7NmDY6g9Ws+SAwflTqi6haj9bsqctSjc3MngvxUzchPSlNKMB9lHgi/fiOQ2hrkq77KM4eOdUQ8VlNBvbxr7W70MHjKxYCCs6NthOXapAJos5/n5NTnTjkC6n/7u1zg2UjvCuF6J0slv/kBMPVnMpp0rQsrEO1uzzceyztm1eQKTjPRc56yjUT/4SBnSL78Ypap9iVdBfiPj0kiZwfOhp5geLCuBdQ7LB2CpfYczK9MYRAY+3nU+3vDoiYiqnO8HDBLK7RGmRGLhegcijiMOpuE"
+
+chrome-driver:
+  path: chromedriver-linux64/chromedriver
