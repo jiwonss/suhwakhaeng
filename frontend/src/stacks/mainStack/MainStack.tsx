@@ -25,8 +25,7 @@ import DetailDiseasePlantScreen from '../../screens/plantDisease/DetailDiseasePl
 import ChatListScreen from '../../screens/chat/ChatListScreen';
 import FavoriteProductScreen from '../../screens/favoriteProduct/FavoriteProductScreen';
 import WeatherScreen from '../../screens/weather/WeatherScreen';
-import { PostProps } from '../../components/post/Post';
-import CameraScreen from '../../screens/plantDisease/CarmeraScreen';
+import CameraScreen from '../../screens/plantDisease/CameraScreen';
 import FarmDairyDetailScreen from '../../screens/farmDairy/FarmDairyDetailScreen';
 import FarmLedgerDetailScreen from '../../screens/farmDairy/FramLedgerDetailScreen';
 import FarmScreen from '../../screens/farmDairy/FarmScreen';
@@ -40,13 +39,13 @@ import AdminScreen from '../../screens/admin/AdminScreen';
 import AdminDetailScreen from '../../screens/admin/AdminDetailScreen';
 
 type DiagnosisResult = {
-  content: string;
-  disease: string;
-  environment: string;
-  isHealty: boolean;
-  plant: string;
-  protect: {
-    basic: string[];
+  content?: string;
+  disease?: string;
+  environment?: string;
+  isHealthy?: boolean;
+  plant?: string;
+  protect?: {
+    basic?: string[];
   };
 };
 
