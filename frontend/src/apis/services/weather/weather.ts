@@ -2,7 +2,7 @@ import axios from 'axios';
 import locationData from '../../../../assets/data.json';
 import tokenInstance from '../../utils/tokenInstance';
 
-const KMA_KEY = 'ASYQm2UG/CCOVExO0YpvmROAWEGxDhXSZCxeg7JusVeLx2uYAZQ2CijdRaIVi92ohYCFHIwD3p84C93YXZKOeQ==';
+const KMA_KEY = process.env.KMA_KEY;
 
 const KMAApi = axios.create({
   baseURL: 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/',
@@ -17,7 +17,7 @@ const KMAApi = axios.create({
 // 단기예보
 // 5시 발표
 export const getVilageFcst = async (pastdate: string, date: string, hour: string, x: number, y: number) => {
-  console.log('단기예보 api');
+  console.log('단기예보 api') ;
 
   const response = await KMAApi.get('getVilageFcst', {
     params: {
@@ -62,17 +62,22 @@ export const getVilageFcst = async (pastdate: string, date: string, hour: string
 // location 가져오기
 export const getLocation = async () => {
   const response = await tokenInstance.get('common/users/my-profile');
-  console.log(response);
+  console.log(response.data);
 
   const sido = response.data.dataBody.sido;
   const gugun = response.data.dataBody.gugun;
   const dong = response.data.dataBody.dong;
-
-  // console.log(sido, gugun, dong)
-
+  
+  
+  console.log(sido, gugun, dong);
+  
   // const sido = '광주';
   // const gugun = '광산구';
   // const dong = '장덕동';
+  
+  if ( sido === null ) {
+    return { x: 0, y: 0, location: `` };
+  }
 
   const data = locationData.filter((item) => {
     if (sido.includes('세종')) {
@@ -84,5 +89,3 @@ export const getLocation = async () => {
 
   return { x: data[0]['격자 X'], y: data[0]['격자 Y'], location: `${sido} ${gugun} ${dong}` };
 };
-
-// export const getLocation = async (sido: string, gugun: string, dong: string) => {

@@ -15,7 +15,7 @@ import { getLedgerList } from '../../../apis/farm/farm';
 
 type RootStackParamList = {
   FarmLedgerAddScreen: undefined;
-  FarmLedgerDetailScreen: { diary: any };
+  FarmLedgerDetailScreen: { accountBookId: number, today: string };
 };
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
@@ -39,15 +39,15 @@ const StyledView = styled.View`
 `;
 
 const FarmLedger = () => {
-  const isFocused = useIsFocused();
   const navigation = useNavigation<RootStackNavigationProp>();
 
   const onPressLedger = () => {
-    navigation.navigate('FarmLedgerAddScreen');
+    navigation.push('FarmLedgerAddScreen');
   };
 
-  const handlePress = (accountBookId: number) => {
-    navigation.navigate('FarmLedgerDetailScreen', { accountBookId: accountBookId });
+  const handlePress = (accountBookId: number, today: string) => {
+    console.log(today)
+    navigation.push('FarmLedgerDetailScreen', { accountBookId: accountBookId , today:today });
   };
 
   const getCurrentDate = () => {
@@ -87,7 +87,7 @@ const FarmLedger = () => {
       setExpenditure(response.dataBody.expenditure);
     };
     fetchData();
-  }, [isFocused, selectedStartDate, selectedFinDate, myCropId]);
+  }, [navigation, selectedStartDate, selectedFinDate, myCropId]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -117,7 +117,7 @@ const FarmLedger = () => {
                 <Typo.BODY4_M>{item[0]}</Typo.BODY4_M>
                 <Spacer space={heightPercent * 20}></Spacer>
                 {item[1].map((ledger, ledgerIndex) => (
-                  <TouchableOpacity key={ledgerIndex} onPress={() => handlePress(ledger.accountBookId)} style={{ width: '100%' }}>
+                  <TouchableOpacity key={ledgerIndex} onPress={() => handlePress(ledger.accountBookId,item[0])} style={{ width: '100%' }}>
                     <Card borderColor={Color.BLACK}>
                       <View>
                         <Spacer space={heightPercent * 10}></Spacer>

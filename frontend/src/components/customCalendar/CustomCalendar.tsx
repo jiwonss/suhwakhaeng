@@ -77,12 +77,12 @@ const CustomCalendar = ({ setSelectedStartDate, setSelectedFinDate, selectedStar
         markingType={selectedStartDate == selectedFinDate ? undefined : 'period'}
         markedDates={markedDates}
         theme={{
-          selectedDayBackgroundColor: Color.GREEN200,
+          selectedDayBackgroundColor: Color.GREEN500,
           selectedDayTextColor: '#ffffff',
-          todayTextColor: Color.GREEN200,
-          dotColor: Color.GREEN400,
-          arrowColor: Color.GREEN200,
-          monthTextColor: Color.GREEN200,
+          todayTextColor: Color.GREEN500,
+          dotColor: Color.GREEN500,
+          arrowColor: Color.GREEN500,
+          monthTextColor: Color.GREEN500,
           textDayFontSize: 16,
           textMonthFontSize: 16,
           textDayHeaderFontSize: 16,

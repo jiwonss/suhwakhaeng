@@ -16,6 +16,7 @@ interface FarmLedgerDetailProps {
   route: {
     params: {
       accountBookId: number;
+      today: string;
     };
   };
 }
@@ -55,6 +56,7 @@ const FarmDairyDetailScreen = (props: FarmLedgerDetailProps) => {
       const response = await getLedgerDetail(props.route.params.accountBookId);
       setData(response.dataBody);
       console.log(response.dataBody);
+      console.log(props.route.params.today)
     };
 
     fetchData();
@@ -67,7 +69,7 @@ const FarmDairyDetailScreen = (props: FarmLedgerDetailProps) => {
     };
 
     fetchData();
-    navigation.navigate('FarmScreen');
+    navigation.push('FarmScreen');
   };
 
   return (
@@ -75,7 +77,7 @@ const FarmDairyDetailScreen = (props: FarmLedgerDetailProps) => {
       <Header type='default' firstIcon='back' secondIcon='more' onPressMore={onPressButton} />
       <FormContainer>
         <FormItemContainer>
-          <Typo.BODY3_B>2024.03.23</Typo.BODY3_B>
+          <Typo.BODY3_B>{props.route.params.today}</Typo.BODY3_B>
         </FormItemContainer>
         <FormItemContainer>
           <View style={{ flexDirection: 'row' }}>
@@ -110,7 +112,7 @@ const FarmDairyDetailScreen = (props: FarmLedgerDetailProps) => {
             {data.image && <UriImageLoader style={{ width: '100%', height: heightPercent * 300 }} resizeMode='contain' uri={data.image} /> }
           </FormItemContainer>
       </FormContainer>
-      <MoreModal isVisible={isVisible} setIsVisible={setIsVisible} onDelete={onDelete} onModify={() => {}} postId={props.route.params.accountBookId}></MoreModal>
+      <MoreModal isVisible={isVisible} setIsVisible={setIsVisible} onDelete={onDelete} onModify={() => {}} postId={props.route.params.accountBookId} status={1}></MoreModal>
     </Container>
   );
 };

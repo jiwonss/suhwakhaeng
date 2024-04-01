@@ -53,7 +53,7 @@ const FarmDairyDetailScreen = (props: FarmDiaryDetailProps) => {
   useEffect(() => {
     const fetchData = async () => {
       setData(props.route.params.diary);
-      console.log(props.route.params.diary);
+      console.log(props.route.params.diary.diaryId);
     };
 
     fetchData();
@@ -61,11 +61,12 @@ const FarmDairyDetailScreen = (props: FarmDiaryDetailProps) => {
 
   const onDelete = (diaryId : number) => {
     const fetchData = async () => {
-      await console.log(deleteDiary(diaryId));
+      console.log(diaryId)
+      await deleteDiary(diaryId);
     };
 
     fetchData();
-    navigation.navigate('FarmScreen');
+    navigation.push('FarmScreen');
   };
 
   return (
@@ -103,7 +104,7 @@ const FarmDairyDetailScreen = (props: FarmDiaryDetailProps) => {
           </FormItemContainer>
         </FormContainer>
       )}
-      <MoreModal isVisible={isVisible} setIsVisible={setIsVisible} onDelete={ ()=> onDelete(data.diaryId)} onModify={() => {}} postId={0}></MoreModal>
+      <MoreModal isVisible={isVisible} setIsVisible={setIsVisible} onDelete={ ()=> onDelete(props.route.params.diary.diaryId)} onModify={() => {}} postId={0} status={1}></MoreModal>
     </Container>
   );
 };

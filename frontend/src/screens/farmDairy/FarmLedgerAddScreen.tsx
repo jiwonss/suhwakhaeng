@@ -14,13 +14,14 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { CreateLedger, getCropsSimple } from '../../apis/farm/farm';
 import SelectDropdown from 'react-native-select-dropdown';
+import { Spacer } from '../../components/basic/Spacer';
 
 type RootStackParamList = {
   FarmScreen: undefined;
+  AddCropsScreen: undefined;
 };
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
-
 
 const Container = styled.ScrollView`
   flex: 1;
@@ -34,6 +35,12 @@ const FormContainer = styled.View`
 `;
 
 const FormItemContainer = styled.View`
+  padding: ${heightPercent * 8}px ${widthPercent * 20}px;
+`;
+
+const FormItemContainer0 = styled.View`
+  flex: 1;
+  align-items: center;
   padding: ${heightPercent * 8}px ${widthPercent * 20}px;
 `;
 
@@ -54,19 +61,19 @@ const StyledButton = styled.TouchableOpacity`
 `;
 
 const StyledView = styled.View`
-  margin:  0px ${widthPercent * 50}px;
+  margin: 0px ${widthPercent * 50}px;
 `;
 
 const FarmLedgerAddScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
-
+  const [lender, setLender] = useState(1);
   const [finance, setFinance] = useState('수입');
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [choose, setChoose] = useState(false);
   const [crops, setCrops] = useState([]);
-  const [i, setI ] = useState(null);
-  
+  const [i, setI] = useState(null);
+
   const [postdate, setPostdate] = useState('');
   const [myCrops, setMyCrops] = useState([]);
   const [content, setContent] = useState(null);
@@ -98,13 +105,13 @@ const FarmLedgerAddScreen = () => {
         date: postdate,
       });
 
-      console.log('글 생성 완료..')
+      console.log('글 생성 완료..');
     };
 
     await fetchData();
     // TODO: 작성 완료 후 상세보기 페이지로 이동?
-    navigation.navigate('FarmScreen');
-    console.log('이동')
+    navigation.push('FarmScreen');
+    console.log('이동');
   };
 
   const handleTextChange = (text) => {
@@ -121,11 +128,16 @@ const FarmLedgerAddScreen = () => {
     const day = ('0' + date.getDate()).slice(-2);
     return `${year}-${month}-${day}`;
   };
-  
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await getCropsSimple();
       //작물 드롭다운 설정
+      if (response.dataBody.length === 0) {
+        setLender(0);
+        return;
+      }
+      setLender(2);
       setCrops(response.dataBody.map((item) => item.myCropsName));
       setMyCrops(response.dataBody);
     };
@@ -133,92 +145,125 @@ const FarmLedgerAddScreen = () => {
     fetchData();
   }, []);
 
+  const onPress = () => {
+    navigation.navigate('AddCropsScreen');
+  };
+
   return (
     <Container>
       <Header type='default' title='영농 장부' firstIcon='back' />
-      <FormContainer>
-        <FormItemContainer>
-          <StyledView>
-            <CustomRadioButton data={radioData}></CustomRadioButton>
-          </StyledView>
-        </FormItemContainer>
-        <FormItemContainer>
-          <Typo.BODY4_M>작물</Typo.BODY4_M>
-          <SelectDropdown
-            buttonStyle={{
-              borderRadius: 10,
-              borderWidth: 0.8,
-              borderColor: Color.GRAY300,
-              backgroundColor: Color.WHITE,
-              width: '100%',
-              height: heightPercent * 36,
-              padding: widthPercent * 10,
-              marginVertical: heightPercent * 10,
-            }}
-            buttonTextStyle={{
-              textAlign: 'left', // 텍스트를 왼쪽 정렬
-              fontSize: widthPercent * 12, // 텍스트 크기 설정
-              fontFamily: 'GmarketSansTTFMedium',
-              color: Color.GRAY400, // 텍스트 색상 설정
-            }}
-            data={crops}
-            onSelect={(selectedItem, index) => setI(index)}
-            buttonTextAfterSelection={(selectedItem, index) => selectedItem}
-            rowTextForSelection={(item, index) => item}
-            defaultButtonText={'작물 선택'}
-            dropdownOverlayColor='none'
-            dropdownStyle={{ borderRadius: widthPercent * 5, borderColor: Color.GRAY300, backgroundColor: Color.WHITE }}
-          />
-        </FormItemContainer>
-        <FormItemContainer>
-          <Typo.BODY4_M>날짜</Typo.BODY4_M>
+      {lender === 0 && (
+        <FormContainer>
+          <FormItemContainer0>
+            <Typo.BODY1_B color={Color.GREEN600}>내 작물 정보가 없습니다!</Typo.BODY1_B>
+            <Spacer space={heightPercent * 10}></Spacer>
+            <Typo.BODY1_B color={Color.GREEN600}>작물 설정을 해주세요!</Typo.BODY1_B>
+            <Spacer space={heightPercent * 20}></Spacer>
+            <BasicButton
+              onPress={onPress}
+              width={widthPercent * 150}
+              height={heightPercent * 50}
+              disabled={false}
+              backgroundColor={Color.GREEN500}
+              borderColor={Color.WHITE}
+              borderRadius={10}
+            >
+              <Typo.BODY4_M color={Color.WHITE}>작물 설정하러가기</Typo.BODY4_M>
+            </BasicButton>
+          </FormItemContainer0>
+        </FormContainer>
+      )}
+      {lender === 1 && (
+        <FormContainer>
+          <Typo.BODY1_B color={Color.GREEN600}>렌더 중..</Typo.BODY1_B>
+        </FormContainer>
+      )}
+      {lender === 2 && (
+        <FormContainer>
+          <FormItemContainer>
+            <StyledView>
+              <CustomRadioButton data={radioData}></CustomRadioButton>
+            </StyledView>
+          </FormItemContainer>
+          <FormItemContainer>
+            <Typo.BODY4_M>작물</Typo.BODY4_M>
+            <SelectDropdown
+              buttonStyle={{
+                borderRadius: 10,
+                borderWidth: 0.8,
+                borderColor: Color.GRAY300,
+                backgroundColor: Color.WHITE,
+                width: '100%',
+                height: heightPercent * 36,
+                padding: widthPercent * 10,
+                marginVertical: heightPercent * 10,
+              }}
+              buttonTextStyle={{
+                textAlign: 'left', // 텍스트를 왼쪽 정렬
+                fontSize: widthPercent * 12, // 텍스트 크기 설정
+                fontFamily: 'GmarketSansTTFMedium',
+                color: Color.GRAY400, // 텍스트 색상 설정
+              }}
+              data={crops}
+              onSelect={(selectedItem, index) => setI(index)}
+              buttonTextAfterSelection={(selectedItem, index) => selectedItem}
+              rowTextForSelection={(item, index) => item}
+              defaultButtonText={'작물 선택'}
+              dropdownOverlayColor='none'
+              dropdownStyle={{ borderRadius: widthPercent * 5, borderColor: Color.GRAY300, backgroundColor: Color.WHITE }}
+            />
+          </FormItemContainer>
+          <FormItemContainer>
+            <Typo.BODY4_M>날짜</Typo.BODY4_M>
 
-          <StyledButton
-            onPress={() => {
-              setOpen(true);
-            }}
-          >
-            { choose === true ? <Typo.BODY4_M color={Color.GRAY400}>{formatDate(date)}</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY400}>날짜 선택</Typo.BODY4_M> }
-          </StyledButton>
+            <StyledButton
+              onPress={() => {
+                setOpen(true);
+              }}
+            >
+              {choose === true ? <Typo.BODY4_M color={Color.GRAY400}>{formatDate(date)}</Typo.BODY4_M> : <Typo.BODY4_M color={Color.GRAY400}>날짜 선택</Typo.BODY4_M>}
+            </StyledButton>
 
-          <DatePicker
-            mode='date'
-            modal
-            open={open}
-            date={date}
-            onConfirm={(chooseDate) => {
-              setOpen(false);
-              setChoose(true);
-              setDate(chooseDate);
-              setPostdate(formatDate(chooseDate));
-            }}
-            onCancel={() => {
-              setOpen(false);
-            }}
-          />
-        </FormItemContainer>
-        <FormItemContainer>
-          <Typo.BODY4_M >카테고리</Typo.BODY4_M>
-          <SingleLineInputBox placeholder={'카테고리를 작성해주세요'} onChangeText={(text) => setTitle(text)}></SingleLineInputBox>
-        </FormItemContainer>
-        <FormItemContainer>
-          <Typo.BODY4_M >금액</Typo.BODY4_M>
-          <SingleLineInputBox placeholder={'금액을 입력해주세요'} keyboardType='decimal-pad' onChangeText={(text) => handleTextChange(text)}></SingleLineInputBox>
-        </FormItemContainer>
-        <FormItemContainer>
-          <Typo.BODY4_M >한줄 메모(선택)</Typo.BODY4_M>
-          <SingleLineInputBox placeholder={'내용을 작성해주세요'} onChangeText={(text) => setContent(text)}></SingleLineInputBox>
-        </FormItemContainer>
-        <FormItemContainer>
-        <Typo.BODY4_M >사진 (선택)</Typo.BODY4_M>
-          <ImgUploader data={urls} setData={setUrls}></ImgUploader>
-        </FormItemContainer>
-        <ButtonContainer>
-          <BasicButton onPress={onPressButton} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
-            <Typo.BODY3_M color={Color.WHITE}>작성 완료</Typo.BODY3_M>
-          </BasicButton>
-        </ButtonContainer>
-      </FormContainer>
+            <DatePicker
+              mode='date'
+              modal
+              open={open}
+              date={date}
+              maximumDate={new Date()}
+              onConfirm={(chooseDate) => {
+                setOpen(false);
+                setChoose(true);
+                setDate(chooseDate);
+                setPostdate(formatDate(chooseDate));
+              }}
+              onCancel={() => {
+                setOpen(false);
+              }}
+            />
+          </FormItemContainer>
+          <FormItemContainer>
+            <Typo.BODY4_M>카테고리</Typo.BODY4_M>
+            <SingleLineInputBox placeholder={'카테고리를 작성해주세요'} onChangeText={(text) => setTitle(text)}></SingleLineInputBox>
+          </FormItemContainer>
+          <FormItemContainer>
+            <Typo.BODY4_M>금액</Typo.BODY4_M>
+            <SingleLineInputBox placeholder={'금액을 입력해주세요'} keyboardType='decimal-pad' onChangeText={(text) => handleTextChange(text)}></SingleLineInputBox>
+          </FormItemContainer>
+          <FormItemContainer>
+            <Typo.BODY4_M>한줄 메모(선택)</Typo.BODY4_M>
+            <SingleLineInputBox placeholder={'내용을 작성해주세요'} onChangeText={(text) => setContent(text)}></SingleLineInputBox>
+          </FormItemContainer>
+          <FormItemContainer>
+            <Typo.BODY4_M>사진 (선택)</Typo.BODY4_M>
+            <ImgUploader data={urls} setData={setUrls} maximage={1}></ImgUploader>
+          </FormItemContainer>
+          <ButtonContainer>
+            <BasicButton onPress={onPressButton} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
+              <Typo.BODY3_M color={Color.WHITE}>작성 완료</Typo.BODY3_M>
+            </BasicButton>
+          </ButtonContainer>
+        </FormContainer>
+      )}
     </Container>
   );
 };

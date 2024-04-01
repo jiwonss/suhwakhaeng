@@ -24,12 +24,12 @@ const FarmDairy = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
 
   const onPressDairy = () => {
-    navigation.navigate('FarmDairyAddScreen');
+    navigation.push('FarmDairyAddScreen');
   };
 
   const handlePress = (diary: any) => {
     console.log(diary);
-    navigation.navigate('FarmDairyDetailScreen', { diary: diary });
+    navigation.push('FarmDairyDetailScreen', { diary: diary });
   };
 
   const getCurrentDate = () => {
@@ -70,7 +70,7 @@ const FarmDairy = () => {
     };
 
     fetchData();
-  }, [isFocused, selectedStartDate, selectedFinDate, myCropId]);
+  }, [navigation, selectedStartDate, selectedFinDate, myCropId]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

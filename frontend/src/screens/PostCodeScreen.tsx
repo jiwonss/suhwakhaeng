@@ -23,7 +23,7 @@ const PostCodeScreen = (props: PostCodeProps) => {
     const address = addressData.address;
 
     axios
-      .get(`https://dapi.kakao.com/v2/local/search/address.json?query=${address}`, {
+      .get(`https://dapi.kakao.com/v2/local/search/address?query=${address}`, {
         headers: { Authorization: `KakaoAK ${process.env.KAKAO_RESTAPI_KEY}` },
       })
       .then((res) => {
