@@ -42,4 +42,11 @@ public class User {
         this.location = user.getLocation();
     }
 
+    public void withdraw() {
+        this.status = Status.EXIST;
+    }
+
+    public void rejoin() {
+        this.status = Status.RUN;
+    }
 }
