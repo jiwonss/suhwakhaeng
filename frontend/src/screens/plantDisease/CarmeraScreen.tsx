@@ -31,122 +31,121 @@ const ImageContainer = styled.View`
 `;
 
 const CameraScreen = () => {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const [photo, setPhoto] = useState<{ uri: string } | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+    const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+    const [photo, setPhoto] = useState<{ uri: string } | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
-  // 카메라 및 저장소 접근 권한 요청
-  const requestPermissions = async () => {
-    await request(PERMISSIONS.ANDROID.CAMERA);
-    await request(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE);
-  };
-
-  // 컴포넌트가 마운트될 때 권한 요청
-  useEffect(() => {
-    (async () => {
-      const cameraPermissionStatus = await request(PERMISSIONS.ANDROID.CAMERA);
-      const storagePermissionStatus = await request(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE);
-
-      // 권한이 허용되지 않았다면, 사용자에게 권한 요청 대화상자를 표시합니다.
-      if (cameraPermissionStatus !== RESULTS.GRANTED || storagePermissionStatus !== RESULTS.GRANTED) {
-        Alert.alert('권한 요청', '이 앱에서 제공하는 기능을 사용하기 위해서는 카메라 및 저장소 접근 권한이 필요합니다.', [{
-          text: '취소', onPress: () => navigation.goBack(), style: 'cancel',
-        }, { text: '허용', onPress: () => requestPermissions() }], { cancelable: false });
-      }
-    })();
-  }, []);
-
-  // 카메라로 사진을 찍거나 갤러리에서 사진 선택하는 함수
-  const handleImagePick = async (useCamera: boolean) => {
-    setIsLoading(true);
-
-    const options: CameraOptions = {
-      saveToPhotos: true, mediaType: 'photo',
+    // 카메라 및 저장소 접근 권한 요청
+    const requestPermissions = async () => {
+      await request(PERMISSIONS.ANDROID.CAMERA);
+      await request(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE);
     };
 
-    // 카메라 또는 갤러리를 통해 사진을 선택
-    const result = useCamera ? await launchCamera(options) : await launchImageLibrary(options);
+    // 컴포넌트가 마운트될 때 권한 요청
+    useEffect(() => {
+      (async () => {
+        const cameraPermissionStatus = await request(PERMISSIONS.ANDROID.CAMERA);
+        const storagePermissionStatus = await request(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE);
 
-    if (result.didCancel) {
-      console.log('User cancelled image picker');
-      setIsLoading(false);
-    } else if (result.errorMessage) {
-      console.log('ImagePicker Error: ', result.errorMessage);
-      setIsLoading(false);
-    } else if (result.assets && result.assets.length > 0 && result.assets[0].uri) {
-      const imageUri = result.assets[0].uri;
-      setPhoto({ uri: imageUri }); // 사진 상태 업데이트
-      setIsLoading(false);
-
-      // 파이어베이스에 업로드할 이미지 URI 배열을 생성
-      const imageUrls = [imageUri];
-
-      try {
-        setIsLoading(true);
-        // 이미지를 파이어베이스 스토리지에 업로드하고 다운로드 URL get
-        const downloadUrls = await uploadImagesToFirebaseStorage(imageUrls, 'diseasePlant');
-        if (downloadUrls.length > 0) {
-          const firebaseUrl = downloadUrls[0];
-          console.log('Firebase URL:', firebaseUrl);
-
-          // 업로드된 이미지의 URL을 사용하여 질병 진단 API를호출
-          const diagnosisResult = await sendPlantDiseaseImage(firebaseUrl, navigation);
-          console.log('Diagnosis result:', diagnosisResult);
+        // 권한이 허용되지 않았다면, 사용자에게 권한 요청 다시 요청
+        if (cameraPermissionStatus !== RESULTS.GRANTED || storagePermissionStatus !== RESULTS.GRANTED) {
+          await requestPermissions();
         }
-      } catch (error) {
-        console.error(error);
-        Alert.alert('Error', 'An error occurred');
+      })();
+    }, []);
+
+// 카메라로 사진을 찍거나 갤러리에서 사진 선택하는 함수
+    const handleImagePick = async (useCamera: boolean) => {
+      setIsLoading(true);
+
+      const options: CameraOptions = {
+        saveToPhotos: true, mediaType: 'photo',
+      };
+
+      // 카메라 또는 갤러리를 통해 사진을 선택
+      const result = useCamera ? await launchCamera(options) : await launchImageLibrary(options);
+
+      if (result.didCancel) {
+        console.log('User cancelled image picker');
+        setIsLoading(false);
+      } else if (result.errorMessage) {
+        console.log('ImagePicker Error: ', result.errorMessage);
+        setIsLoading(false);
+      } else if (result.assets && result.assets.length > 0 && result.assets[0].uri) {
+        const imageUri = result.assets[0].uri;
+        setPhoto({ uri: imageUri }); // 사진 상태 업데이트
+        setIsLoading(false);
+
+        // 파이어베이스에 업로드할 이미지 URI 배열을 생성
+        const imageUrls = [imageUri];
+
+        try {
+          setIsLoading(true);
+          // 이미지를 파이어베이스 스토리지에 업로드하고 다운로드 URL get
+          const downloadUrls = await uploadImagesToFirebaseStorage(imageUrls, 'diseasePlant');
+          if (downloadUrls.length > 0) {
+            const firebaseUrl = downloadUrls[0];
+            console.log('Firebase URL:', firebaseUrl);
+
+            // 업로드된 이미지의 URL을 사용하여 질병 진단 API를호출
+            const diagnosisResult = await sendPlantDiseaseImage(firebaseUrl, navigation);
+            console.log('Diagnosis result:', diagnosisResult);
+          }
+        } catch (error) {
+          console.error(error);
+          Alert.alert('Error', 'An error occurred');
+        }
       }
-    }
-  };
+    };
 
-  const renderLoadingLayer = () => (<View
-    style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: Color.GRAY50,
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 2,
-    }}
-  >
-    <Spinner size="large" color={Color.GREEN600}>
-      <Typo.BODY2_M color={Color.BLACK}>작물의 건강을 체크 중입니다...</Typo.BODY2_M>
-    </Spinner>
-  </View>);
+    const renderLoadingLayer = () => (<View
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: Color.GRAY50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 2,
+      }}
+    >
+      <Spinner size="large" color={Color.GREEN600}>
+        <Typo.BODY2_M color={Color.BLACK}>작물의 건강을 체크 중입니다...</Typo.BODY2_M>
+      </Spinner>
+    </View>);
 
-  return (<View style={{ flex: 1 }}>
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <Header type={'default'} title={'작물 병원'} firstIcon={'back'} onPressFirstIcon={navigation.goBack} />
-      <Container>
-        <Typo.BODY1_M><Typo.BODY1_M color={Color.GREEN600}>작물 진단</Typo.BODY1_M> 결과는 아래와 같이 확인 할 수있어요.</Typo.BODY1_M>
-        <ImageContainer>
-          <Image
-            source={photo ? { uri: photo.uri } : require('../../../assets/imgs/diagnosisExample.png')}
-          />
-        </ImageContainer>
-      </Container>
-      <Container>
-        <Typo.BODY1_M>
-          <Typo.BODY1_M color={Color.GREEN600}>작물 진단</Typo.BODY1_M>을 위한 방법을 선택 해주세요</Typo.BODY1_M>
-      </Container>
-      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
-        <MenuButton size="big" title="카메라로 진단" borderColor={Color.GREEN50}
-                    onPressButton={() => handleImagePick(true)}>
-          <Search3D width={widthPercent * 40} height={heightPercent * 40} />
-        </MenuButton>
-        <Spacer horizontal={true} space={40} />
-        <MenuButton size="big" title="사진으로 진단" onPressButton={() => handleImagePick(false)}>
-          <Camera width={widthPercent * 40} height={heightPercent * 40} />
-        </MenuButton>
-      </View>
-      <Spacer space={40} />
-    </ScrollView>
-    {isLoading && renderLoadingLayer()}
-  </View>);
-};
+    return (<View style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <Header type={'default'} title={'작물 병원'} firstIcon={'back'} onPressFirstIcon={navigation.goBack} />
+        <Container>
+          <Typo.BODY1_M><Typo.BODY1_M color={Color.GREEN600}>작물 진단</Typo.BODY1_M> 결과는 아래와 같이 확인 할 수있어요.</Typo.BODY1_M>
+          <ImageContainer>
+            <Image
+              source={photo ? { uri: photo.uri } : require('../../../assets/imgs/diagnosisExample.png')}
+            />
+          </ImageContainer>
+        </Container>
+        <Container>
+          <Typo.BODY1_M>
+            <Typo.BODY1_M color={Color.GREEN600}>작물 진단</Typo.BODY1_M>을 위한 방법을 선택 해주세요</Typo.BODY1_M>
+        </Container>
+        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
+          <MenuButton size="big" title="카메라로 진단" borderColor={Color.GREEN50}
+                      onPressButton={() => handleImagePick(true)}>
+            <Search3D width={widthPercent * 40} height={heightPercent * 40} />
+          </MenuButton>
+          <Spacer horizontal={true} space={40} />
+          <MenuButton size="big" title="사진으로 진단" onPressButton={() => handleImagePick(false)}>
+            <Camera width={widthPercent * 40} height={heightPercent * 40} />
+          </MenuButton>
+        </View>
+        <Spacer space={40} />
+      </ScrollView>
+      {isLoading && renderLoadingLayer()}
+    </View>);
+  }
+;
 
 export default CameraScreen;
