@@ -6,13 +6,13 @@ import Header from '../../components/header/Header';
 import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import MarketPost from '../../components/marketPost/MarketPost';
-import { ScrollView } from 'react-native';
+import { FlatList, ScrollView } from 'react-native';
 import FloatingActionButton from '../../components/floatingActionButton/FloatingActionButton';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { BasicButton } from '../../components/button/Buttons';
 import { getMarketPostList } from '../../apis/services/market/market';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { NotBusinessModal, RegistBusinessModal } from '../../modules/marketModules/MarketModules';
 import { changeCategoryName } from '../../util/MarketUtil';
@@ -23,7 +23,7 @@ type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 const MarketScreen = () => {
   const isFocused = useIsFocused();
   // 유저 정보
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const userInfo = useRecoilValue(userInfoState);
 
   // 네이게이션
   const navigation = useNavigation<RootStackNavigationProp>();
@@ -43,10 +43,11 @@ const MarketScreen = () => {
   // 사업자 등록, 게시글 등록 관련
   const [popUpVisible, setPopUpVisible] = useState<boolean>(false);
   const [slideVisible, setSlideVisible] = useState<boolean>(false);
+
   const onPressRegist = () => {
     // TODO: 사업자인지 아닌지 확인 필요
     if (!userInfo.isBusiness) {
-      navigation.navigate('MarketRegistScreen', { address: '', x: 0, y: 0 });
+      navigation.navigate('MarketRegistScreen', { address: '', x: 0, y: 0, cate: category });
     } else {
       // 모달 열기
       setPopUpVisible(true);
@@ -70,6 +71,7 @@ const MarketScreen = () => {
       event: () => {
         setActiveIndex(0);
         setCategory('');
+        setTradeId(0);
       },
       active: activeIndex === 0,
     },
@@ -78,6 +80,7 @@ const MarketScreen = () => {
       event: () => {
         setActiveIndex(1);
         setCategory('CROP');
+        setTradeId(0);
       },
       active: activeIndex === 1,
     },
@@ -86,6 +89,7 @@ const MarketScreen = () => {
       event: () => {
         setActiveIndex(2);
         setCategory('MATERIAL');
+        setTradeId(0);
       },
       active: activeIndex === 2,
     },
@@ -94,6 +98,7 @@ const MarketScreen = () => {
       event: () => {
         setActiveIndex(3);
         setCategory('EXPERIENCE');
+        setTradeId(0);
       },
       active: activeIndex === 3,
     },
@@ -102,6 +107,7 @@ const MarketScreen = () => {
       event: () => {
         setActiveIndex(4);
         setCategory('WORK');
+        setTradeId(0);
       },
       active: activeIndex === 4,
     },
@@ -124,29 +130,41 @@ const MarketScreen = () => {
     }[]
   >([]);
 
-  useEffect(() => {
-    // TODO: 렌더링시 게시글 데이터 불러오기
-    const getPost = async () => {
-      const params = { tradeId: tradeId, keyword: '', cate: '' };
+  const getMorePost = async () => {
+    if (tradeId <= 1) {
+    } else {
+      const params = { id: tradeId, keyword: '', cate: category };
       const response = await getMarketPostList(params);
-      setMarketPostData(response.dataBody);
-      setTradeId(response.dataBody.length);
-    };
+      setMarketPostData((prevData) => [...prevData, ...response.dataBody]);
 
-    getPost();
-  }, [isFocused]);
+      setTradeId(response.dataBody[response.dataBody.length - 1].id);
+    }
+  };
+
+  const getPost = async () => {
+    const params = { id: tradeId, keyword: '', cate: category };
+    const response = await getMarketPostList(params);
+    setMarketPostData(response.dataBody);
+    setTradeId(response.dataBody[response.dataBody.length - 1].id);
+  };
 
   useEffect(() => {
-    // 카테고리 바뀔 때마다 카테고리에 대한 글목록 조회
-    const getPost = async () => {
-      const params = { tradeId: tradeId, keyword: '', cate: category };
-      const response = await getMarketPostList(params);
-      setMarketPostData(response.dataBody);
-      setTradeId(response.dataBody.length);
-    };
-
     getPost();
   }, [activeIndex]);
+
+  const renderItem = ({ item }) => (
+    <MarketPost
+      onPress={() => onPressPost(item.id)}
+      key={item.id}
+      imgUrl={item.image1}
+      classification={changeCategoryName(item.cate)}
+      title={item.title}
+      price={item.price}
+      likeNumber={item.likeCnt}
+      date={item.createdAt}
+      isFavorite={item.isLiked}
+    />
+  );
 
   return (
     <Container>
@@ -154,31 +172,16 @@ const MarketScreen = () => {
       <ButtonContainer>
         <CustomRadioButton data={radioData} />
       </ButtonContainer>
-      <ScrollView style={{ flex: 1 }}>
-        {marketPostData.length !== 0 ? (
-          marketPostData.map((data) => (
-            <MarketPost
-              onPress={() => onPressPost(data.id)}
-              key={data.id}
-              imgUrl={data.image1}
-              classification={changeCategoryName(data.cate)}
-              title={data.title}
-              price={data.price}
-              likeNumber={data.likeCnt}
-              date={data.createdAt}
-              isFavorite={data.isLiked}
-            />
-          ))
-        ) : (
-          <ContentContainer>
-            <Typo.BODY2_M>아직 장터글이 없습니다.</Typo.BODY2_M>
-            <BasicButton onPress={onPressRegist} width={widthPercent * 90} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
-              <Typo.BODY4_M color={Color.WHITE}>글 쓰러 가기</Typo.BODY4_M>
-            </BasicButton>
-            
-          </ContentContainer>
-        )}
-      </ScrollView>
+      {marketPostData.length !== 0 ? (
+        <FlatList data={marketPostData} renderItem={renderItem} keyExtractor={(item) => item.id.toString()} onEndReached={getMorePost} />
+      ) : (
+        <ContentContainer>
+          <Typo.BODY2_M>아직 장터글이 없습니다.</Typo.BODY2_M>
+          <BasicButton onPress={onPressRegist} width={widthPercent * 90} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
+            <Typo.BODY4_M color={Color.WHITE}>글 쓰러 가기</Typo.BODY4_M>
+          </BasicButton>
+        </ContentContainer>
+      )}
       <FloatingActionButton data={buttonData} />
       <NotBusinessModal isVisible={popUpVisible} setIsVisible={setPopUpVisible} onClickCertButton={() => setSlideVisible(true)} />
       <RegistBusinessModal userId={userInfo.userId} isVisible={slideVisible} setIsVisible={setSlideVisible} />

@@ -4,7 +4,7 @@ import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
 import Header from '../../components/header/Header';
 import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
-import { ScrollView, View } from 'react-native';
+import { FlatList, ScrollView, View } from 'react-native';
 import MarketPost from '../../components/marketPost/MarketPost';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -57,7 +57,7 @@ const MarketSearchScreen = () => {
   const onSubmitSearch = async () => {
     // TODO: 검색어 입력 완료시 검색 결과 받아오기
     if (searchValue) {
-      const params = { tradeId: tradeId, keyword: searchValue, cate: '' };
+      const params = { id: tradeId, keyword: searchValue, cate: '' };
       const response = await getMarketPostList(params);
       setPostData(response.dataBody);
       setTradeId(response.dataBody.length);
@@ -78,6 +78,7 @@ const MarketSearchScreen = () => {
       event: () => {
         setActiveIndex(0);
         setCategory('');
+        setTradeId(0);
       },
       active: activeIndex === 0,
     },
@@ -86,6 +87,7 @@ const MarketSearchScreen = () => {
       event: () => {
         setActiveIndex(1);
         setCategory('CROP');
+        setTradeId(0);
       },
       active: activeIndex === 1,
     },
@@ -94,6 +96,7 @@ const MarketSearchScreen = () => {
       event: () => {
         setActiveIndex(2);
         setCategory('MATERIAL');
+        setTradeId(0);
       },
       active: activeIndex === 2,
     },
@@ -102,6 +105,7 @@ const MarketSearchScreen = () => {
       event: () => {
         setActiveIndex(3);
         setCategory('EXPERIENCE');
+        setTradeId(0);
       },
       active: activeIndex === 3,
     },
@@ -110,34 +114,48 @@ const MarketSearchScreen = () => {
       event: () => {
         setActiveIndex(4);
         setCategory('WORK');
+        setTradeId(0);
       },
       active: activeIndex === 4,
     },
   ];
 
-  useEffect(() => {
-    const getPost = async () => {
-      const params = { tradeId: tradeId, keyword: searchValue, cate: category };
+  const getMorePost = async () => {
+    if (tradeId <= 1) {
+    } else {
+      const params = { id: tradeId, keyword: '', cate: category };
       const response = await getMarketPostList(params);
-      setPostData(response.dataBody);
-    };
-
-    if (searchValue) {
-      getPost();
+      setPostData((prevData) => [...prevData, ...response.dataBody]);
+      setTradeId(response.dataBody[response.dataBody.length - 1].id);
     }
-  }, [isFocused]);
+  };
 
   useEffect(() => {
     const getPost = async () => {
-      const params = { tradeId: tradeId, keyword: searchValue, cate: category };
+      const params = { id: tradeId, keyword: searchValue, cate: category };
       const response = await getMarketPostList(params);
       setPostData(response.dataBody);
+      setTradeId(response.dataBody[response.dataBody.length - 1].id);
     };
 
     if (searchValue) {
       getPost();
     }
   }, [activeIndex]);
+
+  const renderItem = ({ item }) => (
+    <MarketPost
+      onPress={() => onPressPost(item.id)}
+      key={item.id}
+      imgUrl={item.image1}
+      classification={changeCategoryName(item.cate)}
+      title={item.title}
+      price={item.price}
+      likeNumber={item.likeCnt}
+      date={item.createdAt}
+      isFavorite={item.isLiked}
+    />
+  );
 
   return (
     <Container>
@@ -146,25 +164,8 @@ const MarketSearchScreen = () => {
       <ButtonContainer>
         <CustomRadioButton data={radioData} />
       </ButtonContainer>
-
       {postData.length !== 0 ? (
-        <>
-          <ScrollView style={{ flex: 1 }}>
-            {postData.map((data) => (
-              <MarketPost
-                onPress={() => onPressPost(data.id)}
-                key={data.id}
-                imgUrl={data.image1}
-                classification={changeCategoryName(data.cate)}
-                title={data.title}
-                price={data.price}
-                likeNumber={data.likeCnt}
-                date={data.createdAt}
-                isFavorite={data.isLiked}
-              />
-            ))}
-          </ScrollView>
-        </>
+        <FlatList data={postData} renderItem={renderItem} keyExtractor={(item) => item.id.toString()} onEndReached={getMorePost} />
       ) : (
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', marginTop: heightPercent * 50 }}>
           <Typo.BODY3_M>검색 결과가 없습니다</Typo.BODY3_M>

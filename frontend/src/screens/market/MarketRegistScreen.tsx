@@ -21,7 +21,7 @@ type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 interface MarketRegistProps {
   route: {
-    params: { address: string; x: number; y: number };
+    params: { address: string; x: number; y: number; cate: string };
   };
 }
 
@@ -63,7 +63,7 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
   const userInfo = useRecoilValue(userInfoState);
 
   const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [category, setCategory] = useState<string>('CROP');
+  const [category, setCategory] = useState<string>(props.route.params.cate ? props.route.params.cate : 'CROP');
   const [title, setTitle] = useState<string>('');
   const [price, setPrice] = useState<string>('');
   const [content, setContent] = useState<string>('');
@@ -146,6 +146,19 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
       navigation.navigate('MarketScreen');
     }
   };
+
+  useEffect(() => {
+    setCategory(props.route.params.cate ? props.route.params.cate : '');
+    if (props.route.params.cate === 'CROP' || '') {
+      setActiveIndex(0);
+    } else if (props.route.params.cate === 'MATERIAL') {
+      setActiveIndex(1);
+    } else if (props.route.params.cate === 'EXPERIENCE') {
+      setActiveIndex(2);
+    } else if (props.route.params.cate === 'WORK') {
+      setActiveIndex(3);
+    }
+  }, []);
 
   return (
     <Container>
