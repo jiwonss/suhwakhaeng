@@ -9,8 +9,8 @@ public interface TradeService {
     TradeCreateResponse createTrade(Long userId, TradeCreateRequest request);
     TradeDetailResponse selectDetailTrade(Long tradeId);
     List<TradeListResponse> selectListTrade(Long userId, TradeSearchRequest tradeSearchRequest);
-    List<TradeListResponse> selectMyListTrade(Long userId);
-    List<TradeListResponse> selectMyLikeListTrade(Long userId);
+    List<TradeListResponse> selectMyListTrade(Long userId, TradeMyListRequest request);
+    List<TradeListResponse> selectMyLikeListTrade(Long userId, TradeMyListRequest request);
     void updateTrade(Long userId, Long tradeId, TradeUpdateRequest tradeUpdateRequest);
     void deleteTrade(Long userId, Long tradeId);
     void updateStatus(Long userId, Long tradeId, TradeStatusUpdateRequest status);

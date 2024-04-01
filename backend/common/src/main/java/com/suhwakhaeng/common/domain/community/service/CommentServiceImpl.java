@@ -11,6 +11,8 @@ import com.suhwakhaeng.common.domain.community.exception.CommunityErrorCode;
 import com.suhwakhaeng.common.domain.community.exception.CommunityException;
 import com.suhwakhaeng.common.domain.community.repository.CommunityCommentRepository;
 import com.suhwakhaeng.common.domain.community.repository.CommunityRepository;
+import com.suhwakhaeng.common.domain.fcm.dto.FcmTokenRequest;
+import com.suhwakhaeng.common.domain.fcm.service.FcmService;
 import com.suhwakhaeng.common.domain.user.entity.User;
 import com.suhwakhaeng.common.domain.user.exception.UserErrorCode;
 import com.suhwakhaeng.common.domain.user.exception.UserException;
@@ -32,6 +34,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommunityCommentRepository commentRepository;
     private final CommunityRepository communityRepository;
     private final UserRepository userRepository;
+    private final FcmService fcmService;
 
 
     @Override
@@ -48,6 +51,15 @@ public class CommentServiceImpl implements CommentService {
                 .content(request.content())
                 .build();
 
+        if(!community.getWriter().getId().equals(userId)) {
+            fcmService.sendMessageByToken(FcmTokenRequest.builder()
+                    .userId(community.getWriter().getId())
+                    .title("[수확행]")
+                    .body("내 글에 댓글/대댓글이 달렸습니다.")
+                    .build()
+            );
+        }
+
         commentRepository.save(comment);
 
         Optional<CommunityComment> optionalParent = commentRepository.findById(request.parentId());
@@ -55,6 +67,14 @@ public class CommentServiceImpl implements CommentService {
         if (optionalParent.isPresent()) {
             CommunityComment parent = optionalParent.get();
             parent.addSubComment(comment);
+            if(!parent.getWriter().getId().equals(userId)) {
+                fcmService.sendMessageByToken(FcmTokenRequest.builder()
+                        .userId(parent.getWriter().getId())
+                        .title("[수확행]")
+                        .body("내 댓글에 대댓글이 달렸습니다.")
+                        .build()
+                );
+            }
         }
 
         return comment.getId();
