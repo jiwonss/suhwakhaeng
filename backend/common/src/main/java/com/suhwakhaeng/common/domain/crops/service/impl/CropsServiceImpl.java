@@ -79,8 +79,8 @@ public class CropsServiceImpl implements CropsService {
         }
 
         TableInfo tableInfo = cropsDetailResponse.getTableInfo();
-        int rowSize = tableInfo.getTableHead().size() - 1;
-        int columnSize = tableInfo.getTableTitle().size();
+        int rowSize = tableInfo.getTableTitle().size();
+        int columnSize = tableInfo.getTableHead().size() - 1;
 
         List<List<String>> tableBody = new ArrayList<>();
         for (int i = 0; i < rowSize; i++) {
