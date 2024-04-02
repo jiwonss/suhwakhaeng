@@ -198,7 +198,7 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
             {/* 눌렀을 때 주소 검색 페이지로 연결되어야 하는데 나중에 할게요.. */}
             <TouchableWithoutFeedback
               onPress={() => {
-                navigation.navigate('PostCodeScreen', { id: 0, screenName: 'MarketRegist' });
+                navigation.navigate('PostCodeScreen', { id: 0, screenName: 'MarketRegist', cate: category });
               }}
             >
               <AddressContainer>

@@ -32,7 +32,6 @@ export const RootApp = () => {
     // removeTokens();
     const fetchTokens = async () => {
       const { accessToken, refreshToken } = await getTokens();
-      console.log(accessToken);
 
       if (!accessToken) {
         // storage에 토큰 없으면 로그인 페이지로 이동
@@ -45,20 +44,8 @@ export const RootApp = () => {
         const userInfoData = await getUserInfo();
         // 회원 정보 조회 성공
         const userInfoDataBody = userInfoData.dataBody;
-        setUserInfo({
-          ...userInfo,
-          userId: userInfoDataBody.userId,
-          email: userInfoDataBody.email,
-          nickname: userInfoDataBody.nickname,
-          profileImage: userInfoDataBody.profileImage,
-          isBusiness: userInfoDataBody.isBuiseness,
-          profileContent: userInfoDataBody.profileContent,
-          sido: userInfoDataBody.sido ? userInfoDataBody.sido : '',
-          gugun: userInfoDataBody.gugun ? userInfoDataBody.gugun : '',
-          dong: userInfoDataBody.dong ? userInfoDataBody.dong : '',
-          address: userInfoDataBody.address ? userInfoDataBody.address : '',
-          role: userInfoDataBody.role,
-        });
+        console.log('제 정보는요', userInfoDataBody);
+        setUserInfo(userInfoDataBody);
         setToken(true);
         setTimeout(() => {
           SplashScreen.hide();

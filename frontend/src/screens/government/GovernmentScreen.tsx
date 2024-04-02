@@ -28,7 +28,7 @@ const SearchBarContainer = styled.View`
   column-gap: ${widthPercent * 10}px;
 `;
 
-const ResultContainer = styled.ScrollView`
+const ResultContainer = styled.View`
   flex: 1;
   margin: 0px ${widthPercent * 26}px;
 `;
@@ -54,7 +54,7 @@ const GovernmentScreen = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [isLoaded, setIsLoaded] = useState(false);
   const [area, setArea] = useState<string>('');
-  const dropdownData = ['양양', '원주', '고양'];
+  const dropdownData = ['양양', '원주', '고양', '나주'];
 
   const [governmentData, setGovernmentData] = useState<
     {

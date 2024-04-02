@@ -46,7 +46,7 @@ const MarketScreen = () => {
 
   const onPressRegist = () => {
     // TODO: 사업자인지 아닌지 확인 필요
-    if (userInfo.isBusiness || userInfo.role === '관리자') {
+    if (userInfo.role === '사업자' || userInfo.role === '관리자') {
       navigation.navigate('MarketRegistScreen', { address: '', x: 0, y: 0, cate: category });
     } else {
       // 모달 열기
