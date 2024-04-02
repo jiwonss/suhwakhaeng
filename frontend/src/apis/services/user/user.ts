@@ -25,7 +25,7 @@ export const reIssueToken = async (params: { accessToken: string; refreshToken: 
 export const modifyUserInfo = async (params: {
   profileImage: string;
   nickname: string;
-  role: string;
+  role?: string;
   profileContent: string;
   sido: string;
   gugun: string;
