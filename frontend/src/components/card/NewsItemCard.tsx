@@ -1,5 +1,5 @@
 import { TouchableOpacity, View } from 'react-native';
-import { BODY4_M, Detail1_M } from '../typography/Typography';
+import { BODY3_M, BODY4_M, Detail0_M, Detail1_M } from '../typography/Typography';
 import { UriImageLoader } from '../image/ImageLoader';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { Spacer } from '../basic/Spacer';
@@ -24,15 +24,17 @@ export const NewsItemCard = (props: NewsItemProps) => {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
+          borderBottomWidth: 0.4
         }}
         onPress={() => openURL(props.href)}
       >
         <View style={{ height: 'auto', flex: 1, flexDirection: 'column', justifyContent: 'space-between' }}>
-          <BODY4_M>{props.title}</BODY4_M>
+          <Spacer space={heightPercent* 10}></Spacer>
+          <BODY3_M>{props.title}</BODY3_M>
           <Spacer space={heightPercent * 4} />
-          <Detail1_M numberOfLines={3}>{props.content}</Detail1_M>
+          <BODY4_M numberOfLines={2}>{props.content}</BODY4_M>
           <Spacer space={heightPercent * 4} />
-          <Detail1_M color=''>{`${props.company} · ${props.date}`}</Detail1_M>
+          <BODY4_M color=''>{`${props.company}  ${props.date}`}</BODY4_M>
         </View>
         <Spacer space={widthPercent * 8} horizontal />
         {props.uri && <UriImageLoader uri={props.uri} style={{ width: widthPercent * 50, aspectRatio: 1 / 1, borderRadius: widthPercent * 12 }} />}

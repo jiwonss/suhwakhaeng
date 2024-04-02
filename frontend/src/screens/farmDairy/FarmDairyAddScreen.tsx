@@ -12,7 +12,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { createDiary, getCropsSimple } from '../../apis/farm/farm';
 import DatePicker from 'react-native-date-picker';
-import { Button, View } from 'react-native';
+import { ActivityIndicator, Button, View } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import { uploadImagesToFirebaseStorage } from '../../util/BasicUtil';
 import { Spacer } from '../../components/basic/Spacer';
@@ -60,9 +60,18 @@ const StyledButton = styled.TouchableOpacity`
   font-size: ${widthPercent * 12}px;
 `;
 
+const TextContainer = styled.View`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: ${heightPercent * 80}px;
+  row-gap: ${heightPercent * 20}px;
+`;
+
 const FarmDairyAddScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
-  const [lender, setLender] = useState(1);
+  const [render, setRender] = useState(1);
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [choose, setChoose] = useState(false);
@@ -76,6 +85,8 @@ const FarmDairyAddScreen = () => {
   const [urls, setUrls] = useState([]);
 
   const onPressButton = async () => {
+    setRender(1);
+
     const fetchData = async () => {
       let image = null;
       if (urls && urls.length !== 0) {
@@ -112,10 +123,10 @@ const FarmDairyAddScreen = () => {
       const response = await getCropsSimple();
       //작물 드롭다운 설정
       if (response.dataBody.length === 0) {
-        setLender(0);
+        setRender(0);
         return;
       }
-      setLender(2);
+      setRender(2);
       setCrops(response.dataBody.map((item) => item.myCropsName));
       setMyCrops(response.dataBody);
     };
@@ -124,13 +135,13 @@ const FarmDairyAddScreen = () => {
   }, []);
 
   const onPress = () => {
-    navigation.navigate('AddCropsScreen');
+    navigation.push('AddCropsScreen');
   };
 
   return (
     <Container>
       <Header type='default' firstIcon='back' title='영농 일지' />
-      {lender === 0 && (
+      {render === 0 && (
         <FormContainer>
           <FormItemContainer0>
             <Typo.BODY1_B color={Color.GREEN600}>내 작물 정보가 없습니다!</Typo.BODY1_B>
@@ -151,12 +162,12 @@ const FarmDairyAddScreen = () => {
           </FormItemContainer0>
         </FormContainer>
       )}
-      {lender === 1 && (
-        <FormContainer>
-          <Typo.BODY1_B color={Color.GREEN600}>렌더 중..</Typo.BODY1_B>
-        </FormContainer>
-      )}
-      {lender === 2 && (
+      {render === 1 && (
+          <TextContainer>
+            <ActivityIndicator size='large' />
+          </TextContainer>
+        )}
+      {render === 2 && (
         <FormContainer>
           <FormItemContainer>
             <Typo.BODY4_M>작물</Typo.BODY4_M>
