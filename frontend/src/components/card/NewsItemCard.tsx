@@ -5,6 +5,7 @@ import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { Spacer } from '../basic/Spacer';
 import Hyperlink from 'react-native-hyperlink';
 import { openURL } from '../../util/LinkUtil';
+import { useState } from 'react';
 
 interface NewsItemProps {
   uri: string;
@@ -22,7 +23,6 @@ export const NewsItemCard = (props: NewsItemProps) => {
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
-          padding: widthPercent * 8,
           alignItems: 'center',
         }}
         onPress={() => openURL(props.href)}
@@ -35,7 +35,7 @@ export const NewsItemCard = (props: NewsItemProps) => {
           <Detail1_M color=''>{`${props.company} · ${props.date}`}</Detail1_M>
         </View>
         <Spacer space={widthPercent * 8} horizontal />
-        <UriImageLoader uri={props.uri} style={{ width: widthPercent * 50, aspectRatio: 1 / 1, borderRadius: widthPercent * 12 }} />
+        {props.uri && <UriImageLoader uri={props.uri} style={{ width: widthPercent * 50, aspectRatio: 1 / 1, borderRadius: widthPercent * 12 }} />}
       </TouchableOpacity>
     </Hyperlink>
   );
