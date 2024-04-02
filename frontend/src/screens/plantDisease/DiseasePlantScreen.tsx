@@ -1,4 +1,4 @@
-import { ScrollView, View } from 'react-native';
+import { ActivityIndicator, ScrollView, View } from 'react-native';
 import styled from 'styled-components/native';
 import Camera from '../../../assets/icons/camera_color.svg';
 import Search3D from '../../../assets/icons/search3D.svg';
@@ -23,17 +23,36 @@ const Container = styled.View`
   row-gap: ${5 * heightPercent}px;
 `;
 
+const TextContainer = styled.View`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: ${heightPercent * 80}px;
+  row-gap: ${heightPercent * 20}px;
+`;
+
 const DiseasePlantScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const userInfo = useRecoilValue(userInfoState);
-
+  const [render, setRander] = useState(false);
   const [news, setNews] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
       // 로그인 하기//
-      // const { dataBody } = await getNews();
-      // setNews(dataBody);
+      const { dataBody } = await getNews();
+
+      const newdata = dataBody.map((item) => {
+        if (item.thumbnail.includes('data:image/gif;base64')) {
+          return { ...item, thumbnail: '' };
+        }
+        return item;
+      });
+
+      console.log(newdata);
+      setRander(true);
+      setNews(newdata);
     };
 
     getData();
@@ -47,7 +66,7 @@ const DiseasePlantScreen = () => {
         <Spacer space={20} />
         <Container>
           <Typo.BODY4_M>
-            {userInfo.nickname}, 작물의 <Typo.BODY4_M color={Color.GREEN500}>상태</Typo.BODY4_M>를 확인해볼까요?
+            {userInfo.nickname}작물의 <Typo.BODY4_M color={Color.GREEN500}>상태</Typo.BODY4_M>를 확인해볼까요?
           </Typo.BODY4_M>
         </Container>
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
@@ -58,26 +77,31 @@ const DiseasePlantScreen = () => {
           <MenuButton size='big' title='질병 진단' onPressButton={() => navigation.navigate('CameraScreen')}>
             <Camera width={widthPercent * 40} height={heightPercent * 40} />
           </MenuButton>
-          {/*<ImgUploader data={urls} setData={setUrls}></ImgUploader>*/}
         </View>
         <Spacer space={40} />
         <Container>
           <Typo.BODY4_M>
             최근 농업에선 <Typo.BODY4_M color={Color.GREEN500}>어떤 일</Typo.BODY4_M>들이 있었을까요?
           </Typo.BODY4_M>
+          <Spacer space={widthPercent * 20}></Spacer>
+          {render ? (
+            news.map((item, index) => (
+              <NewsItemCard
+                key={index}
+                company={item.company} // 회사 정보 추가
+                content={item.content} // 컨텐츠 내용
+                date={item.date} // 날짜 정보 추가
+                href={item.url} // 하이퍼링크 정보
+                title={item.title} // 제목 정보
+                uri={item.thumbnail} // 이미지 URI 정보
+              />
+            ))
+          ) : (
+            <TextContainer>
+              <ActivityIndicator size='large' />
+            </TextContainer>
+          )}
         </Container>
-        {news &&
-          news.map((item, index) => (
-            <NewsItemCard
-              key={index}
-              company={item.publisher.name} // 회사 정보
-              content={item.content} // 컨텐츠 내용
-              date={item.publisher.date} // 날짜 정보
-              href={item.url} // 하이퍼링크 정보
-              title={item.title} // 제목 정보
-              uri={item.thumbnail} // 이미지 URI 정보
-            />
-          ))}
       </ScrollView>
     </View>
   );

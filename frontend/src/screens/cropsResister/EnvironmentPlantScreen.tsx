@@ -12,8 +12,8 @@ import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { useRoute } from '@react-navigation/core';
 import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
-import { useRecoilState } from 'recoil';
-import { myCropsList } from '../../recoil/atoms/myCrops';
+// import { useRecoilState } from 'recoil';
+// import { myCropsList } from '../../recoil/atoms/myCrops';
 import { postMyCropInfo } from '../../apis/services/crops/Crops';
 
 const Container = styled.View`
@@ -35,28 +35,28 @@ const EnvironmentPlantScreen = () => {
   const [cropName, setCropName] = useState('');
   const [area, setArea] = useState('');
   const [cropYield, setCropYield] = useState('');
-  const [myCrops, setMyCrops] = useRecoilState(myCropsList);
+  // const [myCrops, setMyCrops] = useRecoilState(myCropsList);
 
-  interface CropLocation {
-    sido: string;
-    gugun: string;
-    dong: string;
-  }
+  // interface CropLocation {
+  //   sido: string;
+  //   gugun: string;
+  //   dong: string;
+  // }
 
-  interface NewCropInfo {
-    plantName: string;
-    varietyName: string;
-    cropsVarietyId: number;
-    name: string;
-    area: number;
-    areaUnit: string;
-    yield: number;
-    location: CropLocation;
-  }
+  // interface NewCropInfo {
+  //   plantName: string;
+  //   varietyName: string;
+  //   cropsVarietyId: number;
+  //   name: string;
+  //   area: number;
+  //   areaUnit: string;
+  //   yield: number;
+  //   location: CropLocation;
+  // }
 
-  const updateMyCrops = (newCropInfo: NewCropInfo) => {
-    setMyCrops([...myCrops, newCropInfo]);
-  };
+  // const updateMyCrops = (newCropInfo: NewCropInfo) => {
+  //   setMyCrops([...myCrops, newCropInfo]);
+  // };
 
   const submitCropInfo = async () => {
     const cropInfo = {
@@ -73,8 +73,8 @@ const EnvironmentPlantScreen = () => {
     };
 
     try {
-      const response = await postMyCropInfo(cropInfo);
-      updateMyCrops(response.data);
+      await postMyCropInfo(cropInfo);
+      // updateMyCrops(response.data);
       navigation.navigate('BottomNavigation', { screen: 'MyProfileScreen' });
     } catch (error) {
       console.error('에러', error);
@@ -121,7 +121,7 @@ const EnvironmentPlantScreen = () => {
           <Typo.BODY4_M>재배 면적(선택)</Typo.BODY4_M>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <SingleLineInputBox width={180} placeholder={'재배 면적 입력'} keyboardType='decimal-pad' value={area} onChangeText={setArea} />
-            <DropDown width={104} dataList={dropDownData} onSelect={setSelectData} defaultText={'평방미터'} />
+            <DropDown width={110} dataList={dropDownData} onSelect={setSelectData} defaultText={'평방미터'} />
           </View>
           <Spacer space={10} />
         </Container>

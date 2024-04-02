@@ -41,7 +41,6 @@ const ImageContainer = styled.View`
 `;
 
 
-
 const DetailDiseasePlantScreen = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'DetailDiseasePlantScreen'>>();
   const diagnosisResult: DiagnosisResult = route.params.diagnosisResult;
@@ -53,15 +52,26 @@ const DetailDiseasePlantScreen = () => {
   };
 
   const renderProtectContent = () => {
-    // `diagnosisResult.protect?.basic`가 존재하는지 확인
-    if (!diagnosisResult.isHealthy && diagnosisResult.protect && diagnosisResult.protect.basic) {
-      // `basic` 배열이 존재하는 경우, 내용을 렌더링
-      return diagnosisResult.protect.basic.map((item, index) => (
-        <TextContainer key={`basic-${index}`}>{item}</TextContainer>
-      ));
-    } else {
-      return;
+    if (!diagnosisResult.isHealthy && diagnosisResult.protect) {
+      if (diagnosisResult.protect.basic) {
+        return diagnosisResult.protect.basic.map((item, index) => (
+          <TextContainer key={`basic-${index}`}>{item}</TextContainer>
+        ));
+      } else {
+        // 'basic' 이외의 다른 키들에 대한 처리 (선택적)
+        return Object.entries(diagnosisResult.protect).map(([key, value]) => (
+          <View key={key}>
+            <Typo.BODY3_M>- {key}</Typo.BODY3_M>
+            <Spacer space={5} />
+            {value.map((item, index) => (
+              <TextContainer key={`${key}-${index}`}>{item}</TextContainer>
+            ))}
+            <Spacer space={15} />
+          </View>
+        ));
+      }
     }
+    return null; // 작물이 건강할 경우 또는 protect 정보가 없을 경우
   };
 
   return (

@@ -32,7 +32,7 @@ public class Diary {
     @Column(name = "diary_date", updatable = false)
     private LocalDate date;
 
-    @Column(name = "diary_content")
+    @Column(name = "diary_content", columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "diary_memo")

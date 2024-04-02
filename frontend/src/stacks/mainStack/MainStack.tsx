@@ -51,7 +51,7 @@ type DiagnosisResult = {
 
 export type RootStackParamList = {
   AddCropsScreen: undefined;
-  AdminDetailScreen: { id: number };
+  AdminDetailScreen: { businessId: number; nickname: string; image: string };
   AdminScreen: undefined;
   BottomNavigation: { screen?: string };
   BottomTabStackNavigator: undefined;
