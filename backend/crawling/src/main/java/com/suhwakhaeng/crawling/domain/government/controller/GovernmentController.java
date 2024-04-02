@@ -7,10 +7,7 @@ import com.suhwakhaeng.crawling.global.common.dto.Message;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,5 +21,12 @@ public class GovernmentController {
                                            @RequestParam(defaultValue = "0") int page,
                                            @RequestParam(defaultValue = "10") int size) {
         return ResponseEntity.ok().body(Message.success(governmentService.selectGovernment(request, PageRequest.of(page, size))));
+    }
+
+    @CustomPreAuthorize({"ADMIN"})
+    @PostMapping
+    public ResponseEntity createGovernment() {
+        governmentService.crawlingGovernment();
+        return ResponseEntity.ok().body(Message.success());
     }
 }

@@ -235,6 +235,7 @@ public class CrawlingService {
                 }
 
             } catch (NoSuchElementException e) {
+                e.printStackTrace();
                 break;
             }
 
