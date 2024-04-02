@@ -14,6 +14,7 @@ import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { iconMapping } from '../crops/CropsScreen';
 
 interface Crop {
+  Icon?: ComponentType<SvgProps>;
   id: number;
   name: string;
 }
@@ -50,14 +51,19 @@ const AddCropsScreen = () => {
   useEffect(() => {
     const getData = async () => {
       const { dataBody } = await getCropsData();
-      const mappedData = dataBody.map((item: Crop) => {
-        const iconItem = iconMapping.find((icon) => icon.engName === item.name || icon.name === item.name);
-        return {
-          ...item,
-          name: iconItem ? iconItem.name : item.name,
-          Icon: iconItem ? iconItem.Icon : null,
-        };
-      });
+      const mappedData = dataBody
+        .map((item: Crop) => {
+          const iconItem = iconMapping.find((icon) => icon.engName === item.name || icon.name === item.name);
+          return iconItem
+            ? {
+                ...item,
+                name: iconItem.name,
+                Icon: iconItem.Icon,
+              }
+            : null;
+        })
+        .filter((item: Crop | null): item is Plant => item !== null); // null인 항목 제거
+
       setPlants(mappedData);
     };
 
@@ -80,7 +86,13 @@ const AddCropsScreen = () => {
                 borderRadius={50}
                 width={80}
                 height={80}
-                onPress={() => navigation.navigate('CropsVarietyScreen', { plantName: plant.name, plantId: plant.id, value: 2 })}
+                onPress={() =>
+                  navigation.navigate('CropsVarietyScreen', {
+                    plantName: plant.name,
+                    plantId: plant.id,
+                    value: 2,
+                  })
+                }
               >
                 {plant.Icon && <plant.Icon width={50} height={50} />}
               </BasicButton>
