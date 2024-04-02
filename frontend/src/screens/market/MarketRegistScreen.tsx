@@ -15,7 +15,8 @@ import { useNavigation } from '@react-navigation/native';
 import { getKST, uploadImagesToFirebaseStorage } from '../../util/BasicUtil';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
-import { Alert, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { ActivityIndicator, Alert, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Spacer } from '../../components/basic/Spacer';
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
@@ -74,6 +75,8 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
   const [y, setY] = useState<number>(0);
   const [address, setAddress] = useState<string>('');
 
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+
   const radioData = [
     {
       content: '작물',
@@ -113,11 +116,15 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
     // TODO: 작성 완료 후 상세보기 페이지로 이동?
     if (!title) {
       Alert.alert('수확행', '제목을 입력해주세요');
+      return;
     } else if (!price) {
       Alert.alert('수확행', '가격을 입력해주세요');
+      return;
     } else if (!content) {
       Alert.alert('수확행', '내용을 입력해주세요');
+      return;
     } else {
+      setIsUploading(true);
       const newImageUrls = await uploadImagesToFirebaseStorage(imgUrls, `장터//${userInfo.userId}//${getKST()}`);
       const params = {
         cate: category,
@@ -142,6 +149,7 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
       setImgUrls([]);
       if (response.dataHeader.successCode === 0) {
         Alert.alert('수확행', '등록 완료!');
+        setIsUploading(false);
       }
       navigation.push('BottomNavigation', { screen: 'MarketScreen' });
     }
@@ -163,46 +171,56 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
   return (
     <Container>
       <Header type='default' title='장터글 등록' firstIcon='exit' />
-      <FormContainer>
-        <FormItemContainer style={{ rowGap: heightPercent * 8 }}>
-          <Typo.BODY4_M>분류 선택</Typo.BODY4_M>
-          <CustomRadioButton data={radioData} />
-        </FormItemContainer>
-        <FormItemContainer>
-          <Typo.BODY4_M>제목 입력</Typo.BODY4_M>
-          <SingleLineInputBox value={title} onChangeText={setTitle} placeholder={'제목을 입력해주세요'} />
-        </FormItemContainer>
-        <FormItemContainer>
-          <Typo.BODY4_M>가격 입력</Typo.BODY4_M>
-          <SingleLineInputBox keyboardType='decimal-pad' value={price} onChangeText={setPrice} placeholder={'가격을 입력해주세요 (숫자만 입력)'} />
-        </FormItemContainer>
-        <FormItemContainer>
-          <Typo.BODY4_M>내용 입력</Typo.BODY4_M>
-          <MultiLineInputBox value={content} onChangeText={setContent} placeholder={'내용을 입력해주세요'} />
-        </FormItemContainer>
-        <ImageFormItemContainer>
-          <Typo.BODY4_M>사진 (선택)</Typo.BODY4_M>
-          <ImgUploader data={imgUrls} setData={setImgUrls} />
-        </ImageFormItemContainer>
-        <FormItemContainer>
-          <Typo.BODY4_M>주소 (선택)</Typo.BODY4_M>
-          {/* 눌렀을 때 주소 검색 페이지로 연결되어야 하는데 나중에 할게요.. */}
-          <TouchableWithoutFeedback
-            onPress={() => {
-              navigation.navigate('PostCodeScreen', { id: 0, screenName: 'MarketRegist' });
-            }}
-          >
-            <AddressContainer>
-              <Typo.BODY4_M color={Color.GRAY400}>{props.route.params.address ? props.route.params.address : '주소를 입력해주세요'}</Typo.BODY4_M>
-            </AddressContainer>
-          </TouchableWithoutFeedback>
-        </FormItemContainer>
-        <ButtonContainer>
-          <BasicButton onPress={onPressButton} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
-            <Typo.BODY3_M color={Color.WHITE}>작성 완료</Typo.BODY3_M>
-          </BasicButton>
-        </ButtonContainer>
-      </FormContainer>
+      {!isUploading ? (
+        <FormContainer>
+          <FormItemContainer style={{ rowGap: heightPercent * 8 }}>
+            <Typo.BODY4_M>분류 선택</Typo.BODY4_M>
+            <CustomRadioButton data={radioData} />
+          </FormItemContainer>
+          <FormItemContainer>
+            <Typo.BODY4_M>제목 입력</Typo.BODY4_M>
+            <SingleLineInputBox value={title} onChangeText={setTitle} placeholder={'제목을 입력해주세요'} />
+          </FormItemContainer>
+          <FormItemContainer>
+            <Typo.BODY4_M>가격 입력</Typo.BODY4_M>
+            <SingleLineInputBox keyboardType='decimal-pad' value={price} onChangeText={setPrice} placeholder={'가격을 입력해주세요 (숫자만 입력)'} />
+          </FormItemContainer>
+          <FormItemContainer>
+            <Typo.BODY4_M>내용 입력</Typo.BODY4_M>
+            <MultiLineInputBox value={content} onChangeText={setContent} placeholder={'내용을 입력해주세요'} />
+          </FormItemContainer>
+          <ImageFormItemContainer>
+            <Typo.BODY4_M>사진 (선택)</Typo.BODY4_M>
+            <ImgUploader data={imgUrls} setData={setImgUrls} />
+          </ImageFormItemContainer>
+          <FormItemContainer>
+            <Typo.BODY4_M>주소 (선택)</Typo.BODY4_M>
+            {/* 눌렀을 때 주소 검색 페이지로 연결되어야 하는데 나중에 할게요.. */}
+            <TouchableWithoutFeedback
+              onPress={() => {
+                navigation.navigate('PostCodeScreen', { id: 0, screenName: 'MarketRegist' });
+              }}
+            >
+              <AddressContainer>
+                <Typo.BODY4_M color={Color.GRAY400}>{props.route.params.address ? props.route.params.address : '주소를 입력해주세요'}</Typo.BODY4_M>
+              </AddressContainer>
+            </TouchableWithoutFeedback>
+          </FormItemContainer>
+          <ButtonContainer>
+            <BasicButton onPress={onPressButton} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
+              <Typo.BODY3_M color={Color.WHITE}>작성 완료</Typo.BODY3_M>
+            </BasicButton>
+          </ButtonContainer>
+        </FormContainer>
+      ) : (
+        <>
+          <View style={{ flexDirection: 'column', alignItems: 'center', paddingVertical: heightPercent * 150 }}>
+            <Typo.BODY3_M>등록 중입니다</Typo.BODY3_M>
+            <Spacer space={heightPercent * 20} />
+            <ActivityIndicator size='large'></ActivityIndicator>
+          </View>
+        </>
+      )}
     </Container>
   );
 };

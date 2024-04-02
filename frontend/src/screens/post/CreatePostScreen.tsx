@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Alert, ScrollView, View } from 'react-native';
+import { ActivityIndicator, Alert, ScrollView, View } from 'react-native';
 import styled from 'styled-components/native';
 import { Spacer } from '../../components/basic/Spacer';
 import { BasicButton } from '../../components/button/Buttons';
@@ -96,7 +96,10 @@ const CreatePostScreen = (props: CreatePostProps) => {
     // try시 navigation.goBack()
     if (!content) {
       Alert.alert('수확행', '내용을 입력해주세요');
+      return;
     }
+
+    setIsUploading(true);
     const newImageUrls = await uploadImagesToFirebaseStorage(imgUrls, `커뮤니티//${userInfo.userId}//${getKST()}`);
 
     const params = {
@@ -114,35 +117,46 @@ const CreatePostScreen = (props: CreatePostProps) => {
       setCategory('');
       setContent('');
       setImgeUrls([]);
+      setIsUploading(false);
       navigation.reset({ routes: [{ name: 'BottomNavigation' }] });
     }
   };
 
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
-      <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
-        <Header type={'default'} firstIcon='back' title={'게시글 등록'} />
-        <Spacer space={20} />
-        <Container>
-          <Typo.BODY4_M>분류 선택</Typo.BODY4_M>
-          <View style={{ alignItems: 'center' }}>
-            <CustomRadioButton data={radioData} width={60} />
-          </View>
-        </Container>
-        <Container>
-          <Typo.BODY4_M>내용</Typo.BODY4_M>
-          <MultiLineInputBox value={content} onChangeText={setContent} placeholder={'내용을 작성하세요'} />
-        </Container>
-        <Container>
-          <Typo.BODY4_M>사진</Typo.BODY4_M>
-          <ImgUploader data={imgUrls} setData={setImgeUrls}></ImgUploader>
-        </Container>
-      </ScrollView>
-      <Container>
-        <BasicButton borderColor={Color.GREEN500} borderRadius={10} height={45} onPress={onSubmit}>
-          <Typo.BODY3_M color={Color.WHITE}>작성완료</Typo.BODY3_M>
-        </BasicButton>
-      </Container>
+      <Header type={'default'} firstIcon='back' title={'게시글 등록'} />
+      {!isUploading ? (
+        <>
+          <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
+            <Spacer space={20} />
+            <Container>
+              <Typo.BODY4_M>분류 선택</Typo.BODY4_M>
+              <View style={{ alignItems: 'center' }}>
+                <CustomRadioButton data={radioData} width={60} />
+              </View>
+            </Container>
+            <Container>
+              <Typo.BODY4_M>내용</Typo.BODY4_M>
+              <MultiLineInputBox value={content} onChangeText={setContent} placeholder={'내용을 작성하세요'} />
+            </Container>
+            <Container>
+              <Typo.BODY4_M>사진</Typo.BODY4_M>
+              <ImgUploader data={imgUrls} setData={setImgeUrls}></ImgUploader>
+            </Container>
+          </ScrollView>
+          <Container>
+            <BasicButton borderColor={Color.GREEN500} borderRadius={10} height={45} onPress={onSubmit}>
+              <Typo.BODY3_M color={Color.WHITE}>작성완료</Typo.BODY3_M>
+            </BasicButton>
+          </Container>
+        </>
+      ) : (
+        <View style={{ flexDirection: 'column', alignItems: 'center', paddingVertical: heightPercent * 150 }}>
+          <Typo.BODY3_M>등록 중입니다</Typo.BODY3_M>
+          <Spacer space={heightPercent * 20} />
+          <ActivityIndicator size='large'></ActivityIndicator>
+        </View>
+      )}
     </View>
   );
 };
