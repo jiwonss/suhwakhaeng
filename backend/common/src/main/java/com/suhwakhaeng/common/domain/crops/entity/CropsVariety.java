@@ -31,13 +31,13 @@ public class CropsVariety {
     @Column(name = "crops_variety_function")
     private String function;
 
-    @Column(name = "crops_variety_characteristic")
+    @Column(name = "crops_variety_characteristic", columnDefinition = "TEXT")
     private String characteristic;
 
     @Column(name = "crops_variety_adaptation_area")
     private String adaptationArea;
 
-    @Column(name = "crops_variety_caution")
+    @Column(name = "crops_variety_caution", columnDefinition = "TEXT")
     private String caution;
 
     @Column(name = "crops_variety_image")

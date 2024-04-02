@@ -21,7 +21,8 @@ public class Community extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User writer;
 
-    @Column(name = "community_content")
+//    @ColumnDefinition("VARCHAR(255) NOT NULL")
+    @Column(name = "community_content", columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "community_image1")

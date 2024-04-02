@@ -35,7 +35,7 @@ public class CommunityComment extends BaseEntity {
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
     private List<CommunityComment> children = new ArrayList<>();
 
-    @Column(name = "community_comment_content")
+    @Column(name = "community_comment_content", columnDefinition = "TEXT")
     private String content;
 
     public void addSubComment(CommunityComment subComment) {
