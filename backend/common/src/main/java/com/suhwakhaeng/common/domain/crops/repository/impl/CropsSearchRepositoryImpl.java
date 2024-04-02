@@ -38,6 +38,7 @@ public class CropsSearchRepositoryImpl implements CropsSearchRepository {
                 )
                 .from(crops)
                 .where(searchOptions)
+                .orderBy(crops.name.asc())
                 .fetch();
     }
 }

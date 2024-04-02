@@ -62,7 +62,7 @@ public class CropsServiceImpl implements CropsService {
 
     @Override
     public List<CropsVarietyListResponse> selectListCropsVariety(Long cropsId) {
-        return cropsVarietyRepository.findAllByCropsId(cropsId).stream()
+        return cropsVarietyRepository.findAllByCropsIdOrderByNameAsc(cropsId).stream()
                 .map(CropsVarietyListResponse::from)
                 .collect(Collectors.toList());
     }
