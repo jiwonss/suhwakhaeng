@@ -11,7 +11,8 @@ import { Spacer } from '../../components/basic/Spacer';
 interface AdminDetailProps {
   route: {
     params: {
-      id: any;
+      nickname: string;
+      image: string;
     };
   };
 }
@@ -24,9 +25,9 @@ const UserImage = styled.View`
 const AdminDetailScreen = (props: AdminDetailProps) => {
   return (
     <Container>
-      <Header type='default' firstIcon='back' title='김범수' />
+      <Header type='default' firstIcon='back' title={props.route.params.nickname} />
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-        <UserImage source={{ uri: 'http://example.com/image.jpg' }} style={{ width: '100%', height: 'auto', aspectRatio: 1 }} resizeMode='center' />
+        <UserImage source={{ uri: props.route.params.image }} style={{ width: '100%', height: 'auto', aspectRatio: 1 }} resizeMode='center' />
         <Spacer space={heightPercent * 20}></Spacer>
         <BasicButton onPress={() => {}} width={widthPercent * 150} height={heightPercent * 40} borderColor={Color.GREEN500} borderRadius={10}>
           <Typo.BODY4_M color={Color.WHITE}>사업자 등록 허가</Typo.BODY4_M>

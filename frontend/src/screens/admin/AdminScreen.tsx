@@ -11,6 +11,7 @@ import SearchGray from '../../../assets/icons/search_gray.svg';
 import { BasicButton } from '../../components/button/Buttons';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { allowBusiness, getBusiness } from '../../apis/services/admin/Admin';
 
 const StyledContainer = styled.View`
   height: ${heightPercent * 63}px;
@@ -52,49 +53,60 @@ const StyledInput = styled.TextInput`
   height: 100%;
 `;
 
-
 type RootStackParamList = {
-  AdminDetailScreen: { id: any };
+  AdminDetailScreen: { nickname: string, image: string };
 };
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 const AdminScreen = () => {
   const [searchValue, setSearchValue] = useState('');
+  const [userinfo, setUserinfo] = useState([]);
   const onSubmitSearch = () => {};
 
   const navigation = useNavigation<RootStackNavigationProp>();
 
-  const goToDetailPage = (id: any) => {
+  const goToDetailPage = (nickname: string, image: string) => {
     // 상세 페이지로 이동하는 코드
-    navigation.navigate('AdminDetailScreen', { id : id }); // 'DetailPage'는 상세 페이지의 이름에 해당하는 스택 내비게이션의 경로입니다.
+    navigation.navigate('AdminDetailScreen', { nickname: nickname, image: image }); // 'DetailPage'는 상세 페이지의 이름에 해당하는 스택 내비게이션의 경로입니다.
   };
 
   useEffect(() => {
-    
+    const fetchData = async () => {
+      const response = await getBusiness({ lastId: 0 });
+      console.log(response.dataBody);
+      setUserinfo(response.dataBody);
+    };
+
+    fetchData();
   }, []);
 
   return (
     <Container>
-      <Header type='default' title='관리자 페이지' />
+      <Header type='default' firstIcon='back' title='관리자 페이지' />
       <StyledContainer>
         <InputContainer>
           <SearchGray width={widthPercent * 20} height={heightPercent * 20} />
           <StyledInput value={searchValue} onChangeText={setSearchValue} placeholder='검색어를 입력하세요' onSubmitEditing={onSubmitSearch} returnKeyType='done' />
         </InputContainer>
       </StyledContainer>
-      <StyledContainer2 onPress={goToDetailPage}>
-        <Typo.BODY4_M color={Color.BLACK}>김범수</Typo.BODY4_M>
-        <BasicButton onPress={()=>{}} width={widthPercent * 90} height={heightPercent * 30} borderColor={Color.GREEN500} borderRadius={10}>
-          <Typo.BODY4_M color={Color.WHITE}>사업자 등록</Typo.BODY4_M>
-        </BasicButton>
-      </StyledContainer2>
-      <StyledContainer2>
-        <Typo.BODY4_M color={Color.BLACK}>김범수</Typo.BODY4_M>
-        <BasicButton onPress={()=>{}} width={widthPercent * 90} height={heightPercent * 30} borderColor={Color.GREEN500} borderRadius={10}>
-          <Typo.BODY4_M color={Color.WHITE}>사업자 등록</Typo.BODY4_M>
-        </BasicButton>
-      </StyledContainer2>
+      {userinfo &&
+        userinfo.map((user) => (
+          <StyledContainer2 key={user.businessId} onPress={() => goToDetailPage(user.nickname, user.image)}>
+            <Typo.BODY4_M color={Color.BLACK}>{user.nickname}</Typo.BODY4_M>
+            <BasicButton
+              onPress={() => {
+                allowBusiness(user.businessId);
+              }}
+              width={widthPercent * 90}
+              height={heightPercent * 30}
+              borderColor={Color.GREEN500}
+              borderRadius={10}
+            >
+              <Typo.BODY4_M color={Color.WHITE}>사업자 등록</Typo.BODY4_M>
+            </BasicButton>
+          </StyledContainer2>
+        ))}
     </Container>
   );
 };

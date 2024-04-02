@@ -16,6 +16,7 @@ import New_Icon from '../../../assets/icons/new.svg';
 import Sunny from '../../../assets/icons/Sunny.svg';
 import Person_remove from '../../../assets/icons/person-remove.svg';
 import Lucide from '../../../assets/icons/Lucide Icon.svg';
+import Admin from '../../../assets/icons/admin.svg';
 import { PlantAdd, PlantItem } from '../../components/plantAdd/PlantAdd';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -33,6 +34,7 @@ type RootStackParamList = {
   FarmScreen: undefined;
   SetLocationScreen: undefined;
   WeatherScreen: undefined;
+  AdminScreen: undefined;
 };
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
@@ -210,6 +212,17 @@ const MyProfileScreen = () => {
               <Typo.BODY4_M>날씨</Typo.BODY4_M>
             </StyledButton>
           </FormItemContainer>
+          {userInfo.role === '' && (
+            <FormItemContainer>
+              <Typo.BODY4_B>관리자 페이지</Typo.BODY4_B>
+              <Spacer space={heightPercent * 4}></Spacer>
+              <StyledButton onPress={() => navigation.navigate('AdminScreen')}>
+                <Admin width={widthPercent * 16} height={heightPercent * 16}></Admin>
+                <Spacer space={widthPercent * 8} horizontal></Spacer>
+                <Typo.BODY4_M>사업자 등록확인</Typo.BODY4_M>
+              </StyledButton>
+            </FormItemContainer>
+          )}
 
           <ButtonContainer>
             <StyledButton
