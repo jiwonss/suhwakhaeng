@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { BackHandler, ScrollView, View } from 'react-native';
 import styled from 'styled-components/native';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
@@ -94,6 +94,16 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
       setIsLoaded(true);
 
       setIsLiked(isLikedResponse.dataBody.isLiked);
+
+      const backAction = () => {
+        // 뒤로가기 버튼을 눌렀을 때 수행할 작업들
+        props.route.params.previousScreen === 'MarketScreen' ? navigation.push('BottomNavigation', { screen: 'MarketScreen' }) : navigation.goBack();
+        return true; // true 반환 시 기본 동작 방지
+      };
+
+      const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+      return () => backHandler.remove();
     };
 
     getPostDetail();

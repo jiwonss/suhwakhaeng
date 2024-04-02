@@ -17,6 +17,7 @@ import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { SingleLineInputBox } from '../../components/inputBox/Input';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
+import { BackHandler } from 'react-native';
 
 interface DetaliPostProps {
   route: {
@@ -139,6 +140,16 @@ const DetailPostScreen = (props: DetaliPostProps) => {
     };
 
     getDetail();
+
+    const backAction = () => {
+      // 뒤로가기 버튼을 눌렀을 때 수행할 작업들
+      props.route.params.previousScreen === 'MainScreen' ? navigation.reset({ routes: [{ name: 'BottomNavigation' }] }) : navigation.goBack();
+      return true; // true 반환 시 기본 동작 방지
+    };
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () => backHandler.remove();
   }, [props.route.params.id, isFocused]);
 
   useEffect(() => {
