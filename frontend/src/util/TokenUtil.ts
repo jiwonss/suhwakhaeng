@@ -10,6 +10,10 @@ export const setTokens = (response: any) => {
   EncryptedStorage.setItem('refreshToken', response.refreshToken);
 };
 
+export const setDeviceToken = (deviceToken: any) => {
+  EncryptedStorage.setItem('deviceToken', deviceToken);
+};
+
 /**
  * Encrypted Storage에 저장된 토큰들을 가져옵니다.
  * @author 조은서
@@ -28,6 +32,7 @@ export const getTokens = async () => {
 export const removeTokens = () => {
   EncryptedStorage.removeItem('accessToken');
   EncryptedStorage.removeItem('refreshToken');
+  EncryptedStorage.removeItem('deviceToken');
 };
 
 export const verifyTokens = async () => {

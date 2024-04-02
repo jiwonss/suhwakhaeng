@@ -8,7 +8,7 @@ import { login } from '@react-native-seoul/kakao-login';
 import { getUserInfo, userLogin } from '../../apis/services/user/user';
 import { useRecoilState } from 'recoil';
 import { tokenState } from '../../recoil/atoms/tokenState';
-import { setTokens, getTokens } from '../../util/TokenUtil';
+import { setTokens, getTokens, setDeviceToken } from '../../util/TokenUtil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import messaging from '@react-native-firebase/messaging';
 
@@ -57,6 +57,7 @@ const OauthScreen = () => {
       };
 
       const deviceToken = await getFcmToken();
+      setDeviceToken(deviceToken);
       // requestUserPermission();
 
       // 로그인 요청 보내기

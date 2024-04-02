@@ -40,3 +40,13 @@ export const registBusinessCert = async (params: { businessImage: string }) => {
   const response = await tokenInstance.post(`${userUrl}/business`, params);
   return response.data;
 };
+
+export const userLogout = async (params: { refreshToken: string; deviceToken: string }) => {
+  const response = await tokenInstance.post(`${userUrl}/logout`, params);
+  return response.data;
+};
+
+export const userOut = async () => {
+  const response = await tokenInstance.patch(`${userUrl}/withdraw`);
+  return response.data;
+};

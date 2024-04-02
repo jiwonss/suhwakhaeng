@@ -26,6 +26,8 @@ import { tokenState } from '../../recoil/atoms/tokenState';
 import { SlideModal } from '../../components/modal/Modal';
 import { deleteMyCropInfo, getMyCropListInfo } from '../../apis/services/crops/Crops';
 import { RegistBusinessModal } from '../../modules/marketModules/MarketModules';
+import EncryptedStorage from 'react-native-encrypted-storage';
+import { userLogout, userOut } from '../../apis/services/user/user';
 
 type RootStackParamList = {
   ModifyProfileScreen: { sido: string; gugun: string; dong: string; address: string };
@@ -235,8 +237,14 @@ const MyProfileScreen = () => {
 
           <ButtonContainer>
             <StyledButton
-              onPress={() => {
+              onPress={async () => {
                 Alert.alert('수확행', '로그아웃 되었습니다.');
+                const refreshToken = await EncryptedStorage.getItem('refreshToken');
+                const deviceToken = await EncryptedStorage.getItem('deviceToken');
+                if (!refreshToken || !deviceToken) {
+                  return;
+                }
+                await userLogout({ refreshToken: refreshToken, deviceToken: deviceToken });
                 removeTokens();
                 setTimeout(() => {
                   setToken(false);
@@ -248,7 +256,20 @@ const MyProfileScreen = () => {
               <Typo.BODY4_M color={Color.GRAY400}>로그아웃</Typo.BODY4_M>
             </StyledButton>
 
-            <StyledButton onPress={() => {}}>
+            <StyledButton
+              onPress={() => {
+                Alert.alert('수확행', '정말 탈퇴하시겠습니까?', [
+                  { text: '아니오', onPress: () => {}, style: 'cancel' },
+                  {
+                    text: '예',
+                    onPress: async () => {
+                      await userOut();
+                    },
+                    style: 'destructive',
+                  },
+                ]);
+              }}
+            >
               <Person_remove width={widthPercent * 16} height={heightPercent * 16}></Person_remove>
               <Spacer space={widthPercent * 8} horizontal></Spacer>
               <Typo.BODY4_M color={Color.GRAY400}>회원탈퇴</Typo.BODY4_M>

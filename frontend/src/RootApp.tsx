@@ -4,11 +4,12 @@ import AuthStack from './stacks/authStack/AuthStack';
 import MainStack from './stacks/mainStack/MainStack';
 import SplashScreen from 'react-native-splash-screen';
 import { useEffect, useState } from 'react';
-import { getTokens, removeTokens } from './util/TokenUtil';
+import { getTokens, removeTokens, setDeviceToken } from './util/TokenUtil';
 import { getUserInfo, reIssueToken } from './apis/services/user/user';
 import { userInfoState } from './recoil/atoms/userInfoState';
 import messaging from '@react-native-firebase/messaging';
 import { checkNotifications, requestNotifications } from 'react-native-permissions';
+import EncryptedStorage from 'react-native-encrypted-storage';
 
 export const RootApp = () => {
   const [tokens, setTokens] = useState<{ accessToken: string | null; refreshToken: string | null }>({ accessToken: null, refreshToken: null });
@@ -17,10 +18,9 @@ export const RootApp = () => {
 
   const checkNotificationPermission = async () => {
     const status = await checkNotifications();
-    console.log(status)
-    if(status.status === 'denied')
-      await requestNotifications(['alert', 'sound', 'criticalAlert']);  
-  }
+    console.log(status);
+    if (status.status === 'denied') await requestNotifications(['alert', 'sound', 'criticalAlert']);
+  };
 
   const requestUserPermission = async () => {
     const authStatus = await messaging().requestPermission();
@@ -34,8 +34,8 @@ export const RootApp = () => {
   const getFcmToken = async () => {
     const fcmToken = await messaging().getToken();
     console.log('[FCM Token] ', fcmToken);
+    setDeviceToken(fcmToken);
   };
-
 
   useEffect(() => {
     // removeTokens();
