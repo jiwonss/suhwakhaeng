@@ -1,16 +1,17 @@
 services:
   springboot:
-    image: sjs3326/crawling
-    container_name: crawling
+    image: sjs3326/config
+    container_name: config
     build:
       context: ../../
       dockerfile: ./Dockerfile
     ports:
-      - "9003:9003"
+      - "8888:8888"
     networks:
       suhwakhaeng:
-        ipv4_address: 172.20.0.10
+        ipv4_address: 172.20.0.8
     restart: always
+
 
 networks:
   suhwakhaeng:
@@ -18,3 +19,4 @@ networks:
       driver: default
       config:
         - subnet: "172.20.0.0/16"
+
