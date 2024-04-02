@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Color from '../../config/color/Color';
 import Header from '../../components/header/Header';
@@ -50,7 +50,21 @@ const FavoriteProductScreen = () => {
   }, [isFocused]);
 
   const onPressPost = (postId: number) => {
-    navigation.navigate('MarketDetailScreen', { id: postId });
+    navigation.navigate('MarketDetailScreen', { id: postId, previousScreen: 'FavoriteScreen' });
+  };
+
+  const renderItem = ({ item }) => {
+    return (
+      <MarketPost
+        onPress={() => onPressPost(item.id)}
+        classification={changeCategoryName(item.cate)}
+        title={item.title}
+        price={item.price}
+        likeNumber={item.likeCnt}
+        date={item.createdAt}
+        isFavorite={item.isLiked}
+      />
+    );
   };
 
   return (
@@ -58,25 +72,18 @@ const FavoriteProductScreen = () => {
       <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
         <Header type='default' firstIcon='back' title='관심 상품'></Header>
         <Spacer space={heightPercent * 10}></Spacer>
-        {myMarketPost.length !== 0 ? (
-          myMarketPost.map((item) => (
-            <MarketPost
-              onPress={() => onPressPost(item.id)}
-              classification={changeCategoryName(item.cate)}
-              title={item.title}
-              price={item.price}
-              likeNumber={item.likeCnt}
-              date={item.createdAt}
-              isFavorite={item.isLiked}
-            />
-          ))
-        ) : (
-          <NoPost>
-            <Typo.BODY3_B>관심 상품이 없어요</Typo.BODY3_B>
-            <Spacer space={heightPercent * 10}></Spacer>
-            <Typo.BODY4_M color={Color.GRAY400}>장터에서 관심가는 상품에 하트를 눌러보세요</Typo.BODY4_M>
-          </NoPost>
-        )}
+        <FlatList
+          ListEmptyComponent={
+            <NoPost>
+              <Typo.BODY3_B>관심 상품이 없어요</Typo.BODY3_B>
+              <Spacer space={heightPercent * 10}></Spacer>
+              <Typo.BODY4_M color={Color.GRAY400}>장터에서 관심가는 상품에 하트를 눌러보세요</Typo.BODY4_M>
+            </NoPost>
+          }
+          data={myMarketPost}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+        />
       </View>
     </SafeAreaView>
   );
