@@ -143,12 +143,12 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
       if (response.dataHeader.successCode === 0) {
         Alert.alert('수확행', '등록 완료!');
       }
-      navigation.reset({ routes: [{ name: 'BottomNavigation' }] });
+      navigation.push('BottomNavigation', { screen: 'MarketScreen' });
     }
   };
 
   useEffect(() => {
-    setCategory(props.route.params.cate ? props.route.params.cate : '');
+    setCategory(props.route.params.cate ? props.route.params.cate : 'CROP');
     if (props.route.params.cate === 'CROP' || '') {
       setActiveIndex(0);
     } else if (props.route.params.cate === 'MATERIAL') {

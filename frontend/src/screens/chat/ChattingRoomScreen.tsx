@@ -11,12 +11,10 @@ import { MyChat, PartnerChat } from '../../components/chattingMessage/ChattingMe
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import * as StompJs from '@stomp/stompjs';
-// import { getChatData } from '../../apis/services/chat/chat';
 import { Client } from '@stomp/stompjs';
 import { TextEncoder, TextDecoder } from 'text-encoding';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import { getChatList } from '../../apis/services/chat/Chat';
-import { getKST } from '../../util/BasicUtil';
 
 interface ChattingRoomProps {
   route: {
@@ -119,6 +117,7 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
   useEffect(() => {
     const getChatListResponse = async () => {
       const response = await getChatList(props.route.params.id);
+      console.log(response.dataBody);
       setChatData(response.dataBody);
     };
     getChatListResponse();
