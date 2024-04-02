@@ -10,7 +10,7 @@ import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
 import Spinner from '../../components/spinner/Spinner';
 import MenuButton from '../../components/menuButton/MenuButton';
-import Search3D from '../../../assets/icons/search3D.svg';
+import Gallery from '../../../assets/icons/gallery.svg';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { Spacer } from '../../components/basic/Spacer';
 import Camera from '../../../assets/icons/camera_color.svg';
@@ -134,11 +134,11 @@ const CameraScreen = () => {
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center' }}>
           <MenuButton size="big" title="카메라로 진단" borderColor={Color.GREEN50}
                       onPressButton={() => handleImagePick(true)}>
-            <Search3D width={widthPercent * 40} height={heightPercent * 40} />
+            <Camera width={widthPercent * 40} height={heightPercent * 40} />
           </MenuButton>
           <Spacer horizontal={true} space={40} />
           <MenuButton size="big" title="사진으로 진단" onPressButton={() => handleImagePick(false)}>
-            <Camera width={widthPercent * 40} height={heightPercent * 40} />
+            <Gallery width={widthPercent * 40} height={heightPercent * 40} />
           </MenuButton>
         </View>
         <Spacer space={40} />
