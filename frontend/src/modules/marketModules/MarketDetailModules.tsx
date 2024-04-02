@@ -63,16 +63,20 @@ export const KakaoMap = (props: KakaoMapProps) => {
     <html>
         <head>
             <meta name="viewport" content="width=device-width, initial-scale=1">
+        </style>
+    
             <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.KAKAO_MAP_KEY}&libraries=services,clusterer,drawing"></script> 
         </head>
         <body >
-            <div id="map" style="width:500px;height:400px;"></div>
+            <div id="map" style="width:${widthPercent*300}px;height:${heightPercent*250}px;"></div>
+            <button id="zoomInBtn" style="background-color: #28a745; border: none; color: #fff; padding: 10px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 4px; width: 40px;">+</button>
+            <button id="zoomOutBtn" style="background-color: #28a745; border: none; color: #fff; padding: 10px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 4px; width: 40px;">-</button>
             <script type="text/javascript">
                 (function () {
                     const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
                     const options = { //지도를 생성할 때 필요한 기본 옵션
                         center: new kakao.maps.LatLng(${props.y}, ${props.x}), //지도의 중심좌표.
-                        draggable: false,
+                        draggable: true,
                         level: 3 //지도의 레벨(확대, 축소 정도)
                     };
                     
@@ -88,6 +92,19 @@ export const KakaoMap = (props: KakaoMapProps) => {
 
                     // 마커가 지도 위에 표시되도록 설정합니다
                     marker.setMap(map);
+
+
+                    document.getElementById('zoomInBtn').addEventListener('click', function() {
+                      var currentLevel = map.getLevel();
+                      map.setLevel(currentLevel - 1, {anchor: map.getCenter()});
+                  });
+      
+                  // Zoom Out 버튼 이벤트 처리
+                  document.getElementById('zoomOutBtn').addEventListener('click', function() {
+                      var currentLevel = map.getLevel();
+                      map.setLevel(currentLevel + 1, {anchor: map.getCenter()});
+                  });
+
                 })();
             </script>       
         </body>
@@ -95,5 +112,5 @@ export const KakaoMap = (props: KakaoMapProps) => {
     `);
   }, [props]);
 
-  return <WebView style={{ width: widthPercent * 300, height: heightPercent * 300 }} source={{ html: html }} />;
+  return <WebView style={{ width: widthPercent * 300, height: heightPercent * 300 }} source={{ html: html }}/>;
 };
