@@ -227,6 +227,7 @@ const MainScreen = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item.communityId.toString()}
         onEndReached={getMorePost}
+        onEndReachedThreshold={0.8}
         // onRefresh={onRefresh}
         // refreshing={refreshing}
       />

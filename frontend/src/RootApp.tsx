@@ -43,6 +43,7 @@ export const RootApp = () => {
         setTokens({ ...tokens, accessToken: accessToken, refreshToken: refreshToken });
 
         const userInfoData = await getUserInfo();
+        // console.log('현재 토큰', tokens);
         // 회원 정보 조회 성공
         const userInfoDataBody = userInfoData.dataBody;
         setUserInfo({

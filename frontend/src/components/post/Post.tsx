@@ -58,7 +58,7 @@ const ImgeContainer = styled.View`
   margin-top: ${heightPercent * 20}px;
 `;
 const ReactionContainer = styled.View`
-  margin-top: ${heightPercent * 10}px;
+  margin-top: ${heightPercent * 20}px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -91,17 +91,14 @@ const ReactionElemContainer = styled.View`
 const Post = (props: PostProps) => {
   return (
     <PostContainer>
-      <TouchableOpacity onPress={props.onPress}>
+      <TouchableOpacity disabled={!props.isPreview} onPress={props.isPreview ? props.onPress : () => {}}>
         <ProfileContainer>
           <ProfileCard url={props.postData.profileImg} name={props.postData.name} date={props.postData.date} />
-          {/* 게시글분류태그 수정해야함 */}
           <BasicTag>
             <Typo.Detail1_M color={Color.WHITE}>{props.postData.classification}</Typo.Detail1_M>
           </BasicTag>
         </ProfileContainer>
-      </TouchableOpacity>
-      <ContentContainer>
-        <TouchableOpacity onPress={props.onPress}>
+        <ContentContainer>
           <TextContainer>
             {props.isPreview ? <Typo.BODY4_M numberOfLines={4}>{props.postData.content}</Typo.BODY4_M> : <Typo.BODY4_M>{props.postData.content}</Typo.BODY4_M>}
           </TextContainer>
@@ -118,22 +115,23 @@ const Post = (props: PostProps) => {
                 {props.postData.imgUrl_four && <UriImageLoader uri={props.postData.imgUrl_four} style={{ width: '100%', height: heightPercent * 200 }} resizeMode='contain' />}
               </ImgeContainer>
             ))}
-        </TouchableOpacity>
-        <ReactionContainer>
-          <ReactionElemContainer>
-            {props.postData.isLiked ? (
-              <Favorite width={widthPercent * 20} height={heightPercent * 20} onPress={props.onPressLikeButton} />
-            ) : (
-              <FavoriteBorder width={widthPercent * 20} height={heightPercent * 20} onPress={props.onPressLikeButton} />
-            )}
-            <Typo.BODY4_M color={Color.GRAY400}>{props.postData.likeNumber}</Typo.BODY4_M>
-          </ReactionElemContainer>
-          <ReactionElemContainer>
-            <Comment width={widthPercent * 20} height={heightPercent * 20} />
-            <Typo.BODY4_M color={Color.GRAY400}>{props.postData.commentNumber}</Typo.BODY4_M>
-          </ReactionElemContainer>
-        </ReactionContainer>
-      </ContentContainer>
+
+          <ReactionContainer>
+            <ReactionElemContainer>
+              {props.postData.isLiked ? (
+                <Favorite width={widthPercent * 22} height={heightPercent * 22} onPress={props.onPressLikeButton} />
+              ) : (
+                <FavoriteBorder width={widthPercent * 22} height={heightPercent * 22} onPress={props.onPressLikeButton} />
+              )}
+              <Typo.BODY4_M color={Color.GRAY400}>{props.postData.likeNumber}</Typo.BODY4_M>
+            </ReactionElemContainer>
+            <ReactionElemContainer>
+              <Comment width={widthPercent * 22} height={heightPercent * 22} />
+              <Typo.BODY4_M color={Color.GRAY400}>{props.postData.commentNumber}</Typo.BODY4_M>
+            </ReactionElemContainer>
+          </ReactionContainer>
+        </ContentContainer>
+      </TouchableOpacity>
     </PostContainer>
   );
 };
