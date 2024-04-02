@@ -81,7 +81,7 @@ const ModifyProfileScreen = (props: ModifyProfileProps) => {
       });
       alert('프로필 수정 성공!');
     }
-    navigation.push('MyProfileScreen');
+    navigation.push('BottomNavigation', { screen: 'MyProfileScreen' });
   };
 
   const onPressCameraButton = async () => {
