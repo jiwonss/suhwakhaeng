@@ -15,7 +15,6 @@ import Favorite_border from '../../../assets/icons/favorite_border.svg';
 import New_Icon from '../../../assets/icons/new.svg';
 import Sunny from '../../../assets/icons/Sunny.svg';
 import Person_remove from '../../../assets/icons/person-remove.svg';
-import Location from '../../../assets/icons/location.svg';
 import Lucide from '../../../assets/icons/Lucide Icon.svg';
 import { PlantAdd, PlantItem } from '../../components/plantAdd/PlantAdd';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -25,7 +24,6 @@ import { removeTokens } from '../../util/TokenUtil';
 import { tokenState } from '../../recoil/atoms/tokenState';
 import { SlideModal } from '../../components/modal/Modal';
 import { deleteMyCropInfo, getMyCropListInfo } from '../../apis/services/crops/Crops';
-import { RegistBusinessModal } from '../../modules/marketModules/MarketModules';
 
 type RootStackParamList = {
   ModifyProfileScreen: { sido: string; gugun: string; dong: string; address: string };
@@ -88,11 +86,11 @@ const MyProfileScreen = () => {
   const userInfo = useRecoilValue(userInfoState);
   const [myCropsList, setMyCropsList] = useState<CropItem[]>([]);
   const [selectedCropId, setSelectedCropId] = useState<number>(0);
-  const [slideVisible, setSlideVisible] = useState<boolean>(false);
 
   // 작물 목록 가져오기
   useFocusEffect(
     React.useCallback(() => {
+      console.log(userInfo)
       const fetchMyCrops = async () => {
         try {
           const response = await getMyCropListInfo();
@@ -147,7 +145,7 @@ const MyProfileScreen = () => {
               </BasicButton>
 
               <BasicButton
-                onPress={() => setSlideVisible(true)}
+                onPress={() => console.log('Button pressed')}
                 width={widthPercent * 150}
                 height={heightPercent * 30}
                 disabled={false}
@@ -205,12 +203,6 @@ const MyProfileScreen = () => {
           <FormItemContainer>
             <Typo.BODY4_B>내 지역 정보</Typo.BODY4_B>
             <Spacer space={heightPercent * 4}></Spacer>
-            <StyledButton onPress={() => navigation.navigate('SetLocationScreen')}>
-              <Location width={widthPercent * 16} height={heightPercent * 16}></Location>
-              <Spacer space={widthPercent * 8} horizontal></Spacer>
-              <Typo.BODY4_M>거주지역</Typo.BODY4_M>
-            </StyledButton>
-
             <StyledButton onPress={() => navigation.navigate('WeatherScreen')}>
               <Sunny width={widthPercent * 16} height={heightPercent * 16}></Sunny>
               <Spacer space={widthPercent * 8} horizontal></Spacer>
@@ -221,7 +213,7 @@ const MyProfileScreen = () => {
           <ButtonContainer>
             <StyledButton
               onPress={() => {
-                Alert.alert('수확행', '로그아웃 되었습니다.');
+                alert('로그아웃 되었습니다.');
                 removeTokens();
                 setTimeout(() => {
                   setToken(false);
@@ -302,7 +294,6 @@ const MyProfileScreen = () => {
             </BasicButton>
           </View>
         </SlideModal>
-        <RegistBusinessModal userId={userInfo.userId} isVisible={slideVisible} setIsVisible={setSlideVisible} />
       </Container>
     </>
   );

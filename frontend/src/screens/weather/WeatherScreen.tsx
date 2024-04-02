@@ -50,11 +50,11 @@ const FormItemContainer = styled.View`
 `;
 
 type RootStackParamList = {
+  ModifyProfileScreen: { sido: string; gugun: string; dong: string; address: string };
   PostCodeScreen: undefined;
 };
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
-
 
 const WeatherScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
@@ -77,7 +77,12 @@ const WeatherScreen = () => {
   };
 
   const onPressDairy = () => {
-    navigation.navigate('PostCodeScreen');
+    navigation.push('ModifyProfileScreen', {
+      sido: '',
+      gugun: '',
+      dong: '',
+      address: '',
+    });
   };
 
   const dateData = getCurrentDateTime();
@@ -86,6 +91,7 @@ const WeatherScreen = () => {
       // 1. 유저 정보에서 시도군 정보 가져오기
       const location = await getLocation();
       // 1.1 없다면 설정페이지로 보내버리기
+      console.log(location.location);
       if (!location.location) {
         setLender(0);
         return;
@@ -154,7 +160,7 @@ const WeatherScreen = () => {
       setNowData(processData);
       setWeatherInfo(response);
       setSido(location.location);
-      setLender(2)
+      setLender(2);
     };
     fetchData();
   }, []);
@@ -205,7 +211,7 @@ const WeatherScreen = () => {
                 <Typo.BODY3_M>{nowData.SKY}</Typo.BODY3_M>
               </View>
               <Spacer space={heightPercent * 5}></Spacer>
-              <Typo.BODY1_B color={Color.GREEN600}>{nowData.TMP}C</Typo.BODY1_B>
+              <Typo.BODY1_B color={Color.GREEN600}>{nowData.TMP}도</Typo.BODY1_B>
               <Spacer space={heightPercent * 5}></Spacer>
               <Typo.BODY4_M>최고온도 {weatherInfo.max_tmp}도</Typo.BODY4_M>
               <Spacer space={heightPercent * 5}></Spacer>
