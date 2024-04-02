@@ -130,7 +130,7 @@ const MyProfileScreen = () => {
             <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
               <BasicButton
                 onPress={() =>
-                  navigation.navigate('ModifyProfileScreen', {
+                  navigation.push('ModifyProfileScreen', {
                     sido: '',
                     gugun: '',
                     dong: '',
@@ -185,19 +185,19 @@ const MyProfileScreen = () => {
           <FormItemContainer>
             <Typo.BODY4_B>내 활동</Typo.BODY4_B>
             <Spacer space={heightPercent * 4}></Spacer>
-            <StyledButton onPress={() => navigation.navigate('MyPostScreen')}>
+            <StyledButton onPress={() => navigation.push('MyPostScreen')}>
               <Feather width={widthPercent * 16} height={heightPercent * 16}></Feather>
               <Spacer space={widthPercent * 8} horizontal></Spacer>
               <Typo.BODY4_M>작성한 글</Typo.BODY4_M>
             </StyledButton>
 
-            <StyledButton onPress={() => navigation.navigate('FavoriteProductScreen')}>
+            <StyledButton onPress={() => navigation.push('FavoriteProductScreen')}>
               <Favorite_border width={widthPercent * 16} height={heightPercent * 16}></Favorite_border>
               <Spacer space={widthPercent * 8} horizontal></Spacer>
               <Typo.BODY4_M>관심 상품</Typo.BODY4_M>
             </StyledButton>
 
-            <StyledButton onPress={() => navigation.navigate('FarmScreen')}>
+            <StyledButton onPress={() => navigation.push('FarmScreen')}>
               <New_Icon width={widthPercent * 16} height={heightPercent * 16}></New_Icon>
               <Spacer space={widthPercent * 8} horizontal></Spacer>
               <Typo.BODY4_M>영농일지/영농장부</Typo.BODY4_M>
@@ -206,7 +206,7 @@ const MyProfileScreen = () => {
           <FormItemContainer>
             <Typo.BODY4_B>내 지역 정보</Typo.BODY4_B>
             <Spacer space={heightPercent * 4}></Spacer>
-            <StyledButton onPress={() => navigation.navigate('WeatherScreen')}>
+            <StyledButton onPress={() => navigation.push('WeatherScreen')}>
               <Sunny width={widthPercent * 16} height={heightPercent * 16}></Sunny>
               <Spacer space={widthPercent * 8} horizontal></Spacer>
               <Typo.BODY4_M>날씨</Typo.BODY4_M>
@@ -216,7 +216,7 @@ const MyProfileScreen = () => {
             <FormItemContainer>
               <Typo.BODY4_B>관리자 페이지</Typo.BODY4_B>
               <Spacer space={heightPercent * 4}></Spacer>
-              <StyledButton onPress={() => navigation.navigate('AdminScreen')}>
+              <StyledButton onPress={() => navigation.push('AdminScreen')}>
                 <Admin width={widthPercent * 16} height={heightPercent * 16}></Admin>
                 <Spacer space={widthPercent * 8} horizontal></Spacer>
                 <Typo.BODY4_M>사업자 등록확인</Typo.BODY4_M>
