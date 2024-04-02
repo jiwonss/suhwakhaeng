@@ -142,15 +142,15 @@ public class CrawlingService {
                         String articleNumber = matcher.group(1);
                         detailUrl = baseUrl + articleNumber;
 
-//                        isExist = crawlingRepository.existsByUrl(detailUrl);
+                        isExist = governmentRepository.existsByUrl(detailUrl);
 
                     } else {
                         detailUrl = baseUrl;
                     }
 
-//                    if (isExist || curPage == 10) {
-//                        break;
-//                    }
+                    if (isExist) {
+                        break;
+                    }
 
                     Government government = Government.builder()
                             .title(title)
@@ -167,9 +167,9 @@ public class CrawlingService {
                 break;
             }
 
-//            if (isExist || curPage == 10) {
-//                break;
-//            }
+            if (isExist) {
+                break;
+            }
             curPage++;
 
         }
@@ -206,8 +206,14 @@ public class CrawlingService {
                 List<WebElement> elements = bodyElement.findElements(By.tagName("tr"));
 
                 for (WebElement element : elements) {
+
+                    List<WebElement> tdElements = element.findElements(By.tagName("td"));
+
+                    WebElement dateElement = tdElements.get(3);
+
                     // XPath를 사용하여 해당하는 td 요소를 찾음
-                    WebElement dateElement = element.findElement(By.xpath(".//td[contains(text(), 'yyyy-mm-dd')]"));
+//                    WebElement dateElement = element.findElement(By.xpath(".//td[contains(text(), 'yyyy-mm-dd')]"));
+//                    WebElement dateElement = element.findElement(By.xpath(".//td[contains(@class, 'align_left')]/following-sibling::td[1]"));
 
                     // 찾은 요소의 텍스트 출력
                     String dateString = dateElement.getText();

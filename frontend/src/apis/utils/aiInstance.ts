@@ -23,7 +23,7 @@ const handleResponseError = async (error: AxiosError) => {
     // TODO
     // 로그아웃 로직타기
     case 500:
-      alert('시스템 에러, 관리자에게 문의 바랍니다.');
+      // alert('시스템 에러, 관리자에게 문의 바랍니다.');
       break;
     default:
       console.error(error);

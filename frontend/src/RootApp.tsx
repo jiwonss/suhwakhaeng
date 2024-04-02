@@ -8,11 +8,19 @@ import { getTokens, removeTokens } from './util/TokenUtil';
 import { getUserInfo, reIssueToken } from './apis/services/user/user';
 import { userInfoState } from './recoil/atoms/userInfoState';
 import messaging from '@react-native-firebase/messaging';
+import { checkNotifications, requestNotifications } from 'react-native-permissions';
 
 export const RootApp = () => {
   const [tokens, setTokens] = useState<{ accessToken: string | null; refreshToken: string | null }>({ accessToken: null, refreshToken: null });
   const [token, setToken] = useRecoilState(tokenState);
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+
+  const checkNotificationPermission = async () => {
+    const status = await checkNotifications();
+    console.log(status)
+    if(status.status === 'denied')
+      await requestNotifications(['alert', 'sound', 'criticalAlert']);  
+  }
 
   const requestUserPermission = async () => {
     const authStatus = await messaging().requestPermission();
@@ -28,6 +36,7 @@ export const RootApp = () => {
     console.log('[FCM Token] ', fcmToken);
   };
 
+
   useEffect(() => {
     // removeTokens();
     const fetchTokens = async () => {
@@ -42,6 +51,7 @@ export const RootApp = () => {
         setTokens({ ...tokens, accessToken: accessToken, refreshToken: refreshToken });
 
         const userInfoData = await getUserInfo();
+
         // 회원 정보 조회 성공
         const userInfoDataBody = userInfoData.dataBody;
         console.log('제 정보는요', userInfoDataBody);
@@ -54,7 +64,7 @@ export const RootApp = () => {
     };
 
     fetchTokens();
-
+    checkNotificationPermission();
     getFcmToken();
     requestUserPermission();
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {

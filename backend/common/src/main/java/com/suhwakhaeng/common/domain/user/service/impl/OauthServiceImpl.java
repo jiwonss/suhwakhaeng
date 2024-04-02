@@ -76,13 +76,13 @@ public class OauthServiceImpl implements OauthService {
         RefreshToken storedRefreshToken = refreshTokenRepository.findById(refreshToken)
                 .orElseThrow(() -> new JwtException(INVALID_TOKEN));
 
-        String newAccessToken = jwtProvider.issueAccessToken(userInfo.getUserId(), userInfo.getRole());
+        User user = userRepository.findById(userInfo.getUserId())
+                .orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST_USER));
+
+        String newAccessToken = jwtProvider.issueAccessToken(user.getId(), user.getRole().name());
         String newRefreshToken = jwtProvider.issueRefreshToken();
 
         refreshTokenRepository.delete(storedRefreshToken);
-
-        User user = userRepository.findById(userInfo.getUserId())
-                .orElseThrow(() -> new UserException(UserErrorCode.NOT_EXIST_USER));
 
         refreshTokenRepository.save(RefreshToken.createRefreshToken(newRefreshToken, user, jwtProps.accessExpiration()));
 

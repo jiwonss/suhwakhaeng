@@ -15,6 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import { CreateLedger, getCropsSimple } from '../../apis/farm/farm';
 import SelectDropdown from 'react-native-select-dropdown';
 import { Spacer } from '../../components/basic/Spacer';
+import { ActivityIndicator } from 'react-native';
 
 type RootStackParamList = {
   FarmScreen: undefined;
@@ -64,9 +65,18 @@ const StyledView = styled.View`
   margin: 0px ${widthPercent * 50}px;
 `;
 
+const TextContainer = styled.View`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: ${heightPercent * 80}px;
+  row-gap: ${heightPercent * 20}px;
+`;
+
 const FarmLedgerAddScreen = () => {
   const navigation = useNavigation<RootStackNavigationProp>();
-  const [lender, setLender] = useState(1);
+  const [render, setRender] = useState(1);
   const [finance, setFinance] = useState('수입');
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
@@ -87,6 +97,7 @@ const FarmLedgerAddScreen = () => {
   ];
 
   const onPressButton = async () => {
+    setRender(1);
     const fetchData = async () => {
       let image = null;
       if (urls && urls.length !== 0) {
@@ -134,10 +145,10 @@ const FarmLedgerAddScreen = () => {
       const response = await getCropsSimple();
       //작물 드롭다운 설정
       if (response.dataBody.length === 0) {
-        setLender(0);
+        setRender(0);
         return;
       }
-      setLender(2);
+      setRender(2);
       setCrops(response.dataBody.map((item) => item.myCropsName));
       setMyCrops(response.dataBody);
     };
@@ -146,13 +157,13 @@ const FarmLedgerAddScreen = () => {
   }, []);
 
   const onPress = () => {
-    navigation.navigate('AddCropsScreen');
+    navigation.push('AddCropsScreen');
   };
 
   return (
     <Container>
       <Header type='default' title='영농 장부' firstIcon='back' />
-      {lender === 0 && (
+      {render === 0 && (
         <FormContainer>
           <FormItemContainer0>
             <Typo.BODY1_B color={Color.GREEN600}>내 작물 정보가 없습니다!</Typo.BODY1_B>
@@ -173,12 +184,12 @@ const FarmLedgerAddScreen = () => {
           </FormItemContainer0>
         </FormContainer>
       )}
-      {lender === 1 && (
-        <FormContainer>
-          <Typo.BODY1_B color={Color.GREEN600}>렌더 중..</Typo.BODY1_B>
-        </FormContainer>
+      {render === 1 && (
+          <TextContainer>
+          <ActivityIndicator size='large' />
+        </TextContainer>
       )}
-      {lender === 2 && (
+      {render === 2 && (
         <FormContainer>
           <FormItemContainer>
             <StyledView>
@@ -242,8 +253,8 @@ const FarmLedgerAddScreen = () => {
             />
           </FormItemContainer>
           <FormItemContainer>
-            <Typo.BODY4_M>카테고리</Typo.BODY4_M>
-            <SingleLineInputBox placeholder={'카테고리를 작성해주세요'} onChangeText={(text) => setTitle(text)}></SingleLineInputBox>
+            <Typo.BODY4_M>거래처</Typo.BODY4_M>
+            <SingleLineInputBox placeholder={'거래처를 작성해주세요'} onChangeText={(text) => setTitle(text)}></SingleLineInputBox>
           </FormItemContainer>
           <FormItemContainer>
             <Typo.BODY4_M>금액</Typo.BODY4_M>
