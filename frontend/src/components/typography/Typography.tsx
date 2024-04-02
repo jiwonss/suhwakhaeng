@@ -16,6 +16,7 @@ const StyledTypography = styled.Text<FontProps>`
   font-family: ${(props) => props.fontFamily};
   font-size: ${(props) => `${props.fontSize}px`};
   color: ${(props) => (props.color ? props.color : 'black')};
+  line-height: ${(props) => `${props.fontSize * 1.5}px`};
 `;
 
 export const H1 = (props: TypographyProps) => {

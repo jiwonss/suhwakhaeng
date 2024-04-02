@@ -76,8 +76,8 @@ const TableCell = styled.Text`
   text-align: center;
   padding-top: ${10 * heightPercent}px;
   padding-bottom: ${10 * heightPercent}px;
-  padding-right: ${4 * widthPercent}px;
-  padding-left: ${4 * widthPercent}px;
+  padding-left: ${2 * widthPercent}px;
+  padding-right: ${widthPercent}px;
   font-family: 'GmarketSansTTFMedium';
 `;
 
@@ -121,7 +121,21 @@ const CropsDetailScreen = () => {
   // 테이블 렌더링
   const renderTable = (tableInfo: CropDetails['tableInfo']) => {
     const renderTableBody = (row: string[]) => {
-      return row.map((cell, cellIndex) => <TableCell key={cellIndex}>{cell}</TableCell>);
+      return row.map((cell, cellIndex) => (
+        <TableCell key={cellIndex}>
+          {cell.split('~').map((line, lineIndex) => (
+            // 여기서 Text 대신 TableCell을 사용하는 이유는 TableCell이
+            // 이미 Text 컴포넌트의 스타일을 적용하고 있기 때문입니다.
+            // 이 예제에서는 TableCell 내부에 Text 컴포넌트를 중첩하지 않고,
+            // TableCell을 직접 수정하여 여러 줄을 처리합니다.
+            // 필요에 따라 TableCell의 구현을 확인하고 적절히 조정하세요.
+            <React.Fragment key={lineIndex}>
+              {line}
+              {lineIndex < cell.split('~').length - 1 ? '~ \n' : ''}
+            </React.Fragment>
+          ))}
+        </TableCell>
+      ));
     };
     if (!tableInfo) return null;
 
