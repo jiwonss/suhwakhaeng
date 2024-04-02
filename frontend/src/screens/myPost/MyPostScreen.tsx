@@ -1,4 +1,4 @@
-import { View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Color from '../../config/color/Color';
 import Header from '../../components/header/Header';
@@ -11,7 +11,6 @@ import { heightPercent } from '../../config/dimension/Dimension';
 import MarketPost from '../../components/marketPost/MarketPost';
 import * as Typo from '../../components/typography/Typography';
 import { getMyMarketPostList } from '../../apis/services/market/market';
-import EncryptedStorage from 'react-native-encrypted-storage';
 import { changeCategoryName } from '../../util/MarketUtil';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -77,7 +76,7 @@ const MyPostScreen = () => {
   const data2: string[] = [];
 
   const onPressPost = (postId: number) => {
-    navigation.navigate('MarketDetailScreen', { id: postId });
+    navigation.navigate('MarketDetailScreen', { id: postId, previousScreen: 'MyPostScreen' });
   };
 
   useEffect(() => {
@@ -108,6 +107,44 @@ const MyPostScreen = () => {
     }
   }, [isFocused]);
 
+  const postRenderItem = ({ item }) => {
+    return (
+      <Post
+        key={item.communityId}
+        onPress={() => {
+          navigation.navigate('DetailPostScreen', { id: item.communityId, previousScreen: 'myPostScreen' });
+        }}
+        postData={{
+          name: item.user.nickname,
+          date: item.createdAt,
+          classification: changeCategoryName(item.cate),
+          content: item.communityContent,
+          isLiked: item.isLiked,
+          likeNumber: item.likeCount,
+          commentNumber: item.commentCount,
+          profileImg: item.user.profileImage,
+          imgUrl_one: item.thumbnail,
+        }}
+      />
+    );
+  };
+
+  const marketPostRenderItem = ({ item }) => {
+    return (
+      <MarketPost
+        onPress={() => onPressPost(item.id)}
+        key={item.id}
+        imgUrl={item.image1}
+        classification={changeCategoryName(item.cate)}
+        title={item.title}
+        price={item.price}
+        likeNumber={item.likeCnt}
+        date={item.createdAt}
+        isFavorite={item.isLiked}
+      />
+    );
+  };
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
@@ -116,52 +153,30 @@ const MyPostScreen = () => {
           <CustomRadioButton data={radioData} />
         </StyledView>
         <Spacer space={heightPercent * 10}></Spacer>
-        {activeIndex === 0 &&
-          (myPost.length !== 0 ? (
-            myPost.map((item) => (
-              <Post
-                key={item.communityId}
-                onPress={() => {
-                  navigation.navigate('DetailPostScreen', { id: item.communityId });
-                }}
-                postData={{
-                  name: item.user.nickname,
-                  date: item.createdAt,
-                  classification: changeCategoryName(item.cate),
-                  content: item.communityContent,
-                  isLiked: item.isLiked,
-                  likeNumber: item.likeCount,
-                  commentNumber: item.commentCount,
-                  profileImg: item.user.profileImage,
-                  imgUrl_one: item.thumbnail,
-                }}
-              />
-            ))
-          ) : (
-            <NoPost>
-              <Typo.BODY3_B>아직 작성한 글이 없어요</Typo.BODY3_B>
-            </NoPost>
-          ))}
-        {activeIndex === 1 &&
-          (myMarketPost.length !== 0 ? (
-            myMarketPost.map((item) => (
-              <MarketPost
-                onPress={() => onPressPost(item.id)}
-                key={item.id}
-                imgUrl={item.image1}
-                classification={changeCategoryName(item.cate)}
-                title={item.title}
-                price={item.price}
-                likeNumber={item.likeCnt}
-                date={item.createdAt}
-                isFavorite={item.isLiked}
-              />
-            ))
-          ) : (
-            <NoPost>
-              <Typo.BODY3_B>아직 작성한 글이 없어요</Typo.BODY3_B>
-            </NoPost>
-          ))}
+        {activeIndex === 0 && (
+          <FlatList
+            ListEmptyComponent={
+              <NoPost>
+                <Typo.BODY3_B>아직 작성한 글이 없어요</Typo.BODY3_B>
+              </NoPost>
+            }
+            data={myPost}
+            renderItem={postRenderItem}
+            keyExtractor={(item) => item.communityId.toString()}
+          />
+        )}
+        {activeIndex === 1 && (
+          <FlatList
+            ListEmptyComponent={
+              <NoPost>
+                <Typo.BODY3_B>아직 작성한 글이 없어요</Typo.BODY3_B>
+              </NoPost>
+            }
+            data={myMarketPost}
+            renderItem={marketPostRenderItem}
+            keyExtractor={(item) => item.id.toString()}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
