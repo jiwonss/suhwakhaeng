@@ -13,7 +13,7 @@ const setCommonHeaders = async (config: any) => {
   config.headers['Content-Type'] = 'application/json';
   config.headers['Authorization'] = `Bearer ${await EncryptedStorage.getItem('accessToken')}`;
   // config.headers['Authorization'] =
-    // `Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MTE2NzY2OTQsImV4cCI6MTcxNDI2ODY5NH0.VD8eH7ZmfDRoyxAlXcrK9kJCU_uSuJRLyeZDVk5JQOsYFNiAZgW39ioCfgjNUiKst1KOJiybLtZPX4nPIOP_xQ`;
+  // `Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MTE2NzY2OTQsImV4cCI6MTcxNDI2ODY5NH0.VD8eH7ZmfDRoyxAlXcrK9kJCU_uSuJRLyeZDVk5JQOsYFNiAZgW39ioCfgjNUiKst1KOJiybLtZPX4nPIOP_xQ`;
   return config;
 };
 
@@ -26,6 +26,11 @@ const reIssueAccessTokenAndRetry = async (config: AxiosRequestConfig) => {
       removeTokens();
     } else if (response.data.dataHeader.successCode === 0) {
       setTokens(response.data.dataBody); // 토큰 재 세팅
+      const newConfig: AxiosRequestConfig = {
+        ...config,
+        headers: { ...config.headers, Authorization: `Bearer ${await EncryptedStorage.getItem('accessToken')}` },
+      };
+      return tokenInstance(newConfig);
     }
   } catch (error: any) {
     console.error(error.response.data);
