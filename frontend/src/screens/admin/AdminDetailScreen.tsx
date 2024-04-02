@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
-import { Image, Text, View } from 'react-native';
+import { Alert, Image, Text, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import Header from '../../components/header/Header';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
@@ -40,8 +40,9 @@ const AdminDetailScreen = (props: AdminDetailProps) => {
         <Spacer space={heightPercent * 20}></Spacer>
         <BasicButton
           onPress={() => {
-            // allowBusiness(props.route.params.businessId);
-            navigation.goBack();
+            allowBusiness(props.route.params.businessId);
+            Alert.alert('수확행', '승인하였습니다');
+            navigation.push('BottomNavigation', { screen: 'MyProfileScreen' });
           }}
           width={widthPercent * 150}
           height={heightPercent * 40}

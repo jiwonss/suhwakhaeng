@@ -95,7 +95,7 @@ const AdminScreen = () => {
             <BasicButton
               onPress={() => {
                 allowBusiness(user.businessId);
-                Alert.alert('수확행', '승인되었습니다!');
+                Alert.alert('수확행', '승인하였습니다!');
                 navigation.push('BottomNavigation', { screen: 'MyProfileScreen' });
               }}
               width={widthPercent * 90}
