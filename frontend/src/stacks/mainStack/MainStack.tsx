@@ -55,7 +55,7 @@ export type RootStackParamList = {
   AdminScreen: undefined;
   BottomNavigation: { screen?: string };
   BottomTabStackNavigator: undefined;
-  CameraScreen: { value: number };
+  CameraScreen: undefined;
   ChatListScreen: undefined;
   ChattingRoomScreen: { id: string; name: string };
   CropsDetailScreen: { cropsId: number; plantName: string; varietyName: string; cropsVarietyId: number };
