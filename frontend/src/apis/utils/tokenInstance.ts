@@ -48,7 +48,7 @@ const handleResponseError = async (error: AxiosError) => {
     case 401:
       return await reIssueAccessTokenAndRetry(config);
     case 500:
-      alert('관리자에게 문의 바랍니다.');
+      // alert('관리자에게 문의 바랍니다.');
       break;
     default:
       console.error(error);
