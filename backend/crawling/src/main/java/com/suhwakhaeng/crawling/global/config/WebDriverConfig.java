@@ -32,7 +32,8 @@ public class WebDriverConfig {
     @Bean
     public WebDriver webDriver() {
         // chromedriver 실행 파일의 절대 경로를 가져옵니다.
-        String absolutePath = getChromedriverAbsolutePath();
+//        String absolutePath = getChromedriverAbsolutePath();
+//        System.setProperty(WEB_DRIVER_ID, absolutePath);
 
         // 시스템 프로퍼티를 설정합니다.
         System.setProperty(WEB_DRIVER_ID, "/usr/bin/chromedriver");
