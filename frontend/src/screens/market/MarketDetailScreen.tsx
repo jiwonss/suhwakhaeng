@@ -129,7 +129,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
     if (response.dataHeader.successCode === 0) {
       alert('삭제되었습니다');
     }
-    navigation.reset({ routes: [{ name: 'BottomNavigation' }] });
+    navigation.push('BottomNavigation', { screen: 'MarketScreen' });
   };
 
   const modifyPost = (postId: number) => {
@@ -147,21 +147,15 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
     console.log(response);
   };
 
-  const onPressChatRoomButton = async () => {
-    // 다른 사람 글이면 채팅 방 생성
-    // const response = await createChatUUID({ anotherUserId: postUserInfo.userId });
-    // navigation.navigate('ChattingRoomScreen', { id: response.dataBody.chatRoomId, name: postUserInfo.nickname });
-  };
-
   return (
     <Container>
       <Header
         type='default'
         firstIcon='back'
         onPressFirstIcon={() => {
-          props.route.params.previousScreen === 'MarketScreen' ? navigation.reset({ routes: [{ name: 'BottomNavigation' }] }) : navigation.goBack();
+          props.route.params.previousScreen === 'MarketScreen' ? navigation.push('BottomNavigation', { screen: 'MarketScreen' }) : navigation.goBack();
         }}
-        secondIcon='more'
+        secondIcon={userInfo.userId == String(postUserInfo.userId) ? 'more' : ''}
         onPressMore={onPressMore}
       />
       <ScrollView style={{ marginBottom: heightPercent * 60 }}>
@@ -209,11 +203,10 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
         <LikeButton isLiked={isLiked} setIsLiked={setIsLiked} onPress={toggleIsLiked} />
         {userInfo.userId == String(postUserInfo.userId) ? (
           <BasicButton
-            // onPress={() => {
-            // 내 글이면 채팅 목록으로 이동
-            // navigation.navigate('ChatListScreen');
-            // }}
-            onPress={onPressChatRoomButton}
+            onPress={() => {
+              // 내 글이면 채팅 목록으로 이동
+              navigation.navigate('ChatListScreen');
+            }}
             width={widthPercent * 260}
             height={heightPercent * 45}
             borderColor={Color.GREEN500}
@@ -226,9 +219,8 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
             onPress={async () => {
               const response = await getChatRoomId(postUserInfo.userId);
               if (response.dataHeader.successCode === 0) {
-                navigation.navigate('ChattingRoomScreen', { id: response.dataBody.chatRoomId, name: postUserInfo.nickname });
+                navigation.navigate('ChattingRoomScreen', { id: response.dataBody.chatRoomId, name: response.dataBody.nickname });
               }
-              console.log('채팅방 생성');
             }}
             width={widthPercent * 260}
             height={heightPercent * 45}
