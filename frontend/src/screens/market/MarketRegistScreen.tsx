@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getKST, uploadImagesToFirebaseStorage } from '../../util/BasicUtil';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
-import { ActivityIndicator, Alert, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { ActivityIndicator, Alert, BackHandler, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { Spacer } from '../../components/basic/Spacer';
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
@@ -166,11 +166,28 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
     } else if (props.route.params.cate === 'WORK') {
       setActiveIndex(3);
     }
+
+    const backAction = () => {
+      // 뒤로가기 버튼을 눌렀을 때 수행할 작업들
+      navigation.reset({ routes: [{ name: 'BottomNavigation', params: { screen: 'MarketScreen' } }] });
+      return true; // true 반환 시 기본 동작 방지
+    };
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () => backHandler.remove();
   }, []);
 
   return (
     <Container>
-      <Header type='default' title='장터글 등록' firstIcon='exit' />
+      <Header
+        type='default'
+        title='장터글 등록'
+        firstIcon='exit'
+        onPressFirstIcon={() => {
+          navigation.push('BottomNavigation', { screen: 'MarketScreen' });
+        }}
+      />
       {!isUploading ? (
         <FormContainer>
           <FormItemContainer style={{ rowGap: heightPercent * 8 }}>

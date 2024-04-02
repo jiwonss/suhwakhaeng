@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, ScrollView, View } from 'react-native';
+import { ActivityIndicator, Alert, BackHandler, ScrollView, View } from 'react-native';
 import styled from 'styled-components/native';
 import { Spacer } from '../../components/basic/Spacer';
 import { BasicButton } from '../../components/button/Buttons';
@@ -89,6 +89,16 @@ const CreatePostScreen = (props: CreatePostProps) => {
     } else if (props.route.params.cate === 'QUESTION') {
       setActiveIndex(3);
     }
+
+    const backAction = () => {
+      // 뒤로가기 버튼을 눌렀을 때 수행할 작업들
+      navigation.reset({ routes: [{ name: 'BottomNavigation' }] });
+      return true; // true 반환 시 기본 동작 방지
+    };
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () => backHandler.remove();
   }, [props.route.params.cate]);
 
   const onSubmit = async () => {
@@ -124,7 +134,14 @@ const CreatePostScreen = (props: CreatePostProps) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
-      <Header type={'default'} firstIcon='back' title={'게시글 등록'} />
+      <Header
+        type={'default'}
+        onPressFirstIcon={() => {
+          navigation.reset({ routes: [{ name: 'BottomNavigation' }] });
+        }}
+        firstIcon='back'
+        title={'게시글 등록'}
+      />
       {!isUploading ? (
         <>
           <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>

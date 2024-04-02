@@ -93,9 +93,13 @@ export const RegistBusinessModal = (props: RegistBusinessModal) => {
 
       if (newImageUrls) {
         console.log(newImageUrls);
-        const response = await registBusinessCert({ businessImage: newImageUrls[0] });
-        if (response.dataHeader.successCode === 0) {
-          alert('성공적으로 업로드 되었습니다.\n관리자 승인까지 기다려주세요.');
+        try {
+          const response = await registBusinessCert({ businessImage: newImageUrls[0] });
+          if (response.dataHeader.successCode === 0) {
+            alert('성공적으로 업로드 되었습니다.\n관리자 승인까지 기다려주세요.');
+          }
+        } catch {
+          alert('사업자 등록은 한 번만 가능합니다. 관리자 승인까지 기다려주세요.');
         }
       }
     }
