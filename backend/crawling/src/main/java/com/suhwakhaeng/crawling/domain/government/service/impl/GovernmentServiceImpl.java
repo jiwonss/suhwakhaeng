@@ -23,7 +23,7 @@ public class GovernmentServiceImpl implements GovernmentService {
         return governmentRepository.selectGovernment(request, pageable);
     }
 
-    @Scheduled(cron = "0 21 2 * * *")
+    @Scheduled(cron = "0 0 12 * * *")
     public void crawlingGovernment() {
         long startTime = System.currentTimeMillis();
         crawlingService.doWonjuCrawling();
