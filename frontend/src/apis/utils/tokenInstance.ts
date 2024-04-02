@@ -11,9 +11,9 @@ export const tokenInstance = axios.create({
 
 const setCommonHeaders = async (config: any) => {
   config.headers['Content-Type'] = 'application/json';
-  // config.headers['Authorization'] = `Bearer ${await EncryptedStorage.getItem('accessToken')}`;
-  config.headers['Authorization'] =
-    `Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MTE2NzY2OTQsImV4cCI6MTcxNDI2ODY5NH0.VD8eH7ZmfDRoyxAlXcrK9kJCU_uSuJRLyeZDVk5JQOsYFNiAZgW39ioCfgjNUiKst1KOJiybLtZPX4nPIOP_xQ`;
+  config.headers['Authorization'] = `Bearer ${await EncryptedStorage.getItem('accessToken')}`;
+  // config.headers['Authorization'] =
+  //   `Bearer eyJhbGciOiJIUzUxMiJ9.eyJqdGkiOiIxIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MTE2NzY2OTQsImV4cCI6MTcxNDI2ODY5NH0.VD8eH7ZmfDRoyxAlXcrK9kJCU_uSuJRLyeZDVk5JQOsYFNiAZgW39ioCfgjNUiKst1KOJiybLtZPX4nPIOP_xQ`;
   return config;
 };
 
