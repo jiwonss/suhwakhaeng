@@ -2,6 +2,7 @@ package com.suhwakhaeng.crawling.global.config;
 
 import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -12,7 +13,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class WebDriverConfig {
@@ -21,7 +26,6 @@ public class WebDriverConfig {
     private static final String WEB_DRIVER_ID = "webdriver.chrome.driver";    //property 키
 
     // yml 파일로 빼기
-
     @Value("${chrome-driver.path}")
     private String WEB_DRIVER_PATH;
 
@@ -31,12 +35,14 @@ public class WebDriverConfig {
         String absolutePath = getChromedriverAbsolutePath();
 
         // 시스템 프로퍼티를 설정합니다.
-        System.setProperty(WEB_DRIVER_ID, absolutePath);
+        System.setProperty(WEB_DRIVER_ID, "/usr/bin/chromedriver");
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--start-maximized");
-        options.addArguments("--disable-popup-blocking"); // 팝업 무시
-        options.addArguments("headless"); // 창이 없이 프로세스 사용
+//        options.addArguments("--start-maximized");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+//        options.addArguments("--disable-popup-blocking"); // 팝업 무시
+        options.addArguments("--headless"); // 창이 없이 프로세스 사용
 
         return new ChromeDriver(options);
     }

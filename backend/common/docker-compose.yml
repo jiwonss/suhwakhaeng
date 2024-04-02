@@ -1,5 +1,3 @@
-version: "3"
-
 services:
   redis:
     image: redis
@@ -7,6 +5,8 @@ services:
     hostname: redis
     ports:
       - "6379:6379"
+    volumes:
+      - ./redis_data:/data
     networks:
       suhwakhaeng:
         ipv4_address: 172.20.0.2
@@ -24,6 +24,7 @@ services:
     networks:
       suhwakhaeng:
         ipv4_address: 172.20.0.3
+    restart: always
 
 networks:
   suhwakhaeng:
