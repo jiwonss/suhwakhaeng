@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface CropsVarietyRepository extends JpaRepository<CropsVariety, Long> {
 
-    List<CropsVariety> findAllByCropsId(Long cropsId);
+    List<CropsVariety> findAllByCropsIdOrderByNameAsc(Long cropsId);
 
 }

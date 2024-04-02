@@ -62,7 +62,7 @@ public class CropsServiceImpl implements CropsService {
 
     @Override
     public List<CropsVarietyListResponse> selectListCropsVariety(Long cropsId) {
-        return cropsVarietyRepository.findAllByCropsId(cropsId).stream()
+        return cropsVarietyRepository.findAllByCropsIdOrderByNameAsc(cropsId).stream()
                 .map(CropsVarietyListResponse::from)
                 .collect(Collectors.toList());
     }
@@ -79,8 +79,8 @@ public class CropsServiceImpl implements CropsService {
         }
 
         TableInfo tableInfo = cropsDetailResponse.getTableInfo();
-        int rowSize = tableInfo.getTableHead().size() - 1;
-        int columnSize = tableInfo.getTableTitle().size();
+        int rowSize = tableInfo.getTableTitle().size();
+        int columnSize = tableInfo.getTableHead().size() - 1;
 
         List<List<String>> tableBody = new ArrayList<>();
         for (int i = 0; i < rowSize; i++) {
