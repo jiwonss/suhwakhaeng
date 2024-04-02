@@ -6,7 +6,7 @@ import Header from '../../components/header/Header';
 import CustomRadioButton from '../../components/cutomRadioButton/CutomRadioButton';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import MarketPost from '../../components/marketPost/MarketPost';
-import { FlatList, ScrollView } from 'react-native';
+import { ActivityIndicator, FlatList, ScrollView } from 'react-native';
 import FloatingActionButton from '../../components/floatingActionButton/FloatingActionButton';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
@@ -21,7 +21,7 @@ import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 const MarketScreen = () => {
-  const isFocused = useIsFocused();
+  const [isLoading, setIsLoading] = useState(false);
   // 유저 정보
   const userInfo = useRecoilValue(userInfoState);
 
@@ -46,7 +46,7 @@ const MarketScreen = () => {
 
   const onPressRegist = () => {
     // TODO: 사업자인지 아닌지 확인 필요
-    if (!userInfo.isBusiness) {
+    if (userInfo.isBusiness || userInfo.role === '관리자') {
       navigation.navigate('MarketRegistScreen', { address: '', x: 0, y: 0, cate: category });
     } else {
       // 모달 열기
@@ -146,6 +146,7 @@ const MarketScreen = () => {
     const response = await getMarketPostList(params);
     setMarketPostData(response.dataBody);
     setTradeId(response.dataBody[response.dataBody.length - 1].id);
+    setIsLoading(true);
   };
 
   useEffect(() => {
@@ -174,12 +175,16 @@ const MarketScreen = () => {
       </ButtonContainer>
       {marketPostData.length !== 0 ? (
         <FlatList data={marketPostData} renderItem={renderItem} keyExtractor={(item) => item.id.toString()} onEndReached={getMorePost} />
-      ) : (
+      ) : isLoading ? (
         <ContentContainer>
           <Typo.BODY2_M>아직 장터글이 없습니다.</Typo.BODY2_M>
           <BasicButton onPress={onPressRegist} width={widthPercent * 90} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
             <Typo.BODY4_M color={Color.WHITE}>글 쓰러 가기</Typo.BODY4_M>
           </BasicButton>
+        </ContentContainer>
+      ) : (
+        <ContentContainer>
+          <ActivityIndicator />
         </ContentContainer>
       )}
       <FloatingActionButton data={buttonData} />

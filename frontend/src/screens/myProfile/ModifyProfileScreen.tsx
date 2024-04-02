@@ -15,7 +15,7 @@ import { useRecoilState } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { modifyUserInfo } from '../../apis/services/user/user';
 import * as ImagePicker from 'expo-image-picker';
-import { Platform, TouchableWithoutFeedback } from 'react-native';
+import { Platform, Touchable, TouchableWithoutFeedback, View } from 'react-native';
 import { uploadImagesToFirebaseStorage } from '../../util/BasicUtil';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 

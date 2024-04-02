@@ -212,7 +212,7 @@ const MyProfileScreen = () => {
               <Typo.BODY4_M>날씨</Typo.BODY4_M>
             </StyledButton>
           </FormItemContainer>
-          {userInfo.role === '' && (
+          {userInfo.role === '관리자' && (
             <FormItemContainer>
               <Typo.BODY4_B>관리자 페이지</Typo.BODY4_B>
               <Spacer space={heightPercent * 4}></Spacer>
