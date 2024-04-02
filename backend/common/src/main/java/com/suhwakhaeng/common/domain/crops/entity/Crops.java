@@ -23,7 +23,7 @@ public class Crops {
     @Enumerated(EnumType.STRING)
     private CropsCate category;
 
-    @Column(name = "crops_growing_condition")
+    @Column(name = "crops_growing_condition", columnDefinition = "TEXT")
     private String growingCondition;
 
     @Column(name = "crops_disease_type")

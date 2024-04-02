@@ -21,7 +21,11 @@ public class CultivationCharacteristic {
 
     private String scientificName;
     private String classification;
+
+    @Column(columnDefinition = "TEXT")
     private String physiologicalCharacteristic;
+
+    @Column(columnDefinition = "TEXT")
     private String mainTech;
 
 }

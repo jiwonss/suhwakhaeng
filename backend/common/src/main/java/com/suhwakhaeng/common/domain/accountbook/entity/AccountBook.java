@@ -30,7 +30,7 @@ public class AccountBook {
     @Column(name = "account_book_title")
     private String title;
 
-    @Column(name = "account_book_content")
+    @Column(name = "account_book_content", columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "account_book_amount")
