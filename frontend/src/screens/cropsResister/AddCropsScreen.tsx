@@ -36,7 +36,7 @@ const PlantContainer = styled.View`
   margin-right: ${20 * widthPercent}px;
   margin-bottom: ${20 * heightPercent}px;
   row-gap: ${5 * heightPercent}px;
-  column-gap: ${26 * widthPercent}px;
+  column-gap: ${10 * widthPercent}px;
   flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
