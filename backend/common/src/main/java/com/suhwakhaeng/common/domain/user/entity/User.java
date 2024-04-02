@@ -53,4 +53,8 @@ public class User {
     public void rejoin() {
         this.status = Status.RUN;
     }
+
+    public void accpetedBusiness() {
+        this.role = Role.BUISNESS;
+    }
 }

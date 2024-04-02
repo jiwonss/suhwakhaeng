@@ -23,13 +23,14 @@ public class GovernmentServiceImpl implements GovernmentService {
         return governmentRepository.selectGovernment(request, pageable);
     }
 
+    @Override
     @Scheduled(cron = "0 0 12 * * *")
     public void crawlingGovernment() {
         long startTime = System.currentTimeMillis();
-        crawlingService.doWonjuCrawling();
-        crawlingService.doYangyangCrawling();
+//        crawlingService.doWonjuCrawling();
+//        crawlingService.doYangyangCrawling();
         crawlingService.doNajuCrawling();
-        crawlingService.doGoyangCrawling();
+//        crawlingService.doGoyangCrawling();
         long endTime = System.currentTimeMillis();
         long executionTime = endTime - startTime;
 

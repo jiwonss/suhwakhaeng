@@ -46,6 +46,7 @@ public class BusinessServiceImpl implements BusinessService {
         Business business = businessRepository.findById(businessId)
                 .orElseThrow(() -> new BusinessException(NOT_EXIST_BUSINESS));
 
+//        User user = business.getUser();
         business.accept();
     }
 }

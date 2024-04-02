@@ -6,4 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface GovernmentService {
     GovernmentSliceResponse selectGovernment(GovernmentSearchRequest request, Pageable pageable);
+
+    void crawlingGovernment();
 }
