@@ -169,7 +169,7 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
 
     const backAction = () => {
       // 뒤로가기 버튼을 눌렀을 때 수행할 작업들
-      navigation.reset({ routes: [{ name: 'BottomNavigation' }] });
+      navigation.reset({ routes: [{ name: 'BottomNavigation', params: { screen: 'MarketScreen' } }] });
       return true; // true 반환 시 기본 동작 방지
     };
 

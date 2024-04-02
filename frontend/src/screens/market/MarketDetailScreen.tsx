@@ -97,7 +97,9 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
 
       const backAction = () => {
         // 뒤로가기 버튼을 눌렀을 때 수행할 작업들
-        props.route.params.previousScreen === 'MarketScreen' ? navigation.push('BottomNavigation', { screen: 'MarketScreen' }) : navigation.goBack();
+        props.route.params.previousScreen === 'MarketScreen'
+          ? navigation.reset({ routes: [{ name: 'BottomNavigation', params: { screen: 'MarketScreen' } }] })
+          : navigation.goBack();
         return true; // true 반환 시 기본 동작 방지
       };
 
