@@ -38,5 +38,6 @@ public class Business {
 
     public void accept() {
         this.isAccepted = true;
+        this.user.accpetedBusiness();
     }
 }
