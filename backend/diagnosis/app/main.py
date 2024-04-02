@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 
 class Image(BaseModel):
-    image: str
+    image: list
 
 
 app = FastAPI()
@@ -19,7 +19,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 @app.post('/crop/disease')
 def predict(image: Image):
