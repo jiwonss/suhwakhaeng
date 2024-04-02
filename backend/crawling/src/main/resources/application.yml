@@ -49,4 +49,4 @@ spring:
     password: "{cipher}AQCCD5j8wciLmjWgYhxGfqaKLgscvcWQZD268Cy1ON5dSGSBdoSnq0K7u06xyzQRr5z6CNKdbrO+dxz1frUR3LxGInZlMK281fHmIbJufweRAuVo62BW8AqjGrgupYU5K7NmDY6g9Ws+SAwflTqi6haj9bsqctSjc3MngvxUzchPSlNKMB9lHgi/fiOQ2hrkq77KM4eOdUQ8VlNBvbxr7W70MHjKxYCCs6NthOXapAJos5/n5NTnTjkC6n/7u1zg2UjvCuF6J0slv/kBMPVnMpp0rQsrEO1uzzceyztm1eQKTjPRc56yjUT/4SBnSL78Ypap9iVdBfiPj0kiZwfOhp5geLCuBdQ7LB2CpfYczK9MYRAY+3nU+3vDoiYiqnO8HDBLK7RGmRGLhegcijiMOpuE"
 
 chrome-driver:
-  path: chromedriver-linux64/chromedriver
+  path: chromedriver-linux64/chromedriver.exe

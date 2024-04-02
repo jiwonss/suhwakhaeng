@@ -31,6 +31,14 @@ spring:
             - RewritePath=/common/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
 
+        - id: crawling
+          uri: lb://CRAWLING
+          predicates:
+            - Path=/crawling/**
+          filters:
+            - RewritePath=/crawling/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
         - id: chat
           uri: lb://CHAT
           predicates:

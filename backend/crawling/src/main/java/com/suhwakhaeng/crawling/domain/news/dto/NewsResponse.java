@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewsResponse {
-    private PublisherInfo publisher;
-
     private String title;
     private String content;
     private String thumbnail;
