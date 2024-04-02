@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 
 class Image(BaseModel):
-    image: list
+    image: str
 
 
 app = FastAPI()
