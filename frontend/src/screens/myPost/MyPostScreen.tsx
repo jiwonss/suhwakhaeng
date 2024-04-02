@@ -110,6 +110,7 @@ const MyPostScreen = () => {
   const postRenderItem = ({ item }) => {
     return (
       <Post
+        isPreview={true}
         key={item.communityId}
         onPress={() => {
           navigation.navigate('DetailPostScreen', { id: item.communityId, previousScreen: 'myPostScreen' });
