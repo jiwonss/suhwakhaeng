@@ -84,7 +84,7 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
         setActiveIndex(0);
         setCategory('CROP');
       },
-      active: activeIndex === 0,z
+      active: activeIndex === 0,
     },
     {
       content: '농자재',
