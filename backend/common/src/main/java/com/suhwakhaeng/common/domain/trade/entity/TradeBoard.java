@@ -33,7 +33,7 @@ public class TradeBoard extends BaseEntity {
     @Column(name = "trade_board_title")
     private String title;
 
-    @Column(name = "trade_board_content")
+    @Column(name = "trade_board_content", columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "trade_board_image1")
