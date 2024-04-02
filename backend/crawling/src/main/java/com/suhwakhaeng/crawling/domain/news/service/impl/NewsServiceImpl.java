@@ -1,7 +1,6 @@
 package com.suhwakhaeng.crawling.domain.news.service.impl;
 
 import com.suhwakhaeng.crawling.domain.news.dto.NewsResponse;
-import com.suhwakhaeng.crawling.domain.news.dto.PublisherInfo;
 import com.suhwakhaeng.crawling.domain.news.service.NewsService;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.By;
@@ -37,40 +36,23 @@ public class NewsServiceImpl implements NewsService {
         List<WebElement> elements = listNews.findElements(By.tagName("li"));
         for (int i = 0; i < 10; i++) {
             try {
+                System.out.println(i + "번째 뉴스 크롤링");
                 WebElement element = elements.get(i);
-                WebElement newsInfoElement = element.findElement(By.className("news_info"));
-                WebElement infoGroupElement = newsInfoElement.findElement(By.className("info_group"));
-                WebElement infoPressElement = infoGroupElement.findElement(By.cssSelector(".info.press"));
 
-                String publisherName = infoPressElement.getText();
-
-                // "언론사 선정" 붙는 경우
-                if (!infoPressElement.findElements(By.tagName("i")).isEmpty()) {
-                    String attachmentName = infoPressElement.findElement(By.tagName("i")).getText();
-                    publisherName = publisherName.replace(attachmentName, "");
-                }
-
-
-                WebElement newsInfoThumbElement = infoPressElement.findElement(By.className("thumb"));
-                String newsInfoThumb = newsInfoThumbElement.getAttribute("src");
-
-                WebElement spanElement = infoGroupElement.findElement(By.cssSelector("span.info"));
-
-                String publisherDate = spanElement.getText();
-
-                PublisherInfo publisher = PublisherInfo.builder()
-                        .name(publisherName)
-                        .thumbnail(newsInfoThumb)
-                        .date(publisherDate)
-                        .build();
-
-//            news_contents >> 해당 뉴스 관련 내용
                 WebElement newsContentsElement = element.findElement(By.className("news_contents"));
 
-                WebElement dscThumbElement = newsContentsElement.findElement(By.className("dsc_thumb"));
+                // 없을 수 있다.
+                String newsThumb = "";
 
-                WebElement thumbElement = dscThumbElement.findElement(By.className("thumb"));
-                String newsThumb = thumbElement.getAttribute("src");
+                List<WebElement> dscThumbElements = newsContentsElement.findElements(By.className("dsc_thumb"));
+                if (!dscThumbElements.isEmpty()) {
+                    WebElement thumbElement = dscThumbElements.get(0).findElement(By.className("thumb"));
+                    newsThumb = thumbElement.getAttribute("src");
+
+//                    if (!isThumbnail(newsThumb)) {
+//                        newsThumb = "";
+//                    }
+                }
 
                 WebElement newsTitElement = newsContentsElement.findElement(By.className("news_tit"));
 
@@ -83,7 +65,6 @@ public class NewsServiceImpl implements NewsService {
                 String content = aElement.getText();
 
                 NewsResponse result = NewsResponse.builder()
-                        .publisher(publisher)
                         .title(title)
                         .content(content)
                         .thumbnail(newsThumb)
@@ -92,10 +73,14 @@ public class NewsServiceImpl implements NewsService {
 
                 results.add(result);
             } catch (NoSuchElementException e) {
-                break;
+                e.printStackTrace();
             }
         }
 
         return results;
+    }
+
+    private static boolean isThumbnail(String newsThumb) {
+        return newsThumb.startsWith("https") || newsThumb.startsWith("http");
     }
 }
