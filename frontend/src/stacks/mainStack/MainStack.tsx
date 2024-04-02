@@ -104,7 +104,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const MainStack = () => {
   return (
-    <Stack.Navigator initialRouteName='BottomNavigation'>
+    <Stack.Navigator initialRouteName='FcmTestScreen'>
       {/*<Stack.Navigator*/}
       {/*  initialRouteName='FcmTestScreen'*/}
       {/*  screenOptions={{*/}

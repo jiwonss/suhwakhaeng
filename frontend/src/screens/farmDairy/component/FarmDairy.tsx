@@ -123,7 +123,7 @@ const FarmDairy = () => {
           </View>
         ) : (
           <View style={{ flex: 1, alignItems: 'center' }}>
-            <Typo.BODY4_M color={Color.GRAY400}>오늘 지출/수입 내역을 작성해주세요</Typo.BODY4_M>
+            <Typo.BODY4_M color={Color.GRAY400}>오늘 작성한 일지를 작성해주세요</Typo.BODY4_M>
             <Spacer space={heightPercent * 13}></Spacer>
             <BasicButton
               onPress={onPressDairy}

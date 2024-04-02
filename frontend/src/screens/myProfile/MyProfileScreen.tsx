@@ -238,7 +238,7 @@ const MyProfileScreen = () => {
               <Spacer space={widthPercent * 8} horizontal></Spacer>
               <Typo.BODY4_M color={Color.GRAY400}>로그아웃</Typo.BODY4_M>
             </StyledButton>
-
+              
             <StyledButton onPress={() => {}}>
               <Person_remove width={widthPercent * 16} height={heightPercent * 16}></Person_remove>
               <Spacer space={widthPercent * 8} horizontal></Spacer>
