@@ -40,6 +40,9 @@ const CreatePostScreen = (props: CreatePostProps) => {
   const [category, setCategory] = useState<string>('');
   const [content, setContent] = useState<string>('');
   const [imgUrls, setImgeUrls] = useState<string[]>([]);
+
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+
   const radioData = [
     {
       content: '자유',

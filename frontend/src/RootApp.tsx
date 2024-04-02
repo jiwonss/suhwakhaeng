@@ -43,7 +43,6 @@ export const RootApp = () => {
         setTokens({ ...tokens, accessToken: accessToken, refreshToken: refreshToken });
 
         const userInfoData = await getUserInfo();
-
         // 회원 정보 조회 성공
         const userInfoDataBody = userInfoData.dataBody;
         setUserInfo({
@@ -58,7 +57,7 @@ export const RootApp = () => {
           gugun: userInfoDataBody.gugun ? userInfoDataBody.gugun : '',
           dong: userInfoDataBody.dong ? userInfoDataBody.dong : '',
           address: userInfoDataBody.address ? userInfoDataBody.address : '',
-          role: userInfoData.role,
+          role: userInfoDataBody.role,
         });
         setToken(true);
         setTimeout(() => {

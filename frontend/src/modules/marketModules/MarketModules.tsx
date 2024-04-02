@@ -85,19 +85,23 @@ export const RegistBusinessModal = (props: RegistBusinessModal) => {
 
       // 이미지가 선택되었을 경우에만 추가
       setImgUrl(newImageUrl);
-    }
+      const imageUrls: string[] = [newImageUrl];
 
-    const imageUrls: string[] = [imgUrl];
-    const newImageUrls = await uploadImagesToFirebaseStorage(imageUrls, `사업자등록//${props.userId}`);
+      const newImageUrls = await uploadImagesToFirebaseStorage(imageUrls, `사업자등록//${props.userId}`);
 
-    props.setIsVisible(false);
+      props.setIsVisible(false);
 
-    if (newImageUrls) {
-      const response = await registBusinessCert({ businessImage: newImageUrls[0] });
-      if (response.dataHeader.successCode === 0) {
-        alert('성공적으로 업로드 되었습니다.\n관리자 승인까지 기다려주세요.');
+      if (newImageUrls) {
+        console.log(newImageUrls);
+        const response = await registBusinessCert({ businessImage: newImageUrls[0] });
+        if (response.dataHeader.successCode === 0) {
+          alert('성공적으로 업로드 되었습니다.\n관리자 승인까지 기다려주세요.');
+        }
       }
     }
+
+    // console.log(imgUrl);
+    // const imageUrls: string[] = [imgUrl];
   };
 
   return (

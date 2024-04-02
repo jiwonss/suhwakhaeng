@@ -1,6 +1,6 @@
 import { NavigationProp, useIsFocused, useNavigation } from '@react-navigation/native';
 import { Fragment, useEffect, useId, useState } from 'react';
-import { FlatList, ScrollView, View } from 'react-native';
+import { ActivityIndicator, FlatList, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Bag3D from '../../../assets/icons/bag3D.svg';
 import Calendar3D from '../../../assets/icons/calendar3D.svg';
@@ -34,6 +34,7 @@ const MainScreen = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [category, setCategory] = useState<string>('');
   const [postCnt, setPostCnt] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const radioData = [
     {
@@ -128,6 +129,7 @@ const MainScreen = () => {
     const response = await getPostList({ id: postCnt, keyword: '', cate: category });
     setPostData(response.dataBody);
     setPostCnt(response.dataBody[response.dataBody.length - 1].communityId);
+    setIsLoading(true);
   };
 
   const getMorePost = async () => {
@@ -208,12 +210,18 @@ const MainScreen = () => {
           </>
         }
         ListEmptyComponent={
-          <ContentContainer>
-            <Typo.BODY2_M>아직 등록된 글이 없습니다.</Typo.BODY2_M>
-            <BasicButton onPress={onPressRegist} width={widthPercent * 90} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
-              <Typo.BODY4_M color={Color.WHITE}>글 쓰러 가기</Typo.BODY4_M>
-            </BasicButton>
-          </ContentContainer>
+          isLoading ? (
+            <ContentContainer>
+              <Typo.BODY2_M>아직 등록된 글이 없습니다.</Typo.BODY2_M>
+              <BasicButton onPress={onPressRegist} width={widthPercent * 90} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
+                <Typo.BODY4_M color={Color.WHITE}>글 쓰러 가기</Typo.BODY4_M>
+              </BasicButton>
+            </ContentContainer>
+          ) : (
+            <ContentContainer>
+              <ActivityIndicator />
+            </ContentContainer>
+          )
         }
         data={postData}
         renderItem={renderItem}

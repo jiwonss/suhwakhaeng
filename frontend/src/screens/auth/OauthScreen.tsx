@@ -76,6 +76,7 @@ const OauthScreen = () => {
         email: userInfoData.dataBody.email,
         nickname: userInfoData.dataBody.nickname,
         profileImage: userInfoData.dataBody.profileImage,
+        role: userInfoData.dataBody.role,
       });
 
       setCurrentToken(true); // tokenState 변경

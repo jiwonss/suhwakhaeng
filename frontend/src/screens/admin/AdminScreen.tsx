@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
-import { Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useEffect, useState } from 'react';
 import messaging from '@react-native-firebase/messaging';
@@ -9,9 +9,10 @@ import Header from '../../components/header/Header';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import SearchGray from '../../../assets/icons/search_gray.svg';
 import { BasicButton } from '../../components/button/Buttons';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { allowBusiness, getBusiness } from '../../apis/services/admin/Admin';
+import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 
 const StyledContainer = styled.View`
   height: ${heightPercent * 63}px;
@@ -53,22 +54,19 @@ const StyledInput = styled.TextInput`
   height: 100%;
 `;
 
-type RootStackParamList = {
-  AdminDetailScreen: { nickname: string, image: string };
-};
-
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 const AdminScreen = () => {
+  const isFocused = useIsFocused();
   const [searchValue, setSearchValue] = useState('');
   const [userinfo, setUserinfo] = useState([]);
   const onSubmitSearch = () => {};
 
   const navigation = useNavigation<RootStackNavigationProp>();
 
-  const goToDetailPage = (nickname: string, image: string) => {
+  const goToDetailPage = (id: number, nickname: string, image: string) => {
     // 상세 페이지로 이동하는 코드
-    navigation.navigate('AdminDetailScreen', { nickname: nickname, image: image }); // 'DetailPage'는 상세 페이지의 이름에 해당하는 스택 내비게이션의 경로입니다.
+    navigation.navigate('AdminDetailScreen', { businessId: id, nickname: nickname, image: image }); // 'DetailPage'는 상세 페이지의 이름에 해당하는 스택 내비게이션의 경로입니다.
   };
 
   useEffect(() => {
@@ -79,7 +77,7 @@ const AdminScreen = () => {
     };
 
     fetchData();
-  }, []);
+  }, [isFocused]);
 
   return (
     <Container>
@@ -92,11 +90,13 @@ const AdminScreen = () => {
       </StyledContainer>
       {userinfo &&
         userinfo.map((user) => (
-          <StyledContainer2 key={user.businessId} onPress={() => goToDetailPage(user.nickname, user.image)}>
+          <StyledContainer2 key={user.businessId} onPress={() => goToDetailPage(user.businessId, user.nickname, user.image)}>
             <Typo.BODY4_M color={Color.BLACK}>{user.nickname}</Typo.BODY4_M>
             <BasicButton
               onPress={() => {
                 allowBusiness(user.businessId);
+                Alert.alert('수확행', '승인되었습니다!');
+                navigation.push('BottomNavigation', { screen: 'MyProfileScreen' });
               }}
               width={widthPercent * 90}
               height={heightPercent * 30}
