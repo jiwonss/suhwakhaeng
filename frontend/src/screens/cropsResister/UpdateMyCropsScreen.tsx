@@ -12,8 +12,8 @@ import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { useRoute } from '@react-navigation/core';
 import { NavigationProp, RouteProp, useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
-import { useRecoilState } from 'recoil';
-import { myCropsList } from '../../recoil/atoms/myCrops';
+// import { useRecoilState } from 'recoil';
+// import { myCropsList } from '../../recoil/atoms/myCrops';
 import { getMyCropInfo, patchMyCropInfo } from '../../apis/services/crops/Crops';
 
 interface MyLocation {
@@ -22,17 +22,17 @@ interface MyLocation {
   dong: string;
 }
 
-interface MyCropInfoType {
-  cropsVarietyId?: number;
-  myCropsId?: number;
-  myCropsName?: string;
-  cropsName?: string;
-  cropsVarietyName?: string;
-  location?: MyLocation;
-  area?: number;
-  areaUnit?: string;
-  yield?: number;
-}
+// interface MyCropInfoType {
+//   cropsVarietyId?: number;
+//   myCropsId?: number;
+//   myCropsName?: string;
+//   cropsName?: string;
+//   cropsVarietyName?: string;
+//   location?: MyLocation;
+//   area?: number;
+//   areaUnit?: string;
+//   yield?: number;
+// }
 
 interface PatchMyCropInfoType {
   area: number;
@@ -63,7 +63,7 @@ const UpdateMyCropsScreen = () => {
   const [cropsVarietyName, setCropsVarietyName] = useState('');
   const [area, setArea] = useState<string>('0');
   const [cropYield, setCropYield] = useState<string>('0');
-  const [myCrops, setMyCrops] = useRecoilState(myCropsList);
+  // const [myCrops, setMyCrops] = useRecoilState(myCropsList);
   const [headerName, setHeaderName] = useState('');
 
   // 작물 정보 조회
@@ -87,10 +87,10 @@ const UpdateMyCropsScreen = () => {
     }
   }, [myCropsId]);
 
-  // 작물 수정 정보 전역상태에 반영
-  const RecoilPatchMyCrop = (updatedCropInfo: MyCropInfoType) => {
-    setMyCrops(myCrops.map((crop) => (crop.myCropsId === updatedCropInfo.myCropsId ? updatedCropInfo : crop)));
-  };
+  // // 작물 수정 정보 전역상태에 반영
+  // const RecoilPatchMyCrop = (updatedCropInfo: MyCropInfoType) => {
+  //   setMyCrops(myCrops.map((crop) => (crop.myCropsId === updatedCropInfo.myCropsId ? updatedCropInfo : crop)));
+  // };
 
   // 서버에 전송할 작물 정보를 구성합니다.
   const submitCropInfo = async () => {
@@ -114,7 +114,7 @@ const UpdateMyCropsScreen = () => {
       console.log('작물 정보 수정 요청:', myCropsId, cropInfo);
       const response = await patchMyCropInfo(myCropsId, cropInfo);
       console.log('작물 정보 수정 성공', response);
-      RecoilPatchMyCrop(cropInfo);
+      // RecoilPatchMyCrop(cropInfo);
       navigation.goBack();
     } catch (error) {
       console.error('작물 정보 수정 중 오류 발생:', error);
@@ -168,7 +168,7 @@ const UpdateMyCropsScreen = () => {
         <Container>
           <Typo.BODY4_M>재배 면적(선택)</Typo.BODY4_M>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <SingleLineInputBox placeholder='재배 면적 입력' keyboardType='decimal-pad' value={area.toString()} onChangeText={handleAreaChange} />
+            <SingleLineInputBox width={180} placeholder='재배 면적 입력' keyboardType='decimal-pad' value={area.toString()} onChangeText={handleAreaChange} />
             <DropDown width={104} dataList={dropDownData} onSelect={setSelectData} defaultText={'평방미터'} />
           </View>
           <Spacer space={10} />

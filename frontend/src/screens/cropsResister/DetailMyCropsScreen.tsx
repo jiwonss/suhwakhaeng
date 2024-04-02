@@ -147,7 +147,7 @@ const DetailMyCropsScreen = () => {
                 <Spacer space={10} horizontal={true} />
               </View>
             </MiniFormItemContainer>
-            <DropDown width={75} height={33} dataList={dropDownData} onSelect={setSelectData} defaultText={'평방미터'} />
+            <DropDown width={80} height={33} dataList={dropDownData} onSelect={setSelectData} defaultText={'평방미터'} />
           </View>
           <FormItemContainer>
             <View style={{ flexDirection: 'row' }}>
