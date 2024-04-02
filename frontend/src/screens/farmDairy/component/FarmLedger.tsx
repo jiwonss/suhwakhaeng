@@ -127,7 +127,7 @@ const FarmLedger = () => {
                         </View>
                         <Spacer space={heightPercent * 10}></Spacer>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                          <Typo.BODY4_M color={Color.GRAY400}>카테고리</Typo.BODY4_M>
+                          <Typo.BODY4_M color={Color.GRAY400}>거래처</Typo.BODY4_M>
                           <Typo.BODY4_M>{ledger.title}</Typo.BODY4_M>
                         </View>
                         <Spacer space={heightPercent * 10}></Spacer>

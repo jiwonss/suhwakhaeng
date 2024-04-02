@@ -88,7 +88,7 @@ const FarmDairyDetailScreen = (props: FarmLedgerDetailProps) => {
         </FormItemContainer>
         <FormItemContainer>
           <View style={{ flexDirection: 'row' }}>
-            <Typo.BODY3_M color={Color.GREEN500}>카테고리</Typo.BODY3_M>
+            <Typo.BODY3_M color={Color.GREEN500}>거래처</Typo.BODY3_M>
             <Typo.BODY3_M> | </Typo.BODY3_M>
             <Typo.BODY3_M>{data.title}</Typo.BODY3_M>
           </View>

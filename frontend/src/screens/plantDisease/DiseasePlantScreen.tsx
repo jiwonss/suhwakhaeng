@@ -49,8 +49,7 @@ const DiseasePlantScreen = () => {
         }
         return item;
       });
-
-      console.log(newdata);
+      
       setRander(true);
       setNews(newdata);
     };
@@ -88,9 +87,9 @@ const DiseasePlantScreen = () => {
             news.map((item, index) => (
               <NewsItemCard
                 key={index}
-                company={item.company} // 회사 정보 추가
+                company={''} // 회사 정보 추가
                 content={item.content} // 컨텐츠 내용
-                date={item.date} // 날짜 정보 추가
+                date={''} // 날짜 정보 추가
                 href={item.url} // 하이퍼링크 정보
                 title={item.title} // 제목 정보
                 uri={item.thumbnail} // 이미지 URI 정보

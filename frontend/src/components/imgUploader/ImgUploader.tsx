@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import * as Color from '../../config/color/Color';
 import * as Typo from '../../components/typography/Typography';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
@@ -42,17 +42,8 @@ interface ImgUploaderProps {
 }
 
 const ImgUploader = ({ data, setData, maximage }: ImgUploaderProps) => {
+  const [maxImage, setMaxImage] = useState(maximage || 4);
   const handleAddPress = async () => {
-    const maxAllowedImages = maximage || 4; // maximage가 없으면 기본적으로 4개로 설정
-
-    if (data.length >= maxAllowedImages) {
-      Alert.alert(
-        '알림',
-        `이미지는 최대 ${maxAllowedImages}개까지만 추가할 수 있습니다.`,
-        [{ text: '확인', onPress: () => console.log('확인') }],
-      );
-      return;
-    }
 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -77,10 +68,12 @@ const ImgUploader = ({ data, setData, maximage }: ImgUploaderProps) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={{ height: heightPercent * 80, alignItems: 'center', paddingRight: widthPercent * 10 }} horizontal showsHorizontalScrollIndicator={false}>
-      <StyledView onPress={handleAddPress}>
-        <Typo.BODY0_M color={Color.BLACK}>+</Typo.BODY0_M>
-      </StyledView>
+    <View style={{ flexDirection: 'row', height: heightPercent * 80, alignItems: 'center'}}>
+      {maxImage !== data.length && (
+        <StyledView onPress={handleAddPress}>
+          <Typo.BODY0_M color={Color.BLACK}>+</Typo.BODY0_M>
+        </StyledView>
+      )}
       {data.map((url, index) => (
         <Fragment key={index}>
           <Spacer horizontal space={widthPercent * 10}></Spacer>
@@ -92,7 +85,7 @@ const ImgUploader = ({ data, setData, maximage }: ImgUploaderProps) => {
           </Container>
         </Fragment>
       ))}
-    </ScrollView>
+    </View>
   );
 };
 
