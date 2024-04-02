@@ -24,13 +24,13 @@ public class GovernmentServiceImpl implements GovernmentService {
     }
 
     @Override
-    @Scheduled(cron = "0 0 12 * * *")
+    @Scheduled(cron = "0 2 22 * * *")
     public void crawlingGovernment() {
         long startTime = System.currentTimeMillis();
-//        crawlingService.doWonjuCrawling();
-//        crawlingService.doYangyangCrawling();
+        crawlingService.doWonjuCrawling();
+        crawlingService.doYangyangCrawling();
         crawlingService.doNajuCrawling();
-//        crawlingService.doGoyangCrawling();
+        crawlingService.doGoyangCrawling();
         long endTime = System.currentTimeMillis();
         long executionTime = endTime - startTime;
 
