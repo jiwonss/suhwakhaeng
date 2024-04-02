@@ -38,7 +38,11 @@ public class User {
         this.nickname = user.getNickname();
         this.profileImage = user.getProfileImage();
         this.profileContent = user.getProfileContent();
-        this.role = user.getRole();
+
+        if (this.role == Role.USER || this.role == Role.FARMER) {
+            this.role = user.getRole();
+        }
+
         this.location = user.getLocation();
     }
 
