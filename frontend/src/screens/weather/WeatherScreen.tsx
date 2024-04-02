@@ -4,7 +4,7 @@ import Header from '../../components/header/Header';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import styled from 'styled-components/native';
 import Location from '../../../assets/icons/location.svg';
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { Spacer } from '../../components/basic/Spacer';
 import MenuButton from '../../components/menuButton/MenuButton';
 import WeatherInfo from '../../components/weather/WeatherInfo';
@@ -29,6 +29,15 @@ const StyledContainer = styled.View`
   border: 1px solid ${Color.GRAY200};
   padding: ${heightPercent * 20}px 0px;
   display: flex;
+`;
+
+const TextContainer = styled.View`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: ${heightPercent * 80}px;
+  row-gap: ${heightPercent * 20}px;
 `;
 
 const FormContainer = styled.View`
@@ -91,8 +100,7 @@ const WeatherScreen = () => {
       // 1. 유저 정보에서 시도군 정보 가져오기
       const location = await getLocation();
       // 1.1 없다면 설정페이지로 보내버리기
-      console.log(location.location);
-      if (!location.location) {
+      if (location.x === 0) {
         setLender(0);
         return;
       }
@@ -169,16 +177,16 @@ const WeatherScreen = () => {
     <Container>
       <Header type='default' title='날씨' firstIcon='exit' />
       {lender === 0 && (
-        <FormContainer>
+        <TextContainer>
           <FormItemContainer0>
-            <Typo.BODY1_B color={Color.GREEN600}>위치 정보가 없습니다!</Typo.BODY1_B>
+            <Typo.BODY2_M color={Color.BLACK}>위치 정보가 없습니다</Typo.BODY2_M>
             <Spacer space={heightPercent * 10}></Spacer>
-            <Typo.BODY1_B color={Color.GREEN600}>위치 설정 해주세요!</Typo.BODY1_B>
+            <Typo.BODY2_M color={Color.BLACK}>위치 설정 해주세요</Typo.BODY2_M>
             <Spacer space={heightPercent * 20}></Spacer>
             <BasicButton
               onPress={onPressDairy}
-              width={widthPercent * 150}
-              height={heightPercent * 50}
+              width={widthPercent * 120}
+              height={heightPercent * 40}
               disabled={false}
               backgroundColor={Color.GREEN500}
               borderColor={Color.WHITE}
@@ -187,12 +195,12 @@ const WeatherScreen = () => {
               <Typo.BODY4_M color={Color.WHITE}>위치 설정하러가기</Typo.BODY4_M>
             </BasicButton>
           </FormItemContainer0>
-        </FormContainer>
+        </TextContainer>
       )}
       {lender === 1 && (
-        <FormContainer>
-          <Typo.BODY1_B color={Color.GREEN600}>렌더 중..</Typo.BODY1_B>
-        </FormContainer>
+        <TextContainer>
+          <ActivityIndicator size='large' />
+        </TextContainer>
       )}
       {lender === 2 && (
         <FormContainer>

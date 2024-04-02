@@ -148,7 +148,7 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
   };
 
   useEffect(() => {
-    setCategory(props.route.params.cate ? props.route.params.cate : '');
+    setCategory(props.route.params.cate ? props.route.params.cate : 'CROP');
     if (props.route.params.cate === 'CROP' || '') {
       setActiveIndex(0);
     } else if (props.route.params.cate === 'MATERIAL') {
