@@ -92,7 +92,7 @@ export type RootStackParamList = {
   MyPostScreen: undefined;
   MyProfileScreen: undefined;
   PlantResisterScreen: undefined;
-  PostCodeScreen: { id: number; screenName: string; plantName?: string; cropsVarietyId?: number };
+  PostCodeScreen: { id: number; screenName: string; plantName?: string; cropsVarietyId?: number; cate?: string };
   SearchPostScreen: undefined;
   SetLocationScreen: { value: number; varietyName: string; plantName: string; cropsVarietyId?: number };
   UpdateMyCropsScreen: { myCropsId: number; sido?: string; gugun?: string; dong?: string };

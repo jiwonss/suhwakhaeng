@@ -10,7 +10,7 @@ type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
 interface PostCodeProps {
   route: {
-    params: { id: number; screenName: string; plantName?: string, cropsVarietyId?: number };
+    params: { id: number; screenName: string; plantName?: string; cropsVarietyId?: number; cate?: string };
   };
 }
 
@@ -31,15 +31,24 @@ const PostCodeScreen = (props: PostCodeProps) => {
         setY(res.data.documents[0].y);
         if (props.route.params.screenName === 'MarketRegist') {
           navigation.navigate('MarketRegistScreen', {
-            address: address, x: res.data.documents[0].x, y: res.data.documents[0].y,
+            address: address,
+            x: res.data.documents[0].x,
+            y: res.data.documents[0].y,
+            cate: props.route.params.cate ? props.route.params.cate : '',
           });
         } else if (props.route.params.screenName === 'MarketModify') {
           navigation.navigate('MarketModifyScreen', {
-            id: props.route.params.id, address: address, x: res.data.documents[0].x, y: res.data.documents[0].y,
+            id: props.route.params.id,
+            address: address,
+            x: res.data.documents[0].x,
+            y: res.data.documents[0].y,
           });
         } else if (props.route.params.screenName === 'ModifyProfile') {
           navigation.navigate('ModifyProfileScreen', {
-            sido: addressData.sido, gugun: addressData.sigungu, dong: addressData.bname, address: addressData.address,
+            sido: addressData.sido,
+            gugun: addressData.sigungu,
+            dong: addressData.bname,
+            address: addressData.address,
           });
         } else if (props.route.params.screenName === 'EnvironmentPlant' && props.route.params.plantName) {
           navigation.navigate('EnvironmentPlantScreen', {
@@ -47,7 +56,7 @@ const PostCodeScreen = (props: PostCodeProps) => {
             sido: addressData.sido,
             gugun: addressData.sigungu,
             dong: addressData.bname,
-            cropsVarietyId: props.route.params.cropsVarietyId
+            cropsVarietyId: props.route.params.cropsVarietyId,
           });
         }
       })
@@ -56,8 +65,7 @@ const PostCodeScreen = (props: PostCodeProps) => {
   const onAddressError = (error: unknown) => {
     console.log('주소에러', error);
   };
-  return <Postcode style={{ width: '100%', height: '100%' }} onSelected={onAddressSelected} onError={onAddressError}
-                   jsOptions={{ animation: true }} />;
+  return <Postcode style={{ width: '100%', height: '100%' }} onSelected={onAddressSelected} onError={onAddressError} jsOptions={{ animation: true }} />;
 };
 
 export default PostCodeScreen;

@@ -18,22 +18,17 @@ const setCommonHeaders = async (config: any) => {
 };
 
 const reIssueAccessTokenAndRetry = async (config: AxiosRequestConfig) => {
-  const tokenData = getTokens();
+  const tokenData = await getTokens();
   try {
-    const response = await axios.post(`${BASE_URL}/common/reissue`, tokenData, { headers: { 'Content-Type': 'application/json' } });
-    if (response.status === 201) {
-      setTokens(response.data.dataBody); // 토큰 재 세팅
-      axios(config); // 재요청
-    }
-    console.error('reIssueAccessTokenAndRetry error: ', response);
-    return Promise.reject(response);
-  } catch (error: any) {
-    console.error(error.response.data);
-    if (error.response.status === 401) {
+    const response = await axios.post(`http://13.209.182.136:8000/common/oauth/reissue`, tokenData, { headers: { 'Content-Type': 'application/json' } });
+    if (response.data.dataHeader.successCode === 1) {
       alert('토큰 갱신에 실패했습니다. 다시 로그인 해주세요.');
       removeTokens();
-      return Promise.reject(error);
+    } else if (response.data.dataHeader.successCode === 0) {
+      setTokens(response.data.dataBody); // 토큰 재 세팅
     }
+  } catch (error: any) {
+    console.error(error.response.data);
   }
 };
 
@@ -44,11 +39,9 @@ const handleResponseError = async (error: AxiosError) => {
 
   switch (status) {
     case 400:
-      // alert('이미 매칭에 참여 중입니다');
       break;
     case 401:
       return await reIssueAccessTokenAndRetry(config);
-
     case 500:
       alert('관리자에게 문의 바랍니다.');
       break;

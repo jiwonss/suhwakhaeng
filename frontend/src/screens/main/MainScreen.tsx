@@ -20,6 +20,9 @@ import { BasicButton } from '../../components/button/Buttons';
 import styled from 'styled-components/native';
 import FloatingActionButton from '../../components/floatingActionButton/FloatingActionButton';
 import { changeCategoryName } from '../../util/MarketUtil';
+import { getUserInfo } from '../../apis/services/user/user';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../recoil/atoms/userInfoState';
 
 const ContentContainer = styled.View`
   display: flex;

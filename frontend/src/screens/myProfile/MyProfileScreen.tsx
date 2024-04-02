@@ -91,6 +91,8 @@ const MyProfileScreen = () => {
   const [selectedCropId, setSelectedCropId] = useState<number>(0);
   const [slideVisible, setSlideVisible] = useState<boolean>(false);
 
+  console.log(userInfo);
+
   // 작물 목록 가져오기
   useFocusEffect(
     React.useCallback(() => {
@@ -101,7 +103,7 @@ const MyProfileScreen = () => {
             setMyCropsList(response.dataBody);
           }
         } catch (error) {
-          console.error('내가 키우는 작물 목록을 불러오는 중 오류 발생:', error);
+          // console.error('내가 키우는 작물 목록을 불러오는 중 오류 발생:', error);
         }
       };
 
@@ -125,7 +127,12 @@ const MyProfileScreen = () => {
         <Header type='default' title='프로필' />
         <FormContainer>
           <FormItemContainer>
-            <BussinessProfileCard url={userInfo.profileImage} name={userInfo.nickname} location={`${userInfo.sido} ${userInfo.gugun}`} Certified={userInfo.isBusiness} />
+            <BussinessProfileCard
+              url={userInfo.profileImage}
+              name={userInfo.nickname}
+              location={`${userInfo.sido} ${userInfo.gugun}`}
+              Certified={userInfo.role === '사업자' || userInfo.role === '관리자' ? true : false}
+            />
             <Spacer space={heightPercent * 20}></Spacer>
             <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
               <BasicButton
@@ -148,7 +155,9 @@ const MyProfileScreen = () => {
               </BasicButton>
 
               <BasicButton
-                onPress={() => setSlideVisible(true)}
+                onPress={() => {
+                  userInfo.role === '사업자' || userInfo.role === '관리자' ? Alert.alert('수확행', '이미 사업자거나 관리자입니다.') : setSlideVisible(true);
+                }}
                 width={widthPercent * 150}
                 height={heightPercent * 30}
                 disabled={false}
@@ -238,7 +247,7 @@ const MyProfileScreen = () => {
               <Spacer space={widthPercent * 8} horizontal></Spacer>
               <Typo.BODY4_M color={Color.GRAY400}>로그아웃</Typo.BODY4_M>
             </StyledButton>
-              
+
             <StyledButton onPress={() => {}}>
               <Person_remove width={widthPercent * 16} height={heightPercent * 16}></Person_remove>
               <Spacer space={widthPercent * 8} horizontal></Spacer>
