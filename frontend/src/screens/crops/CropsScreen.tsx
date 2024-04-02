@@ -40,20 +40,20 @@ interface Plant {
 }
 
 const Container = styled.View`
-  margin-left: ${20 * widthPercent}px;
-  margin-right: ${20 * widthPercent}px;
-  margin-bottom: ${20 * heightPercent}px;
-  row-gap: ${5 * heightPercent}px;
+    margin-left: ${20 * widthPercent}px;
+    margin-right: ${20 * widthPercent}px;
+    margin-bottom: ${20 * heightPercent}px;
+    row-gap: ${5 * heightPercent}px;
 `;
 const PlantContainer = styled.View`
-  margin-left: ${20 * widthPercent}px;
-  margin-right: ${20 * widthPercent}px;
-  margin-bottom: ${20 * heightPercent}px;
-  row-gap: ${5 * heightPercent}px;
-  column-gap: ${26 * widthPercent}px;
-  flex-direction: row;
-  justify-content: center;
-  flex-wrap: wrap;
+    margin-left: ${20 * widthPercent}px;
+    margin-right: ${20 * widthPercent}px;
+    margin-bottom: ${20 * heightPercent}px;
+    row-gap: ${5 * heightPercent}px;
+    column-gap: ${26 * widthPercent}px;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
 `;
 export const iconMapping = [
   { engName: 'Eggplant', name: '가지', Icon: Eggplant },
@@ -89,13 +89,14 @@ const CropsScreen = () => {
           const iconItem = filteredIconMapping.find((icon) => icon.engName === item.name || icon.name === item.name);
           return iconItem
             ? {
-                ...item,
-                name: iconItem.name,
-                Icon: iconItem.Icon,
-              }
+              ...item,
+              name: iconItem.name,
+              Icon: iconItem.Icon,
+            }
             : null;
         })
-        .filter((item: Crop | null): item is Plant => item !== null);
+        .filter((item: Crop | null): item is Plant => item !== null)
+        .sort((a: { name: string; }, b: { name: string; }) => a.name.localeCompare(b.name, 'ko'));
       setPlants(mappedData);
     };
 
@@ -108,12 +109,14 @@ const CropsScreen = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
-      <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }} contentContainerStyle={{ paddingBottom: 50 * heightPercent }}>
+      <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}
+                  contentContainerStyle={{ paddingBottom: 50 * heightPercent }}>
         {/*헤더*/}
         <Header type={'default'} title={'작물도감'} />
         {/*작물검색*/}
         <View style={{ alignItems: 'center' }}>
-          <SearchInputBox value={searchValue} setValue={setSearchValue} onSubmitSearch={onSearch} placeHolder={'작물 이름을 입력해주세요'} />
+          <SearchInputBox value={searchValue} setValue={setSearchValue} onSubmitSearch={onSearch}
+                          placeHolder={'작물 이름을 입력해주세요'} />
         </View>
         <Spacer space={20} />
         <Container>
