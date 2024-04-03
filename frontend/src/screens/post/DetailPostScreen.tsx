@@ -17,7 +17,6 @@ import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { SingleLineInputBox } from '../../components/inputBox/Input';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
-import { BackHandler } from 'react-native';
 
 interface DetaliPostProps {
   route: {
@@ -76,6 +75,8 @@ const DetailPostScreen = (props: DetaliPostProps) => {
   const [commentContent, setCommentContent] = useState<string>('');
   const isFocused = useIsFocused();
 
+  const [isUpLoadingComment, setIsUpLoadingComment] = useState(false);
+
   const textInputRef = useRef<any>(null);
   const focusOnInput = () => {
     if (textInputRef.current) {
@@ -121,12 +122,14 @@ const DetailPostScreen = (props: DetaliPostProps) => {
 
   const onSubmitComment = async () => {
     if (postData.communityId != 0 && commentContent != '') {
+      setIsUpLoadingComment(true);
       await registComment(props.route.params.id, { parentId: selectId, content: commentContent });
       const response = await getComment({ communityId: props.route.params.id });
       const postResponse = await getPostDetail({ communityId: postData.communityId });
       setCommentData(response.dataBody);
       setPostData(postResponse.dataBody);
       setSelectId(0);
+      setIsUpLoadingComment(false);
       Keyboard.dismiss();
     } else {
       Alert.alert('댓글/대댓글을 입력해주세요.');
@@ -140,16 +143,6 @@ const DetailPostScreen = (props: DetaliPostProps) => {
     };
 
     getDetail();
-
-    // const backAction = () => {
-    //   // 뒤로가기 버튼을 눌렀을 때 수행할 작업들
-    //   props.route.params.previousScreen === 'MainScreen' ? navigation.reset({ routes: [{ name: 'BottomNavigation' }] }) : navigation.goBack();
-    //   return true; // true 반환 시 기본 동작 방지
-    // };
-
-    // const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
-
-    // return () => backHandler.remove();
   }, [props.route.params.id, isFocused]);
 
   useEffect(() => {
@@ -282,7 +275,7 @@ const DetailPostScreen = (props: DetaliPostProps) => {
           }}
           onSubmitSearch={onSubmitComment}
         />
-        <SendButton onPress={onSubmitComment} />
+        <SendButton isUploading={isUpLoadingComment} onPress={onSubmitComment} />
       </ButtonContainer>
     </Container>
   );

@@ -87,7 +87,7 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
     const connect = () => {
       client.current = new StompJs.Client({
         brokerURL: 'ws://13.209.147.164:9001/ws',
-        reconnectDelay: 5000, // 자동 재 연결
+        reconnectDelay: 2000, // 자동 재 연결
         heartbeatIncoming: 4000,
         heartbeatOutgoing: 4000,
         forceBinaryWSFrames: true,

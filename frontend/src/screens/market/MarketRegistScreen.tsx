@@ -17,6 +17,7 @@ import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { ActivityIndicator, Alert, BackHandler, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 import { Spacer } from '../../components/basic/Spacer';
+import { UpLoadingModule } from '../../modules/marketModules/MarketModules';
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
@@ -127,7 +128,7 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
       setIsUploading(true);
       const newImageUrls = await uploadImagesToFirebaseStorage(imgUrls, `장터//${userInfo.userId}//${getKST()}`);
       const params = {
-        cate: category,
+        cate: category !== '' ? category : 'CROP',
         title: title,
         price: parseInt(price),
         content: content,
@@ -179,6 +180,13 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
 
     // return () => backHandler.remove();
   }, []);
+
+  useEffect(() => {
+    if (Number(price) >= 1000000000) {
+      Alert.alert('가격은 10억 이상 작성할 수 없습니다');
+      setPrice('');
+    }
+  }, [price]);
 
   return (
     <Container>
@@ -232,13 +240,7 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
           </ButtonContainer>
         </FormContainer>
       ) : (
-        <>
-          <View style={{ flexDirection: 'column', alignItems: 'center', paddingVertical: heightPercent * 150 }}>
-            <Typo.BODY3_M>등록 중입니다</Typo.BODY3_M>
-            <Spacer space={heightPercent * 20} />
-            <ActivityIndicator size='large'></ActivityIndicator>
-          </View>
-        </>
+        <UpLoadingModule text='등록 중입니다' />
       )}
     </Container>
   );

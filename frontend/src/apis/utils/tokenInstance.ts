@@ -1,6 +1,9 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import { getTokens, removeTokens, setTokens } from '../../util/TokenUtil';
+import { useRecoilState } from 'recoil';
+import { tokenState } from '../../recoil/atoms/tokenState';
+import { getUserInfo, userLogout } from '../services/user/user';
 
 // const BASE_URL = 'http://10.0.2.2:8000/';
 const BASE_URL = 'http://13.209.182.136:8000/';
@@ -19,21 +22,27 @@ const setCommonHeaders = async (config: any) => {
 
 const reIssueAccessTokenAndRetry = async (config: AxiosRequestConfig) => {
   const tokenData = await getTokens();
-  try {
-    const response = await axios.post(`http://13.209.182.136:8000/common/oauth/reissue`, tokenData, { headers: { 'Content-Type': 'application/json' } });
+  const deviceToken = await EncryptedStorage.getItem('deviceToken');
+  // 1. 재발급 시도
+  if (tokenData.accessToken && tokenData.refreshToken && deviceToken) {
+    const response = await axios.post(`http://13.209.182.136:8000/common/oauth/reissue`, tokenData);
+    console.log('재발급 응답: ', response.data);
+    // 2-1. 리프레시 토큰 역시 실패
     if (response.data.dataHeader.successCode === 1) {
+      console.log('토큰 재발급 실패');
       alert('토큰 갱신에 실패했습니다. 다시 로그인 해주세요.');
+      // userLogout({ refreshToken: tokenData.refreshToken, deviceToken: deviceToken });
       removeTokens();
-    } else if (response.data.dataHeader.successCode === 0) {
+    }
+    // 2-2. 리프레시 토큰 성공
+    else if (response.data.dataHeader.successCode === 0) {
       setTokens(response.data.dataBody); // 토큰 재 세팅
       const newConfig: AxiosRequestConfig = {
         ...config,
-        headers: { ...config.headers, Authorization: `Bearer ${await EncryptedStorage.getItem('accessToken')}` },
+        headers: { ...config.headers, Authorization: `Bearer ${response.data.dataBody.accessToken}` },
       };
       return tokenInstance(newConfig);
     }
-  } catch (error: any) {
-    console.error(error.response.data);
   }
 };
 
@@ -57,7 +66,7 @@ const handleResponseError = async (error: AxiosError) => {
 };
 
 const handleResponseSuccess = (response: AxiosResponse<any>) => {
-  // console.log('Success response: ' + response.config.url);
+  console.log('Success response: ' + response.config.url);
   return response;
 };
 

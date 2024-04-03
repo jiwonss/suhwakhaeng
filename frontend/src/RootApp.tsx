@@ -9,9 +9,7 @@ import { getUserInfo, reIssueToken } from './apis/services/user/user';
 import { userInfoState } from './recoil/atoms/userInfoState';
 import messaging from '@react-native-firebase/messaging';
 import { checkNotifications, requestNotifications } from 'react-native-permissions';
-import EncryptedStorage from 'react-native-encrypted-storage';
 import Toast from 'react-native-toast-message';
-import { Text, View } from 'react-native';
 
 export const RootApp = () => {
   const [tokens, setTokens] = useState<{ accessToken: string | null; refreshToken: string | null }>({ accessToken: null, refreshToken: null });
@@ -43,7 +41,7 @@ export const RootApp = () => {
     const fetchTokens = async () => {
       const { accessToken, refreshToken } = await getTokens();
 
-      if (!accessToken) {
+      if (!accessToken || !refreshToken) {
         // storage에 토큰 없으면 로그인 페이지로 이동
         SplashScreen.hide();
         return;
@@ -51,7 +49,9 @@ export const RootApp = () => {
         // storage에 토큰 있으면, 토큰 재발급 후 회원 정보 조회
         const reIssueResponse = await reIssueToken({ accessToken: accessToken, refreshToken: refreshToken });
         const tokens = reIssueResponse.dataBody;
+        console.log(reIssueResponse);
         setToken(tokens);
+        console.log('토큰', tokens);
 
         const userInfoData = await getUserInfo();
 
@@ -70,7 +70,14 @@ export const RootApp = () => {
     getFcmToken();
     requestUserPermission();
     const unsubscribe = messaging().onMessage(async (remoteMessage) => {
-      console.log('[Remote Message] ', JSON.stringify(remoteMessage));
+      if (token) {
+        Toast.show({
+          type: 'success',
+          text1: remoteMessage.notification?.title,
+          text2: remoteMessage.notification?.body,
+          visibilityTime: 3000,
+        });
+      }
     });
     return unsubscribe;
   }, []);

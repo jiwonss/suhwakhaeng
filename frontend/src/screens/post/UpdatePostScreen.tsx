@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ActivityIndicator, Alert, ScrollView, View } from 'react-native';
 import styled from 'styled-components/native';
 import { Spacer } from '../../components/basic/Spacer';
 import { BasicButton } from '../../components/button/Buttons';
@@ -17,6 +17,7 @@ import { getPostDetail, updatePost } from '../../apis/services/community/communi
 import { uploadImagesToFirebaseStorage } from '../../util/BasicUtil';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
+import { UpLoadingModule } from '../../modules/marketModules/MarketModules';
 
 interface UpdatePostProps {
   route: {
@@ -68,7 +69,10 @@ const UpdatePostScreen = (props: UpdatePostProps) => {
     { content: '질문', event: onChangeType, active: activeIndex === 3 },
   ];
 
+  const [isUploading, setIsUpLoading] = useState<boolean>(false);
+
   const onSubmit = async () => {
+    setIsUpLoading(true);
     const newImgUrls = await uploadImagesToFirebaseStorage(imgUrls, `커뮤니티//${userInfo.userId}//${props.route.params.id}`);
     const params = { communityId: props.route.params.id };
     const data = {
@@ -81,9 +85,12 @@ const UpdatePostScreen = (props: UpdatePostProps) => {
     };
     const response = await updatePost(params, data);
     if (response.dataHeader.successCode == 0) {
-      alert('수정되었습니다.');
+      Alert.alert('수확행', '수정되었습니다');
+    } else {
+      Alert.alert('수확행', '수정 실패하였습니다.');
     }
     navigation.goBack();
+    setIsUpLoading(false);
   };
 
   useEffect(() => {
@@ -124,31 +131,37 @@ const UpdatePostScreen = (props: UpdatePostProps) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
-      <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
-        <Header type={'default'} firstIcon='back' title={'게시글 수정'} />
-        <Spacer space={20} />
-        <Container>
-          <Typo.BODY4_M>분류 선택</Typo.BODY4_M>
-          <View style={{ alignItems: 'center' }}>
-            <CustomRadioButton data={Data} width={60} />
-          </View>
-        </Container>
-        <Container>
-          <Typo.BODY4_M>내용</Typo.BODY4_M>
-          <MultiLineInputBox value={content} onChangeText={setContent} placeholder={'내용을 작성하세요'} />
-        </Container>
-        <Container>
-          <Typo.BODY4_M>사진</Typo.BODY4_M>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ alignItems: 'center', padding: widthPercent * 10 }}>
-            <ImgUploader data={imgUrls} setData={setImgUrls} />
+      <Header type={'default'} firstIcon='back' title={'게시글 수정'} />
+      {!isUploading ? (
+        <>
+          <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}>
+            <Spacer space={20} />
+            <Container>
+              <Typo.BODY4_M>분류 선택</Typo.BODY4_M>
+              <View style={{ alignItems: 'center' }}>
+                <CustomRadioButton data={Data} width={60} />
+              </View>
+            </Container>
+            <Container>
+              <Typo.BODY4_M>내용</Typo.BODY4_M>
+              <MultiLineInputBox value={content} onChangeText={setContent} placeholder={'내용을 작성하세요'} />
+            </Container>
+            <Container>
+              <Typo.BODY4_M>사진</Typo.BODY4_M>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ alignItems: 'center', padding: widthPercent * 10 }}>
+                <ImgUploader data={imgUrls} setData={setImgUrls} />
+              </ScrollView>
+            </Container>
           </ScrollView>
-        </Container>
-      </ScrollView>
-      <Container>
-        <BasicButton borderColor={Color.GREEN500} borderRadius={10} height={45} onPress={onSubmit}>
-          <Typo.BODY3_M color={Color.WHITE}>작성완료</Typo.BODY3_M>
-        </BasicButton>
-      </Container>
+          <Container>
+            <BasicButton borderColor={Color.GREEN500} borderRadius={10} height={45} onPress={onSubmit}>
+              <Typo.BODY3_M color={Color.WHITE}>작성완료</Typo.BODY3_M>
+            </BasicButton>
+          </Container>
+        </>
+      ) : (
+        <UpLoadingModule text='수정 중입니다' />
+      )}
     </View>
   );
 };

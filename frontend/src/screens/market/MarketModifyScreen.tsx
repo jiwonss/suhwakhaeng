@@ -15,7 +15,8 @@ import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../../stacks/mainStack/MainStack';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { TouchableWithoutFeedback } from 'react-native';
+import { Alert, TouchableWithoutFeedback } from 'react-native';
+import { UpLoadingModule } from '../../modules/marketModules/MarketModules';
 
 type RootStackNavigationProp = StackNavigationProp<RootStackParamList>;
 
@@ -55,6 +56,8 @@ const MarketModifyScreen = (props: MarketDetailProps) => {
   const [y, setY] = useState();
   const [address, setAddress] = useState<string>('');
 
+  const [isUpLoading, setIsUpLoading] = useState(false);
+
   const onChangeType = () => {
     alert('분류는 변경할 수 없습니다');
   };
@@ -70,6 +73,7 @@ const MarketModifyScreen = (props: MarketDetailProps) => {
     // TODO: 작성 완료 후 상세보기 페이지로 이동
     // 파이어베이스 업로드
 
+    setIsUpLoading(true);
     const newImgUrls = await uploadImagesToFirebaseStorage(imgUrls, `장터//${userInfo.userId}//${props.route.params.id}`);
     const params = { tradeId: props.route.params.id };
     const data = {
@@ -87,9 +91,12 @@ const MarketModifyScreen = (props: MarketDetailProps) => {
     };
     const response = await modifyMarketPost(params, data);
     if (response.dataHeader.successCode === 0) {
-      alert('수정 완료!');
+      Alert.alert('수확행', '수정되었습니다');
+    } else {
+      Alert.alert('수확행', '수정 실패하였습니다.');
     }
-    navigation.navigate('MarketScreen');
+    setIsUpLoading(false);
+    navigation.goBack();
   };
 
   useEffect(() => {
@@ -144,46 +151,49 @@ const MarketModifyScreen = (props: MarketDetailProps) => {
   return (
     <Container>
       <Header type='default' title='장터글 수정' firstIcon='exit' />
-      <FormContainer>
-        <FormItemContainer style={{ rowGap: heightPercent * 8 }}>
-          <Typo.BODY4_M>분류 선택</Typo.BODY4_M>
-          <CustomRadioButton data={radioData} />
-        </FormItemContainer>
-        <FormItemContainer>
-          <Typo.BODY4_M>제목 입력</Typo.BODY4_M>
-          <SingleLineInputBox value={title} onChangeText={setTitle} placeholder={'제목을 입력해주세요'} />
-        </FormItemContainer>
-        <FormItemContainer>
-          <Typo.BODY4_M>가격 입력</Typo.BODY4_M>
-          <SingleLineInputBox value={String(price)} onChangeText={setPrice} placeholder={'가격을 입력해주세요 (숫자만 입력)'} />
-        </FormItemContainer>
-        <FormItemContainer>
-          <Typo.BODY4_M>내용 입력</Typo.BODY4_M>
-          <MultiLineInputBox value={content} onChangeText={setContent} placeholder={'내용을 입력해주세요'} />
-        </FormItemContainer>
-        <ImageFormItemContainer>
-          <Typo.BODY4_M>사진 (선택)</Typo.BODY4_M>
-          <ImgUploader data={imgUrls} setData={setImgUrls} />
-        </ImageFormItemContainer>
-        <FormItemContainer>
-          <Typo.BODY4_M>주소 (선택)</Typo.BODY4_M>
-          {/* 눌렀을 때 주소 검색 페이지로 연결되어야 하는데 나중에 할게요.. */}
-          <TouchableWithoutFeedback
-            onPress={() => {
-              navigation.navigate('PostCodeScreen', { id: props.route.params.id, screenName: 'MarketModify' });
-            }}
-          >
-            <AddressContainer>
-              <Typo.BODY4_M color={Color.GRAY400}>{props.route.params.address ? props.route.params.address : address}</Typo.BODY4_M>
-            </AddressContainer>
-          </TouchableWithoutFeedback>
-        </FormItemContainer>
-        <ButtonContainer>
-          <BasicButton onPress={onPressButton} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
-            <Typo.BODY3_M color={Color.WHITE}>작성 완료</Typo.BODY3_M>
-          </BasicButton>
-        </ButtonContainer>
-      </FormContainer>
+      {!isUpLoading ? (
+        <FormContainer>
+          <FormItemContainer style={{ rowGap: heightPercent * 8 }}>
+            <Typo.BODY4_M>분류 선택</Typo.BODY4_M>
+            <CustomRadioButton data={radioData} />
+          </FormItemContainer>
+          <FormItemContainer>
+            <Typo.BODY4_M>제목 입력</Typo.BODY4_M>
+            <SingleLineInputBox value={title} onChangeText={setTitle} placeholder={'제목을 입력해주세요'} />
+          </FormItemContainer>
+          <FormItemContainer>
+            <Typo.BODY4_M>가격 입력</Typo.BODY4_M>
+            <SingleLineInputBox keyboardType='decimal-pad' value={String(price)} onChangeText={setPrice} placeholder={'가격을 입력해주세요 (숫자만 입력)'} />
+          </FormItemContainer>
+          <FormItemContainer>
+            <Typo.BODY4_M>내용 입력</Typo.BODY4_M>
+            <MultiLineInputBox value={content} onChangeText={setContent} placeholder={'내용을 입력해주세요'} />
+          </FormItemContainer>
+          <ImageFormItemContainer>
+            <Typo.BODY4_M>사진 (선택)</Typo.BODY4_M>
+            <ImgUploader data={imgUrls} setData={setImgUrls} />
+          </ImageFormItemContainer>
+          <FormItemContainer>
+            <Typo.BODY4_M>주소 (선택)</Typo.BODY4_M>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                navigation.navigate('PostCodeScreen', { id: props.route.params.id, screenName: 'MarketModify', cate: category });
+              }}
+            >
+              <AddressContainer>
+                <Typo.BODY4_M color={Color.GRAY400}>{props.route.params.address ? props.route.params.address : address}</Typo.BODY4_M>
+              </AddressContainer>
+            </TouchableWithoutFeedback>
+          </FormItemContainer>
+          <ButtonContainer>
+            <BasicButton onPress={onPressButton} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
+              <Typo.BODY3_M color={Color.WHITE}>작성 완료</Typo.BODY3_M>
+            </BasicButton>
+          </ButtonContainer>
+        </FormContainer>
+      ) : (
+        <UpLoadingModule text='수정 중입니다' />
+      )}
     </Container>
   );
 };
