@@ -21,7 +21,6 @@ const StyledView = styled.TouchableOpacity`
   border: 0px solid ${Color.GRAY400};
   border-radius: ${widthPercent * 10}px;
   background-color: ${Color.GRAY200};
-  overflow: hidden; /* borderRadius를 적용하기 위해 overflow를 hidden으로 설정 */
   justify-content: center;
   align-items: center;
 `;
