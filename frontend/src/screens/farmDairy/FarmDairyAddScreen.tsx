@@ -90,7 +90,7 @@ const FarmDairyAddScreen = () => {
     const fetchData = async () => {
       let image = null;
       if (urls && urls.length !== 0) {
-        const test = await uploadImagesToFirebaseStorage(urls, `영농일지//${myCrops[i].myCropsId}`);
+        const test = await uploadImagesToFirebaseStorage(urls, `영농일지//${Date()}//${myCrops[i].myCropsId}`);
         image = test[0];
       }
 
