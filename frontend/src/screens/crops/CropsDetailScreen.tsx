@@ -118,17 +118,16 @@ const CropsDetailScreen = () => {
     fetchCropVarietyInfo();
   }, [cropsId, cropsVarietyId]);
 
+  useEffect(() => {
+    console.log(cropDetails);
+  }, [cropDetails]);
+
   // 테이블 렌더링
   const renderTable = (tableInfo: CropDetails['tableInfo']) => {
     const renderTableBody = (row: string[]) => {
       return row.map((cell, cellIndex) => (
         <TableCell key={cellIndex}>
           {cell.split('~').map((line, lineIndex) => (
-            // 여기서 Text 대신 TableCell을 사용하는 이유는 TableCell이
-            // 이미 Text 컴포넌트의 스타일을 적용하고 있기 때문입니다.
-            // 이 예제에서는 TableCell 내부에 Text 컴포넌트를 중첩하지 않고,
-            // TableCell을 직접 수정하여 여러 줄을 처리합니다.
-            // 필요에 따라 TableCell의 구현을 확인하고 적절히 조정하세요.
             <React.Fragment key={lineIndex}>
               {line}
               {lineIndex < cell.split('~').length - 1 ? '~ \n' : ''}
@@ -139,18 +138,18 @@ const CropsDetailScreen = () => {
     };
     if (!tableInfo) return null;
 
+    const newTableTitle = ['', ...tableInfo.tableTitle];
+
     return (
       <TableContainer>
         <TableHead>
-          {tableInfo.tableHead.map((head, index) => (
-            <TableCell key={`head-${index}`}>
-              <TableCell>{head}</TableCell>
-            </TableCell>
+          {newTableTitle.map((head, index) => (
+            <TableCell key={`head${index}`}>{head}</TableCell>
           ))}
         </TableHead>
         <TableBody>
           <TableRow>
-            {tableInfo.tableTitle.map((title, index) => (
+            {tableInfo.tableHead.slice(1).map((title, index) => (
               <TableCell key={index}>{title}</TableCell>
             ))}
           </TableRow>
