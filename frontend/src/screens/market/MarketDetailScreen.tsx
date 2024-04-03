@@ -156,7 +156,6 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
     // status = true면 COMPLETE, false면 SALE
     const data = { status: status ? 'SALE' : 'COMPLETE' };
     const response = await changePostStatus({ tradeId: props.route.params.id }, data);
-    console.log(response);
   };
 
   return (

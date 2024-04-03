@@ -48,15 +48,12 @@ const FarmDairyDetailScreen = (props: FarmLedgerDetailProps) => {
   const [data, setData] = useState({});
   const onPressButton = () => {
     setIsVisible((prevState) => !prevState);
-    console.log('작성 완료');
   };
 
   useEffect(() => {
     const fetchData = async () => {
       const response = await getLedgerDetail(props.route.params.accountBookId);
       setData(response.dataBody);
-      console.log(response.dataBody);
-      console.log(props.route.params.today)
     };
 
     fetchData();
@@ -65,7 +62,6 @@ const FarmDairyDetailScreen = (props: FarmLedgerDetailProps) => {
   const onDelete = (postId: number) => {
     const fetchData = async () => {
       await deleteLedger(postId);
-      console.log('처리');
     };
 
     fetchData();

@@ -62,16 +62,13 @@ const OauthScreen = () => {
 
       // 로그인 요청 보내기
       const data = { oauthToken: res.accessToken, deviceToken: deviceToken }; // 서버로 보낼 params 세팅
-      console.log(data);
       const response = await userLogin(data); // 서버에 로그인 요청
 
       // TODO: accessToken, refreshToken 저장
       setTokens(response.dataBody.tokenInfo);
-      console.log(response.dataBody.tokenInfo);
 
       // TODO: 회원 정보 recoil 세팅
       const userInfoData = await getUserInfo();
-      console.log(userInfoData.dataBody);
       setUserInfo(userInfoData.dataBody);
 
       setCurrentToken(true); // tokenState 변경

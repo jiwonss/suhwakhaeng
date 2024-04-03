@@ -153,7 +153,6 @@ const WeatherScreen = () => {
         processData = { ...processData, SKY: processData['PTY'] };
       }
 
-      console.log(processData);
       setGraph([
         response.data['0000']['TMP'],
         response.data['0300']['TMP'],

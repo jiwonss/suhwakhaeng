@@ -71,7 +71,6 @@ const MarketModifyScreen = (props: MarketDetailProps) => {
     // 파이어베이스 업로드
 
     const newImgUrls = await uploadImagesToFirebaseStorage(imgUrls, `장터//${userInfo.userId}//${props.route.params.id}`);
-    console.log(newImgUrls);
     const params = { tradeId: props.route.params.id };
     const data = {
       cate: category,

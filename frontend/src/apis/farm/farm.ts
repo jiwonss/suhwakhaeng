@@ -45,13 +45,11 @@ export const CreateLedger = async (params: {
   image: string;
   date: string;
 }) => {
-  console.log(params);
   const response = await tokenInstance.post('common/account-book', params);
   return response.data;
 };
 
 export const deleteLedger = async (accountBookId: number) => {
   const response = await tokenInstance.delete(`common/account-book/${accountBookId}`);
-  console.log(response.data, accountBookId);
   return response.data;
 };

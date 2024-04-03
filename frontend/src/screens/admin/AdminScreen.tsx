@@ -72,7 +72,6 @@ const AdminScreen = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await getBusiness({ lastId: 0 });
-      console.log(response.dataBody);
       setUserinfo(response.dataBody);
     };
 
