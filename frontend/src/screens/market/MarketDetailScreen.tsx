@@ -175,7 +175,7 @@ const MarketDetailScreen = (props: MarketDetailProps) => {
           postDetailInfo.image1 ? (
             <UriImageLoader style={{ width: '100%', height: heightPercent * 250 }} resizeMode='contain' uri={postDetailInfo.image1} />
           ) : (
-            <LocalImageLoader source={require('../../../assets/imgs/favicon.png')} style={{ width: '100%', height: heightPercent * 250 }} resizeMode='contain' />
+            <LocalImageLoader source={require('../../../assets/imgs/thumnail.png')} style={{ width: '100%', height: heightPercent * 250 }} resizeMode='contain' />
           )
         ) : (
           <View style={{ width: '100%', height: heightPercent * 250 }} />

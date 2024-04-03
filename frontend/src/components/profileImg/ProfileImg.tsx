@@ -30,7 +30,7 @@ interface ProfileImageProps {
 }
 
 const ProfileImage: React.FC<ProfileImageProps> = ({ url, width, height }) => {
-  const defaultImage = require('../../../assets/imgs/favicon.png'); // 나중에 바꾸기
+  const defaultImage = require('../../../assets/imgs/thumnail.png'); // 나중에 바꾸기
 
   return (
     <StyledView width={width} height={height}>
