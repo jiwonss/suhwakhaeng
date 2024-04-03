@@ -101,7 +101,7 @@ const FarmLedgerAddScreen = () => {
     const fetchData = async () => {
       let image = null;
       if (urls && urls.length !== 0) {
-        const test = await uploadImagesToFirebaseStorage(urls, `영농장부//${myCrops[i].myCropsId}`);
+        const test = await uploadImagesToFirebaseStorage(urls, `영농장부//${Date()}//${myCrops[i].myCropsId}`);
         image = test[0];
       }
       // console.log(finance,title,content,amount,image,postdate)

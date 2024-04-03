@@ -77,7 +77,6 @@ export const uploadImagesToFirebaseStorage = async (imageUrls: string[], screen:
 
       // 여기에다가 나중에 글이나, 경로로 유일하게 만들어야함
       const reference = storage().ref().child(`images//${screen}//${filename}`); // 이미지를 저장할 경로 설정
-      //
 
       await reference.put(blob); // 이미지를 Storage에 업로드
       console.log(`Image ${i + 1} uploaded successfully!`);
