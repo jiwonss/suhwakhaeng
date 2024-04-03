@@ -85,10 +85,11 @@ const FarmDairyAddScreen = () => {
   const [urls, setUrls] = useState([]);
 
   const onPressButton = async () => {
-    if (!i) {
+    console.log(i)
+    if (i===null) {
       return Alert.alert('작물 선택을 선택해주세요');
     }
-    if (!postdate) {
+    if (postdate==='') {
       return Alert.alert('날짜를 선택해주세요');
     }
 
