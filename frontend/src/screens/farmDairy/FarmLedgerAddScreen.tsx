@@ -97,14 +97,13 @@ const FarmLedgerAddScreen = () => {
   ];
 
   const onPressButton = async () => {
-    if (!i) {
+    if (i===null) {
       return Alert.alert('작물 선택을 선택해주세요')
     }
-    if (!postdate) {
+    if (postdate==='') {
       return Alert.alert('날짜를 선택해주세요')
     }
-
-    if (!amount) {
+    if (amount===null) {
       return Alert.alert('금액을 적어주세요')
     }
     
