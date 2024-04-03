@@ -149,8 +149,10 @@ const MarketRegistScreen = (props: MarketRegistProps) => {
       setImgUrls([]);
       if (response.dataHeader.successCode === 0) {
         Alert.alert('수확행', '등록 완료!');
-        setIsUploading(false);
+      } else {
+        Alert.alert('수확행', '등록에 실패했습니다');
       }
+      setIsUploading(false);
       navigation.push('BottomNavigation', { screen: 'MarketScreen' });
     }
   };
