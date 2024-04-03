@@ -58,7 +58,7 @@ const MarketScreen = () => {
   // action button
   const buttonData = [
     {
-      title: '작물 등록',
+      title: '판매글 등록',
       event: onPressRegist,
       color: `${Color.GREEN500}`,
     },
