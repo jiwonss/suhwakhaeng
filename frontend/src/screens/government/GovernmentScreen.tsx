@@ -42,14 +42,6 @@ const ResultItem = styled.TouchableOpacity`
   row-gap: ${heightPercent * 10}px;
 `;
 
-type Data = {
-  governmentId: number;
-  title: string;
-  url: string;
-  area: string;
-  createdAt: string;
-};
-
 const GovernmentScreen = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [isLoaded, setIsLoaded] = useState(false);

@@ -132,7 +132,7 @@ const MyProfileScreen = () => {
             <BussinessProfileCard
               url={userInfo.profileImage}
               name={userInfo.nickname}
-              location={`${userInfo.sido} ${userInfo.gugun}`}
+              location={`${userInfo.sido ? userInfo.sido : ''} ${userInfo.gugun ? userInfo.gugun : ''}`}
               Certified={userInfo.role === '사업자' || userInfo.role === '관리자' ? true : false}
             />
             <Spacer space={heightPercent * 20}></Spacer>
