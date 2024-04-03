@@ -16,6 +16,8 @@ import { Spacer } from '../../components/basic/Spacer';
 import Camera from '../../../assets/icons/camera_color.svg';
 import styled from 'styled-components/native';
 import Header from '../../components/header/Header';
+import { userInfoState } from '../../recoil/atoms/userInfoState';
+import { useRecoilValue } from 'recoil';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -34,8 +36,8 @@ const CameraScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [photo, setPhoto] = useState<{ uri: string } | null>(null);
   const [selectedImage, setSelectedImage] = useState<{ uri: string } | null>(null);
-
   const [isLoading, setIsLoading] = useState(false);
+  const userInfo = useRecoilValue(userInfoState);
 
   useFocusEffect(
     useCallback(() => {
@@ -92,7 +94,7 @@ const CameraScreen = () => {
       try {
         setIsLoading(true);
         // 이미지를 파이어베이스 스토리지에 업로드하고 다운로드 URL get
-        const downloadUrls = await uploadImagesToFirebaseStorage(imageUrls, 'diseasePlant');
+        const downloadUrls = await uploadImagesToFirebaseStorage(imageUrls, `diseasePlant//${userInfo.userId}`);
         if (downloadUrls.length > 0) {
           const firebaseUrl = downloadUrls[0];
           console.log('Firebase URL:', firebaseUrl);
