@@ -47,6 +47,8 @@ const GovernmentScreen = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [area, setArea] = useState<string>('');
   const dropdownData = ['양양', '원주', '고양', '나주'];
+  const [pageNumber, setPageNumber] = useState<number>(0);
+  const [hasNext, setHasNext] = useState<boolean>(true);
 
   const [governmentData, setGovernmentData] = useState<
     {
@@ -70,7 +72,8 @@ const GovernmentScreen = () => {
     const params = { keyword: searchValue, area: area, page: 0, size: 0 };
     const response = await getGovernmentSponsorList(params);
     setGovernmentData(response.dataBody.data);
-
+    setPageNumber(pageNumber + 1);
+    setHasNext(response.dataBody.hasNext);
     setIsLoaded(true);
   };
 
@@ -90,6 +93,15 @@ const GovernmentScreen = () => {
     );
   };
 
+  const getMoreList = async () => {
+    if (hasNext) {
+      const params = { keyword: searchValue, area: area, page: pageNumber, size: 0 };
+      const response = await getGovernmentSponsorList(params);
+      setGovernmentData((prevData) => [...prevData, ...response.dataBody.data]);
+      setHasNext(response.dataBody.hasNext);
+    }
+  };
+
   return (
     <Container>
       <Header type='default' firstIcon='back' title='정부 보조금' />
@@ -99,7 +111,7 @@ const GovernmentScreen = () => {
       </SearchBarContainer>
       <ResultContainer>
         {isLoaded ? (
-          <FlatList data={governmentData} renderItem={renderItem} />
+          <FlatList data={governmentData} renderItem={renderItem} onEndReached={getMoreList} onEndReachedThreshold={0.8} />
         ) : (
           <ResultItem>
             <ActivityIndicator />
