@@ -23,23 +23,22 @@ interface DiagnosisResult {
 }
 
 const Container = styled.View`
-    margin-left: ${20 * widthPercent}px;
-    margin-right: ${20 * widthPercent}px;
-    margin-bottom: ${20 * heightPercent}px;
-    row-gap: ${5 * heightPercent}px;
+  margin-left: ${20 * widthPercent}px;
+  margin-right: ${20 * widthPercent}px;
+  margin-bottom: ${20 * heightPercent}px;
+  row-gap: ${5 * heightPercent}px;
 `;
 const TextContainer = styled.Text`
-    margin-left: ${widthPercent * 8}px;
-    width: ${widthPercent * 300 - widthPercent * 24}px;
+  margin-left: ${widthPercent * 8}px;
+  width: ${widthPercent * 300 - widthPercent * 24}px;
 `;
 
 const ImageContainer = styled.View`
-    align-items: center;
-    justify-content: center;
-    margin-top: ${5 * heightPercent}px;
-    margin-bottom: ${20 * heightPercent}px;
+  align-items: center;
+  justify-content: center;
+  margin-top: ${5 * heightPercent}px;
+  margin-bottom: ${20 * heightPercent}px;
 `;
-
 
 const DetailDiseasePlantScreen = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'DetailDiseasePlantScreen'>>();
@@ -48,17 +47,14 @@ const DetailDiseasePlantScreen = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
   const handlePressBack = () => {
-    navigation.navigate('BottomNavigation', { screen: 'DiseasePlantScreen' });
+    navigation.navigate('CameraScreen');
   };
 
   const renderProtectContent = () => {
     if (!diagnosisResult.isHealthy && diagnosisResult.protect) {
       if (diagnosisResult.protect.basic) {
-        return diagnosisResult.protect.basic.map((item, index) => (
-          <TextContainer key={`basic-${index}`}>{item}</TextContainer>
-        ));
+        return diagnosisResult.protect.basic.map((item, index) => <TextContainer key={`basic-${index}`}>{item}</TextContainer>);
       } else {
-        // 'basic' 이외의 다른 키들에 대한 처리 (선택적)
         return Object.entries(diagnosisResult.protect).map(([key, value]) => (
           <View key={key}>
             <Typo.BODY3_M>- {key}</Typo.BODY3_M>
@@ -71,26 +67,30 @@ const DetailDiseasePlantScreen = () => {
         ));
       }
     }
-    return null; // 작물이 건강할 경우 또는 protect 정보가 없을 경우
+    return null;
   };
 
   return (
     <View style={{ flex: 1, backgroundColor: Color.WHITE }}>
-      <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }}
-                  contentContainerStyle={{ paddingBottom: 50 * heightPercent }}>
+      <ScrollView style={{ flex: 1, backgroundColor: Color.WHITE }} contentContainerStyle={{ paddingBottom: 50 * heightPercent }}>
         <Header type={'default'} firstIcon={'back'} onPressFirstIcon={handlePressBack} />
         <ImageContainer>
           <Image source={{ uri: photo.uri }} style={{ width: 300, height: 300 }} />
         </ImageContainer>
         <Container>
           <Typo.BODY1_M>
-            {
-              diagnosisResult.isHealthy ?
-                '' :
-                <Typo.BODY1_M>{diagnosisResult.plant} - {diagnosisResult.disease ||
-                  <Typo.BODY1_M>이 작물은 <Typo.BODY1_M
-                    color={Color.GREEN600}>건강</Typo.BODY1_M>합니다.</Typo.BODY1_M>}</Typo.BODY1_M>
-            }
+            {diagnosisResult.isHealthy ? (
+              ''
+            ) : (
+              <Typo.BODY1_M>
+                {diagnosisResult.plant} -{' '}
+                {diagnosisResult.disease || (
+                  <Typo.BODY1_M>
+                    이 작물은 <Typo.BODY1_M color={Color.GREEN600}>건강</Typo.BODY1_M>합니다.
+                  </Typo.BODY1_M>
+                )}
+              </Typo.BODY1_M>
+            )}
           </Typo.BODY1_M>
         </Container>
         <Spacer space={20} />
