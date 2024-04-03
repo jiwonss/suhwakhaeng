@@ -72,7 +72,7 @@ export const getLocation = async () => {
   // const gugun = '광산구';
   // const dong = '장덕동';
 
-  if (sido === '') {
+  if (sido === '' || !sido) {
     return { x: 0, y: 0, location: null };
   }
 
