@@ -47,14 +47,15 @@ export const RootApp = () => {
         SplashScreen.hide();
         return;
       } else {
-        // storage에 토큰 있으면, 회원 정보 조회
-        setTokens({ ...tokens, accessToken: accessToken, refreshToken: refreshToken });
+        // storage에 토큰 있으면, 토큰 재발급 후 회원 정보 조회
+        const reIssueResponse = await reIssueToken({ accessToken: accessToken, refreshToken: refreshToken });
+        const tokens = reIssueResponse.dataBody;
+        setToken(tokens);
 
         const userInfoData = await getUserInfo();
 
         // 회원 정보 조회 성공
         const userInfoDataBody = userInfoData.dataBody;
-        console.log('제 정보는요', userInfoDataBody);
         setUserInfo(userInfoDataBody);
         setToken(true);
         setTimeout(() => {

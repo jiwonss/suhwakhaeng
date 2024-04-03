@@ -1,6 +1,6 @@
 import { NavigationProp, useIsFocused, useNavigation } from '@react-navigation/native';
 import { Fragment, useEffect, useId, useState } from 'react';
-import { ActivityIndicator, FlatList, ScrollView, View } from 'react-native';
+import { ActivityIndicator, BackHandler, FlatList, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Bag3D from '../../../assets/icons/bag3D.svg';
 import Calendar3D from '../../../assets/icons/calendar3D.svg';
@@ -131,8 +131,9 @@ const MainScreen = () => {
   const getPost = async () => {
     const response = await getPostList({ id: postCnt, keyword: '', cate: category });
     setPostData(response.dataBody);
-    setPostCnt(response.dataBody[response.dataBody.length - 1].communityId);
-    setIsLoading(true);
+    if (response.dataBody) {
+      setPostCnt(response.dataBody[response.dataBody.length - 1].communityId);
+    }
   };
 
   const getMorePost = async () => {
@@ -147,6 +148,9 @@ const MainScreen = () => {
 
   useEffect(() => {
     getPost();
+    setTimeout(() => {
+      setIsLoading(true);
+    }, 500);
   }, [activeIndex]);
 
   const renderItem = ({ item }) => {
