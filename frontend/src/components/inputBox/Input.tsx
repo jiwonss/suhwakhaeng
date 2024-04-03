@@ -16,6 +16,7 @@ interface InputBoxProps {
   value?: string;
   keyboardType?: TextInputProps['keyboardType'];
   refInput?: React.LegacyRef<TextInput>;
+  maxLength?: number;
   onBlur?: () => void;
   onSubmitSearch?: () => void;
 }
@@ -101,7 +102,7 @@ const StyledInput = styled.TextInput`
  */
 export const SingleLineInputBox = (props: InputBoxProps) => {
   return (
-    <StyledSingleContainer ref={props.refInput} {...props} multiline={false} value={props.value} onBlur={props.onBlur} onSubmitEditing={props.onSubmitSearch}>
+    <StyledSingleContainer ref={props.refInput} {...props} multiline={false} value={props.value} onBlur={props.onBlur} maxLength={props.maxLength} onSubmitEditing={props.onSubmitSearch}>
       {props.children}
     </StyledSingleContainer>
   );

@@ -21,28 +21,30 @@ export const MoreModal = (props: MoreModalProps) => {
   return (
     <SlideModal isVisible={props.isVisible} setIsVisible={props.setIsVisible}>
       {props.status !== 1 && (
-        <BasicButton
-          onPress={props.onChangeStatus}
-          width={widthPercent * 300}
-          height={heightPercent * 45}
-          borderColor={Color.GREEN500}
-          borderRadius={10}
-          backgroundColor={Color.WHITE}
-        >
-          <Typo.BODY3_M color={Color.GREEN500}>{props.status ? '판매 중으로 변경' : '판매 완료로 변경'}</Typo.BODY3_M>
-        </BasicButton>
+        <>
+          <BasicButton
+            onPress={props.onChangeStatus}
+            width={widthPercent * 300}
+            height={heightPercent * 45}
+            borderColor={Color.GREEN500}
+            borderRadius={10}
+            backgroundColor={Color.WHITE}
+          >
+            <Typo.BODY3_M color={Color.GREEN500}>{props.status ? '판매 중으로 변경' : '판매 완료로 변경'}</Typo.BODY3_M>
+          </BasicButton>
+          <Spacer space={heightPercent * 10} />
+          <BasicButton
+            onPress={() => props.onModify(props.postId)}
+            width={widthPercent * 300}
+            height={heightPercent * 45}
+            borderColor={Color.GREEN200}
+            borderRadius={10}
+            backgroundColor={Color.GREEN200}
+          >
+            <Typo.BODY3_M color={Color.WHITE}>수정하기</Typo.BODY3_M>
+          </BasicButton>
+        </>
       )}
-      <Spacer space={heightPercent * 10} />
-      <BasicButton
-        onPress={() => props.onModify(props.postId)}
-        width={widthPercent * 300}
-        height={heightPercent * 45}
-        borderColor={Color.GREEN200}
-        borderRadius={10}
-        backgroundColor={Color.GREEN200}
-      >
-        <Typo.BODY3_M color={Color.WHITE}>수정하기</Typo.BODY3_M>
-      </BasicButton>
       <Spacer space={heightPercent * 10} />
       <BasicButton onPress={() => props.onDelete(props.postId)} width={widthPercent * 300} height={heightPercent * 45} borderColor={Color.GREEN500} borderRadius={10}>
         <Typo.BODY3_M color={Color.WHITE}>삭제하기</Typo.BODY3_M>
@@ -68,7 +70,7 @@ export const KakaoMap = (props: KakaoMapProps) => {
             <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.KAKAO_MAP_KEY}&libraries=services,clusterer,drawing"></script> 
         </head>
         <body >
-            <div id="map" style="width:${widthPercent*300}px;height:${heightPercent*250}px;"></div>
+            <div id="map" style="width:${widthPercent * 300}px;height:${heightPercent * 250}px;"></div>
             <button id="zoomInBtn" style="background-color: #28a745; border: none; color: #fff; padding: 10px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 4px; width: 40px;">+</button>
             <button id="zoomOutBtn" style="background-color: #28a745; border: none; color: #fff; padding: 10px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 4px; width: 40px;">-</button>
             <script type="text/javascript">
@@ -112,5 +114,5 @@ export const KakaoMap = (props: KakaoMapProps) => {
     `);
   }, [props]);
 
-  return <WebView style={{ width: widthPercent * 300, height: heightPercent * 300 }} source={{ html: html }}/>;
+  return <WebView style={{ width: widthPercent * 300, height: heightPercent * 300 }} source={{ html: html }} />;
 };

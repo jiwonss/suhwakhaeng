@@ -90,15 +90,15 @@ const CreatePostScreen = (props: CreatePostProps) => {
       setActiveIndex(3);
     }
 
-    const backAction = () => {
-      // 뒤로가기 버튼을 눌렀을 때 수행할 작업들
-      navigation.reset({ routes: [{ name: 'BottomNavigation' }] });
-      return true; // true 반환 시 기본 동작 방지
-    };
+    // const backAction = () => {
+    //   // 뒤로가기 버튼을 눌렀을 때 수행할 작업들
+    //   navigation.reset({ routes: [{ name: 'BottomNavigation' }] });
+    //   return true; // true 반환 시 기본 동작 방지
+    // };
 
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+    // const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
 
-    return () => backHandler.remove();
+    // return () => backHandler.remove();
   }, [props.route.params.cate]);
 
   const onSubmit = async () => {

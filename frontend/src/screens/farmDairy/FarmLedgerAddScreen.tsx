@@ -15,7 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import { CreateLedger, getCropsSimple } from '../../apis/farm/farm';
 import SelectDropdown from 'react-native-select-dropdown';
 import { Spacer } from '../../components/basic/Spacer';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Alert } from 'react-native';
 
 type RootStackParamList = {
   FarmScreen: undefined;
@@ -97,6 +97,18 @@ const FarmLedgerAddScreen = () => {
   ];
 
   const onPressButton = async () => {
+    if (!i) {
+      return Alert.alert('작물 선택을 선택해주세요')
+    }
+    if (!postdate) {
+      return Alert.alert('날짜를 선택해주세요')
+    }
+
+    if (!amount) {
+      return Alert.alert('금액을 적어주세요')
+    }
+    
+    
     setRender(1);
     const fetchData = async () => {
       let image = null;
@@ -254,15 +266,15 @@ const FarmLedgerAddScreen = () => {
           </FormItemContainer>
           <FormItemContainer>
             <Typo.BODY4_M>거래처</Typo.BODY4_M>
-            <SingleLineInputBox placeholder={'거래처를 작성해주세요'} onChangeText={(text) => setTitle(text)}></SingleLineInputBox>
+            <SingleLineInputBox placeholder={'거래처를 작성해주세요'} onChangeText={(text) => setTitle(text)} maxLength={30}></SingleLineInputBox>
           </FormItemContainer>
           <FormItemContainer>
             <Typo.BODY4_M>금액</Typo.BODY4_M>
-            <SingleLineInputBox placeholder={'금액을 입력해주세요'} keyboardType='decimal-pad' onChangeText={(text) => handleTextChange(text)}></SingleLineInputBox>
+            <SingleLineInputBox placeholder={'금액을 입력해주세요'} keyboardType='decimal-pad' onChangeText={(text) => handleTextChange(text)} maxLength={15}></SingleLineInputBox>
           </FormItemContainer>
           <FormItemContainer>
             <Typo.BODY4_M>한줄 메모(선택)</Typo.BODY4_M>
-            <SingleLineInputBox placeholder={'내용을 작성해주세요'} onChangeText={(text) => setContent(text)}></SingleLineInputBox>
+            <SingleLineInputBox placeholder={'내용을 작성해주세요'} onChangeText={(text) => setContent(text)} maxLength={30}></SingleLineInputBox>
           </FormItemContainer>
           <FormItemContainer>
             <Typo.BODY4_M>사진 (선택)</Typo.BODY4_M>
