@@ -150,7 +150,7 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
         )}
       </ScrollView>
       <ButtonContainer>
-        <SingleLineInputBox width={300} placeholder={'메세지를 입력하세요'} value={message} onChangeText={setMessage} />
+        <SingleLineInputBox width={300} placeholder={'메세지를 입력하세요'} value={message} onChangeText={setMessage} onSubmitSearch={onSubmitMessage} />
         <SendButton onPress={onSubmitMessage} />
       </ButtonContainer>
     </Container>

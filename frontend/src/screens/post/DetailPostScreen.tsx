@@ -280,6 +280,7 @@ const DetailPostScreen = (props: DetaliPostProps) => {
             setSelectId(0);
             setCommentContent('');
           }}
+          onSubmitSearch={onSubmitComment}
         />
         <SendButton onPress={onSubmitComment} />
       </ButtonContainer>
