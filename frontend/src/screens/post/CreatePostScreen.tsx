@@ -16,6 +16,7 @@ import { getKST, uploadImagesToFirebaseStorage } from '../../util/BasicUtil';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../recoil/atoms/userInfoState';
 import { registPost } from '../../apis/services/community/community';
+import { UpLoadingModule } from '../../modules/marketModules/MarketModules';
 
 const Container = styled.View`
   margin-left: ${20 * widthPercent}px;
@@ -122,14 +123,17 @@ const CreatePostScreen = (props: CreatePostProps) => {
     };
 
     const response = await registPost(params);
-    if (response.dataHeader && response.dataHeader.successCode === 0) {
-      setActiveIndex(0);
-      setCategory('');
-      setContent('');
-      setImgeUrls([]);
-      setIsUploading(false);
-      navigation.reset({ routes: [{ name: 'BottomNavigation' }] });
+    if (response.dataHeader.successCode === 0) {
+      Alert.alert('수확행', '등록 완료!');
+    } else {
+      Alert.alert('수확행', '등록 실패');
     }
+    setActiveIndex(0);
+    setCategory('');
+    setContent('');
+    setImgeUrls([]);
+    setIsUploading(false);
+    navigation.reset({ routes: [{ name: 'BottomNavigation' }] });
   };
 
   return (
@@ -168,11 +172,7 @@ const CreatePostScreen = (props: CreatePostProps) => {
           </Container>
         </>
       ) : (
-        <View style={{ flexDirection: 'column', alignItems: 'center', paddingVertical: heightPercent * 150 }}>
-          <Typo.BODY3_M>등록 중입니다</Typo.BODY3_M>
-          <Spacer space={heightPercent * 20} />
-          <ActivityIndicator size='large'></ActivityIndicator>
-        </View>
+        <UpLoadingModule text='등록 중입니다' />
       )}
     </View>
   );

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DimensionValue, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, DimensionValue, TouchableOpacity, View } from 'react-native';
 import * as Color from '../../config/color/Color';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import styled from 'styled-components/native';
@@ -99,6 +99,7 @@ type LikeButtonProps = {
   disabled?: boolean;
   isLiked?: boolean;
   setIsLiked?: React.Dispatch<React.SetStateAction<boolean>>;
+  isUploading?: boolean;
 };
 
 // 좋아요 버튼 컴포넌트
@@ -157,8 +158,8 @@ export const LikeButton = (props: LikeButtonProps) => {
 export const SendButton = (props: LikeButtonProps) => {
   return (
     <StyledContainer width={36} height={36}>
-      <TouchableOpacity onPress={props.onPress}>
-        <Send />
+      <TouchableOpacity disabled={props.isUploading} onPress={props.onPress}>
+        {!props.isUploading ? <Send /> : <ActivityIndicator />}
       </TouchableOpacity>
     </StyledContainer>
   );

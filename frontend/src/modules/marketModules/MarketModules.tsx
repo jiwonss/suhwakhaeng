@@ -2,7 +2,7 @@ import { PopupModal, SlideModal } from '../../components/modal/Modal';
 import styled from 'styled-components/native';
 import * as Typo from '../../components/typography/Typography';
 import * as Color from '../../config/color/Color';
-import { View } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { Spacer } from '../../components/basic/Spacer';
 import { heightPercent, widthPercent } from '../../config/dimension/Dimension';
 import { BasicButton } from '../../components/button/Buttons';
@@ -125,5 +125,18 @@ export const RegistBusinessModal = (props: RegistBusinessModal) => {
         <Typo.BODY3_M color={Color.GREEN500}>취소</Typo.BODY3_M>
       </BasicButton>
     </SlideModal>
+  );
+};
+
+interface UpLoadingProps {
+  text: string;
+}
+export const UpLoadingModule = (props: UpLoadingProps) => {
+  return (
+    <View style={{ flexDirection: 'column', alignItems: 'center', paddingVertical: heightPercent * 150 }}>
+      <Typo.BODY3_M>{props.text}</Typo.BODY3_M>
+      <Spacer space={heightPercent * 20} />
+      <ActivityIndicator size='large'></ActivityIndicator>
+    </View>
   );
 };
