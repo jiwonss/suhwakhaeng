@@ -86,34 +86,31 @@ const FarmDairyAddScreen = () => {
 
   const onPressButton = async () => {
     if (!i) {
-      return Alert.alert('작물 선택을 선택해주세요')
+      return Alert.alert('작물 선택을 선택해주세요');
     }
     if (!postdate) {
-      return Alert.alert('날짜를 선택해주세요')
+      return Alert.alert('날짜를 선택해주세요');
     }
 
     setRender(1);
     const fetchData = async () => {
-    
       let image = null;
       if (urls && urls.length !== 0) {
         const test = await uploadImagesToFirebaseStorage(urls, `영농일지//${Date()}//${myCrops[i].myCropsId}`);
         image = test[0];
       }
-      await console.log(
-        createDiary({
-          myCropsId: myCrops[i].myCropsId,
-          content: content,
-          memo: memo,
-          image: image,
-          date: postdate,
-        })
-      );
+
+      createDiary({
+        myCropsId: myCrops[i].myCropsId,
+        content: content,
+        memo: memo,
+        image: image,
+        date: postdate,
+      });
     };
 
     await fetchData();
     // TODO: 작성 완료 후 상세보기 페이지로 이동?
-    console.log('작성 완료');
     navigation.push('FarmScreen');
   };
 
@@ -169,10 +166,10 @@ const FarmDairyAddScreen = () => {
         </FormContainer>
       )}
       {render === 1 && (
-          <TextContainer>
-            <ActivityIndicator size='large' />
-          </TextContainer>
-        )}
+        <TextContainer>
+          <ActivityIndicator size='large' />
+        </TextContainer>
+      )}
       {render === 2 && (
         <FormContainer>
           <FormItemContainer>
@@ -233,11 +230,11 @@ const FarmDairyAddScreen = () => {
           </FormItemContainer>
           <FormItemContainer>
             <Typo.BODY4_M>영농작업</Typo.BODY4_M>
-            <SingleLineInputBox placeholder={'작업내용을 입력해주세요(ex 씨뿌림)'} onChangeText={(text) => setContent(text)} maxLength = {30}></SingleLineInputBox>
+            <SingleLineInputBox placeholder={'작업내용을 입력해주세요(ex 씨뿌림)'} onChangeText={(text) => setContent(text)} maxLength={30}></SingleLineInputBox>
           </FormItemContainer>
           <FormItemContainer>
             <Typo.BODY4_M>한줄 메모(선택)</Typo.BODY4_M>
-            <SingleLineInputBox placeholder={'내용을 작성해주세요'} onChangeText={(text) => setMemo(text)} maxLength = {30} ></SingleLineInputBox>
+            <SingleLineInputBox placeholder={'내용을 작성해주세요'} onChangeText={(text) => setMemo(text)} maxLength={30}></SingleLineInputBox>
           </FormItemContainer>
           <FormItemContainer>
             <Typo.BODY4_M>사진 (선택)</Typo.BODY4_M>

@@ -93,7 +93,6 @@ const MyProfileScreen = () => {
   const [selectedCropId, setSelectedCropId] = useState<number>(0);
   const [slideVisible, setSlideVisible] = useState<boolean>(false);
 
-  console.log(userInfo);
 
   // 작물 목록 가져오기
   useFocusEffect(
@@ -280,7 +279,6 @@ const MyProfileScreen = () => {
           <View style={{ flexDirection: 'column', alignItems: 'center' }}>
             <BasicButton
               onPress={() => {
-                console.log('상세조회 페이지로 이동');
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-expect-error
                 navigation.navigate('DetailMyCropsScreen', { myCropsId: selectedCropId });
@@ -298,7 +296,6 @@ const MyProfileScreen = () => {
 
             <BasicButton
               onPress={() => {
-                console.log('수정 페이지로 이동');
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-expect-error
                 navigation.navigate('UpdateMyCropsScreen', { myCropsId: selectedCropId });

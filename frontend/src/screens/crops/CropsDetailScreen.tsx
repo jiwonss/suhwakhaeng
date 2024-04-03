@@ -118,9 +118,6 @@ const CropsDetailScreen = () => {
     fetchCropVarietyInfo();
   }, [cropsId, cropsVarietyId]);
 
-  useEffect(() => {
-    console.log(cropDetails);
-  }, [cropDetails]);
 
   // 테이블 렌더링
   const renderTable = (tableInfo: CropDetails['tableInfo']) => {

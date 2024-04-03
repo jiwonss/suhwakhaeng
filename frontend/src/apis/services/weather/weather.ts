@@ -17,8 +17,6 @@ const KMAApi = axios.create({
 // 단기예보
 // 5시 발표
 export const getVilageFcst = async (pastdate: string, date: string, hour: string, x: number, y: number) => {
-  console.log('단기예보 api');
-
   const response = await KMAApi.get('getVilageFcst', {
     params: {
       base_date: pastdate, // 기준 날짜
@@ -46,12 +44,10 @@ export const getVilageFcst = async (pastdate: string, date: string, hour: string
       if (item.category == 'TMP') {
         if (max_tmp < Number(item.fcstValue)) {
           max_tmp = Number(item.fcstValue);
-          // console.log(max_tmp)
         }
 
         if (min_tmp > Number(item.fcstValue)) {
           min_tmp = Number(item.fcstValue);
-          // console.log(min_tmp);
         }
       }
     }
@@ -62,7 +58,6 @@ export const getVilageFcst = async (pastdate: string, date: string, hour: string
 // location 가져오기
 export const getLocation = async () => {
   const response = await tokenInstance.get('common/users/my-profile');
-  console.log(response.data);
 
   const sido = response.data.dataBody.sido;
   const gugun = response.data.dataBody.gugun;

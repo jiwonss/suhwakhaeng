@@ -72,7 +72,6 @@ const UpdateMyCropsScreen = () => {
       const fetchMyCropInfo = async () => {
         try {
           const data = await getMyCropInfo(myCropsId);
-          console.log(data); // 데이터 구조 확인
           setHeaderName(data.dataBody.myCropsName ?? '');
           setName(data.dataBody.myCropsName ?? '');
           setCropsName(data.dataBody.cropsName ?? '');

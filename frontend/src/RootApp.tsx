@@ -20,7 +20,6 @@ export const RootApp = () => {
 
   const checkNotificationPermission = async () => {
     const status = await checkNotifications();
-    console.log(status);
     if (status.status === 'denied') await requestNotifications(['alert', 'sound', 'criticalAlert']);
   };
 

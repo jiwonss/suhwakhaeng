@@ -46,7 +46,6 @@ const FarmLedger = () => {
   };
 
   const handlePress = (accountBookId: number, today: string) => {
-    console.log(today)
     navigation.push('FarmLedgerDetailScreen', { accountBookId: accountBookId , today:today });
   };
 
@@ -81,7 +80,6 @@ const FarmLedger = () => {
       const response = await getLedgerList(params);
       const datalist = Object.keys(response.dataBody.contents).sort((a, b) => new Date(a) - new Date(b));
       const sortedData = datalist.map((date) => [date, response.dataBody.contents[date]]);
-      console.log(sortedData[0]);
       setData(sortedData);
       setIncome(response.dataBody.income);
       setExpenditure(response.dataBody.expenditure);

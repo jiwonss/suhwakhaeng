@@ -10,6 +10,7 @@ const App = () => {
       <SafeAreaProvider>
         <NavigationContainer>
           <RootApp />
+          <Toast></Toast>
         </NavigationContainer>
       </SafeAreaProvider>
     </RecoilRoot>

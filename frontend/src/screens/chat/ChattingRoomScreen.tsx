@@ -117,7 +117,6 @@ const ChattingRoomScreen = (props: ChattingRoomProps) => {
   useEffect(() => {
     const getChatListResponse = async () => {
       const response = await getChatList(props.route.params.id);
-      console.log(response.dataBody);
       setChatData(response.dataBody);
     };
     getChatListResponse();

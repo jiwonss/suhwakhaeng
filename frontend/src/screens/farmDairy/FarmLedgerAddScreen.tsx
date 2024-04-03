@@ -116,7 +116,6 @@ const FarmLedgerAddScreen = () => {
         const test = await uploadImagesToFirebaseStorage(urls, `영농장부//${Date()}//${myCrops[i].myCropsId}`);
         image = test[0];
       }
-      // console.log(finance,title,content,amount,image,postdate)
 
       await CreateLedger({
         myCropsId: myCrops[i].myCropsId,
@@ -128,13 +127,11 @@ const FarmLedgerAddScreen = () => {
         date: postdate,
       });
 
-      console.log('글 생성 완료..');
     };
 
     await fetchData();
     // TODO: 작성 완료 후 상세보기 페이지로 이동?
     navigation.push('FarmScreen');
-    console.log('이동');
   };
 
   const handleTextChange = (text) => {

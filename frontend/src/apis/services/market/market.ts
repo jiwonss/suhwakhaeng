@@ -63,7 +63,6 @@ export const getMyMarketPostList = async () => {
 };
 
 export const changePostStatus = async (params: { tradeId: number }, data: { status: string }) => {
-  console.log(params, data);
   const response = await tokenInstance.patch(`${marketUrl}/status/${params.tradeId}`, data);
   return response.data;
 };

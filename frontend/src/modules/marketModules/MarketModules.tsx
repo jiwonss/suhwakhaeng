@@ -92,7 +92,6 @@ export const RegistBusinessModal = (props: RegistBusinessModal) => {
       props.setIsVisible(false);
 
       if (newImageUrls) {
-        console.log(newImageUrls);
         try {
           const response = await registBusinessCert({ businessImage: newImageUrls[0] });
           if (response.dataHeader.successCode === 0) {
@@ -104,7 +103,6 @@ export const RegistBusinessModal = (props: RegistBusinessModal) => {
       }
     }
 
-    // console.log(imgUrl);
     // const imageUrls: string[] = [imgUrl];
   };
 

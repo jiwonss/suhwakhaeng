@@ -52,11 +52,9 @@ const ImgUploader = ({ data, setData, maximage }: ImgUploaderProps) => {
     if (!result.canceled) {
       // assets 속성이 없는 경우 result.uri 직접 사용
       const newImageUrl = result.assets[0].uri;
-      console.log(newImageUrl);
 
       // 이미지가 선택되었을 경우에만 추가
       setData([...data, newImageUrl]);
-      console.log(data);
     }
   };
 

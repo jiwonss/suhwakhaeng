@@ -70,7 +70,6 @@ const UpdatePostScreen = (props: UpdatePostProps) => {
 
   const onSubmit = async () => {
     const newImgUrls = await uploadImagesToFirebaseStorage(imgUrls, `커뮤니티//${userInfo.userId}//${props.route.params.id}`);
-    console.log(newImgUrls);
     const params = { communityId: props.route.params.id };
     const data = {
       cate: category,

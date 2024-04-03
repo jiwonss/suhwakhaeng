@@ -28,7 +28,6 @@ const FarmDairy = () => {
   };
 
   const handlePress = (diary: any) => {
-    console.log(diary);
     navigation.push('FarmDairyDetailScreen', { diary: diary });
   };
 
@@ -60,12 +59,8 @@ const FarmDairy = () => {
         finDate: selectedFinDate,
       };
       const response = await getDiaryList(params);
-      //
-      console.log(response.dataBody);
-      console.log(Object.keys(response.dataBody).sort((a, b) => new Date(a) - new Date(b)));
       const datalist = Object.keys(response.dataBody).sort((a, b) => new Date(a) - new Date(b));
       const sortedData = datalist.map((date) => [date, response.dataBody[date]]);
-      console.log(sortedData);
       setData(sortedData);
     };
 

@@ -47,13 +47,11 @@ const FarmDairyDetailScreen = (props: FarmDiaryDetailProps) => {
   const [data, setData] = useState({});
   const onPressButton = () => {
     setIsVisible((prevState) => !prevState);
-    console.log('작성 완료');
   };
 
   useEffect(() => {
     const fetchData = async () => {
       setData(props.route.params.diary);
-      console.log(props.route.params.diary.diaryId);
     };
 
     fetchData();
@@ -61,7 +59,6 @@ const FarmDairyDetailScreen = (props: FarmDiaryDetailProps) => {
 
   const onDelete = (diaryId : number) => {
     const fetchData = async () => {
-      console.log(diaryId)
       await deleteDiary(diaryId);
     };
 
