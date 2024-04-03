@@ -63,7 +63,6 @@ const GovernmentScreen = () => {
   const onSubmit = () => {
     if (searchValue) {
       getGovernmentList();
-      setSearchValue('');
     }
     Keyboard.dismiss();
   };
