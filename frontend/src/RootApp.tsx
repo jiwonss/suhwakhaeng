@@ -10,6 +10,8 @@ import { userInfoState } from './recoil/atoms/userInfoState';
 import messaging from '@react-native-firebase/messaging';
 import { checkNotifications, requestNotifications } from 'react-native-permissions';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import Toast from 'react-native-toast-message';
+import { Text, View } from 'react-native';
 
 export const RootApp = () => {
   const [tokens, setTokens] = useState<{ accessToken: string | null; refreshToken: string | null }>({ accessToken: null, refreshToken: null });
@@ -77,6 +79,10 @@ export const RootApp = () => {
   if (!token) {
     return <AuthStack />;
   } else {
-    return <MainStack />;
+    return (
+      <>
+        <MainStack />
+      </>
+    );
   }
 };

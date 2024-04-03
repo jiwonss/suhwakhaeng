@@ -12,7 +12,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useNavigation } from '@react-navigation/native';
 import { createDiary, getCropsSimple } from '../../apis/farm/farm';
 import DatePicker from 'react-native-date-picker';
-import { ActivityIndicator, Button, View } from 'react-native';
+import { ActivityIndicator, Alert, Button, View } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import { uploadImagesToFirebaseStorage } from '../../util/BasicUtil';
 import { Spacer } from '../../components/basic/Spacer';
@@ -85,15 +85,21 @@ const FarmDairyAddScreen = () => {
   const [urls, setUrls] = useState([]);
 
   const onPressButton = async () => {
-    setRender(1);
+    if (!i) {
+      return Alert.alert('작물 선택을 선택해주세요')
+    }
+    if (!postdate) {
+      return Alert.alert('날짜를 선택해주세요')
+    }
 
+    setRender(1);
     const fetchData = async () => {
+    
       let image = null;
       if (urls && urls.length !== 0) {
         const test = await uploadImagesToFirebaseStorage(urls, `영농일지//${Date()}//${myCrops[i].myCropsId}`);
         image = test[0];
       }
-
       await console.log(
         createDiary({
           myCropsId: myCrops[i].myCropsId,
@@ -227,11 +233,11 @@ const FarmDairyAddScreen = () => {
           </FormItemContainer>
           <FormItemContainer>
             <Typo.BODY4_M>영농작업</Typo.BODY4_M>
-            <SingleLineInputBox placeholder={'작업내용을 입력해주세요(ex 씨뿌림)'} onChangeText={(text) => setContent(text)}></SingleLineInputBox>
+            <SingleLineInputBox placeholder={'작업내용을 입력해주세요(ex 씨뿌림)'} onChangeText={(text) => setContent(text)} maxLength = {30}></SingleLineInputBox>
           </FormItemContainer>
           <FormItemContainer>
             <Typo.BODY4_M>한줄 메모(선택)</Typo.BODY4_M>
-            <SingleLineInputBox placeholder={'내용을 작성해주세요'} onChangeText={(text) => setMemo(text)}></SingleLineInputBox>
+            <SingleLineInputBox placeholder={'내용을 작성해주세요'} onChangeText={(text) => setMemo(text)} maxLength = {30} ></SingleLineInputBox>
           </FormItemContainer>
           <FormItemContainer>
             <Typo.BODY4_M>사진 (선택)</Typo.BODY4_M>
