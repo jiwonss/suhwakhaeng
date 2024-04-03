@@ -154,10 +154,12 @@ const ModifyProfileScreen = (props: ModifyProfileProps) => {
               <Typo.BODY4_M>이름 (실명)</Typo.BODY4_M>
               <SingleLineInputBox value={name} onChangeText={setName} placeholder={'이름을 입력해주세요'} />
             </FormItemContainer>
-            <FormItemContainer>
-              <Typo.BODY4_M>유형</Typo.BODY4_M>
-              <DropDown dataList={userTypeList} onSelect={setRole} defaultText={userInfo.role ? role : '유형 선택'} />
-            </FormItemContainer>
+            {userInfo.role !== '관리자' && userInfo.role !== '사업자' ? (
+              <FormItemContainer>
+                <Typo.BODY4_M>유형</Typo.BODY4_M>
+                <DropDown dataList={userTypeList} onSelect={setRole} defaultText={userInfo.role ? role : '유형 선택'} />
+              </FormItemContainer>
+            ) : null}
             <FormItemContainer>
               <Typo.BODY4_M>한줄 프로필</Typo.BODY4_M>
               <SingleLineInputBox value={profileContent} onChangeText={setProfileContent} placeholder={'나를 대표하는 한 줄을 입력해주세요'} />
