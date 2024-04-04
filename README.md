@@ -8,7 +8,7 @@
 
 -   서비스 바로 가기: [apk 다운로드 링크](https://drive.google.com/file/d/1AOGnOemdUMYsREo-WDJIZIRlhx45Le7V/view?usp=drive_link)
 
--   UCC 보러 가기: [수확행 UCC](https://drive.google.com/file/d/1XIdSvytvkFKWjHls8_4MmRfQ2hs8QGqc/view?usp=sharing)
+-   UCC 보러 가기: [수확행 UCC](https://drive.google.com/file/d/1ukvxR31llgiDl1QUO05r4MQ-XfAmhanT/view?usp=sharing)
 
 ## 🍀 프로젝트 소개
 
