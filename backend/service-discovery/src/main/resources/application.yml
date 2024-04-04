@@ -1,0 +1,53 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: service-discovery
+
+  profiles:
+    active: prod
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    hostname: 43.201.164.20
+    ip-address: 43.201.164.202
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: false
+    service-url:
+      defaultZone: http://43.201.164.202:8761/eureka
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    ip-address: localhost
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka

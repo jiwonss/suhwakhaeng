@@ -1,0 +1,54 @@
+services:
+  mongodb:
+    build:
+      context: ./mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - ./mongodb_data:/data/db
+    networks:
+      suhwakhaeng:
+        ipv4_address: 172.20.0.4
+
+  rabbitmq:
+    build:
+      context: ./rabbitmq
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"  # rabbitmq
+      - "61613:61613" # stomp
+    environment:
+      RABBITMQ_DEFAULT_USER: ssafy
+      RABBITMQ_DEFAULT_PASS: ssafy
+    volumes:
+      - ./rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      suhwakhaeng:
+        ipv4_address: 172.20.0.5
+
+  springboot:
+    image: sjs3326/chat
+    container_name: chat
+    depends_on:
+      - mongodb
+      - rabbitmq
+    build:
+      context: ../../
+      dockerfile: ./Dockerfile
+    ports:
+      - "9001:9001"
+    networks:
+      suhwakhaeng:
+        ipv4_address: 172.20.0.6
+
+networks:
+  suhwakhaeng:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.20.0.0/16"

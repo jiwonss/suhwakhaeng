@@ -1,0 +1,21 @@
+services:
+  springboot:
+    image: sjs3326/api-gateway
+    container_name: api-gateway
+    build:
+      context: ../../
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      suhwakhaeng:
+        ipv4_address: 172.20.0.9
+    restart: always
+
+
+networks:
+  suhwakhaeng:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.20.0.0/16"

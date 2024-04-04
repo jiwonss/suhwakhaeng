@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
-const BASE_URL = 'http://localhost:8080/api/v1';
+// const BASE_URL = 'http://10.0.2.2:8000/';
+const BASE_URL = 'http://13.209.182.136:8000/';
 
 export const instance = axios.create({
   baseURL: `${BASE_URL}`,
@@ -18,7 +19,6 @@ const handleResponseError = async (error: AxiosError) => {
 
   switch (status) {
     case 400:
-      // alert('이미 매칭에 참여 중입니다');
       break;
     case 401:
     // TODO

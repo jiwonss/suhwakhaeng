@@ -1,0 +1,77 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: api-gateway
+  config:
+    name: api-gateway
+
+  profiles:
+    active: prod
+
+  cloud:
+    gateway:
+      httpclient:
+        ssl:
+          useInsecureTrustManager: true
+      routes:
+        - id: auth
+          uri: lb://COMMON
+          predicates:
+            - Path=/common/oauth/**
+          filters:
+            - RewritePath=/common/(?<segment>.*), /$\{segment}
+
+        - id: common
+          uri: lb://COMMON
+          predicates:
+            - Path=/common/**
+          filters:
+            - RewritePath=/common/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+        - id: crawling
+          uri: lb://CRAWLING
+          predicates:
+            - Path=/crawling/**
+          filters:
+            - RewritePath=/crawling/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+        - id: chat
+          uri: lb://CHAT
+          predicates:
+            - Path=/chat/**
+          filters:
+            - RewritePath=/chat/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    hostname: ${API-GATEWAY}
+    ip-address: ${API-GATEWAY}
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://${SERVICE-DISCOVERY}:8761/eureka
+
+---
+
+spring:
+  config:
+    import: optional:configserver:http://43.202.20.179:8888
+    activate:
+      on-profile: prod
+
+
+---
+
+spring:
+  config:
+    import: optional:configserver:http://localhost:8888
+    activate:
+      on-profile: local

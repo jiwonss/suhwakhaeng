@@ -1,7 +1,4 @@
-import * as Color from '../../config/color/Color';
 import * as FontStyle from '../../config/fontStyle/fontStyle';
-import { heightPercent } from '../../config/dimension/Dimension';
-import { Text } from 'react-native';
 import styled from 'styled-components/native';
 
 interface TypographyProps {
@@ -19,6 +16,7 @@ const StyledTypography = styled.Text<FontProps>`
   font-family: ${(props) => props.fontFamily};
   font-size: ${(props) => `${props.fontSize}px`};
   color: ${(props) => (props.color ? props.color : 'black')};
+  line-height: ${(props) => `${props.fontSize * 1.5}px`};
 `;
 
 export const H1 = (props: TypographyProps) => {
@@ -135,7 +133,7 @@ export const BODY4_M = (props: TypographyProps) => {
 
 export const Detail0_M = (props: TypographyProps) => {
   return (
-    <StyledTypography numberOfLines={props.numberOfLines} ellipsizeMode='tail' fontFamily={FontStyle.F_PRIMARY_B} fontSize={FontStyle.F_SIZE_XXXS} color={props.color}>
+    <StyledTypography numberOfLines={props.numberOfLines} ellipsizeMode='tail' fontFamily={FontStyle.F_PRIMARY_M} fontSize={FontStyle.F_SIZE_XXXS} color={props.color}>
       {props.children}
     </StyledTypography>
   );

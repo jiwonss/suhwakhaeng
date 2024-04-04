@@ -1,0 +1,20 @@
+services:
+  springboot:
+    image: sjs3326/service-discovery
+    container_name: service-discovery
+    build:
+      context: ../../
+      dockerfile: ./Dockerfile
+    ports:
+      - "8761:8761"
+    networks:
+      suhwakhaeng:
+        ipv4_address: 172.20.0.7
+    restart: always
+
+networks:
+  suhwakhaeng:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.20.0.0/16"

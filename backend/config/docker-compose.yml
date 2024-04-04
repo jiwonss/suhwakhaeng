@@ -1,0 +1,22 @@
+services:
+  springboot:
+    image: sjs3326/config
+    container_name: config
+    build:
+      context: ../../
+      dockerfile: ./Dockerfile
+    ports:
+      - "8888:8888"
+    networks:
+      suhwakhaeng:
+        ipv4_address: 172.20.0.8
+    restart: always
+
+
+networks:
+  suhwakhaeng:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.20.0.0/16"
+

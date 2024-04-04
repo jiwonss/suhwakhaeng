@@ -1,0 +1,73 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config
+
+  profiles:
+    active: prod
+
+  cloud:
+    config:
+      server:
+        encrypt:
+          enabled: false
+        git:
+          uri: git@github.com:jiwonss/suhwakhaeng-config.git
+          default-label: main
+          ignore-local-ssh-settings: true
+          strict-host-key-checking: false
+          host-key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=
+          host-key-algorithm: ecdsa-sha2-nistp256
+          private-key: |
+            -----BEGIN EC PRIVATE KEY-----
+            MHcCAQEEIP/m6Y4ay+CypkDrJJz228amN/lPlFGVKyKEJSsauuXUoAoGCCqGSM49
+            AwEHoUQDQgAEv9Tmb06zlYhiG2N7G11Qqo5cM84pgKGbwXFx4+Om+CNZ4zD8W250
+            TuBQql81oR14vt4P7m1ORCrQYlMaPgFy6g==
+            -----END EC PRIVATE KEY-----
+          passphrase:
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    hostname: 43.202.20.179
+    ip-address: 43.202.20.179
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://43.201.164.202:8761/eureka
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${server.port}}
+    hostname: localhost
+    ip-address: localhost
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
