@@ -40,7 +40,7 @@ pipeline {
         stage('Clean Service Discovery Image'){
             steps{
                 script{
-                     sh "docker rmi \${repository}:test"
+                     sh "docker rmi \${repository}/test"
                 }
             }
         }
@@ -48,7 +48,7 @@ pipeline {
         stage('Push Service Discovery Image'){
             steps{
                 script{
-                     sh "docker push \${repository}:test"
+                     sh "docker push \${repository}/test"
                 }
             }
         }
