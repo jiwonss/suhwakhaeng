@@ -25,7 +25,7 @@ pipeline {
              steps{
                    script{
                         echo "${repository}"
-                        dockerImage = docker.build("\${repository}:service-discovery-\${BUILD_NUMBER}", "-f backend/service-discovery/Dockerfile ./backend/service-discovery")
+                        dockerImage = docker.build("${repository}:service-discovery-${BUILD_NUMBER}", "-f backend/service-discovery/Dockerfile ./backend/service-discovery")
                    }
               }
         }
