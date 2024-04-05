@@ -37,18 +37,18 @@ pipeline {
             }
         }
 
-        stage('Clean Service Discovery Image'){
+        stage('Push Service Discovery Image'){
             steps{
                 script{
-                     sh "docker rmi \${repository}:service_discovery_\${BUILD_NUMBER}"
+                     sh "docker push \${repository}:service_discovery_\${BUILD_NUMBER}"
                 }
             }
         }
 
-        stage('Push Service Discovery Image'){
+        stage('Clean Service Discovery Image'){
             steps{
                 script{
-                     sh "docker push \${repository}"
+                     sh "docker rmi \${repository}:service_discovery_\${BUILD_NUMBER}"
                 }
             }
         }
