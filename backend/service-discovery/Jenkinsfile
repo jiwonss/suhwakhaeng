@@ -1,13 +1,19 @@
 pipeline {
+    environment {
+        repository = 'sjs3326'
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub_token')
+        dockerImage = ''
+    }
+
     agent any
 
     stages {
-        stage('clone repository') {
+        stage('Clone Repository') {
             steps {
                 checkout scm
             }
         }
-        stage('build project') {
+        stage('Build Project') {
             steps {
                 dir("./backend/service-discovery") {
                     sh "chmod +x ./gradlew"
@@ -18,9 +24,35 @@ pipeline {
         stage('Build Discovery-Server Image'){
              steps{
                    script{
-                        dockerImage = docker.build("sjs3326/test", "-f backend/service-discovery/Dockerfile ./backend/service-discovery")
+                        dockerImage = docker.build("\${repository}/test", "-f backend/service-discovery/Dockerfile ./backend/service-discovery")
                    }
               }
         }
+
+        stage('DockerHub Login'){
+            steps{
+                script{
+                    sh "echo \${DOCKERHUB_PASSWORD} | docker login -u \${DOCKERHUB_USER} --password-stdin"
+                }
+            }
+        }
+
+        stage('Clean Service Discovery Image'){
+            steps{
+                script{
+                     sh "docker rmi \${repository}:test"
+                }
+            }
+        }
+
+        stage('Push Service Discovery Image'){
+            steps{
+                script{
+                     sh "docker push \${repository}:test"
+                }
+            }
+        }
+
+
     }
 }
