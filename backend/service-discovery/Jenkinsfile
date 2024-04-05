@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        repository = 'sjs3326'
+        repository = "sjs3326"
         DOCKERHUB_CREDENTIALS = credentials('dockerhub_token')
         dockerImage = ''
     }
