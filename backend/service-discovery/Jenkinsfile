@@ -48,7 +48,7 @@ pipeline {
         stage('Push Service Discovery Image'){
             steps{
                 script{
-                     sh "docker push \${repository}:service_discovery_\${BUILD_NUMBER}"
+                     sh "docker push \${repository}"
                 }
             }
         }
