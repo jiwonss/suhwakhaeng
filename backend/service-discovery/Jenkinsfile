@@ -24,6 +24,7 @@ pipeline {
         stage('Build Discovery-Server Image'){
              steps{
                    script{
+                        echo "${repository}"
                         dockerImage = docker.build("\${repository}:test", "-f backend/service-discovery/Dockerfile ./backend/service-discovery")
                    }
               }
