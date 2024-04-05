@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        repository = "sjs3326/service-discovery"
+        repository = "sjs3326/suhwakhaeng"
         DOCKERHUB_CREDENTIALS = credentials('dockerhub_token')
         dockerImage = ''
     }
@@ -25,7 +25,7 @@ pipeline {
              steps{
                    script{
                         echo "${repository}"
-                        dockerImage = docker.build("\${repository}:test", "-f backend/service-discovery/Dockerfile ./backend/service-discovery")
+                        dockerImage = docker.build("\${repository}:service-discovery-\${BUILD_NUMBER}", "-f backend/service-discovery/Dockerfile ./backend/service-discovery")
                    }
               }
         }
@@ -41,7 +41,7 @@ pipeline {
         stage('Clean Service Discovery Image'){
             steps{
                 script{
-                     sh "docker rmi \${repository}:test"
+                     sh "docker rmi \${repository}:service-discovery-\${BUILD_NUMBER}"
                 }
             }
         }
@@ -49,7 +49,7 @@ pipeline {
         stage('Push Service Discovery Image'){
             steps{
                 script{
-                     sh "docker push \${repository}:test"
+                     sh "docker push \${repository}:service-discovery-\${BUILD_NUMBER}"
                 }
             }
         }
