@@ -24,7 +24,7 @@ pipeline {
         stage('Build Discovery-Server Image'){
              steps{
                    script{
-                        dockerImage = docker.build("${repository}:service-discovery-${BUILD_NUMBER}", "-f backend/service-discovery/Dockerfile ./backend/service-discovery")
+                        dockerImage = docker.build("${repository}:service_discovery_${BUILD_NUMBER}", "-f backend/service-discovery/Dockerfile ./backend/service-discovery")
                    }
               }
         }
