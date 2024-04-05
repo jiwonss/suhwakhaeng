@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('clone repository') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('build project') {
+            steps {
+                dir("./backend/service-discovery") {
+                    sh "chmod +x ./gradlew"
+                    sh "./gradlew clean build"
+                }
+            }
+        }
+        stage('Build Discovery-Server Image'){
+             steps{
+                   script{
+                        dockerImage = docker.build("sjs3326/test", "-f backend/service-discovery/Dockerfile ./backend/service-discovery")
+                   }
+              }
+        }
+    }
+}
