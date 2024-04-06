@@ -53,6 +53,42 @@ pipeline {
             }
         }
 
+         stage("Garbage Collect") {
+             steps {
+                 sshPublisher(
+                     continueOnError: true, failOnError: false,
+                     publishers: [
+                         sshPublisherDesc(
+                             configName: "service-discovery",
+                             verbose: true,
+                             transfers: [
+                                 sshTransfer(execCommand: "sudo docker kill \$(docker ps | grep service_discovery | tr ' ' '\t' | cut -f1)"),
+                                 sshTransfer(execCommand: "sudo docker system prune -af")
+                             ]
+                         )
+                     ]
+                 )
+             }
+         }
+
+         stage("Deploy"){
+             steps{
+                 sshPublisher(
+                     continueOnError: false, failOnError: true,
+                     publishers: [
+                         sshPublisherDesc(
+                             configName: "service-discovery",
+                             verbose: true,
+                             transfers: [
+                                 sshTransfer(execCommand: "sudo docker rm -f service_discovery"),
+                                 sshTransfer(execCommand: "sudo docker run -d -p 8761:8761 --name service_discovery --network front " + repository + ":service_discovery_${BUILD_NUMBER}")
+                             ]
+                         )
+                     ]
+                 )
+             }
+         }
+
 
     }
 }
