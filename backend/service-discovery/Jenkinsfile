@@ -81,7 +81,7 @@ pipeline {
                              verbose: true,
                              transfers: [
                                  sshTransfer(execCommand: "sudo docker rm -f service_discovery"),
-                                 sshTransfer(execCommand: "sudo docker run -d -p 8761:8761 --name service_discovery --network front " + repository + ":service_discovery_${BUILD_NUMBER}")
+                                 sshTransfer(execCommand: "sudo docker run -d -p 8761:8761 --name service_discovery " + repository + ":service_discovery_${BUILD_NUMBER}")
                              ]
                          )
                      ]
