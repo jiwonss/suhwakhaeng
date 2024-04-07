@@ -24,7 +24,7 @@ pipeline {
         stage('Build Discovery-Server Image'){
              steps{
                    script{
-                        dockerImage = docker.build("${repository}:service_discovery_${BUILD_NUMBER}", "-f backend/service-discovery/Dockerfile ./backend/service-discovery")
+                        dockerImage = docker.build("${repository}:service-discovery-${BUILD_NUMBER}", "-f backend/service-discovery/Dockerfile ./backend/service-discovery")
                    }
               }
         }
@@ -40,7 +40,7 @@ pipeline {
         stage('Push Service Discovery Image'){
             steps{
                 script{
-                     sh "docker push \${repository}:service_discovery_\${BUILD_NUMBER}"
+                     sh "docker push \${repository}:service-discovery-\${BUILD_NUMBER}"
                 }
             }
         }
@@ -48,7 +48,7 @@ pipeline {
         stage('Clean Service Discovery Image'){
             steps{
                 script{
-                     sh "docker rmi \${repository}:service_discovery_\${BUILD_NUMBER}"
+                     sh "docker rmi \${repository}:service-discovery-\${BUILD_NUMBER}"
                 }
             }
         }
@@ -62,7 +62,7 @@ pipeline {
                              configName: "service-discovery",
                              verbose: true,
                              transfers: [
-                                 sshTransfer(execCommand: "sudo docker kill \$(docker ps | grep service_discovery | tr ' ' '\t' | cut -f1)"),
+                                 sshTransfer(execCommand: "sudo docker kill \$(docker ps | grep service-discovery)"),
                                  sshTransfer(execCommand: "sudo docker system prune -af")
                              ]
                          )
@@ -80,8 +80,8 @@ pipeline {
                              configName: "service-discovery",
                              verbose: true,
                              transfers: [
-                                 sshTransfer(execCommand: "sudo docker rm -f service_discovery"),
-                                 sshTransfer(execCommand: "sudo docker run -d -p 8761:8761 --name service_discovery " + repository + ":service_discovery_${BUILD_NUMBER}")
+                                 sshTransfer(execCommand: "sudo docker rm -f service-discovery"),
+                                 sshTransfer(execCommand: "sudo docker run -d -p 8761:8761 --name service-discovery " + repository + ":service-discovery-${BUILD_NUMBER}")
                              ]
                          )
                      ]
