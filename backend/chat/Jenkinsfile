@@ -1,0 +1,94 @@
+pipeline {
+    environment {
+        repository = "sjs3326/suhwakhaeng"
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub_token')
+        dockerImage = ''
+    }
+
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Build Project') {
+            steps {
+                dir("./backend/chat") {
+                    sh "chmod +x ./gradlew"
+                    sh "./gradlew clean build"
+                }
+            }
+        }
+        stage('Build Image'){
+             steps{
+                   script{
+                        dockerImage = docker.build("${repository}:chat-${BUILD_NUMBER}", "-f backend/chat/Dockerfile ./backend/chat")
+                   }
+              }
+        }
+
+        stage('DockerHub Login'){
+            steps{
+                script{
+                    sh "echo \${DOCKERHUB_PASSWORD} | docker login -u \${DOCKERHUB_ID} --password-stdin"
+                }
+            }
+        }
+
+        stage('Push Image'){
+            steps{
+                script{
+                     sh "docker push \${repository}:chat-\${BUILD_NUMBER}"
+                }
+            }
+        }
+
+        stage('Clean Image'){
+            steps{
+                script{
+                     sh "docker rmi \${repository}:chat-\${BUILD_NUMBER}"
+                }
+            }
+        }
+
+         stage("Garbage Collect") {
+             steps {
+                 sshPublisher(
+                     continueOnError: true, failOnError: false,
+                     publishers: [
+                         sshPublisherDesc(
+                             configName: "chat",
+                             verbose: true,
+                             transfers: [
+                                 sshTransfer(execCommand: "sudo docker kill \$(docker ps | grep chat | tr ' ' '\t' | cut -f1)"),
+                                 sshTransfer(execCommand: "sudo docker system prune -af")
+                             ]
+                         )
+                     ]
+                 )
+             }
+         }
+
+         stage("Deploy"){
+             steps{
+                 sshPublisher(
+                     continueOnError: false, failOnError: true,
+                     publishers: [
+                         sshPublisherDesc(
+                             configName: "chat",
+                             verbose: true,
+                             transfers: [
+                                 sshTransfer(execCommand: "sudo docker rm -f chat"),
+                                 sshTransfer(execCommand: "sudo docker pull \${repository}:chat-\${BUILD_NUMBER}"),
+                                 sshTransfer(execCommand: "sudo docker compose up -d --build")
+                             ]
+                         )
+                     ]
+                 )
+             }
+         }
+    }
+}
+
