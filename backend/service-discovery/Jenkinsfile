@@ -62,7 +62,7 @@ pipeline {
                              configName: "service-discovery",
                              verbose: true,
                              transfers: [
-                                 sshTransfer(execCommand: "sudo docker kill \$(docker ps | grep service-discovery | tr ' ' '\t' | cut -f1)"),
+                                 sshTransfer(execCommand: "sudo docker kill \$(docker ps | grep service-discovery | tr ' ' '-' | cut -f1)"),
                                  sshTransfer(execCommand: "sudo docker system prune -af")
                              ]
                          )
