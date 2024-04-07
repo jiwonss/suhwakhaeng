@@ -81,7 +81,7 @@ pipeline {
                              verbose: true,
                              transfers: [
                                  sshTransfer(execCommand: "sudo docker rm -f api-gateway"),
-                                 sshTransfer(execCommand: "sudo docker run -d -p 8761:8761 --name api-gateway " + repository + ":api-gateway-${BUILD_NUMBER}")
+                                 sshTransfer(execCommand: "sudo docker run -d -p 8000:8000 --name api-gateway " + repository + ":api-gateway-${BUILD_NUMBER}")
                              ]
                          )
                      ]
