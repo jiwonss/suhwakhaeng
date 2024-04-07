@@ -21,7 +21,7 @@ pipeline {
                 }
             }
         }
-        stage('Build Discovery-Server Image'){
+        stage('Build Image'){
              steps{
                    script{
                         dockerImage = docker.build("${repository}:service-discovery-${BUILD_NUMBER}", "-f backend/service-discovery/Dockerfile ./backend/service-discovery")
@@ -37,7 +37,7 @@ pipeline {
             }
         }
 
-        stage('Push Service Discovery Image'){
+        stage('Push Image'){
             steps{
                 script{
                      sh "docker push \${repository}:service-discovery-\${BUILD_NUMBER}"
@@ -45,7 +45,7 @@ pipeline {
             }
         }
 
-        stage('Clean Service Discovery Image'){
+        stage('Clean Image'){
             steps{
                 script{
                      sh "docker rmi \${repository}:service-discovery-\${BUILD_NUMBER}"
