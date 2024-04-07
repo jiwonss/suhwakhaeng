@@ -81,7 +81,7 @@ pipeline {
                              verbose: true,
                              transfers: [
                                  sshTransfer(execCommand: "sudo docker rm -f config"),
-                                 sshTransfer(execCommand: "sudo docker run -d -p 8761:8761 --name config " + repository + ":config-${BUILD_NUMBER}")
+                                 sshTransfer(execCommand: "sudo docker run -d -p 8888:8888 --name config " + repository + ":config-${BUILD_NUMBER}")
                              ]
                          )
                      ]
