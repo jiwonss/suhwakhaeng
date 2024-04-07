@@ -81,7 +81,7 @@ pipeline {
                              verbose: true,
                              transfers: [
                                  sshTransfer(execCommand: "sudo docker rm -f common"),
-                                 sshTransfer(execCommand: "sudo docker run -d -p 8761:8761 --name common " + repository + ":common-${BUILD_NUMBER}")
+                                 sshTransfer(execCommand: "sudo docker run -d -p 9000:9000 --name common " + repository + ":common-${BUILD_NUMBER}")
                              ]
                          )
                      ]
