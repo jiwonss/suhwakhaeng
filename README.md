@@ -6,7 +6,7 @@
 
 -   프로젝트 기간: 2024/02/26 ~ 2024/04/04
 
--   서비스 바로 가기: [apk 다운로드 링크](https://drive.google.com/file/d/1AOGnOemdUMYsREo-WDJIZIRlhx45Le7V/view?usp=drive_link)
+-   서비스 바로 가기: [apk 다운로드 링크](https://drive.google.com/file/d/1XIdSvytvkFKWjHls8_4MmRfQ2hs8QGqc/view?usp=sharing)
 
 -   UCC 보러 가기: [수확행 UCC](https://drive.google.com/file/d/1ukvxR31llgiDl1QUO05r4MQ-XfAmhanT/view?usp=sharing)
 
