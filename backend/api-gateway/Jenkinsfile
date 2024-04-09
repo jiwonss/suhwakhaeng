@@ -1,0 +1,94 @@
+pipeline {
+    environment {
+        repository = "sjs3326/suhwakhaeng"
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub_token')
+        dockerImage = ''
+    }
+
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                checkout scm
+            }
+        }
+        stage('Build Project') {
+            steps {
+                dir("./backend/api-gateway") {
+                    sh "chmod +x ./gradlew"
+                    sh "./gradlew clean build"
+                }
+            }
+        }
+        stage('Build Image'){
+             steps{
+                   script{
+                        dockerImage = docker.build("${repository}api-gateway-${BUILD_NUMBER}", "-f backend/api-gateway/Dockerfile ./backend/config")
+                   }
+              }
+        }
+
+        stage('DockerHub Login'){
+            steps{
+                script{
+                    sh "echo \${DOCKERHUB_PASSWORD} | docker login -u \${DOCKERHUB_ID} --password-stdin"
+                }
+            }
+        }
+
+        stage('Push Image'){
+            steps{
+                script{
+                     sh "docker push \${repository}:api-gateway-\${BUILD_NUMBER}"
+                }
+            }
+        }
+
+        stage('Clean Image'){
+            steps{
+                script{
+                     sh "docker rmi \${repository}:api-gateway-\${BUILD_NUMBER}"
+                }
+            }
+        }
+
+         stage("Garbage Collect") {
+             steps {
+                 sshPublisher(
+                     continueOnError: true, failOnError: false,
+                     publishers: [
+                         sshPublisherDesc(
+                             configName: "api-gateway",
+                             verbose: true,
+                             transfers: [
+                                 sshTransfer(execCommand: "sudo docker kill \$(docker ps | grep api-gateway | tr ' ' '\t' | cut -f1)"),
+                                 sshTransfer(execCommand: "sudo docker system prune -af")
+                             ]
+                         )
+                     ]
+                 )
+             }
+         }
+
+         stage("Deploy"){
+             steps{
+                 sshPublisher(
+                     continueOnError: false, failOnError: true,
+                     publishers: [
+                         sshPublisherDesc(
+                             configName: "api-gateway",
+                             verbose: true,
+                             transfers: [
+                                 sshTransfer(execCommand: "sudo docker rm -f api-gateway"),
+                                 sshTransfer(execCommand: "sudo docker run -d -p 8000:8000 --name api-gateway " + repository + ":api-gateway-${BUILD_NUMBER}")
+                             ]
+                         )
+                     ]
+                 )
+             }
+         }
+
+
+    }
+}
