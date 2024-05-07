@@ -69,6 +69,6 @@ tqdm==4.66.2
 typing_extensions==4.10.0
 urllib3==2.2.1
 uvicorn==0.29.0
-Werkzeug==3.0.1
+Werkzeug==3.0.3
 wheel==0.43.0
 wrapt==1.16.0
